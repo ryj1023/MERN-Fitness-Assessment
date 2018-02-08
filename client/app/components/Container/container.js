@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import api from '../../utils/api';
 //import {bindActionCreators} from 'redux';
-import QuestionDisplay from '../Questions/question_display';
-import AnswerForm from '../Answers/answer_form';
+import QuestionDisplay from '../questions/question_display';
+import AnswerForm from '../answers/answer_form';
 import './container.css';
 import { addAnswer } from '../../actions/';
 import { getFoodSearchKeyword } from '../../actions/async_actions';
 import { getFoodNutritionFacts } from '../../actions/async_actions';
 import { gatherFitnessInfo } from '../../actions';
 import calculateFitnessInput from '../../calculations/calculate_fitness_input';
-import FoodChart from '../Food_Display/food_chart';
-import DietSearchContainer from '../Diet_Search_Container/diet_search_container';
+import FoodChart from '../food_display/food_chart';
+import DietSearchContainer from '../diet_search_container/diet_search_container';
 
 class Container extends Component {
 	constructor(props){
