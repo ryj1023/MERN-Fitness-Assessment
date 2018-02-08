@@ -31,7 +31,7 @@ const isLocalhost = Boolean(
   
       window.addEventListener('load', () => {
         const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-  
+        console.log('process', process.env)
         if (!isLocalhost) {
           // Is not local host. Just register service worker
           registerValidSW(swUrl);

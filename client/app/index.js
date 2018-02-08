@@ -25,9 +25,9 @@ import { createStore, applyMiddleware } from 'redux';
 import './index.css';
 import App from './App';
 import Reducers from './reducers';
-import registerServiceWorker from '../public/register_service_worker';
+import registerServiceWorker from './register_service_worker';
 
-registerServiceWorker();
+// registerServiceWorker();
 
 render(
 	<Provider store={createStore(Reducers, applyMiddleware(thunk))}>
