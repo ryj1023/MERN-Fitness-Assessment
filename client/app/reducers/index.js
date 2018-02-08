@@ -11,10 +11,10 @@
 // export default rootReducer;
 
 import { combineReducers } from 'redux';
-import QuestionReducer from './reducer_questions';
-import getInputReducer from './reducer_get_input';
-import calculateClientInfo from './reducer_calculate_client_info';
-import foodList from './reducer_get_food_nutrients';
+import QuestionReducer from './reducer-questions';
+import getInputReducer from './reducer-get_input';
+import calculateClientInfo from './reducer-calculate-client_info';
+import foodList from './reducer-get-food-nutrients';
 
 const rootReducer = combineReducers({
 	questions: QuestionReducer,

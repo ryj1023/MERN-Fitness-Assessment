@@ -1,4 +1,4 @@
-import * as actions from '../actions/async_actions';
+import * as actions from '../actions/async-actions';
 import api from '../utils/api';
 
 const getFoodSearchKeyword = (state=[], action) => {
