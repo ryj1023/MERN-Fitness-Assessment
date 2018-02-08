@@ -12,8 +12,8 @@
 
 import { combineReducers } from 'redux';
 import QuestionReducer from './reducer-questions';
-import getInputReducer from './reducer-get_input';
-import calculateClientInfo from './reducer-calculate-client_info';
+import getInputReducer from './reducer-get-input';
+import calculateClientInfo from './reducer-calculate-client-info';
 import foodList from './reducer-get-food-nutrients';
 
 const rootReducer = combineReducers({

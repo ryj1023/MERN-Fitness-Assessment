@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import api from '../../utils/api';
 //import {bindActionCreators} from 'redux';
 import QuestionDisplay from '../questions/question-display';
-import AnswerForm from '../answers/answer_form';
+import AnswerForm from '../answers/answer-form';
 import './container.css';
 import { addAnswer } from '../../actions/';
 import { getFoodSearchKeyword } from '../../actions/async-actions';

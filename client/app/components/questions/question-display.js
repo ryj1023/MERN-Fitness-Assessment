@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './questions.css';
+import './question.css';
 
 export default class QuestionDisplay extends Component{
 	render(){
