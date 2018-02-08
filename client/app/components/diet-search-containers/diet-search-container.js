@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './diet_search_container.css';
-import { getFoodNutritionFacts } from '../../actions/async_actions';
+import './diet-search-container.css';
+import { getFoodNutritionFacts } from '../../actions/async-actions';
 
 class DietSearchContainer extends Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './food_chart.css'
+import './food-chart.css'
 
 class FoodChart extends Component {
   render() {

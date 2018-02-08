@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import RadioAnswers from './radio_answers';
-import './answer_form.css';
+import RadioAnswers from './radio-answers';
+import './answer-form.css';
 
 export default class AnswerForm extends Component{
 	constructor(props){
