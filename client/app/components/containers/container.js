@@ -10,8 +10,8 @@ import { getFoodSearchKeyword } from '../../actions/async_actions';
 import { getFoodNutritionFacts } from '../../actions/async_actions';
 import { gatherFitnessInfo } from '../../actions';
 import calculateFitnessInput from '../../calculations/calculate_fitness_input';
-import FoodChart from '../food_display/food_chart';
-import DietSearchContainer from '../diet_search_container/diet_search_container';
+import FoodChart from '../food-display/food_chart';
+import DietSearchContainer from '../diet-search-containers/diet_search_container';
 
 class Container extends Component {
 	constructor(props){
