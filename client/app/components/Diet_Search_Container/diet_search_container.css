@@ -1,0 +1,45 @@
+.diet-search-container{
+    background-image: url('../../images/website-background.gif');
+    float: right;
+    height: 500px;
+    width: 485px;
+    margin-left: 2%;
+    margin-right: 2%;
+	  margin-top: 1%;
+    position: center;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: white;
+   }
+
+  h1{
+    text-align: center;
+    padding-top: 2%;
+    color: white;
+  }
+
+  p{
+    text-align: center;
+    padding-top: 2%; 
+    color: white;
+    font-size: 22px;
+  }
+  ul {
+    list-style-type: none;
+  }
+  li {
+    color: white;
+  }
+  .search-button{
+    background-color: #232323;
+    color: #FFFFFF;
+    border-radius: 7px;
+    font-size: 17px;
+    cursor: pointer;
+    padding: 16px 32px;
+    text-align: center;
+}
+  .search-button:hover{
+    background-color: #FFFFFF;
+      color: black;
+  }

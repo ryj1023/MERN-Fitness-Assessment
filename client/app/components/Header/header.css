@@ -1,0 +1,19 @@
+.header{
+	background-image: url('../../images/website-background.gif');
+	height: 75px;
+    width: 485px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 28%;
+    position: center;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: #FFFFFF;
+}
+
+.title{
+	margin: 2%;
+  	text-align: center;
+  	color: white;
+  	font-size: 47px;
+}

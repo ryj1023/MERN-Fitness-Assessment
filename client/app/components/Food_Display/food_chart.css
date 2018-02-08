@@ -1,0 +1,25 @@
+.food-chart-container{
+    background-image: url('../../images/website-background.gif');
+    float: left;
+    height: 500px;
+    width: 485px;
+    margin-left: 2%;
+    margin-right: 2%;
+	margin-top: 1%;
+    position: center;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: white;
+   }
+
+  h1{
+    text-align: center;
+    padding-top: 2%;
+  }
+
+  p{
+    text-align: center;
+    padding-top: 2%; 
+    color: white;
+    font-size: 22px;
+  }

@@ -1,30 +1,38 @@
+
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import {Provider} from 'react-redux';
+// import {createStore} from 'redux';
+// import './index.css';
+// import App from './components/App/app';
+// import Reducers from './reducers';
+// //import registerServiceWorker from './registerServiceWorker';
+
+// //registerServiceWorker();
+
+// ReactDOM.render(
+// 	<Provider store={createStore(Reducers)}>
+// 		<App />
+// 	</Provider>
+// 	, document.getElementById('app')
+// 	);
+
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import './index.css';
+import App from './App';
+import Reducers from './reducers';
+import registerServiceWorker from './register_service_worker';
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch
-} from 'react-router-dom'
+registerServiceWorker();
 
-import App from './components/App/App';
-import NotFound from './components/App/NotFound';
+render(
+	<Provider store={createStore(Reducers, applyMiddleware(thunk))}>
+		<App />
+	</Provider>
+	, document.getElementById('root')
+	);
 
-import Home from './components/Home/Home';
-
-import HelloWorld from './components/HelloWorld/HelloWorld';
-
-import './styles/styles.scss';
-
-render((
-  <Router>
-    <App>
-      <Switch>
-        <Route exact path="/" component={Home}/>
-        <Route path="/helloworld" component={HelloWorld}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </App>
-  </Router>
-), document.getElementById('app'));

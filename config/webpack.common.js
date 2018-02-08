@@ -36,31 +36,19 @@ module.exports = {
         include: helpers.root('client'),
         loader: 'babel-loader'
       },
-
-      // SCSS files
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                'sourceMap': true,
-                'importLoaders': 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [
-                  autoprefixer
-                ]
-              }
-            },
-            'sass-loader'
-          ]
-        })
+        test: /\.css$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" }
+        ]
+      },
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 25000,
+        },
       }
     ]
   },

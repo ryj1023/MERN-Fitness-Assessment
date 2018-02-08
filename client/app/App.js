@@ -1,8 +1,7 @@
-
 import React, { Component } from 'react';
 import './App.css';
-import Header from '../Header/header';
-import Container from '../Container/container';
+import Header from './components/Header/header';
+import Container from './components/Container/container';
 
 class App extends Component {
   render() {
@@ -16,4 +15,3 @@ class App extends Component {
 }
 
 export default App;
-

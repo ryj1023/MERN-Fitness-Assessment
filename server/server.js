@@ -7,8 +7,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-
-const config = require('../config/config');
+// const config = require('../config/config-example');
 const webpackConfig = require('../webpack.config');
 
 const isDev = process.env.NODE_ENV !== 'production';
@@ -19,10 +18,10 @@ const port  = process.env.PORT || 8080;
 // ================================================================================================
 
 // Set up Mongoose
-mongoose.connect(isDev ? config.db_dev : config.db, {
-  useMongoClient: true,
-});
-mongoose.Promise = global.Promise;
+// mongoose.connect(isDev ? config.db_dev : config.db, {
+//   useMongoClient: true,
+// });
+// mongoose.Promise = global.Promise;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,7 +32,6 @@ require('./routes')(app);
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
-
   app.use(historyApiFallback({
     verbose: false
   }));
@@ -65,8 +63,7 @@ app.listen(port, '0.0.0.0', (err) => {
   if (err) {
     console.log(err);
   }
-
-  console.info('>>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
+  console.info('>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
 });
 
 module.exports = app;

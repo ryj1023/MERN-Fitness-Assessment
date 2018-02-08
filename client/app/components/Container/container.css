@@ -1,0 +1,16 @@
+.container{
+	background-image: url('../../images/website-background.gif');
+    height: 500px;
+    width: 485px;
+    margin-left: 28%;
+	   margin-top: 1%;
+    position: center;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: white;
+   }
+
+  h1{
+    text-align: center;
+    padding-top: 2%;
+  }
