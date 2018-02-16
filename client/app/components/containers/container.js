@@ -78,7 +78,7 @@ class Container extends Component {
 	render(){
 		const Questions = this.props.questions.map((question, index) => { 
 			if((question.userInput === this.state.counter)){
-				return <QuestionDisplay key={question.userInput} {...question} />;
+				return <QuestionDisplay key={question.userInput} {...question} />
 			}
 		});
 
@@ -92,7 +92,7 @@ class Container extends Component {
 					return <AnswerForm questionInfo={question} key={this.state.counter} answerLabels={question.answers} radioAnswersLength={question.answers.length} type="radio" onAdd={input => this.getUserInput(input, 'string')} />
 					break;
 					default:
-					return <AnswerForm key={this.state.counter} type="text" onAdd={input => this.getUserInput(input, 'number')} text="Submit" /> ;
+					return <AnswerForm key={this.state.counter} type="text" onAdd={input => this.getUserInput(input, 'number')} text="Submit" />
 				}
 
 			}
@@ -101,14 +101,14 @@ class Container extends Component {
 		if(this.state.startMenu === true){
 			return (
 				<div className="container">
-					<QuestionDisplay key="start" heading="Welcome!" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />;
+					<QuestionDisplay key="start" heading="Welcome!" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
 					<AnswerForm key="start-button" type="text" getStarted={() => this.getStarted(false)} text='Get Started' />
 				</div>
 				)
 		} else if(this.state.calculateAnswerPrompt === true) {
 			return(
 			<div className="container">
-				<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />;
+				<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
 				<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
 			</div>
 			)
@@ -116,15 +116,15 @@ class Container extends Component {
 		else if(this.state.showClientInfo === true) {
 			return(
 				<div>
-					<FoodChart key={this.state.counter} type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/> ;
-					<DietSearchContainer key='food-search' type="text" searchHeading='Search Foods and Select a Workout.' onAdd={input => this.getUserInput(input, 'food')}/> ;
+					<FoodChart key={this.state.counter} type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/>
+					<DietSearchContainer dispatch={this.props.dispatch} key='food-search' type="text" searchHeading='Search Foods and Select a Workout.' onAdd={input => this.getUserInput(input, 'food')}/> 
 				</div>
 			)
-		} else if(this.state.showFoodResults === true) {
+		} else if (this.state.showFoodResults === true) {
 			return(
 				<div>
-					<FoodChart key='results' type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/> ;
-					<DietSearchContainer  dispatch={this.props.dispatch} key='food-search' foodList={this.props.foodList} type="text" searchHeading='Search Results' onAdd={input => this.getUserInput(input, 'food')}/> ;
+					<FoodChart key='results' type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/>
+					<DietSearchContainer  dispatch={this.props.dispatch} key='food-search' nutritionFacts={this.props.nutritionFacts} foodList={this.props.foodList} type="text" searchHeading='Search Results' onAdd={input => this.getUserInput(input, 'food')}/>
 				</div>
 			)
 		}
@@ -144,7 +144,8 @@ const mapStateToProps = (state) => {
 		questions: state.questions,
 		answers: state.answers,
 		clientDietInfo: state.clientInfo,
-		foodList: state.foodList
+		foodList: state.foodList,
+		nutritionFacts: state.nutritionFacts,
 	}
 }
 

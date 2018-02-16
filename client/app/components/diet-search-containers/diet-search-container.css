@@ -43,3 +43,21 @@
     background-color: #FFFFFF;
       color: black;
   }
+  .nutrition-facts-table {
+    width: 96%;
+    margin: auto;
+  }
+  table, th, td {
+    color: white;
+    border: 1px solid white;
+  }
+  .food-list {
+    font-size: 12px;
+  }
+  .food-list li {
+    margin: 2.5%;
+  }
+  .food-list li:hover {
+    cursor: pointer;
+    color: yellow;
+  }

@@ -1,6 +1,7 @@
 import api from '../utils/api';
 import axios from 'axios';
 export const KEYWORD= 'KEYWORD';
+export const SELECTED_FOOD = 'SELECETED_FOOD';
 export const RESOLVED_FOOD_OBJECT = 'RESOLVED_FOOD_OBJECT';
 export const REQUEST_SUCCEEDED = 'REQUEST_SUCCEEDED';
 export const getFoodSearchKeyword = (keyword) => {
@@ -8,8 +9,13 @@ export const getFoodSearchKeyword = (keyword) => {
     return (dispatch) => {
     axios.get(encodedURI)
 	.then((response) => {
-			const foodObjects = response.data.list.item.map((food) => food.name)
-			return dispatch({type: REQUEST_SUCCEEDED, payload: foodObjects})
+            const foodObjects = response.data.list.item.map((food) => {
+                return { 
+                    foodName: food.name,
+                    foodID: food.ndbno
+                }
+            })
+			return dispatch({type: KEYWORD, payload: foodObjects})
         });
     };
 }
@@ -19,12 +25,13 @@ export const getFoodNutritionFacts = (food) => {
     return (dispatch) => {
         axios.get(encodedURI)
         .then((response) => {
-            console.log('response', response)
-                const foodObjects = response.data.list.item.map((food) => food.name)
-                return dispatch({type: REQUEST_SUCCEEDED, payload: foodObjects})
+                const foodObjects = response.data.report.food.nutrients.map((food) => food)
+                return dispatch({type: SELECTED_FOOD, payload: foodObjects})
             });
         };
 }
+
+
 
 // export const getFoodNutritionFacts = (food) => {
 //     console.log('clicked')

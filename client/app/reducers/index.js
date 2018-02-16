@@ -1,26 +1,16 @@
-// import {combineReducers} from 'redux';
-// import QuestionReducer from './reducer_questions';
-// import getInputReducer from './reducer_get_input';
-
-// const rootReducer = combineReducers({
-// 	questions: QuestionReducer,
-// 	answers: getInputReducer
-
-// })
-
-// export default rootReducer;
 
 import { combineReducers } from 'redux';
 import QuestionReducer from './reducer-questions';
 import getInputReducer from './reducer-get-input';
 import calculateClientInfo from './reducer-calculate-client-info';
-import foodList from './reducer-get-food-nutrients';
+import * as foods from './reducer-get-food-nutrients';
 
 const rootReducer = combineReducers({
 	questions: QuestionReducer,
 	answers: getInputReducer,
 	clientInfo: calculateClientInfo,
-	foodList 
+	foodList: foods.getFoodsFromKeyword,
+	nutritionFacts: foods.getNutritionFromSelectedFood,
 })
 
 export default rootReducer;
