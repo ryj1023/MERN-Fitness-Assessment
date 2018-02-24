@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # MERN-boilerplate
 
 This is a boilerplate project using the following technologies:
@@ -31,3 +32,6 @@ Development (Webpack dev server) mode:
 ```shell
 npm run start:dev
 ```
+=======
+# MERN-Fitness-Assessment
+>>>>>>> 925922d17d35af6f4709f974f39f30022c5d2d9b
