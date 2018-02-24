@@ -11,10 +11,16 @@
     border-style: solid;
     border-color: white;
    }
-
-  h1{
+.input-box-one {
+  bottom: 3px;
+}
+  h1 {
     text-align: center;
     padding-top: 2%;
+    color: white;
+  }
+
+  h2 {
     color: white;
   }
 
@@ -30,22 +36,26 @@
   li {
     color: white;
   }
-  .search-button{
+  .search-button, .back-button{
     background-color: #232323;
     color: #FFFFFF;
     border-radius: 7px;
     font-size: 17px;
     cursor: pointer;
-    padding: 16px 32px;
+    padding: 14px 28px;
     text-align: center;
 }
-  .search-button:hover{
+  .search-button:hover, .back-button:hover{
     background-color: #FFFFFF;
       color: black;
+  }
+  .back-button {
+    margin-top: 20%;
   }
   .nutrition-facts-table {
     width: 96%;
     margin: auto;
+    margin-top: 4%;
   }
   table, th, td {
     color: white;

@@ -6,10 +6,14 @@ var App = require('../../client/app/index.js');
 
 router.get('*', function(request, response) {
     var props = { title: 'Universal React' };
-    var html = ReactDOMServer.renderToString(
+    var html = ReactDOMServer.renderToNodeStream(
         React.createElement(App, props)
     );
     response.send(html);
 });
+
+router.get('/about', (req, res) => {
+    res.write('about page')
+})
 
 module.exports = router;

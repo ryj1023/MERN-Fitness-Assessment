@@ -10,7 +10,7 @@ class DietSearchContainer extends Component {
       foodTextInput: null,
       counter: 0,
       showNutrientFacts: false,
-		}
+    }
   }
   
   setInput(foodTextInput){
@@ -36,9 +36,14 @@ class DietSearchContainer extends Component {
     })
   }
 
+  backToFoodResults() {
+    this.setState({
+      showNutrientFacts: false,
+    })
+  }
+
   render() {
     if (this.state.showNutrientFacts === true) {
-      console.log('this.props.foodList', this.props.foodList )
      const nutritionFactUnit = this.props.nutritionFacts.map((data, index) => {
        if ((data.name.includes('Energy') && data.unit === 'kcal')|| data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
         return <td key={index}>{data.value}{data.unit}</td>
@@ -48,6 +53,7 @@ class DietSearchContainer extends Component {
       <div className="diet-search-container">
         <form onSubmit={(e)=> this.onSubmit(e)}>
           <h1>{this.props.searchHeading}</h1>
+          <h2>Nutrients Per Cup</h2>
           <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
           <button className='search-button'>Search Foods</button>
           <table className='nutrition-facts-table'>
@@ -65,6 +71,7 @@ class DietSearchContainer extends Component {
               </tr>
             </tbody>
           </table>
+          <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
         </form>
      </div>
      )

@@ -3,22 +3,7 @@ const request = require('request');
 const axios = require('axios');
 module.exports = (app) => {
   app.get('/foods', async (req, res, next) => {
-  //   request('https://api.nal.usda.gov/ndb/reports/?format=jsonp&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=beans&type=f', (err, response, body) => {
-  //   console.log('body', body)
-  //  })
-  //const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/reports/?format=jsonp&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=beans&type=f`)
-     
-      // .then((response) => {
-      //     console.log('response', response)
-      //     });
-
-      try {
-        const user = await axios.get(`https://api.nal.usda.gov/ndb/reports/?format=jsonp&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=beans&type=f`)
-        res.json(user);
-      } catch (e) {
-        //this will eventually be handled by your error handling middleware
-        throw e; 
-      }
+    res.send('these are your foods');
   });
 
   app.get('/api/counters', (req, res, next) => {
