@@ -12,8 +12,4 @@ router.get('*', function(request, response) {
     response.send(html);
 });
 
-router.get('/about', (req, res) => {
-    res.write('about page')
-})
-
 module.exports = router;

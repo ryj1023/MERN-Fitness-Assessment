@@ -4,6 +4,7 @@ import QuestionReducer from './reducer-questions';
 import getInputReducer from './reducer-get-input';
 import calculateClientInfo from './reducer-calculate-client-info';
 import * as foods from './reducer-get-food-nutrients';
+import validateSignUpInput from './reducer-signup-validation';
 
 const rootReducer = combineReducers({
 	questions: QuestionReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
 	clientInfo: calculateClientInfo,
 	foodList: foods.getFoodsFromKeyword,
 	nutritionFacts: foods.getNutritionFromSelectedFood,
+	signUpErrors: validateSignUpInput,
 })
 
 export default rootReducer;

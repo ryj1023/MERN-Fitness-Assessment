@@ -5,13 +5,12 @@ import api from '../../utils/api';
 import QuestionDisplay from '../questions/question-display';
 import AnswerForm from '../answers/answer-form';
 import './container.css';
-import { addAnswer } from '../../actions/';
-import { getFoodSearchKeyword } from '../../actions/async-actions';
-import { getFoodNutritionFacts } from '../../actions/async-actions';
-import { gatherFitnessInfo } from '../../actions';
+import { addAnswer,  gatherFitnessInfo  } from '../../actions/';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData, saveUserData } from '../../actions/async-actions';
 import calculateFitnessInput from '../../calculations/calculate-fitness-input';
 import FoodChart from '../food-display/food-chart';
 import DietSearchContainer from '../diet-search-containers/diet-search-container';
+import UserSignUp from '../sign-up/user-sign-up';
 
 class Container extends Component {
 	constructor(props){
@@ -66,13 +65,18 @@ class Container extends Component {
 			startMenu: toggle
 		})
 	}
-	startCalculateAnswers(){
+
+	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
 		this.props.dispatch(gatherFitnessInfo(calculatedAnswers))
 		this.setState({
 			showClientInfo: true,
 			calculateAnswerPrompt: false
 		})
+	}
+
+	saveData(dietInfo) {
+		this.props.dispatch(saveUserData(dietInfo))
 	}
 
 	render(){
@@ -118,6 +122,7 @@ class Container extends Component {
 				<div>
 					<FoodChart key={this.state.counter} type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/>
 					<DietSearchContainer dispatch={this.props.dispatch} key='food-search' type="text" searchHeading='Search Foods and Select a Workout.' onAdd={input => this.getUserInput(input, 'food')}/> 
+					<button onClick={()=> this.saveData(this.props.clientDietInfo.clientInfo)}>Save Data</button>
 				</div>
 			)
 		} else if (this.state.showFoodResults === true) {

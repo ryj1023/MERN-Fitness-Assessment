@@ -1,5 +1,4 @@
 import {createStore} from 'redux'
-
-import {trelloReducer} from './reducers';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 export default createStore();

@@ -7,8 +7,14 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
-// const config = require('../config/config-example');
+const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
+const session = require('express-session');
+const expressValidator = require('express-validator');
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8080;
@@ -17,17 +23,30 @@ const port  = process.env.PORT || 8080;
 // ================================================================================================
 
 // Set up Mongoose
-// mongoose.connect(isDev ? config.db_dev : config.db, {
-//   useMongoClient: true,
-// });
-// mongoose.Promise = global.Promise;
+mongoose.connect(isDev ? config.db_dev : config.db, {
+  useMongoClient: true,
+});
+mongoose.Promise = global.Promise;
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(cookieParser());
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true,
+}));
+app.use(passport.initialize());
+app.use(expressValidator());
+app.use(passport.session({
+  secret: 'secret', saveUninitialized: false, resave: false,
+}));
+app.use(flash());
 // API routes
 require('./routes')(app);
+
+
 
 if (isDev) {
   const compiler = webpack(webpackConfig);

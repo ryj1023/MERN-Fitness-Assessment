@@ -13,6 +13,8 @@ export default class Navigation extends Component{
                         <li><a href="#" className='nav-item'>Foods</a></li>
                         <li><a href="#" className='nav-item'>Workouts</a></li>
                         </ul>
+                        <Link to='./login' href="./login" className='login'>Login</Link>
+                        <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>
                 </nav>
             </div>
         ) 
