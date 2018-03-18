@@ -37,11 +37,12 @@ module.exports = {
         test: /\.js?$/,
         include: helpers.root('client'),
         loader: 'babel-loader',
-        query: {
-          presets: [
-            'es2015',
-          ]
-        }
+        // query: {
+        //   presets: [
+        //     'es2015',
+        //     'stage-0'
+        //   ]
+        // }
       },
       {
         test: /\.jsx?$/,
