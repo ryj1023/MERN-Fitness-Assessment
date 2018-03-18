@@ -40,7 +40,6 @@ module.exports = {
         query: {
           presets: [
             'es2015',
-            'stage-0'
           ]
         }
       },
