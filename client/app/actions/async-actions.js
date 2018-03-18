@@ -18,11 +18,11 @@ export const getFoodSearchKeyword = (keyword) => {
                     foodID: food.ndbno
                 }
             })
-            .catch((err) => {
-                throw err;
-            })
 			return dispatch({type: KEYWORD, payload: foodObjects})
-        });
+        })
+        .catch((err) => {
+            throw err;
+        })
     };
 }
 
@@ -31,10 +31,10 @@ export const getFoodNutritionFacts = (food) => {
     return (dispatch) => {
         axios.get(encodedURI)
         .then((response) => {
-                const foodObjects = response.data.report.food.nutrients.map((food) => food)
+                const foodObjects = response.data.report.food.nutrients.map((food) => food);
                 return dispatch({type: SELECTED_FOOD, payload: foodObjects})
             })
-        .catch((err)=>{
+        .catch((err)=> {
             throw err
         })
     };
@@ -72,8 +72,16 @@ export const validateSignUp = (signUpInfo) => {
             if (typeof res.data === 'object') {
                 const errors = res.data.map((err) => err.msg)
                 return dispatch({type: SIGNUP_ERRORS, payload: errors})
-            } else {
-                return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
+            } else if (res.data === 'validated') {
+                const encodedURI = window.encodeURI(`/api/users`, {
+                    params: {
+                      email: signUpInfo.email
+                    }
+                  })
+                    axios.get(encodedURI).then((res) => {
+                        console.log('response', res)
+                    })
+                // return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
             }
         })
     }

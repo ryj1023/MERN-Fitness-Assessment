@@ -9,30 +9,23 @@ module.exports = (app) => {
     });
 
     app.post('/api/sign-up', function (req, res, next) {
-      console.log('body', req.body)
      req.checkBody('email', 'Invalid Email Address').isEmail();
      req.checkBody('password', 'Password Is Too Short').isLength({min: 4})
      req.checkBody('password', 'passwords don\'t match').equals(req.body.confirmPassword) // checks to see if the password and confirmPassword values match
      let errors = req.validationErrors();
-     console.log('pre check error', errors)
      if (errors) {
        res.json(errors)
        errors = null;
      } else {
-      console.log('SUCCESS!!')
-      res.redirect('/')
+       res.send('validated');
      }
       // req.session.errors = null; // clears errors after shown to the user
-      });
+    });
 
-  app.get('/api/users', (req, res, next) => {
-    Users.find({ 'user.userName': 'ryj1023'
-    })
-      .exec()
-      .then((user) => {
-        res.json(user)
-      })
-      .catch((err) => next(err));
+  app.get('/api/users', function (req, res, next) {
+    Users.find({ 'user.userName': 'ryj1023'})
+      .then((user) => res.json(user))
+      .catch((err) => res.json(err));
   });
 
   app.post('/api/save', function (req, res, next) {
@@ -62,7 +55,7 @@ module.exports = (app) => {
       .catch((err) => next(err));
   });
 
-  app.put('/api/counters/:id/increment', (req, res, next) => {
+  app.put('/api/counters/:id/increment', function (req, res, next) {
     Counter.findById(req.params.id)
       .exec()
       .then((counter) => {
@@ -74,7 +67,7 @@ module.exports = (app) => {
       .catch((err) => next(err));
   });
 
-  app.put('/api/counters/:id/decrement', (req, res, next) => {
+  app.put('/api/counters/:id/decrement', function (req, res, next) {
     Counter.findById(req.params.id)
       .exec()
       .then((counter) => {

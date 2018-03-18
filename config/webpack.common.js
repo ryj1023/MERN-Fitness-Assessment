@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+
 const helpers = require('./helpers');
 
 const NODE_ENV = process.env.NODE_ENV;
@@ -12,6 +13,7 @@ const isProd = NODE_ENV === 'production';
 module.exports = {
   entry: {
     'app': [
+      'babel-polyfill',
       helpers.root('client/app/index.js')
     ]
   },
@@ -31,6 +33,17 @@ module.exports = {
   module: {
     rules: [
       // JS files
+      {
+        test: /\.js?$/,
+        include: helpers.root('client'),
+        loader: 'babel-loader',
+        query: {
+          presets: [
+            'es2015',
+            'stage-0'
+          ]
+        }
+      },
       {
         test: /\.jsx?$/,
         include: helpers.root('client'),

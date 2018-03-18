@@ -39,12 +39,6 @@ class SignUp extends Component {
         })
     }
 
-    // componentWillUpdate() {
-    //     if (this.props.signUpResult === 'success') {
-    //         history.push('/')
-    //     }
-    // }
-
 	render(){  
         if (this.props.signUpResult !== 'success') {
             const error = this.props.signUpResult.map((msg, index) => {
@@ -55,7 +49,7 @@ class SignUp extends Component {
                     <Navigation />
                     {error}
                 <div className='form-container'>
-                    <form  onSubmit={(e)=> this.onSubmit(e)}method="post" action="api/sign-up">
+                    <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="api/sign-up">
                     <input type="text" name='email' placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
                     <input type="password" name='password' placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
                     <input type="confirm-password" name='confirmPassword' placeholder="Repeat Password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />
@@ -66,14 +60,13 @@ class SignUp extends Component {
             )
         } 
          else if (this.props.signUpResult === 'success') {
-             console.log('testing')
              return <Redirect to='/' />;
         }   
 		return(
             <div>
                 <Navigation />
                 <div className='form-container'>
-                    <form  onSubmit={(e)=> this.onSubmit(e)}method="post" action="api/sign-up">
+                    <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="api/sign-up">
                     <input type="text" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
                     <input type="password" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
                     <input type="confirm-password" placeholder="Repeat Password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />

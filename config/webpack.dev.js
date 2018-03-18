@@ -5,6 +5,7 @@ const commonConfig = require('./webpack.common');
 
 module.exports = merge(commonConfig, {
   devtool: 'eval-source-map',
+
   entry: {
     'app': [
       'webpack-hot-middleware/client?reload=true'
@@ -13,14 +14,12 @@ module.exports = merge(commonConfig, {
 
   output: {
     filename: 'js/[name].js',
-    chunkFilename: '[id].chunk.js',
-    sourceMapFilename: 'bundle.map'
+    chunkFilename: '[id].chunk.js'
   },
 
   devServer: {
     contentBase: './client/public',
     historyApiFallback: true,
     stats: 'minimal' // none (or false), errors-only, minimal, normal (or true) and verbose
-  },
-
+  }
 });
