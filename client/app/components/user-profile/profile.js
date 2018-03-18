@@ -13,13 +13,13 @@ class Profile extends Component {
         };
     }
     
-    // async componentDidMount() {
-    //     const res = await fetch('/api/users')
-    //     const userData = await res.json();
-    //     this.setState({
-    //         userName: userData[0].user.userName
-    //     })
-    //   }
+    async componentDidMount() {
+        const res = await fetch('/api/users')
+        const userData = await res.json();
+        this.setState({
+            userName: userData[0].user.userName
+        })
+      }
 
 	render(){        
 		return (
