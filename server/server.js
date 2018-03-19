@@ -9,7 +9,6 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
-//const session = require('express-session');
 const session = require('cookie-session')
 const expressValidator = require('express-validator');
 const passport = require('passport');
