@@ -22,8 +22,8 @@ module.exports = (app) => {
     });
 
   app.get('/api/users', function (req, res, next) {
-    Users.find({ 'user.userName': 'ryj1023'})
-      .then((user) => res.json(user))
+    Users.find({})
+      .then((user) => res.json(user)
       .catch((err) => res.json(err));
   });
 
