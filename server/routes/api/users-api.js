@@ -23,7 +23,7 @@ module.exports = (app) => {
 
   app.get('/api/users', function (req, res, next) {
     Users.find({})
-      .then((user) => res.json(user)
+      .then((user) => res.json(user))
       .catch((err) => res.json(err));
   });
 
