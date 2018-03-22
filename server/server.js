@@ -15,7 +15,6 @@ const passport = require('passport');
 const localStrategy = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
-
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8080;
 

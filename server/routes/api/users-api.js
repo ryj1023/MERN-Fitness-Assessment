@@ -2,10 +2,9 @@ const Users = require('../../models/User-info.model.js');
 const request = require('request');
 const axios = require('axios');
 module.exports = (app) => {
- // session refers to the session set up by express-session
   app.get('/api/sign-up', function (req, res, next) {
     res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
-    req.session.errors = null; // clears errors after shown to the user
+    req.session.errors = null;
     });
 
     app.post('/api/sign-up', function (req, res, next) {
