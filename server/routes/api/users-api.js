@@ -22,12 +22,27 @@ module.exports = (app) => {
     });
 
   app.get('/api/users', function (req, res, next) {
-    Users.find({})
-      .then((user) => res.json(user))
-      .catch((err) => res.json(err));
+    console.log('get')
+    // Users.find({}, {"user.userName" : 1})
+    //   .then((user) => {
+    //     console.log('user', user)
+    //     res.json(user)
+    //   })
+    //   .catch((err) => res.json(err));
+    //   Users.find({}, (err, people) => {
+    //     console.log('people', people)
+    //     if (err) return res.status(500).send(err)
+    //     return res.status(200).send(people);
+    // });
+    Users.find('user_data', {"user.userName" : "ryj1023"}, function (err, user) {
+      console.log('user', user)
+      res.json(user)
+    })
   });
 
   app.post('/api/save', function (req, res, next) {
+    res.send('test')
+    console.log('saved')
     var post = new Users({
       user: {
        userName: 'ryj1023',
@@ -40,10 +55,12 @@ module.exports = (app) => {
         workouts: req.body.programs
       }
     })
+    // post.save();
     post.save(function (err, post) {
-  
+      console.log('post', post)
       if (err) { return next(err) }
       res.status(201).json(post)
+      console.log('err', err)
     })
   })
  

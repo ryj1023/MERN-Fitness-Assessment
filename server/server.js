@@ -27,6 +27,10 @@ mongoose.connect(isDev ? config.db_dev : config.db, {
 });
 mongoose.Promise = global.Promise;
 
+mongoose.connection.once('open', function() {
+  console.log('mongo connected');                      
+});
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
