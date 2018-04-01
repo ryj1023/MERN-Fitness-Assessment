@@ -23,19 +23,9 @@ module.exports = (app) => {
 
   app.get('/api/users', function (req, res, next) {
     console.log('get')
-    // Users.find({}, {"user.userName" : 1})
-    //   .then((user) => {
-    //     console.log('user', user)
-    //     res.json(user)
-    //   })
-    //   .catch((err) => res.json(err));
-    //   Users.find({}, (err, people) => {
-    //     console.log('people', people)
-    //     if (err) return res.status(500).send(err)
-    //     return res.status(200).send(people);
-    // });
-    Users.find('user_data', {"user.userName" : "ryj1023"}, function (err, user) {
+    Users.find({"user.userName" : "ryj1023"}, function (err, user) {
       console.log('user', user)
+      if (err) return res.status(500).send(err)
       res.json(user)
     })
   });
