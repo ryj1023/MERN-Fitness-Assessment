@@ -7,7 +7,7 @@ module.exports = (app) => {
     req.session.errors = null;
     });
 
-    app.post('/api/sign-up', function (req, res, next) {
+    app.post('/api/validation', function (req, res, next) {
      req.checkBody('email', 'Invalid Email Address').isEmail();
      req.checkBody('password', 'Password Is Too Short').isLength({min: 4})
      req.checkBody('password', 'passwords don\'t match').equals(req.body.confirmPassword) // checks to see if the password and confirmPassword values match
@@ -21,6 +21,29 @@ module.exports = (app) => {
       // req.session.errors = null; // clears errors after shown to the user
     });
 
+    app.post('/api/validation/email', (req, res) => {
+      Users.find({"user.email" : req.body.email}, (err, user) => {
+        console.log('user', user)
+        if (err) return res.status(500).send(err)
+          if (user.length === 0) {
+            const post = new Users({
+              user: {
+               email: req.body.email,
+               password: req.body.password,
+              }
+            })
+            post.save((err, post) => {
+              console.log('post', post)
+              if (err) { return next(err) }
+              res.status(201).json(post)
+              console.log('err', err)
+            })
+          } else {
+            res.json('There is already an account with this email.')
+          }
+      })
+    })
+
   app.get('/api/users', function (req, res, next) {
     console.log('get')
     Users.find({"user.userName" : "ryj1023"}, function (err, user) {
@@ -31,8 +54,8 @@ module.exports = (app) => {
   });
 
   app.post('/api/save', function (req, res, next) {
-    res.send('test')
-    console.log('saved')
+    //res.send('test')
+    console.log('saved', req.body)
     var post = new Users({
       user: {
        userName: 'ryj1023',
@@ -78,7 +101,6 @@ module.exports = (app) => {
       .exec()
       .then((counter) => {
         counter.count--;
-
         counter.save()
           .then(() => res.json(counter))
           .catch((err) => next(err));

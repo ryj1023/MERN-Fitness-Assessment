@@ -1,6 +1,6 @@
 import * as asyncActions from '../actions/async-actions';
 
-const validateSignUpInput = (state=[], action) => {
+export const validateSignUpInput = (state=[], action) => {
         if (action.type === asyncActions.SIGNUP_ERRORS){
                 return [...action.payload];
         } else if (action.type === asyncActions.SIGNUP_SUCCESS){
@@ -9,4 +9,12 @@ const validateSignUpInput = (state=[], action) => {
 	return state;
 };
 
-export default validateSignUpInput;
+export const validateNewEmail = (state = [], action) => {
+        console.log('action', action)
+        if (action.type === asyncActions.DUPLICATE_EMAIL){
+                return action.payload;
+        } else if (action.type === asyncActions.SIGNUP_SUCCESS){
+                return action.payload
+        }
+	return state; 
+}

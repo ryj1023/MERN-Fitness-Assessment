@@ -40,10 +40,16 @@ class SignUp extends Component {
     }
 
 	render(){  
-        if (this.props.signUpResult !== 'success') {
-            const error = this.props.signUpResult.map((msg, index) => {
-                return <p key={index}>{msg}</p>
+        if (this.props.signUpResult !== 'success' || this.props.validationResult !== 'success') {
+            let error = '';
+            console.log('this.props.validationResult', this.props.validationResult)
+            if (this.props.signUpResult.includes('already an account')) {
+                error = this.props.signUpResult
+            } else if (this.props.validationResult.length > 0) {
+                error = this.props.validationResult.map((msg, index) => {
+                return <p key={index}>{msg}</p>  
             })
+        }
             return (
                 <div>
                     <Navigation />
@@ -59,7 +65,8 @@ class SignUp extends Component {
                 </div>
             )
         } 
-         else if (this.props.signUpResult === 'success') {
+         else if (this.props.validationResult === 'success') {
+             console.log('success!!')
              return <Redirect to='/' />;
         }   
 		return(
@@ -81,7 +88,8 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return {
         questions: state.questions,
-        signUpResult: state.signUpErrors
+        validationResult: state.validationErrors,
+        signUpResult: state.signUpErrors,
     }
 }
 

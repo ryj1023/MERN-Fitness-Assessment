@@ -4,6 +4,10 @@ const UserDataSchema = new mongoose.Schema({
   user: {
     userName: String,
     email: String,
+    password: {
+      type: String,
+      required: true,
+    } ,
     dietInfo: {
       calories: Number,
       protein: Number,

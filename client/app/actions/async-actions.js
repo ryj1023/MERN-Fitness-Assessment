@@ -6,6 +6,7 @@ export const RESOLVED_FOOD_OBJECT = 'RESOLVED_FOOD_OBJECT';
 export const REQUEST_SUCCEEDED = 'REQUEST_SUCCEEDED';
 export const SIGNUP_ERRORS = 'SIGNUP_ERRORS';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL';
 
 export const getFoodSearchKeyword = (keyword) => {
 	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=10&q=${keyword}&sort=r`)
@@ -56,13 +57,11 @@ export const saveUserData = (userDailyDietInfo) => {
         axios.post(encodedURI, {
             userData: userDailyDietInfo
         })
-        .then((response) => {
-        });
     };
 }
 
 export const validateSignUp = (signUpInfo) => {
-    const encodedURI = window.encodeURI(`/api/sign-up`)
+    const encodedURI = window.encodeURI(`/api/validation`)
     return (dispatch) => {
         axios.post(encodedURI, {
             email: signUpInfo.email,
@@ -73,13 +72,18 @@ export const validateSignUp = (signUpInfo) => {
                 const errors = res.data.map((err) => err.msg)
                 return dispatch({type: SIGNUP_ERRORS, payload: errors})
             } else if (res.data === 'validated') {
-                const encodedURI = window.encodeURI(`/api/users`, {
-                    params: {
-                      email: signUpInfo.email
-                    }
-                  })
-                    axios.get(encodedURI).then((res) => {
-                        console.log('response', res)
+                const encodedURI = window.encodeURI(`/api/validation/email`)
+                    axios.post(encodedURI, {
+                        email: signUpInfo.email,
+                        password: signUpInfo.password,
+                    }).then((res) => {
+                        console.log('res.data', res.data)
+                        if (!res.data.user && res.data.includes('account with this email')) {
+                            return dispatch({type: DUPLICATE_EMAIL, payload: res.data})
+                        } else {
+                            // state change and redirect
+                            return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
+                        }
                     })
                 // return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
             }
