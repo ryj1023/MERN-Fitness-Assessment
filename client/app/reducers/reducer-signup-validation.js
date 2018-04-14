@@ -10,7 +10,6 @@ export const validateSignUpInput = (state=[], action) => {
 };
 
 export const validateNewEmail = (state = [], action) => {
-        console.log('action', action)
         if (action.type === asyncActions.DUPLICATE_EMAIL){
                 return action.payload;
         } else if (action.type === asyncActions.SIGNUP_SUCCESS){

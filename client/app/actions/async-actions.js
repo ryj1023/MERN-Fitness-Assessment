@@ -7,6 +7,8 @@ export const REQUEST_SUCCEEDED = 'REQUEST_SUCCEEDED';
 export const SIGNUP_ERRORS = 'SIGNUP_ERRORS';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL';
+export const NO_ACCOUNT = 'NO_ACCOUNT';
+export const ACCOUNT_FOUND = 'ACCOUNT_FOUND';
 
 export const getFoodSearchKeyword = (keyword) => {
 	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=10&q=${keyword}&sort=r`)
@@ -51,14 +53,34 @@ export const getUserData = (data) => {
         };
 }
 
-export const saveUserData = (userDailyDietInfo) => {
+export const saveUserData = (userData) => {
     const encodedURI = window.encodeURI(`/api/save`)
     return (dispatch) => {
         axios.post(encodedURI, {
-            userData: userDailyDietInfo
+            userData: userData.dietInfo,
+            userName: userData.userName,
         })
     };
 }
+
+export const loginUser = (loginData) => {
+    const encodedURI = window.encodeURI(`/api/login`)
+    return (dispatch) => {
+         axios.get(encodedURI, {
+            params: {
+                email: loginData.email,
+                password: loginData.password,
+              }, 
+        })
+        .then((response) => {
+            if (response.data.length > 0) {
+                return dispatch({type: ACCOUNT_FOUND, payload: response.data})
+                } else {
+                    return dispatch({type: NO_ACCOUNT})
+                }
+            });
+        };
+    }
 
 export const validateSignUp = (signUpInfo) => {
     const encodedURI = window.encodeURI(`/api/validation`)
@@ -81,7 +103,9 @@ export const validateSignUp = (signUpInfo) => {
                         if (!res.data.user && res.data.includes('account with this email')) {
                             return dispatch({type: DUPLICATE_EMAIL, payload: res.data})
                         } else {
-                            // state change and redirect
+                            // state change, set session, and redirect
+                            const token = res.data.token;
+                            localStorage.setItem('jwtToken', token)
                             return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
                         }
                     })

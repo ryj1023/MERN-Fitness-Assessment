@@ -9,16 +9,19 @@ class Profile extends Component {
     constructor(props){
 		super(props);
 		this.state = {
-            userName: null,
+            userName: JSON.parse(localStorage.getItem('user')).userName,
+            dailyDietGoal: JSON.parse(localStorage.getItem('user')).dietInfo,
         };
     }
     
     async componentDidMount() {
-        const res = await fetch('/api/users')
-        const userData = await res.json();
-        this.setState({
-            userName: userData[0].user.userName
-        })
+        if (this.state.userName === undefined) {
+            const res = await fetch('/api/users')
+            const userData = await res.json();
+            this.setState({
+                userName: userData[0].user.userName
+            })
+        }
       }
 
 	render(){        
@@ -26,6 +29,7 @@ class Profile extends Component {
             <div>
                 <Navigation />
                 <h1>Hello {this.state.userName}</h1>
+                <h1>calories: {this.state.dailyDietGoal.calories}</h1>
             </div>
         ) 
 	}

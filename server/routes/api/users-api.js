@@ -33,10 +33,8 @@ module.exports = (app) => {
               }
             })
             post.save((err, post) => {
-              console.log('post', post)
               if (err) { return next(err) }
               res.status(201).json(post)
-              console.log('err', err)
             })
           } else {
             res.json('There is already an account with this email.')
@@ -44,31 +42,26 @@ module.exports = (app) => {
       })
     })
 
-  app.get('/api/users', function (req, res, next) {
-    console.log('get')
-    Users.find({"user.userName" : "ryj1023"}, function (err, user) {
-      console.log('user', user)
+  app.get('/api/login', function (req, res, next) {
+    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, 'user.userName user.workouts user.dietInfo', (err, user) => {
       if (err) return res.status(500).send(err)
       res.json(user)
     })
   });
 
   app.post('/api/save', function (req, res, next) {
-    //res.send('test')
-    console.log('saved', req.body)
     var post = new Users({
       user: {
-       userName: 'ryj1023',
+       userName: req.body.userName.userName,
        dietInfo: {
         calories: req.body.userData.dailyCalories,
         protein: req.body.userData.dailyProtein,
         fat: req.body.userData.dailyFats,
         carbs: req.body.userData.dailyCarbs,
         },
-        workouts: req.body.programs
+        workouts: req.body.userData.programs
       }
     })
-    // post.save();
     post.save(function (err, post) {
       console.log('post', post)
       if (err) { return next(err) }

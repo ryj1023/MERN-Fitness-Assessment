@@ -23,6 +23,7 @@ class Container extends Component {
 			keyWord: null,
 			showFoodResults: false,
 			foodResult: null,
+			user: '',
 		}
 	}
 
@@ -76,8 +77,16 @@ class Container extends Component {
 	}
 
 	saveData(dietInfo) {
-		this.props.dispatch(saveUserData(dietInfo))
+		this.props.dispatch(saveUserData({ dietInfo, userName: this.state.user }));
 	}
+
+	async componentDidMount() {
+		const cachedUser = JSON.parse(localStorage.getItem('user'))
+		console.log('cached', cachedUser)
+				this.setState({
+					user: cachedUser
+			})
+}
 
 	render(){
 		const Questions = this.props.questions.map((question, index) => { 
@@ -105,7 +114,7 @@ class Container extends Component {
 		if(this.state.startMenu === true){
 			return (
 				<div className="container">
-					<QuestionDisplay key="start" heading="Welcome!" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
+					<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
 					<AnswerForm key="start-button" type="text" getStarted={() => this.getStarted(false)} text='Get Started' />
 				</div>
 				)
