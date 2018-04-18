@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './diet-search-container.css';
-import { getFoodNutritionFacts } from '../../actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData, saveUserData } from '../../actions/async-actions';
+import Navigation from '../navigations/navigation';
+import FoodChart from '../food-display/food-chart';
 
 class DietSearchContainer extends Component {
 
@@ -8,8 +11,8 @@ class DietSearchContainer extends Component {
 		super(props)
 		this.state = {
       foodTextInput: null,
-      counter: 0,
       showNutrientFacts: false,
+      selectedFood: null,
     }
   }
   
@@ -19,20 +22,20 @@ class DietSearchContainer extends Component {
       counter: this.state.counter + 1,
     })
   }
-  
+
   onSubmit(e){
     e.preventDefault();
     this.setState({
-      counter: this.state.counter + 1,
       showNutrientFacts: false,
     })
-    this.props.onAdd(this.state.foodTextInput);
+    this.props.dispatch(getFoodSearchKeyword(this.state.foodTextInput))
   }
 
   onItemClick(selectedFood) {
     this.props.dispatch(getFoodNutritionFacts(selectedFood.foodID));
     this.setState({
       showNutrientFacts: true,
+      selectedFood: selectedFood.foodName
     })
   }
 
@@ -50,29 +53,34 @@ class DietSearchContainer extends Component {
        } 
      });
      return (
-      <div className="diet-search-container">
-        <form onSubmit={(e)=> this.onSubmit(e)}>
-          <h1>{this.props.searchHeading}</h1>
-          <h2>Nutrients Per Cup</h2>
-          <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-          <button className='search-button'>Search Foods</button>
-          <table className='nutrition-facts-table'>
-            <thead>
+      <div>
+        <Navigation /> 
+        <FoodChart />     
+        <div className="diet-search-container">
+          <form onSubmit={(e)=> this.onSubmit(e)}>
+            <h1>{this.props.searchHeading}</h1>
+            <h2>Nutrients Per Cup</h2>
+            <p>{this.state.selectedFood}</p>
+            <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
+            <button className='search-button'>Search Foods</button>
+            <table className='nutrition-facts-table'>
+              <thead>
+                  <tr>
+                    <th>Calories</th>
+                    <th>Protein</th>
+                    <th>Fat</th>
+                    <th>Carbs</th>
+                  </tr>
+              </thead>
+              <tbody>
                 <tr>
-                  <th>Calories</th>
-                  <th>Protein</th>
-                  <th>Fat</th>
-                  <th>Carbs</th>
+                  {nutritionFactUnit}
                 </tr>
-            </thead>
-            <tbody>
-              <tr>
-                {nutritionFactUnit}
-              </tr>
-            </tbody>
-          </table>
-          <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-        </form>
+              </tbody>
+            </table>
+            <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
+          </form>
+      </div>
      </div>
      )
     }
@@ -85,31 +93,47 @@ class DietSearchContainer extends Component {
           foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
         }
         const { foodID } = food;
-          return <li key={index} id={foodID} onClick={this.onItemClick.bind(this, {foodID})}>{foodName}</li>;
+          return <li key={index} id={foodID} onClick={this.onItemClick.bind(this, {foodID, foodName})}>{foodName}</li>;
         });
       return (
+        <div>
+          <Navigation /> 
+          <FoodChart />  
+          <div className="diet-search-container">
+            <form onSubmit={(e)=> this.onSubmit(e)}>
+              <h1>{this.props.searchHeading}</h1>
+              <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
+              <button className='search-button'>Search Foods</button>
+              <ul className='food-list'>
+                {FoodList}
+              </ul>
+            </form>
+          </div>
+         </div>
+      );
+    } 
+    return (
+      <div>
+      <Navigation /> 
+      <FoodChart />  
         <div className="diet-search-container">
           <form onSubmit={(e)=> this.onSubmit(e)}>
             <h1>{this.props.searchHeading}</h1>
             <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
             <button className='search-button'>Search Foods</button>
-            <ul className='food-list'>
-              {FoodList}
-            </ul>
           </form>
-         </div>
-      );
-    } 
-    return (
-    	<div className="diet-search-container">
-        <form onSubmit={(e)=> this.onSubmit(e)}>
-          <h1>{this.props.searchHeading}</h1>
-          <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-          <button className='search-button'>Search Foods</button>
-        </form>
-       </div>
+        </div>
+      </div>
     );
   }
 }
 
-export default DietSearchContainer;
+const mapStateToProps = (state) => {
+	return {
+		clientDietInfo: state.clientInfo,
+		foodList: state.foodList,
+		nutritionFacts: state.nutritionFacts,
+	}
+}
+
+export default connect(mapStateToProps)(DietSearchContainer)

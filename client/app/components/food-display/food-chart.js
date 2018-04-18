@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
-import './food-chart.css'
+import { connect } from 'react-redux';
+import './food-chart.css';
 
 class FoodChart extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      dailyDietInfo: this.getState(),
+    }
+  }
+
+  getState() {
+    if (JSON.parse(localStorage.getItem('user'))) {
+      return JSON.parse(localStorage.getItem('user')).dietInfo
+    } else if (this.props.clientDietInfo){
+      return this.props.clientDietInfo.clientInfo ? this.props.clientDietInfo.clientInfo : null;
+    } else 
+    return null
+  }
+
   render() {
+    if (this.state.dailyDietInfo !== null) {
+      console.log('dietInfo', this.state.dailyDietInfo)
     return (
        <div className="food-chart-container">
          <h1 className='food-chart-heading'>Daily Nutrient Intake</h1>
@@ -17,16 +36,29 @@ class FoodChart extends Component {
             </thead>
             <tbody>
               <tr>
-                <td>{this.props.dailyCalories}cal</td>
-                <td>{this.props.dailyProtein}g</td>
-                <td>{this.props.dailyCarbs}g</td>
-                <td>{this.props.dailyFats}g</td>
+                <td>{this.state.dailyDietInfo.calories}cal</td>
+                <td>{this.state.dailyDietInfo.protein}g</td>
+                <td>{this.state.dailyDietInfo.fat}g</td>
+                <td>{this.state.dailyDietInfo.carbs}g</td>
               </tr>
             </tbody>
           </table>
         </div>
     );
   }
+  return (
+    <div className="food-chart-container">
+     </div>
+ );
+  }
 }
 
-export default FoodChart;
+const mapStateToProps = (state) => {
+	return {
+		clientDietInfo: state.clientInfo,
+		foodList: state.foodList,
+		nutritionFacts: state.nutritionFacts,
+	}
+}
+
+export default connect(mapStateToProps)(FoodChart)

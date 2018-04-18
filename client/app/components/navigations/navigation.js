@@ -15,7 +15,7 @@ export default class Navigation extends Component{
     logout(e) {
         e.preventDefault();
         localStorage.clear('user')
-        window.location.reload(true);
+        window.location = "/";
     }
 
     async componentDidMount() {
@@ -33,11 +33,10 @@ export default class Navigation extends Component{
                         <div> <Link to='/' className="logo">Lets Get Fit </Link></div>
                             <ul>
                             <li><Link to='./profile' className='nav-item'>Profile</Link></li>
-                            <li><a href="#" className='nav-item'>Foods</a></li>
-                            <li><a href="#" className='nav-item'>Workouts</a></li>
+                            <li><Link to='./assessment' className='nav-item'>Fitness Assessment</Link></li>
+                            <li><Link to='./food-search' href="#" className='nav-item'>Food Search</Link></li>
                             </ul>
                             <Link to='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
-                            <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>
                     </nav>
                 </div>
             ) 
@@ -47,8 +46,8 @@ export default class Navigation extends Component{
                 <nav className='nav-main'>
                     <div> <Link to='/' className="logo">Lets Get Fit </Link></div>
                         <ul>
-                        <li><a href="#" className='nav-item'>Foods</a></li>
-                        <li><a href="#" className='nav-item'>Workouts</a></li>
+                        <li><Link to='./assessment' href="#" className='nav-item'>Fitness Assessment</Link></li>
+                        <li><Link to='./food-search' href="#" className='nav-item'>Food Search</Link></li>
                         </ul>
                         <Link to='./login' href="./login" className='login'>Login</Link>
                         <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>

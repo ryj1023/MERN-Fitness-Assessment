@@ -21,10 +21,10 @@ const targetWeight = clientInfo.answers[3].input.answer;
 // const moderateFemale = (height * 4.7) + (currentWeight * 4.35) - (age * 4.7) + 655 * 1.55;
 // const heavyFemale = (height * 4.7) + (currentWeight * 4.35) - (age * 4.7) + 655 * 1.9;
 
-fitnessData.dailyCalories =  targetWeight * 18;
-fitnessData.dailyProtein = targetWeight;
-fitnessData.dailyCarbs = targetWeight * 3;
-fitnessData.dailyFats = targetWeight / 10;
+fitnessData.calories =  targetWeight * 18;
+fitnessData.protein = targetWeight;
+fitnessData.carbs = targetWeight * 3;
+fitnessData.fat = targetWeight / 10;
 
 if (gender == 'man' && active.match('sedentary') !== null) {
     fitnessData.programs = ["http://www.bodybuilding.com/fun/timothyf.htm", "http://www.muscleandfitness.com/workouts/workout-routines/torch-your-fat-workout-routine", "http://healthyliving.azcentral.com/work-out-five-days-per-week-weights-2692.html"]

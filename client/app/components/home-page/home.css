@@ -1,0 +1,61 @@
+body, .home-wrapper {
+  height: 100vh;
+}
+h1{
+  color: black;
+}
+
+.home-wrapper{
+ height: 100vh;
+ display: grid;
+ grid-template-columns: 2fr 1fr; /*fractions good for margins*/
+ margin: 1em;
+ /*grid-template-columns: 70% 30%;
+ grid-column-gap: 1em;
+ grid-row-gap: 1em;*/
+/*grid-auto-rows: 100%;*/
+ /*grid-gap: 1em;*/
+}
+
+.tables-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1em;
+  margin: 0 0.5em;
+}
+
+.tables-container > div {
+  background-color: #eee;
+}
+
+.home-feed {
+ background-color: #eee;
+}
+
+.diet-display-table {
+  margin: auto;
+  border-collapse: collapse;
+}
+
+p{
+  color: black;
+}
+table, tr, th, td {
+  color: black;
+  border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

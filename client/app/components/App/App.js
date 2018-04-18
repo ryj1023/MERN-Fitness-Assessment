@@ -2,13 +2,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import Header from '../Header/header';
-import Container from '../Container/container';
+import Container from '../containers/container';
+import Home from '../'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-      	<Header title="Let's Get Fit" />
+      	<Header/>
       	<Container />
       </div>
     );

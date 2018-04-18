@@ -57,7 +57,7 @@
     margin: auto;
     margin-top: 4%;
   }
-  table, th, td {
+  .nutrition-facts-table, th, td {
     color: white;
     border: 1px solid white;
   }

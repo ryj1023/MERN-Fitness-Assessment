@@ -1,8 +1,9 @@
 
 body {
-    background-image: url('../../images/barbell.jpg');
+    /* background-image: url('../../images/barbell.jpg');*/
+    color: #2F1414;
   }
-  
+
   @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }

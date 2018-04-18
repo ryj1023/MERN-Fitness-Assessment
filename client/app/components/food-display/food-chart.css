@@ -23,7 +23,7 @@
     color: white;
     font-size: 22px;
   }
-  table, th, td {
+  .food-chart-table, th, td {
     color: white;
     border: 1px solid white;
   }
