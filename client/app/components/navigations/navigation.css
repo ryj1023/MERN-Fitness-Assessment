@@ -52,19 +52,6 @@ body,html{
     /*fouus allows the item to be highlighted after clicking*/
     background-color: #444;
   }
-  
-  .nav-item:focus ~ .nav-content{
-    /*~ targets any element on the same level as nav-item when it is focused*/
-    /*fixes the max height of 0 defined with the .nav-content*/
-    max-height: 400px;
-    /*transition for dropdown*/
-    transition:max-height 0.4s ease-in;
-     -webkit-transition:max-height 0.4s ease-in;
-     -moz-transition:max-height 0.4s ease-in;
-  }
-  
-  
-  
   .nav-content{
     /*still shows because of the padding. This is why we create nav-sub*/
     max-height: 0;
@@ -93,27 +80,97 @@ body,html{
     text-decoration:none;
   }
     
-  .nav-sub{
-    /*use your padding here as to not screw up the layout with max-height*/
-    padding: 20px;
-  }
-  
   .nav-sub ul{
     /*left justifies the dropdown list*/
     padding: 0;
     margin: 0;
     list-style-type: none;
+    max-height: 0;
+    position: relative;
+    top: 0px;
   }
   
   .nav-sub li a{
     /*allows spacing between the lis*/
     display: inline-block;
-    padding: 5px 0;
+    overflow: hidden;
+    margin: 1.5em;
+    text-decoration: none;
+    color: white;
     
   }
   .nav-sub-item:hover{
      background-color: #444;
   }
+
+  .nav-content{
+    /*still shows because of the padding. This is why we create nav-sub*/
+    max-height: 0;
+    /*this keeps the even spacing between the li's in the nav*/
+    position: absolute;
+    top: 70px;
+    /*just incase anything is greater than the max height*/
+    overflow: hidden;
+    background-color: #222;
+  }
+
+  .dropdown-ul {
+    display: none;
+  }
+
+  @media only screen and (max-width: 800px) {
+    .dropdown-ul {
+      display: block;
+    }
+    .nav-item, .login {
+        display: none;
+    }
+    .nav-item {
+      padding: 15px 40px;
+    }
+    .dropdown-menu {
+      display: block;
+    }
+    .nav-main > ul, .nav-main > ul > li {
+      margin: auto;
+      width: 8em;  
+      float: none !important;
+    }
+    .nav-sub > ul {
+      max-height: 0;
+      width: 8em;
+      background-color: white;
+      margin: auto;
+      position: absolute;
+      overflow: hidden;
+      top: 70px;
+    }
+    .dropdown-ul:hover ul{
+      z-index: 1;
+      display: block;
+      background-color: #222;
+      max-height: 100vh;
+      transition:max-height 0.4s ease-in;
+      -webkit-transition:max-height 0.4s ease-in;
+      -moz-transition:max-height 0.4s ease-in;
+    }
+
+    .dropdown-link {
+      display: block;
+      text-decoration: none;
+      z-index: 1;
+    }
+
+    .dropdown-link:hover{
+      background-color: #444;
+      max-height: 100vh;
+      cursor: pointer;
+      transition:max-height 0.4s ease-in;
+      -webkit-transition:max-height 0.4s ease-in;
+      -moz-transition:max-height 0.4s ease-in;
+    } 
+
+}
   
   
   
