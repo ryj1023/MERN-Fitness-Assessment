@@ -15,7 +15,7 @@ class FoodChart extends Component {
       return JSON.parse(localStorage.getItem('user')).dietInfo
     } else if (this.props.clientDietInfo){
       return this.props.clientDietInfo.clientInfo ? this.props.clientDietInfo.clientInfo : null;
-    } else 
+    } 
     return null
   }
 

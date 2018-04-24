@@ -13,6 +13,7 @@ class DietSearchContainer extends Component {
       foodTextInput: null,
       showNutrientFacts: false,
       selectedFood: null,
+      dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
     }
   }
   

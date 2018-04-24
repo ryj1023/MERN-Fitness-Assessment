@@ -145,7 +145,17 @@ body,html{
       overflow: hidden;
       top: 70px;
     }
-    .dropdown-ul:hover ul{
+    /* .dropdown-ul:hover ul{
+      z-index: 1;
+      display: block;
+      background-color: #222;
+      max-height: 100vh;
+      transition:max-height 0.4s ease-in;
+      -webkit-transition:max-height 0.4s ease-in;
+      -moz-transition:max-height 0.4s ease-in;
+    } */
+
+    .dropdown-menu:focus ~ div ul{
       z-index: 1;
       display: block;
       background-color: #222;
@@ -156,9 +166,12 @@ body,html{
     }
 
     .dropdown-link {
+      color: white;
+      padding:1em;
       display: block;
       text-decoration: none;
       z-index: 1;
+      text-align: center;
     }
 
     .dropdown-link:hover{
@@ -168,7 +181,9 @@ body,html{
       transition:max-height 0.4s ease-in;
       -webkit-transition:max-height 0.4s ease-in;
       -moz-transition:max-height 0.4s ease-in;
-    } 
+    }
+
+
 
 }
   

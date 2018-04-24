@@ -20,7 +20,8 @@ const port  = process.env.PORT || 8080;
 
 // Configuration
 // ================================================================================================
-
+const dotenv = require('dotenv');
+dotenv.load();
 // Set up Mongoose
 mongoose.connect(isDev ? config.db_dev : config.db, {
   useMongoClient: true,
