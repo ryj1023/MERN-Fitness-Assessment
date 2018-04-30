@@ -117,12 +117,6 @@ input {
   -ms-transition: all 0.3s ease-in-out;
 }
 
-input:hover {
-  /*background: #b3aca7;*/
-  background: #222;
-  color: #e2dedb;
-}
-
 textarea {
   width: 470px;
   max-width: 470px;

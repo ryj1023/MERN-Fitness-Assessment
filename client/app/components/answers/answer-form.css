@@ -1,12 +1,29 @@
-.input-box-one, .input-box-two{
+.input-box-one, .input-box-two {
+    background-color: rgba(182, 174, 174, 0.93);
     height: 42px;
     width: 32%;
     margin: 8px;
     position: relative;
-    bottom: 6px;
-    border-radius: 8px;
+    top: -5em;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #454545;
+}
+.input-box-one::placeholder, .input-box-two::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #454545;
+    opacity: 1; /* Firefox */
+}
+
+.input-box-one:-ms-input-placeholder .input-box-two:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #454545;
+}
+
+.input-box-one::-ms-input-placeholder .input-box-two::-ms-input-placeholder { /* Microsoft Edge */
+    color: #454545;
 }
 .submit{
+    position: relative;
+    top: -2em;
 	text-align: center;
     cursor: pointer;
     -webkit-transition-duration: 0.4s;
@@ -14,7 +31,7 @@
     border: none;
     color: white;
     background-color: #232323;
-    border-radius: 8px;
+    border-radius: 10px;
     font-size: 32px;
     margin-top: 2%;
     border-style: solid;
@@ -23,24 +40,28 @@
 .submit:hover {
   background-color: #FFFFFF;
   color: black;
+  border-style: solid;
+  border-color: #454545;
 }
 .start-button{
-	background-color: #232323;
+	background-color: #454545;
     color: #FFFFFF;
-    border-radius: 25px;
+    border-radius: 10px;
     font-size: 35px;
     cursor: pointer;
     padding: 16px 32px;
     text-align: center;
 }
 .start-button:hover{
-	background-color: #FFFFFF;
-  	color: black;
+	  background-color: white;
+      color: black;
+      border-style: solid;
+      border-color: #454545;
 }
 .calculate-answers{
 	background-color: #232323;
     color: #FFFFFF;
-    border-radius: 25px;
+    border-radius: 10px;
     font-size: 25px;
     cursor: pointer;
     padding: 16px 32px;
@@ -49,19 +70,28 @@
 .calculate-answers:hover{
 	background-color: #FFFFFF;
     color: black;
+    border-style: solid;
+    border-color: #454545;
 }
 .option{
     vertical-align: middle;
 }
 .answer{
     text-align: left;
-    margin: 14px;    
+    /* margin: 14px; */
+    position: relative;
+    top: -4em;   
 }
 form{
+    margin: auto;
 	text-align: center;
 }
 .answer-text{
-    color: white;
+    color: #454545;
     font-size: 25px;
     margin: 2px;
+}
+
+.option {
+    width: auto;
 }

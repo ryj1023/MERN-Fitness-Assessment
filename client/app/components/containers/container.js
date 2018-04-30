@@ -107,7 +107,7 @@ class Container extends Component {
 			return (
 				<div>
 					<Navigation />
-						<div className="container">
+						<div className="container-wrapper">
 							<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
 							<AnswerForm key="start-button" type="text" getStarted={() => this.getStarted(false)} text='Get Started' />
 						</div>
@@ -117,7 +117,7 @@ class Container extends Component {
 			return(
 			<div>
 				<Navigation />
-					<div className="container">
+					<div className="container-wrapper">
 						<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
 						<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
 					</div>
@@ -126,31 +126,12 @@ class Container extends Component {
 		}
 		else if(this.state.showClientInfo === true) {
 			return <Redirect to='/food-search' />
-			console.log('clientInfo', this.props.clientDietInfo)
-			// return(
-			// 	<div>
-			// 		<FoodChart key={this.state.counter} type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/>
-			// 		<DietSearchContainer dispatch={this.props.dispatch} key='food-search' type="text" searchHeading='Search Foods and Select a Workout.' onAdd={input => this.getUserInput(input, 'food')}/> 
-			// 		<button onClick={()=> this.saveData(this.props.clientDietInfo.clientInfo)}>Save Data</button>
-			// 	</div>
-			// )
 		} 
-		// else if (this.state.showFoodResults === true) {
-		// 	return(
-		// 	<div>
-		// 		<Navigation />
-		// 				<div>
-		// 					<FoodChart key='results' type="text" dailyCalories={this.props.clientDietInfo.clientInfo.dailyCalories} dailyCarbs={this.props.clientDietInfo.clientInfo.dailyCarbs} dailyProtein={this.props.clientDietInfo.clientInfo.dailyProtein} dailyFats={this.props.clientDietInfo.clientInfo.dailyFats}/>
-		// 					<DietSearchContainer  dispatch={this.props.dispatch} key='food-search' nutritionFacts={this.props.nutritionFacts} foodList={this.props.foodList} type="text" searchHeading='Search Results' onAdd={input => this.getUserInput(input, 'food')}/>
-		// 				</div>
-		// 	</div>
-		// 	)
-		// }
 		else {
 			return(
 			 <div>
 					<Navigation />
-							<div className="container">
+							<div className="container-wrapper">
 								<h1>{Questions}</h1>
 								<div>{Form}</div>
 							</div>

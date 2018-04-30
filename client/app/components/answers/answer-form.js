@@ -69,10 +69,10 @@ export default class AnswerForm extends Component{
 					case 'height':
 					return(
 						 <form onSubmit={(e)=> this.onSubmit(e)}>
-									<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
-									<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
-									<button className="submit">Submit</button> 
-		    </form>
+								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
+								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
+							<button className="submit">Submit</button> 
+		   			 </form>
 					)
 					break;
 					case 'radio':
@@ -97,19 +97,15 @@ export default class AnswerForm extends Component{
 			}
 			else if (this.props.getStarted){
 				return(
-					<div>
 					 <form onSubmit={(e)=> this.startSubmit(e)}>
 			            <button className="start-button">{this.props.text}</button> 
 			         </form>
-					</div>
 		        )
 			} else {
 				return(
-					<div>
 					 <form onSubmit={(e)=> this.startCalculation(e)}>
 			            <button className="calculate-answers">{this.props.text}</button> 
 			         </form>
-					</div>
 		        )
 			}
 	}

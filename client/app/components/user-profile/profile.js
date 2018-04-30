@@ -28,8 +28,13 @@ class Profile extends Component {
 		return (
             <div>
                 <Navigation />
-                <h1>Hello {this.state.userName}</h1>
-                <h1>calories: {this.state.dailyDietGoal.calories}</h1>
+                    <div className="profile-wrapper">
+                        <div>
+                            <h1>{this.state.userName}'s Profile</h1>
+                            <h1>calories: {this.state.dailyDietGoal.calories}</h1>
+                        </div>
+                        <div></div>
+                    </div>
             </div>
         ) 
 	}

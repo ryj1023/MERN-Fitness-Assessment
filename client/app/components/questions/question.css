@@ -1,12 +1,16 @@
 .heading{
+    position: relative;
+    top: 2.0em;
 	font-size: 42px;
-    color: #FFFFFF;
+    color: black;
     text-align: center;
     padding-top: 2%;
 }
 .subheading{
-	font-size: 30px;
-    color: #FFFFFF;
+    font-size: 22px;
+    color: black;
     text-align: center;
     padding-top: 2%;
+    position: relative;
+    top: 2.5em;
 }

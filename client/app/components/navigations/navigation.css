@@ -9,7 +9,7 @@ body,html{
 
 .nav-main{
   width: 100%;
-  background-color: #222;
+  background-color: #454545;
   height: 70px;
   color: #fff;
 }
@@ -45,12 +45,12 @@ body,html{
 }
 
 .login:hover, .nav-item:hover, .logo:hover{
-  background-color: #444;
+  background-color: #9a9a9a;
 }
 
 .nav-item:focus{
   /*fouus allows the item to be highlighted after clicking*/
-  background-color: #444;
+  background-color: #9a9a9a;
 }
 .nav-content{
   position: absolute;
@@ -97,7 +97,7 @@ body,html{
   
 }
 .nav-sub-item:hover{
-   background-color: #444;
+   background-color: #9a9a9a;
 }
 
 .nav-content{
@@ -155,11 +155,11 @@ body,html{
   }
 
   .dropdown-link:hover  {
-    background-color: #444;
+    background-color: #9a9a9a;
   }
 
   .dropdown-link:hover{
-    background-color: #444;
+    background-color: #9a9a9a;
     max-height: 100vh;
     cursor: pointer;
   }

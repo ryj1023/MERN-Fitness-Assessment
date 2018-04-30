@@ -58,7 +58,7 @@ export default class Navigation extends Component{
                             <Link to='./food-search' className='nav-item'>Food Search</Link>
                             <Link to='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
                                 <ul className='dropdown-ul'>
-                                    <li><a onClick={(e) => this.showDropdownMenu(e)}  href="#" className='nav-item dropdown-menu'>Menu</a>
+                                    <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='nav-item dropdown-menu'>Menu</a>
                                     {
                                         this.state.showMenu ? 
                                 (

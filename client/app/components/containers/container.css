@@ -1,16 +1,50 @@
-.container{
-	background-image: url('../../images/website-background.gif');
-    height: 500px;
-    width: 485px;
-    margin-left: 28%;
-	   margin-top: 1%;
-    position: center;
-    border-radius: 25px;
-    border-style: solid;
-    border-color: white;
-   }
+body, .home-wrapper {
+  height: 100vh;
+}
+h1{
+  font-size: 20px;
+  color: black;
+}
 
-  h1{
-    text-align: center;
-    padding-top: 2%;
-  }
+.container-wrapper{
+  background-color: #eee;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr; /*fractions good for margins*/
+  margin: 1em;
+}
+
+.tables-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1em;
+  margin: 0 0.5em;
+}
+
+.profile-wrapper> div {
+  background-color: #eee;
+}
+
+.home-feed {
+ background-color: #eee;
+}
+
+.diet-display-table {
+  margin: auto;
+  border-collapse: collapse;
+  border: 1px solid rgba(182, 174, 174, 0.93);
+}
+
+p{
+  color: black;
+}
+table, tr, th, td {
+  color: black;
+  border: 1px solid #ddd;
+}
+
+/* Mobile Layout */
+
+@media screen and (max-width: 400px) {
+
+}
