@@ -68,7 +68,7 @@ export default class AnswerForm extends Component{
 				switch(this.props.type){
 					case 'height':
 					return(
-						 <form onSubmit={(e)=> this.onSubmit(e)}>
+						 <form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
 								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
 								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
 							<button className="submit">Submit</button> 
@@ -78,7 +78,7 @@ export default class AnswerForm extends Component{
 					case 'radio':
 					const radioDisplay = this.props.answerLabels.map((label, index) => <RadioAnswers labels={label} key={index} onSelect={(e) => this.setRadio(e)}/>);
 						return (
-							<form onSubmit={(e)=> this.onSubmit(e)}>	
+							<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>	
 								<div>{radioDisplay}</div>
 								<button className="submit">Submit</button>
 							</form>
@@ -86,10 +86,10 @@ export default class AnswerForm extends Component{
 					break;
 					case 'text':
 					return(
-						<form onSubmit={(e)=> this.onSubmit(e)}>
+						<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
 		                  <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter a number"/>
 		                  <button className="submit">Submit</button> 
-		              	</form>
+		            </form>
 						)
 					default:
 					return;
@@ -97,13 +97,13 @@ export default class AnswerForm extends Component{
 			}
 			else if (this.props.getStarted){
 				return(
-					 <form onSubmit={(e)=> this.startSubmit(e)}>
+					 <form className="submit-form" onSubmit={(e)=> this.startSubmit(e)}>
 			            <button className="start-button">{this.props.text}</button> 
 			         </form>
 		        )
 			} else {
 				return(
-					 <form onSubmit={(e)=> this.startCalculation(e)}>
+					 <form className="submit-form" onSubmit={(e)=> this.startCalculation(e)}>
 			            <button className="calculate-answers">{this.props.text}</button> 
 			         </form>
 		        )

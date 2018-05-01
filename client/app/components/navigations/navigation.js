@@ -82,6 +82,7 @@ export default class Navigation extends Component{
             <div>
                 <nav className='nav-main'>
                     <div><Link to='/' className="logo">Lets Get Fit </Link></div>
+                        <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
                         <Link to='./login' href="./login" className='login'>Login</Link>
                         <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>
                         <ul className='dropdown-ul'>
