@@ -4,5 +4,37 @@
     background: black;
     height: 147px;
     margin: auto;
-    width: 500px;
 }
+
+h2 { 
+    font-size: 1em;
+    text-align: center;
+    color: black;
+}
+
+.log-in-container {
+    width: 50%;
+}
+.log-in-input {
+    text-indent: 1%;
+}
+
+.log-in-input, .log-in-form, .sign-up-button {
+    width: 100%;
+    padding: 0;
+}
+.log-in-input::placeholder, .input-box-two::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    padding: 1em;
+}
+
+.log-in-input:-ms-input-placeholder .input-box-two:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    padding: 1em;
+}
+
+.log-in-input:-ms-input-placeholder .input-box-two::-ms-input-placeholder { /* Microsoft Edge */
+    padding: 1em;
+}
+
+/* .log-in-input {
+    width: 100%
+} */

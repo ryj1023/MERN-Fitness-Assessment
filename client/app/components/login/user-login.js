@@ -33,31 +33,37 @@ class Login extends Component {
         this.props.dispatch(loginUser(this.state))
     }
 
-	render(){        
-        if (this.props.userData.length > 0) {
+    componentDidMount() {
+    }
+
+	render(){   
+        if (this.props.userData[0] && Object.keys(this.props.userData[0]).length > 1) {
             localStorage.removeItem('user');
             localStorage.setItem('user', JSON.stringify(this.props.userData[0].user));
             return <Redirect to='/' />;
-            return(
+        } else if (this.props.userData.includes('No Account')) {
+            return (
                 <div>
-                    <Navigation />
-                    <div className='log-in-container'>
-                        <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="/api/login">
-                        <input type="text" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
-                        <input type="password" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="psw" required />
-                        <button className="sign-up-button">Sign In</button> 
-                        </form>
-                    </div>
+                <Navigation />
+                <h1>{this.props.userData}</h1>
+                <h2>Please try another email and password combination or click 'Sign Up' to create an account</h2>
+                <div className='log-in-container'>
+                    <form className="log-in-form" onSubmit={(e)=> this.onSubmit(e)} method="post" action="/api/login">
+                    <input type="text" className="log-in-input" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
+                    <input type="password"  className="log-in-input" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="psw" required />
+                    <button className="sign-up-button">Sign In</button> 
+                    </form>
                 </div>
-            ) 
+            </div>
+            )
         }
 		return(
             <div>
                 <Navigation />
                 <div className='log-in-container'>
-                    <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="/api/login">
-                    <input type="text" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
-                    <input type="password" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="psw" required />
+                    <form  className="log-in-form" onSubmit={(e)=> this.onSubmit(e)} method="post" action="/api/login">
+                    <input className="log-in-input" type="text" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
+                    <input type="password" className="log-in-input" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="psw" required />
                     <button className="sign-up-button">Sign In</button> 
                     </form>
                 </div>
