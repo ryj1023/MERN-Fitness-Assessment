@@ -78,8 +78,10 @@ export default class AnswerForm extends Component{
 					case 'radio':
 					const radioDisplay = this.props.answerLabels.map((label, index) => <RadioAnswers labels={label} key={index} onSelect={(e) => this.setRadio(e)}/>);
 						return (
-							<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>	
-								<div>{radioDisplay}</div>
+							<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
+								<div className="radio-display">	
+									<div>{radioDisplay}</div>
+								</div>
 								<button className="submit">Submit</button>
 							</form>
 						)

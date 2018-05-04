@@ -4,7 +4,7 @@
     width: 32%;
     margin: 8px;
     position: relative;
-    top: -5em;
+    /*top: -5em;*/
     border-radius: 10px;
     border-style: solid;
     border-color: #454545;
@@ -23,7 +23,7 @@
 }
 .submit{
     position: relative;
-    top: -2em;
+    top: 5px;
 	text-align: center;
     cursor: pointer;
     -webkit-transition-duration: 0.4s;
@@ -33,7 +33,7 @@
     background-color: #232323;
     border-radius: 10px;
     font-size: 32px;
-    margin-top: 2%;
+    /*margin-top: 2%;*/
     border-style: solid;
     border-color: #FFFFFF;
 }
@@ -77,8 +77,7 @@
     vertical-align: middle;
 }
 .answer{
-    text-align: left;
-    /* margin: 14px; */
+    text-align: center;
     position: relative;
     top: -4em;   
 }
