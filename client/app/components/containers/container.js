@@ -10,8 +10,6 @@ import './container.css';
 import { addAnswer,  gatherFitnessInfo  } from '../../actions/';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData, saveUserData } from '../../actions/async-actions';
 import calculateFitnessInput from '../../calculations/calculate-fitness-input';
-import FoodChart from '../food-display/food-chart';
-import DietSearchContainer from '../diet-search-containers/diet-search-container';
 import UserSignUp from '../sign-up/user-sign-up';
 
 class Container extends Component {

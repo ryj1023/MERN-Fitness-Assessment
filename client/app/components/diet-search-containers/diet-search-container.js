@@ -55,32 +55,34 @@ class DietSearchContainer extends Component {
      });
      return (
       <div>
-        <Navigation /> 
-        <FoodChart />     
-        <div className="diet-search-container">
-          <form onSubmit={(e)=> this.onSubmit(e)}>
-            <h1>{this.props.searchHeading}</h1>
-            <h2>Nutrients Per Cup</h2>
-            <p>{this.state.selectedFood}</p>
-            <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-            <button className='search-button'>Search Foods</button>
-            <table className='nutrition-facts-table'>
-              <thead>
+        <Navigation />
+        <div className="food-search-wrapper"> 
+          <FoodChart />     
+          <div className="diet-search-container">
+            <form onSubmit={(e)=> this.onSubmit(e)}>
+              <h1>{this.props.searchHeading}</h1>
+              <p>{this.state.selectedFood}</p>
+              <h2>Nutrients Per Cup</h2>
+              <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
+              <button className='search-button'>Search Foods</button>
+              <table className='nutrition-facts-table'>
+                <thead>
+                    <tr>
+                      <th>Calories</th>
+                      <th>Protein</th>
+                      <th>Fat</th>
+                      <th>Carbs</th>
+                    </tr>
+                </thead>
+                <tbody>
                   <tr>
-                    <th>Calories</th>
-                    <th>Protein</th>
-                    <th>Fat</th>
-                    <th>Carbs</th>
+                    {nutritionFactUnit}
                   </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  {nutritionFactUnit}
-                </tr>
-              </tbody>
-            </table>
-            <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-          </form>
+                </tbody>
+              </table>
+              <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
+            </form>
+        </div>
       </div>
      </div>
      )
@@ -99,17 +101,19 @@ class DietSearchContainer extends Component {
       return (
         <div>
           <Navigation /> 
-          <FoodChart />  
-          <div className="diet-search-container">
-            <form onSubmit={(e)=> this.onSubmit(e)}>
-              <h1>{this.props.searchHeading}</h1>
-              <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-              <button className='search-button'>Search Foods</button>
-              <ul className='food-list'>
-                {FoodList}
-              </ul>
-            </form>
-          </div>
+            <div className="food-search-wrapper">
+            <FoodChart />  
+            <div className="diet-search-container">
+              <form onSubmit={(e)=> this.onSubmit(e)}>
+                <h1>{this.props.searchHeading}</h1>
+                <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
+                <button className='search-button'>Search Foods</button>
+                <ul className='food-list'>
+                  {FoodList}
+                </ul>
+              </form>
+            </div>
+            </div>
          </div>
       );
     } 

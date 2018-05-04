@@ -1,4 +1,9 @@
-.food-chart-container{
+
+ .food-chart-container {
+    background-color: #eee;
+ }
+
+/*.food-chart-container{
     background-image: url('../../images/website-background.gif');
     float: left;
     height: 500px;
@@ -10,7 +15,7 @@
     border-radius: 25px;
     border-style: solid;
     border-color: white;
-   }
+   } */
 
   h1{
     text-align: center;
@@ -36,5 +41,5 @@
   .food-chart-heading {
     position: relative;
     top: 20%;
-    color: white;
+    color: black;
   }
