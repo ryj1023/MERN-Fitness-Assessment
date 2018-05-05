@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
-//import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Navigation from '../navigations/navigation';
 import QuestionDisplay from '../questions/question-display';
 import AnswerForm from '../answers/answer-form';
 import './container.css';
 import { addAnswer,  gatherFitnessInfo  } from '../../actions/';
-import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData, saveUserData } from '../../actions/async-actions';
+import { saveUserData } from '../../actions/async-actions';
 import calculateFitnessInput from '../../calculations/calculate-fitness-input';
 import UserSignUp from '../sign-up/user-sign-up';
 
@@ -41,7 +41,7 @@ class Container extends Component {
 		if (this.validateInput(input, type) === false){
 			return;
 		} else if (type !== 'food') { 
-		this.props.dispatch(addAnswer(input));
+		this.props.addAnswer(input);
 			this.setState({
 				counter: this.state.counter + 1
 			})
@@ -60,7 +60,7 @@ class Container extends Component {
 
 	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
-		this.props.dispatch(gatherFitnessInfo(calculatedAnswers))
+		this.props.gatherFitnessInfo(calculatedAnswers);
 		this.setState({
 			showClientInfo: true,
 			calculateAnswerPrompt: false
@@ -68,7 +68,7 @@ class Container extends Component {
 	}
 
 	saveData(dietInfo) {
-		this.props.dispatch(saveUserData({ dietInfo, userName: this.state.user }));
+		this.props.saveUserData({ dietInfo, userName: this.state.user });
 	}
 
 	async componentDidMount() {
@@ -149,9 +149,9 @@ const mapStateToProps = (state) => {
 	}
 }
 
-// function mapDispatchToProps(dispatch){
-// 	return bindActionCreators()
-// }
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({ addAnswer,  gatherFitnessInfo }, dispatch);
+}
 
 
-export default connect(mapStateToProps)(Container)
+export default connect(mapStateToProps, mapDispatchToProps)(Container)

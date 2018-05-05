@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './diet-search-container.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData, saveUserData } from '../../actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts } from '../../actions/async-actions';
 import Navigation from '../navigations/navigation';
 import FoodChart from '../food-display/food-chart';
 
@@ -29,11 +30,11 @@ class DietSearchContainer extends Component {
     this.setState({
       showNutrientFacts: false,
     })
-    this.props.dispatch(getFoodSearchKeyword(this.state.foodTextInput))
+    this.props.getFoodSearchKeyword(this.state.foodTextInput)
   }
 
   onItemClick(selectedFood) {
-    this.props.dispatch(getFoodNutritionFacts(selectedFood.foodID));
+    this.props.getFoodNutritionFacts(selectedFood.foodID);
     this.setState({
       showNutrientFacts: true,
       selectedFood: selectedFood.foodName
@@ -141,4 +142,8 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(DietSearchContainer)
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)
