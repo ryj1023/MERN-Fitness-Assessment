@@ -7,55 +7,14 @@
   grid-column-gap: 1em;
   grid-row-gap: 1em;
  }
-
  .diet-search-container {
     background-color: #eee;
  }
-
  .input-box-one {
   top: 0;
 }
-
-/* .diet-search-container{
-    background-image: url('../../images/website-background.gif');
-    float: right;
-    height: 500px;
-    width: 485px;
-    margin-left: 2%;
-    margin-right: 2%;
-	  margin-top: 1%;
-    position: center;
-    border-radius: 25px;
-    border-style: solid;
-    border-color: white;
-   } */
-/* .input-box-one {
-  bottom: 3px;
-}
-  h1 {
-    text-align: center;
-    padding-top: 2%;
-    color: white;
-  }
- 
-  h2 {
-    color: white;
-  }
-
-  p{
-    text-align: center;
-    padding-top: 2%; 
-    color: white;
-    font-size: 22px;
-  }
-  ul {
-    list-style-type: none;
-  }
-  li {
-    color: white;
-  } */
-  .search-button, .back-button{
-    background-color: #232323;
+ .search-button, .back-button{
+    background-color: #454545;
     color: #FFFFFF;
     border-radius: 7px;
     font-size: 17px;
@@ -83,58 +42,27 @@
     font-size: 12px;
   }
   .food-list li {
+    list-style: none;
     margin: 2.5%;
   }
   .food-list li:hover {
     cursor: pointer;
-    color: yellow;
+    color: rgba(182, 174, 174, 0.93);
   }
 
-
-/* body, .home-wrapper {
-  height: 100vh;
-}
-h1{
-  font-size: 20px;
-  color: black;
-}
-
-.home-wrapper{
- height: 100vh;
- display: grid;
- grid-template-columns: 2fr 1fr;
- margin: 1em;
- grid-column-gap: 1em;
- grid-row-gap: 1em;
-
-}
-
-.tables-container {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 1em;
-  margin: 0 0.5em;
-}
-
-.tables-container > div {
-  background-color: #eee;
-}
-
-.home-feed {
- background-color: #eee;
-}
-
-.diet-display-table {
-  margin: auto;
-  border-collapse: collapse;
-  border: 1px solid rgba(182, 174, 174, 0.93);
-}
-
-p{
-  color: black;
-}
-table, tr, th, td {
-  color: black;
-  border: 1px solid #ddd;
-} 
-*/
+  @media screen and (max-width: 745px) {
+    .food-search-wrapper{
+      height: 100vh;
+      display: block;
+     }
+     .diet-search-container {
+      height: 50%;
+   }
+   .food-search-form {
+     margin: 0 auto;
+     width: 90%;
+   }
+   .search-button, .back-button {
+     font-size: 15px;
+   }
+  }

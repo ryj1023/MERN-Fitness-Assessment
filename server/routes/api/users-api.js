@@ -2,12 +2,12 @@ const Users = require('../../models/User-info.model.js');
 const request = require('request');
 const axios = require('axios');
 module.exports = (app) => {
-  app.get('/api/sign-up', function (req, res, next) {
+  app.get('/api/sign-up', (req, res, next) => {
     res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
     req.session.errors = null;
     });
 
-    app.post('/api/validation', function (req, res, next) {
+    app.post('/api/validation', (req, res, next) => {
      req.checkBody('email', 'Invalid Email Address').isEmail();
      req.checkBody('password', 'Password Is Too Short').isLength({min: 4})
      req.checkBody('password', 'passwords don\'t match').equals(req.body.confirmPassword) // checks to see if the password and confirmPassword values match
@@ -23,7 +23,6 @@ module.exports = (app) => {
 
     app.post('/api/validation/email', (req, res) => {
       Users.find({"user.email" : req.body.email}, (err, user) => {
-        console.log('user', user)
         if (err) return res.status(500).send(err)
           if (user.length === 0) {
             const post = new Users({
@@ -42,14 +41,14 @@ module.exports = (app) => {
       })
     })
 
-  app.get('/api/login', function (req, res, next) {
+  app.get('/api/login', (req, res, next) => {
     Users.find({"user.email" : req.query.email, "user.password": req.query.password }, 'user.userName user.workouts user.dietInfo', (err, user) => {
       if (err) return res.status(500).send(err)
       res.json(user)
     })
   });
 
-  app.post('/api/save', function (req, res, next) {
+  app.post('/api/save', (req, res, next) => {
     var post = new Users({
       user: {
        userName: req.body.userName.userName,
@@ -69,35 +68,4 @@ module.exports = (app) => {
       console.log('err', err)
     })
   })
- 
-   app.delete('/api/counters/:id', function (req, res, next) {
-    Counter.findOneAndRemove({ _id: req.params.id })
-      .exec()
-      .then((counter) => res.json())
-      .catch((err) => next(err));
-  });
-
-  app.put('/api/counters/:id/increment', function (req, res, next) {
-    Counter.findById(req.params.id)
-      .exec()
-      .then((counter) => {
-        counter.count++;
-        counter.save()
-          .then(() => res.json(counter))
-          .catch((err) => next(err));
-      })
-      .catch((err) => next(err));
-  });
-
-  app.put('/api/counters/:id/decrement', function (req, res, next) {
-    Counter.findById(req.params.id)
-      .exec()
-      .then((counter) => {
-        counter.count--;
-        counter.save()
-          .then(() => res.json(counter))
-          .catch((err) => next(err));
-      })
-      .catch((err) => next(err));
-  });
-};
+}

@@ -1,4 +1,7 @@
-
+.food-search-wrapper {
+  height: 100vh;
+}
+ 
  .food-chart-container {
     background-color: #eee;
  }
@@ -42,4 +45,10 @@
     position: relative;
     top: 20%;
     color: black;
+  }
+
+  @media screen and (max-width: 745px) {
+     .food-chart-container {
+      height: 50%;
+   }
   }

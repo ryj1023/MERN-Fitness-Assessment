@@ -149,9 +149,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({ addAnswer,  gatherFitnessInfo }, dispatch);
-}
-
-
+const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer,  gatherFitnessInfo }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Container)

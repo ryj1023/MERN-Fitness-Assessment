@@ -104,16 +104,16 @@ class DietSearchContainer extends Component {
           <Navigation /> 
             <div className="food-search-wrapper">
             <FoodChart />  
-            <div className="diet-search-container">
-              <form onSubmit={(e)=> this.onSubmit(e)}>
-                <h1>{this.props.searchHeading}</h1>
-                <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-                <button className='search-button'>Search Foods</button>
-                <ul className='food-list'>
-                  {FoodList}
-                </ul>
-              </form>
-            </div>
+              <div className="diet-search-container">
+                <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
+                  <h1>{this.props.searchHeading}</h1>
+                  <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
+                  <button className='search-button'>Search Foods</button>
+                  <ul className='food-list'>
+                    {FoodList}
+                  </ul>
+                </form>
+              </div>
             </div>
          </div>
       );
@@ -123,7 +123,7 @@ class DietSearchContainer extends Component {
       <Navigation /> 
       <FoodChart />  
         <div className="diet-search-container">
-          <form onSubmit={(e)=> this.onSubmit(e)}>
+          <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
             <h1>{this.props.searchHeading}</h1>
             <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
             <button className='search-button'>Search Foods</button>
@@ -142,8 +142,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts }, dispatch);
-}
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)
