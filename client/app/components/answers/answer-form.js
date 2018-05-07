@@ -43,14 +43,14 @@ export default class AnswerForm extends Component{
 			this.props.calculateAnswers()
 		}
 	}
-	setInput(textInput){
+	setInput(){
 		this.setState({
-			textInput
+			textInput: this.refs.inputOne.value
 		})
 	}
-	setSecondInput(textInput2){
+	setSecondInput(){
 		this.setState({
-			textInput2
+			textInput2: this.refs.inputTwo.value
 		})
 	}
 	getHeightInInches(input1, input2){
@@ -69,8 +69,8 @@ export default class AnswerForm extends Component{
 					case 'height':
 					return(
 						 <form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
-								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
+								<input className="input-box-one" type="text" ref="inputOne" onChange={this.setInput.bind(this)} placeholder="Feet"/>
+								<input className="input-box-two" name='choice'  ref="inputTwo" onChange={this.setSecondInput.bind(this)} type="text" placeholder="Inches"/>
 							<button className="submit">Submit</button> 
 		   			 </form>
 					)
@@ -89,7 +89,7 @@ export default class AnswerForm extends Component{
 					case 'text':
 					return(
 						<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-		                  <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter a number"/>
+		                  <input className="input-box-one" type="text" ref="inputOne" onChange={this.setInput.bind(this)} placeholder="please enter a number"/>
 		                  <button className="submit">Submit</button> 
 		            </form>
 						)

@@ -21,7 +21,6 @@ class FoodChart extends Component {
 
   render() {
     if (this.state.dailyDietInfo !== null) {
-      console.log('dietInfo', this.state.dailyDietInfo)
     return (
        <div className="food-chart-container">
          <h1 className='food-chart-heading'>Daily Nutrient Intake</h1>
