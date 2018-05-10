@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
-//import {bindActionCreators} from 'redux';
+import {bindActionCreators} from 'redux';
 import Navigation from '../navigations/navigation';
 import './home.css'
 
@@ -23,17 +23,19 @@ class Home extends Component {
 
 	render(){
 		if (this.state.user) {
-
 			return(
 				<div>
 					<Navigation />
 					  <div className="home-wrapper">
 						  <div className="home-feed">
-						  <h1>{this.state.user.userName}'s Home Page</h1>
+						  <h1>{this.state.user.userName ? this.state.user.userName : ''} Home Page</h1>
 						  </div>
 						  <div className="tables-container">
 							  <div>
 							  <h1>Daily Nutrient Intake</h1>
+							  { 
+								  this.state.user.dietInfo ? 
+							  (
 									<table className="diet-display-table">
 											<thead>
 												<tr>
@@ -52,6 +54,9 @@ class Home extends Component {
 											</tr>
 											</tbody>
 									</table>
+							  )
+									: (null)
+							  }
 							  </div>
 							  <div></div>
 						  </div>
@@ -86,9 +91,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-// function mapDispatchToProps(dispatch){
-// 	return bindActionCreators()
-// }
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
 
-
-export default connect(mapStateToProps)(Home)

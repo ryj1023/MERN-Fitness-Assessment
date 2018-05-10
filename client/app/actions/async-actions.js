@@ -99,13 +99,10 @@ export const validateSignUp = (signUpInfo) => {
                         email: signUpInfo.email,
                         password: signUpInfo.password,
                     }).then((res) => {
-                        console.log('res.data', res.data)
                         if (!res.data.user && res.data.includes('account with this email')) {
                             return dispatch({type: DUPLICATE_EMAIL, payload: res.data})
                         } else {
-                            // state change, set session, and redirect
-                            const token = res.data.token;
-                            localStorage.setItem('jwtToken', token)
+                            localStorage.setItem('user', JSON.stringify(res.data.user));
                             return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
                         }
                     })
