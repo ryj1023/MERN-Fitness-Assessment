@@ -23,14 +23,14 @@
 }
 .submit{
     position: relative;
-    top: 5px;
+    top: 8px;
 	text-align: center;
     cursor: pointer;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
     border: none;
     color: white;
-    background-color: #232323;
+    background-color: #454545;
     border-radius: 10px;
     font-size: 32px;
     /*margin-top: 2%;*/
@@ -75,10 +75,13 @@
 }
 .option{
     vertical-align: middle;
+    /* float: left; */
 }
 .answer{
     text-align: center;
     position: relative;
+    width: 70%;
+    margin: auto;
     top: -4em;   
 }
 form{
@@ -89,6 +92,10 @@ form{
     color: #454545;
     font-size: 25px;
     margin: 2px;
+}
+
+.two-input-submit {
+   width: 76%;
 }
 
 .option {

@@ -52,3 +52,9 @@
       height: 50%;
    }
   }
+/* 
+  @media screen and (max-height: 875px) {
+    .food-search-wrapper {
+      height: 100%;
+    }
+ } */

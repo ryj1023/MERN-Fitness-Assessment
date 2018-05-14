@@ -83,7 +83,7 @@ export const loginUser = (loginData) => {
     }
 
 export const validateSignUp = (signUpInfo) => {
-    const encodedURI = window.encodeURI(`/api/validation`)
+    const encodedURI = window.encodeURI('/api/validation');
     return (dispatch) => {
         axios.post(encodedURI, {
             email: signUpInfo.email,
@@ -94,9 +94,10 @@ export const validateSignUp = (signUpInfo) => {
                 const errors = res.data.map((err) => err.msg)
                 return dispatch({type: SIGNUP_ERRORS, payload: errors})
             } else if (res.data === 'validated') {
-                const encodedURI = window.encodeURI(`/api/validation/email`)
+                const encodedURI = window.encodeURI('/api/validation/create-user')
                     axios.post(encodedURI, {
                         email: signUpInfo.email,
+                        userName: signUpInfo.userName,
                         password: signUpInfo.password,
                     }).then((res) => {
                         if (!res.data.user && res.data.includes('account with this email')) {

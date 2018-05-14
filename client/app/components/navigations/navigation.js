@@ -31,7 +31,6 @@ export default class Navigation extends Component{
     }
 
     showDropdownMenu(e) {
-        console.log('clicked')
         e.preventDefault();
         this.setState({
             showMenu: true

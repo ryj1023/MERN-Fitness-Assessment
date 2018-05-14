@@ -21,13 +21,14 @@ module.exports = (app) => {
       // req.session.errors = null; // clears errors after shown to the user
     });
 
-    app.post('/api/validation/email', (req, res) => {
+    app.post('/api/validation/create-user', (req, res) => {
       Users.find({"user.email" : req.body.email}, (err, user) => {
         if (err) return res.status(500).send(err)
           if (user.length === 0) {
             const post = new Users({
               user: {
                email: req.body.email,
+               userName: req.body.userName,
                password: req.body.password,
               }
             })

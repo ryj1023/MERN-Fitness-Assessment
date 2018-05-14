@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import api from '../../utils/api';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import Navigation from '../navigations/navigation';
+import Workouts from '../workouts/workouts';
 import './home.css'
 
 class Home extends Component {
@@ -18,8 +19,9 @@ class Home extends Component {
 		const cachedUser = JSON.parse(localStorage.getItem('user'))
 				this.setState({
 					user: cachedUser
-				})
-}
+			})
+			console.log('cachedUser', cachedUser)
+	}
 
 	render(){
 		if (this.state.user) {
@@ -58,7 +60,9 @@ class Home extends Component {
 									: (null)
 							  }
 							  </div>
-							  <div></div>
+							  <div>
+							  		<Workouts workoutData={this.state.user} />
+							  </div>
 						  </div>
 					  </div>
 			  </div>

@@ -72,7 +72,7 @@ export default class AnswerForm extends Component{
 						 <form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
 								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
 								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
-							<button className="submit">Submit</button> 
+							<button className="submit two-input-submit">Submit</button> 
 		   			 </form>
 					)
 					break;

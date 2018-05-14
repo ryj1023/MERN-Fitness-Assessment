@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import Header from '../headers/header';
 import Navigation from '../navigations/navigation';
@@ -12,6 +13,7 @@ class SignUp extends Component {
     constructor(props){
 		super(props);
 		this.state = {
+            userName: null,
             email: null,
             password: null,
             confirmPassword: null,
@@ -20,12 +22,17 @@ class SignUp extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        this.props.dispatch(validateSignUp(this.state))
+        this.props.validateSignUp(this.state)
     }
 
     setEmail(email) {
         this.setState({
             email
+        })
+    }
+    setUserName(userName) {
+        this.setState({
+            userName
         })
     }
     setPassword(password) {
@@ -54,9 +61,10 @@ class SignUp extends Component {
                     {error}
                 <div className='form-container'>
                     <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="api/sign-up">
-                    <input type="text" name='email' placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
-                    <input type="password" name='password' placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
-                    <input type="password" name='confirmPassword' placeholder="Repeat Password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />
+                    <input type="text" name='email' placeholder="Enter an email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
+                    <input type="text" name='userName' placeholder="Enter a user name" onChange={(e)=>this.setUserName(e.target.value)} name="userName" required />
+                    <input type="password" name='password' placeholder="Enter a password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
+                    <input type="password" name='confirmPassword' placeholder="Repeat password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />
                     <button className="sign-up-button">Sign Up</button> 
                     </form>
                 </div>
@@ -90,4 +98,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(SignUp)
+const mapDispatchToProps = dispatch => bindActionCreators({ validateSignUp }, dispatch);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+

@@ -1,7 +1,7 @@
 .log-in-container {
     position: relative;
     top: 70px;
-    background: black;
+    background: #454545;
     height: 147px;
     margin: auto;
 }
@@ -33,6 +33,10 @@ h2 {
 
 .log-in-input:-ms-input-placeholder .input-box-two::-ms-input-placeholder { /* Microsoft Edge */
     padding: 1em;
+}
+
+.sign-up-button {
+    background-color: white;
 }
 
 /* .log-in-input {

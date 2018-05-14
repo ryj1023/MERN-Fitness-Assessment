@@ -8,10 +8,10 @@ h1{
 
 .container-wrapper{
   background-color: #eee;
-  height: 100vh;
+  height: 70vh;
   display: grid;
-  grid-template-columns: 1fr; /*fractions good for margins*/
-  margin: 1em;
+  grid-template-rows: 1fr 2fr;
+  margin: 4em;
 }
 
 .tables-container {
@@ -45,6 +45,8 @@ table, tr, th, td {
 
 /* Mobile Layout */
 
-@media screen and (max-width: 400px) {
-
+@media screen and (max-height: 700px) {
+  .container-wrapper{
+    height: 70%;
+  }
 }
