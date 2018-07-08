@@ -1,5 +1,5 @@
 export default (clientInfo) => {
-    
+  
 /* male BMR multiples:  height * 12.7 + weight * 6.23 - age * 6.8 + 66
 female BMR multiples:  height * 4.7 + weight * 4.35 - age * 4.7 + 655
 calories needed - sedentary: BMR * 1.2 moderate: BMR * 1.55 heavy: BMR * 1.9 */
@@ -11,6 +11,8 @@ const fitnessData = {};
 const gender = clientInfo.answers[4].input.answer;
 const active = clientInfo.answers[5].input.answer;
 const targetWeight = clientInfo.answers[3].input.answer;
+
+console.log('clientInfo.answers', clientInfo.answers)
 
 // const maleBMR = (height * 12.7) + (currentWeight * 6.23) - (age * 6.8) + 66;
 // const femaleBMR = (height * 4.7) + (currentWeight * 4.35) - (age * 4.7) + 655;

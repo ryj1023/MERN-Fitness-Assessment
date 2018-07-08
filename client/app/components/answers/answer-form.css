@@ -2,12 +2,13 @@
     background-color: rgba(182, 174, 174, 0.93);
     height: 42px;
     width: 32%;
-    margin: 8px;
+    margin: 2%;
     position: relative;
     /*top: -5em;*/
     border-radius: 10px;
     border-style: solid;
     border-color: #454545;
+
 }
 .input-box-one::placeholder, .input-box-two::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: #454545;
@@ -33,7 +34,7 @@
     background-color: #454545;
     border-radius: 10px;
     font-size: 32px;
-    /*margin-top: 2%;*/
+    margin-top: 2%;
     border-style: solid;
     border-color: #FFFFFF;
 }
@@ -66,6 +67,7 @@
     cursor: pointer;
     padding: 16px 32px;
     text-align: center;
+    margin-top: 15%;
 }
 .calculate-answers:hover{
 	background-color: #FFFFFF;
@@ -80,9 +82,9 @@
 .answer{
     text-align: left;
     position: relative;
-    width: 70%;
+    width: 45%;
     margin: auto;
-    top: -4em;   
+    /* top: -4em;    */
 }
 form{
     margin: auto;
@@ -90,12 +92,13 @@ form{
 }
 .answer-text{
     color: #454545;
-    font-size: 25px;
+    font-size: 17px;
     margin: 2px;
 }
 
 .two-input-submit {
-   width: 76%;
+   width: 80%;
+   max-width: 800px;
 }
 
 .option {
@@ -103,4 +106,16 @@ form{
 }
 .submit-form {
     width: auto;
+    margin: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .submit-form {
+        width: auto;
+    }
+
+    .answer {
+        width: 70%;
+    }
+
 }

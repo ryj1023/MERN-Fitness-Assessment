@@ -60,6 +60,8 @@ class Container extends Component {
 
 	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
+		console.log('calculatedAnswers', calculatedAnswers)
+		console.log('this.props.questions.length', this.props.questions.length)
 		this.props.gatherFitnessInfo(calculatedAnswers);
 		this.setState({
 			showClientInfo: true,
@@ -130,7 +132,7 @@ class Container extends Component {
 			 <div>
 					<Navigation />
 							<div className="container-wrapper">
-								<h1>{Questions}</h1>
+								{Questions}
 								<div>{Form}</div>
 							</div>
 				</div>
