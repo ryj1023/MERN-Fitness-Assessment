@@ -46,7 +46,7 @@ class DietSearchContainer extends Component {
       showNutrientFacts: false,
     })
   }
-
+  
   render() {
     if (this.state.showNutrientFacts === true) {
      const nutritionFactUnit = this.props.nutritionFacts.map((data, index) => {
@@ -63,9 +63,9 @@ class DietSearchContainer extends Component {
             <form onSubmit={(e)=> this.onSubmit(e)}>
               <h1>{this.props.searchHeading}</h1>
               <p>{this.state.selectedFood}</p>
-              <h2>Nutrients Per Cup</h2>
               <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
               <button className='search-button'>Search Foods</button>
+              <h2>Nutrients Per Cup</h2>
               <table className='nutrition-facts-table'>
                 <thead>
                     <tr>

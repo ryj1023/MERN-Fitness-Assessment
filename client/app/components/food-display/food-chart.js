@@ -18,7 +18,7 @@ class FoodChart extends Component {
     } 
     return null
   }
-
+  
   render() {
     if (this.state.dailyDietInfo !== null) {
     return (
@@ -44,11 +44,7 @@ class FoodChart extends Component {
           </table>
         </div>
     );
-  }
-  return (
-    <div className="food-chart-container">
-     </div>
- );
+  } else return (null);
   }
 }
 

@@ -11,30 +11,31 @@ class Workouts extends Component {
         };
     }
 
+    goToSelectedWorkout (e) {
+        e.preventDefault();
+        const element = document.getElementById('dropdown');
+        const selectedValue = element.options[element.selectedIndex].value;
+        if (selectedValue !== '0') {
+            window.open(selectedValue);
+        } else alert('select a workout')
+    }
+
     componentDidMount () {
        console.log('userdata', this.props.workoutData)
     }
 
 	render(){  
          if (this.props.workoutData.workouts && this.props.workoutData.workouts.length > 0) {
+             const workout = [{ name: 'Low Intensity', route: this.props.workoutData.workouts[0]} , { name: 'Medium Intensity', route: this.props.workoutData.workouts[1]}, { name: 'High Intensity', route: this.props.workoutData.workouts[2]}];
+             const workoutDropdown = workout.map((value, index) => <option key={index} value={value.route}>{value.name}</option>)
                return (
                   <div>
                      <div className="custom-select">
-                        <select>
-                           <option value="0">Select car:</option>
-                           <option value="1">Audi</option>
-                           <option value="2">BMW</option>
-                           <option value="3">Citroen</option>
-                           <option value="4">Ford</option>
-                           <option value="5">Honda</option>
-                           <option value="6">Jaguar</option>
-                           <option value="7">Land Rover</option>
-                           <option value="8">Mercedes</option>
-                           <option value="9">Mini</option>
-                           <option value="10">Nissan</option>
-                           <option value="11">Toyota</option>
-                           <option value="12">Volvo</option>
+                        <select id='dropdown'>
+                           <option value="0">Select Workout</option>
+                           {workoutDropdown}
                         </select>
+                        <button onClick={(e)=> this.goToSelectedWorkout(e)}>See Selected Workout</button>
                      </div>
                   </div>
                )

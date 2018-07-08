@@ -24,6 +24,7 @@ export const getFoodSearchKeyword = (keyword) => {
 			return dispatch({type: KEYWORD, payload: foodObjects})
         })
         .catch((err) => {
+            consle.log('err', err)
             throw err;
         })
     };

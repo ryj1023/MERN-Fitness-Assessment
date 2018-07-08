@@ -44,7 +44,6 @@ export default class AnswerForm extends Component{
 		}
 	}
 	setInput(textInput){
-		console.log('textinput', textInput)
 		this.setState({
 			textInput
 		})
@@ -81,7 +80,7 @@ export default class AnswerForm extends Component{
 						return (
 							<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
 								<div className="radio-display">	
-									<div>{radioDisplay}</div>
+									{radioDisplay}
 								</div>
 								<button className="submit">Submit</button>
 							</form>

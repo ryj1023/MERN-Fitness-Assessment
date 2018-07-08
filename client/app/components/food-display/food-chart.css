@@ -49,7 +49,8 @@
 
   @media screen and (max-width: 745px) {
      .food-chart-container {
-      height: 50%;
+      /*height: 50%;*/
+      height: 30%;
    }
   }
 /* 

@@ -73,7 +73,6 @@ class Container extends Component {
 
 	async componentDidMount() {
 		const cachedUser = JSON.parse(localStorage.getItem('user'))
-		console.log('cachedUser', cachedUser)
 				this.setState({
 					user: cachedUser
 			})
