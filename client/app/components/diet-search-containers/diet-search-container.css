@@ -1,4 +1,7 @@
 
+form {
+  width: inherit;
+}
 .food-search-wrapper{
   height: 100vh;
   display: grid;
@@ -41,6 +44,7 @@
   .food-list {
     font-size: 12px;
     text-align: left;
+    padding: 0;
   }
   .food-list li {
     list-style: none;
@@ -51,7 +55,7 @@
     color: rgba(182, 174, 174, 0.93);
   }
 
-  @media screen and (max-width: 745px) {
+  @media screen and (max-width: 810px) {
     .food-search-wrapper{
       height: 100vh;
       display: block;
@@ -67,4 +71,11 @@
    .search-button, .back-button {
      font-size: 15px;
    }
+
+   .nutrition-facts-table {
+    width: 96%;
+    margin: auto;
+    margin-top: 4%;
+  }
+
   }
