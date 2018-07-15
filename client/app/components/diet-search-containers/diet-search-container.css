@@ -16,7 +16,7 @@ form {
  .input-box-one {
   top: 0;
 }
- .search-button, .back-button{
+ .submit-button, .back-button{
     background-color: #454545;
     color: #FFFFFF;
     border-radius: 7px;
@@ -42,6 +42,7 @@ form {
     border: 1px solid white;
   }
   .food-list {
+    margin: 0 3%;
     font-size: 12px;
     text-align: left;
     padding: 0;

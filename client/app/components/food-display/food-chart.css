@@ -37,13 +37,13 @@
   }
   .food-chart-table {
     width: 96%;
-    position: relative;
-    top: 35%;
+    /* position: relative;
+    top: 35%; */
     margin: auto;
   }
   .food-chart-heading {
-    position: relative;
-    top: 20%;
+    /* position: relative;
+    top: 20%; */
     color: black;
   }
 

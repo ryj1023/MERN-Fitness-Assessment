@@ -5,6 +5,7 @@ import './diet-search-container.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts } from '../../actions/async-actions';
 import Navigation from '../navigations/navigation';
 import FoodChart from '../food-display/food-chart';
+import { saveUserData } from '../../actions/async-actions';
 
 class DietSearchContainer extends Component {
 
@@ -58,13 +59,13 @@ class DietSearchContainer extends Component {
       <div>
         <Navigation />
         <div className="food-search-wrapper"> 
-          <FoodChart />     
+          <FoodChart />  
           <div className="diet-search-container">
             <form onSubmit={(e)=> this.onSubmit(e)}>
               <h1>{this.props.searchHeading}</h1>
               <p>{this.state.selectedFood}</p>
               <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-              <button className='search-button'>Search Foods</button>
+              <button className='submit-button'>Search</button>
               <h2>Nutrients Per Cup</h2>
               <table className='nutrition-facts-table'>
                 <thead>
@@ -106,16 +107,16 @@ class DietSearchContainer extends Component {
             <FoodChart />  
               <div className="diet-search-container">
                 <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
-                  <h1>{this.props.searchHeading}</h1>
+                  <h1>Search Foods for macrconutrients</h1>
                   <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-                  <button className='search-button'>Search Foods</button>
+                  <button className='submit-button'>Search</button>
                   <ul className='food-list'>
                     {FoodList}
                   </ul>
                 </form>
               </div>
             </div>
-         </div>
+        </div>
       );
     } 
     return (
@@ -126,7 +127,7 @@ class DietSearchContainer extends Component {
           <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
             <h1>{this.props.searchHeading}</h1>
             <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/>
-            <button className='search-button'>Search Foods</button>
+            <button className='search-button'>Search</button>
           </form>
         </div>
       </div>
@@ -142,6 +143,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveUserData }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)

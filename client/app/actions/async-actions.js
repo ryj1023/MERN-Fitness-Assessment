@@ -55,13 +55,23 @@ export const getUserData = (data) => {
 }
 
 export const saveUserData = (userData) => {
-    const encodedURI = window.encodeURI(`/api/save`)
-    return (dispatch) => {
+    const encodedURI = window.encodeURI(`/api/save`);
+    console.log('dispatching')
+    return () => {
         axios.post(encodedURI, {
-            userData: userData.dietInfo,
-            userName: userData.userName,
+        userData: userData.dietInfo,
+        userName: userData.userName,
+        }).then(res => {
+            console.log('done', res)
         })
-    };
+    }
+    // return () => {
+    //     console.log('dispatched')
+    //     axios.post(encodedURI, {
+    //         userData: userData.dietInfo,
+    //         userName: userData.userName,
+    //     })
+    // };
 }
 
 export const loginUser = (loginData) => {
@@ -95,11 +105,17 @@ export const validateSignUp = (signUpInfo) => {
                 const errors = res.data.map((err) => err.msg)
                 return dispatch({type: SIGNUP_ERRORS, payload: errors})
             } else if (res.data === 'validated') {
+                 const userSubmittedData = JSON.parse(localStorage.getItem('submittedUserMetrics'));
                 const encodedURI = window.encodeURI('/api/validation/create-user')
                     axios.post(encodedURI, {
                         email: signUpInfo.email,
                         userName: signUpInfo.userName,
                         password: signUpInfo.password,
+                        calories: userSubmittedData ? userSubmittedData.calories : null,
+                        protein: userSubmittedData ? userSubmittedData.protein : null,
+                        fat: userSubmittedData ? userSubmittedData.fat : null,
+                        carbs: userSubmittedData ? userSubmittedData.carbs : null,
+                        programs: userSubmittedData ? userSubmittedData.programs : [],
                     }).then((res) => {
                         if (!res.data.user && res.data.includes('account with this email')) {
                             return dispatch({type: DUPLICATE_EMAIL, payload: res.data})
@@ -108,7 +124,6 @@ export const validateSignUp = (signUpInfo) => {
                             return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
                         }
                     })
-                // return dispatch({type: SIGNUP_SUCCESS, payload: 'success'})
             }
         })
     }

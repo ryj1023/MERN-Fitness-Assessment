@@ -8,7 +8,6 @@ import QuestionDisplay from '../questions/question-display';
 import AnswerForm from '../answers/answer-form';
 import './container.css';
 import { addAnswer,  gatherFitnessInfo  } from '../../actions/';
-import { saveUserData } from '../../actions/async-actions';
 import calculateFitnessInput from '../../calculations/calculate-fitness-input';
 import UserSignUp from '../sign-up/user-sign-up';
 
@@ -60,8 +59,6 @@ class Container extends Component {
 
 	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
-		console.log('calculatedAnswers', calculatedAnswers)
-		console.log('this.props.questions.length', this.props.questions.length)
 		this.props.gatherFitnessInfo(calculatedAnswers);
 		this.setState({
 			showClientInfo: true,
@@ -69,15 +66,11 @@ class Container extends Component {
 		})
 	}
 
-	saveData(dietInfo) {
-		this.props.saveUserData({ dietInfo, userName: this.state.user });
-	}
-
 	async componentDidMount() {
 		const cachedUser = JSON.parse(localStorage.getItem('user'))
 				this.setState({
 					user: cachedUser
-			})
+				})
 }
 
 	render(){
@@ -126,6 +119,9 @@ class Container extends Component {
 		}
 		else if(this.state.showClientInfo === true) {
 			return <Redirect to='/food-search' />
+			// return (
+			// 	<h1>Info Saved</h1>
+			// )
 		} 
 		else {
 			return(
@@ -151,5 +147,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer,  gatherFitnessInfo }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(Container)

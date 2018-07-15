@@ -69,7 +69,7 @@ export default class AnswerForm extends Component{
 					case 'height':
 					return(
 						 <form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet"/>
+								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet" autoFocus/>
 								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
 							<button className="submit two-input-submit">Submit</button> 
 		   			 </form>
@@ -89,7 +89,7 @@ export default class AnswerForm extends Component{
 					case 'text':
 					return(
 						<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-		                  <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter a number"/>
+		                  <input className="input-box-one" type="text" autoFocus onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter a number"/>
 		                  <button className="submit">Submit</button> 
 		            </form>
 						)

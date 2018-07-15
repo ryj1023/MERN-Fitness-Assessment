@@ -30,6 +30,13 @@ module.exports = (app) => {
                email: req.body.email,
                userName: req.body.userName,
                password: req.body.password,
+               dietInfo: {
+                 calories: req.body.calories,
+                 protein: req.body.protein,
+                 fat: req.body.fat,
+                 carbs: req.body.carbs,
+               },
+                 workouts: req.body.programs,
               }
             })
             post.save((err, post) => {
@@ -43,30 +50,50 @@ module.exports = (app) => {
     })
 
   app.get('/api/login', (req, res, next) => {
-    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, 'user.userName user.workouts user.dietInfo', (err, user) => {
+    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, 'user.userName user.workouts user.dietInfo, user.email', (err, user) => {
       if (err) return res.status(500).send(err)
       res.json(user)
     })
   });
 
   app.post('/api/save', (req, res, next) => {
-    var post = new Users({
-      user: {
-       userName: req.body.userName.userName,
-       dietInfo: {
-        calories: req.body.userData.dailyCalories,
-        protein: req.body.userData.dailyProtein,
-        fat: req.body.userData.dailyFats,
-        carbs: req.body.userData.dailyCarbs,
-        },
-        workouts: req.body.userData.programs
+    console.log('req.body', req.body);
+    Users.findOne({
+      'user.email': 'ryj1023@yahoo.com'
+    }, (err, user) => {
+      console.log('user', user) 
+       if (user) {
+        // user.dietInfo = {
+        //     calories: req.body.userData.calories,
+        //     protein: req.body.userData.protein,
+        //     fat: req.body.userData.fat,
+        //     carbs: req.body.userData.carbs,
+        //   }
+        // user.save((err, post) => {
+        //   if (err) return next(err)
+        //   res.status(201).json(post)
+        // });
+      } else if (!user) { 
+          const post = new Users({
+            user: {
+            userName: req.body.userName,
+            dietInfo: {
+              calories: req.body.userData.calories,
+              protein: req.body.userData.protein,
+              fat: req.body.userData.fat,
+              carbs: req.body.userData.carbs,
+            },
+              workouts: req.body.userData.programs
+          }
+        })
+          post.save(function (err, post) {
+            console.log('post', post)
+            if (err) { return next(err) }
+            res.status(201).json(post)
+          })
+      } else if (err) { 
+        return next(err)
       }
-    })
-    post.save(function (err, post) {
-      console.log('post', post)
-      if (err) { return next(err) }
-      res.status(201).json(post)
-      console.log('err', err)
     })
   })
 }

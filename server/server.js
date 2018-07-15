@@ -49,8 +49,6 @@ app.use(flash());
 // API routes
 require('./routes')(app);
 
-
-
 if (isDev) {
   const compiler = webpack(webpackConfig);
   app.use(historyApiFallback({

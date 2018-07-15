@@ -5,6 +5,10 @@ body, .home-wrapper {
     font-size: 20px;
     color: black;
   }
+
+  h3 {
+    text-align: center;
+  }
   
   .profile-wrapper{
    height: 100vh;

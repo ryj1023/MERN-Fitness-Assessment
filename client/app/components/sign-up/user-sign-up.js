@@ -22,6 +22,7 @@ class SignUp extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        console.log('signup!')
         this.props.validateSignUp(this.state)
     }
 

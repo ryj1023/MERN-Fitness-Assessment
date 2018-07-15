@@ -12,8 +12,6 @@ const gender = clientInfo.answers[4].input.answer;
 const active = clientInfo.answers[5].input.answer;
 const targetWeight = clientInfo.answers[3].input.answer;
 
-console.log('clientInfo.answers', clientInfo.answers)
-
 // const maleBMR = (height * 12.7) + (currentWeight * 6.23) - (age * 6.8) + 66;
 // const femaleBMR = (height * 4.7) + (currentWeight * 4.35) - (age * 4.7) + 655;
 // const lightMale = (height * 12.7) + (currentWeight * 6.23) - (age * 6.8) + 66 * 1.2;
