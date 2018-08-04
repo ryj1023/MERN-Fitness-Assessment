@@ -6,6 +6,12 @@
     background-color: #eee;
  }
 
+ .table .thead-dark th {
+  background-color: #454545 !important;
+  /* background-color: #212529; */
+  border-color: #32383e;
+}
+
 /*.food-chart-container{
     background-image: url('../../images/website-background.gif');
     float: left;
@@ -48,10 +54,9 @@
   }
 
   @media screen and (max-width: 745px) {
-     .food-chart-container {
-      /*height: 50%;*/
-      height: 30%;
-   }
+    .submit-button {
+      margin: 2em;
+    }
   }
 /* 
   @media screen and (max-height: 875px) {

@@ -42,7 +42,7 @@ class Workouts extends Component {
             } else {
                return (
                   <div>
-                     <h1>You have no workouts yet.</h1>
+                     <h1>You have no workouts yet</h1>
                   </div>
                )
             }

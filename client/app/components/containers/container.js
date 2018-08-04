@@ -28,7 +28,7 @@ class Container extends Component {
 
 	validateInput(input, type){
 		if(type === 'number'){
-			if(input == null || input % 1 !== 0){
+			if(input == null/* || input.filter(input=> input % 1 !== 0)*/){
 				alert('Please enter in a valid number.')
 				return false;
 			} else {

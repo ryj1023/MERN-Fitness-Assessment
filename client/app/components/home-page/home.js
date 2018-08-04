@@ -5,7 +5,7 @@ import api from '../../utils/api';
 import { bindActionCreators } from 'redux';
 import Navigation from '../navigations/navigation';
 import Workouts from '../workouts/workouts';
-import './home.css'
+import './home.css';
 
 class Home extends Component {
 	constructor(props){
@@ -20,7 +20,6 @@ class Home extends Component {
 				this.setState({
 					user: cachedUser
 			})
-			console.log('cachedUser', cachedUser)
 	}
 
 	render(){
@@ -30,37 +29,45 @@ class Home extends Component {
 					<Navigation />
 					  <div className="home-wrapper">
 						  <div className="home-feed">
-						  <h1>{this.state.user.userName ? this.state.user.userName : ''} Home Page</h1>
+						  <h1>Welcome, {this.state.user.userName ? this.state.user.userName : ''}!</h1>
 						  </div>
 						  <div className="tables-container">
 							  <div>
-							  <h1>Daily Nutrient Intake</h1>
 							  { 
-								  this.state.user.dietInfo ? 
+								  (this.state.user.dietInfo && this.state.user.dietInfo.calories) ? 
 							  (
-									<table className="diet-display-table">
-											<thead>
-												<tr>
-													<th>Calories</th>
-													<th>Protein</th>
-													<th>Fat</th>
-													<th>Carbs</th>
-												</tr>
-											</thead>
-											<tbody>
+									<table className="table">
+										<thead className="thead-dark">
 											<tr>
-												<td>{this.state.user.dietInfo.calories}cal</td>
-												<td>{this.state.user.dietInfo.protein}g</td>
-												<td>{this.state.user.dietInfo.fat}g</td>
-												<td>{this.state.user.dietInfo.carbs}g</td>
+												<th colSpan="4" className='table-header-text'>Daily Nutrient Intake</th>
 											</tr>
-											</tbody>
-									</table>
+										</thead>
+										<thead className="thead-dark">
+											<tr>
+												<th scope="col">Calories (Kcal)</th>
+												<th scope="col">Protein (Gs)</th>
+												<th scope="col">Fat (Gs)</th>
+												<th scope="col">Carbs (Gs)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+											<td>{this.state.user.dietInfo.calories}</td>
+											<td>{this.state.user.dietInfo.protein}</td>
+											<td>{this.state.user.dietInfo.fat}</td>
+											<td>{this.state.user.dietInfo.carbs}</td>
+											</tr>
+										</tbody>
+            					</table>
 							  )
-									: (null)
+									: (
+											<div>
+												<h2>No diet info yet</h2>
+											</div>
+										)
 							  }
 							  </div>
-							  <div>
+							  <div className='workouts-container'>
 							  		<Workouts workoutData={this.state.user} />
 							  </div>
 						  </div>
@@ -71,6 +78,11 @@ class Home extends Component {
 			return(
 			 	<div>
 					 <Navigation />
+					 {/* <tr className="active">
+						<td>Active</td>
+						<td>Activeson</td>
+						<td>act@example.com</td>
+      			</tr> */}
 						<div className="home-wrapper">
 							<div className="home-feed">
 							<h1>Home Page</h1>

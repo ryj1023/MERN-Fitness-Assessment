@@ -10,6 +10,7 @@ export default class Navigation extends Component{
 		this.state = {
             loggedIn: false,
             showMenu: false,
+            userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
         }
         
         this.showDropdownMenu = this.showDropdownMenu.bind(this);
@@ -56,8 +57,9 @@ export default class Navigation extends Component{
                             <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
                             <Link to='./food-search' className='nav-item'>Food Search</Link>
                             <Link to='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
+                            <Link className='login' to='./profile'>{this.state.userName}</Link>
                                 <ul className='dropdown-ul'>
-                                    <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='nav-item dropdown-menu'>Menu</a>
+                                    <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                                     {
                                         this.state.showMenu ? 
                                 (
@@ -86,7 +88,7 @@ export default class Navigation extends Component{
                         <Link to='./login' href="./login" className='login'>Login</Link>
                         <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>     
                         <ul className='dropdown-ul'>
-                            <li ><a  onClick={(e) => this.showDropdownMenu(e)} href="#" className='nav-item dropdown-menu'>Menu</a>
+                            <li ><a  onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                             { 
                                 this.state.showMenu ? 
                                 (

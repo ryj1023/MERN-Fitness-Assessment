@@ -19,22 +19,22 @@ class FoodChart extends Component {
   }
 
   getStateForDietInfo() {
-    if (JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).dietInfo.calories !== null) {
+    if (Object.keys(this.props.clientDietInfo).length > 0) {
+      return this.props.clientDietInfo.clientInfo;
+    } else if (JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).dietInfo.calories !== null){
       return JSON.parse(localStorage.getItem('user')).dietInfo
-    } else if (this.props.clientDietInfo){
-      return this.props.clientDietInfo.clientInfo ? this.props.clientDietInfo.clientInfo : undefined;
     } 
-    return undefined;
+    return {};
   }
 
   saveDietData(e) {
     e.preventDefault();
-    console.log('submittedData', JSON.parse(localStorage.getItem('user')));
     if (this.state.isLoggedIn) {
       const encodedURI = window.encodeURI(`/api/save`);
       axios.post(encodedURI, {
       userData: this.props.clientDietInfo.clientInfo,
       userName: this.state.user,
+      email: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).email : null,
       }).then(res => {
           alert('Info Saved!')
           this.setState({
@@ -56,22 +56,53 @@ class FoodChart extends Component {
     return (
        <div className="food-chart-container">
         <div className="food-chart-content">
-          <h1 className='food-chart-heading'>Daily Nutrient Intake</h1>
-          <table className="food-chart-table">
-              <thead>
+            <table className="table">
+              <thead className="thead-dark">
                   <tr>
-                    <th>Calories</th>
-                    <th>Protein</th>
-                    <th>Fat</th>
-                    <th>Carbs</th>
+                    <th colSpan="4" className='table-header-text'>Daily Nutrient Intake</th>
                   </tr>
+							</thead>
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col">Calories</th>
+                  <th scope="col">Protein (Gs)</th>
+                  <th scope="col">Fat (Gs)</th>
+                  <th scope="col">Carbs (Gs)</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>{this.state.dailyDietInfo.calories}cal</td>
-                  <td>{this.state.dailyDietInfo.protein}g</td>
-                  <td>{this.state.dailyDietInfo.fat}g</td>
-                  <td>{this.state.dailyDietInfo.carbs}g</td>
+                <td>{this.state.dailyDietInfo.calories}</td>
+                <td>{this.state.dailyDietInfo.protein}</td>
+                <td>{this.state.dailyDietInfo.fat}</td>
+                <td>{this.state.dailyDietInfo.carbs}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <td>Larry</td>
+                  <td>the Bird</td>
+                  <td>@twitter</td>
                 </tr>
               </tbody>
             </table>

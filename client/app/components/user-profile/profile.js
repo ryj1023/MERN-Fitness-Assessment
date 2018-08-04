@@ -23,6 +23,7 @@ class Profile extends Component {
                 userName: userData[0].user.userName
             })
         }
+        console.log('this.state.dailyDietGoal', this.state.dailyDietGoal)
       }
 
 	render(){        
@@ -33,7 +34,7 @@ class Profile extends Component {
                         <div>	
                             <h1>{this.state.userName}'s Profile</h1>
                             {
-                                this.state.dailyDietGoal ? 
+                                this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
 							  (
                                 <h1>calories: {this.state.dailyDietGoal.calories}</h1>
                               ) : (

@@ -16,7 +16,7 @@ body,html{
 
 .nav-main .logo{
   float: left;
-  height: 40px;
+  /* height: 40px; */
   padding: 15px 30px;
   font-size: 1.4em;
   line-height: 40px;
@@ -38,7 +38,7 @@ body,html{
 .nav-item{
   display: inline-block;
   padding: 15px 20px;
-  height: 40px;
+  /* height: 40px; */
   line-height: 40px;
   color: #fff;
   text-decoration: none;
@@ -46,6 +46,8 @@ body,html{
 
 .login:hover, .nav-item:hover, .logo:hover{
   background-color: #9a9a9a;
+  color: white;
+  text-decoration: none;
 }
 
 .nav-item:focus{
@@ -62,10 +64,9 @@ body,html{
 
 .login {
   float: right;
-  width: 80px;
+  width: 90px;
   padding: 15px 15px;
   text-align: center;
-  height: 40px;
   line-height: 40px;
   color: #fff;
   text-decoration: none;
@@ -98,6 +99,8 @@ body,html{
 }
 .nav-sub-item:hover{
    background-color: #9a9a9a;
+   color: white;
+   text-decoration: none;
 }
 
 .nav-content{
@@ -115,7 +118,7 @@ body,html{
   display: none;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (min-width: 300px) and (max-width: 800px) {
   .dropdown-ul {
     display: block;
   }
@@ -125,8 +128,24 @@ body,html{
   .nav-item {
     padding: 15px 40px;
   }
-  .dropdown-menu {
+  .dropdown {
+    padding: 15px 40px;
     display: block;
+  }
+  .dropdown-list {
+    height: 70px;
+    padding: 1.3em;
+    display: block;
+    background-color: #454545;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+  }
+  .dropdown-list:hover {
+    background-color: #9a9a9a;
+    text-decoration: none;
+    color: white;
   }
   .nav-main > ul, .nav-main > ul > li {
     margin: auto;
@@ -154,19 +173,17 @@ body,html{
     text-align: center;
   }
 
-  .dropdown-link:hover  {
-    background-color: #9a9a9a;
-  }
-
   .dropdown-link:hover{
     background-color: #9a9a9a;
     max-height: 100vh;
     cursor: pointer;
+    color: white;
+    text-decoration: none;
   }
 
 }
 
-@media only screen and (max-width: 460px) { 
+@media only screen and (max-width: 460px)  { 
   .dropdown-ul {
     position: absolute;
     left: 50%;

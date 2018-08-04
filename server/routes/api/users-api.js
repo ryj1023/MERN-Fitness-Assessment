@@ -50,50 +50,28 @@ module.exports = (app) => {
     })
 
   app.get('/api/login', (req, res, next) => {
-    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, 'user.userName user.workouts user.dietInfo, user.email', (err, user) => {
+    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, '-user.password', (err, user) => {
+      console.log('user', user)
       if (err) return res.status(500).send(err)
       res.json(user)
     })
   });
 
   app.post('/api/save', (req, res, next) => {
-    console.log('req.body', req.body);
-    Users.findOne({
-      'user.email': 'ryj1023@yahoo.com'
-    }, (err, user) => {
-      console.log('user', user) 
-       if (user) {
-        // user.dietInfo = {
-        //     calories: req.body.userData.calories,
-        //     protein: req.body.userData.protein,
-        //     fat: req.body.userData.fat,
-        //     carbs: req.body.userData.carbs,
-        //   }
-        // user.save((err, post) => {
-        //   if (err) return next(err)
-        //   res.status(201).json(post)
-        // });
-      } else if (!user) { 
-          const post = new Users({
-            user: {
-            userName: req.body.userName,
-            dietInfo: {
-              calories: req.body.userData.calories,
-              protein: req.body.userData.protein,
-              fat: req.body.userData.fat,
-              carbs: req.body.userData.carbs,
-            },
-              workouts: req.body.userData.programs
-          }
-        })
-          post.save(function (err, post) {
-            console.log('post', post)
-            if (err) { return next(err) }
-            res.status(201).json(post)
-          })
-      } else if (err) { 
-        return next(err)
+    Users.findOneAndUpdate(
+      { 'user.email': req.body.email },
+      {
+        'user.dietInfo.calories': req.body.userData.calories,
+        'user.dietInfo.protein': req.body.userData.protein,
+        'user.dietInfo.fat': req.body.userData.fat,
+        'user.dietInfo.carbs': req.body.userData.carbs,
+        'user.workouts': req.body.programs,
+      },
+      { new: true },
+      (err, doc) => {
+        if (err) return res.send(500, { error: err });
+        res.status(201).json(doc)
       }
-    })
+    )
   })
 }

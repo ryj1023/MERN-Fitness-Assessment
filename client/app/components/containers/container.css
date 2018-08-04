@@ -8,7 +8,7 @@ h1{
 
 .container-wrapper{
   background-color: #eee;
-  height: 70vh;
+  /* height: 70vh; */
   display: grid;
   grid-template-rows: 1fr 2fr;
   grid-template-rows: 1fr 3fr;

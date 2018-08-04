@@ -6,6 +6,10 @@ h1{
   color: black;
 }
 
+.table-header-text {
+  text-align: center;
+}
+
 .home-wrapper{
  height: 100vh;
  display: grid;
@@ -19,10 +23,12 @@ h1{
 }
 
 .tables-container {
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 1em;
+  display: inline-block;
   margin: 0 0.5em;
+}
+
+.workouts-container {
+  height: 100vh;
 }
 
 .tables-container > div {

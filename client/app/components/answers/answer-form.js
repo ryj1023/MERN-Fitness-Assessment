@@ -17,10 +17,15 @@ export default class AnswerForm extends Component{
 		const textInput = this.state.textInput;
 		const textInput2 = this.state.textInput2;
 		if(textInput && this.props.onAdd){
-			this.props.onAdd(parseInt(textInput))
+			console.log('isnumber', this.isNumber(textInput))
+			if (this.isNumber(textInput)) {
+				this.props.onAdd(parseInt(textInput))
+			} else alert('Please enter in a valid number');
 		}
 		else if (textInput && textInput2){
-			this.props.onAdd(this.getHeightInInches(parseInt(textInput), parseInt(textInput2)));
+			if (this.isNumber(textInput) && this.isNumber(textInput2)) {
+				this.props.onAdd(this.getHeightInInches(parseInt(textInput), parseInt(textInput2)));
+			} else alert('Please enter in a valid number');
 		}
 		else if (this.state.radioInput){
 			this.props.onAdd(this.state.radioInput)
@@ -30,6 +35,10 @@ export default class AnswerForm extends Component{
 			textInput2: null,
 			radioInput: null,
 		})
+	}
+	isNumber(input) {
+		if (input.split('').filter(char => Number.isNaN(parseInt(char))).length > 0) return false;
+		return true;
 	}
 	startSubmit(e){
 		e.preventDefault();
