@@ -49,9 +49,6 @@ class DietSearchContainer extends Component {
     })
   }
   changeFoodPage(e) {
-    // console.log('clicked', e.target)
-    // console.log('name', e.target.name)
-    // console.log('id', e.target.id)
     e.preventDefault();
     if (Number.isNaN(Number(e.target.name))) {
       const newPageNumber = (e.target.name === 'next-page' || e.target.id === 'next') ? this.state.pageNumber + 1 : this.state.pageNumber - 1; 
