@@ -65,9 +65,9 @@ class FoodChart extends Component {
               <thead className="thead-dark">
                 <tr>
                   <th scope="col">Calories</th>
-                  <th scope="col">Protein (Gs)</th>
-                  <th scope="col">Fat (Gs)</th>
-                  <th scope="col">Carbs (Gs)</th>
+                  <th scope="col">Protein (grams)</th>
+                  <th scope="col">Fat (grams)</th>
+                  <th scope="col">Carbs (grams)</th>
                 </tr>
               </thead>
               <tbody>

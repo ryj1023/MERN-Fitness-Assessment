@@ -12,8 +12,8 @@ export const ACCOUNT_FOUND = 'ACCOUNT_FOUND';
 
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
 
-export const getFoodSearchKeyword = (keyword) => {
-	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=10&q=${keyword}&sort=r`)
+export const getFoodSearchKeyword = (keyword, offset = 0) => {
+	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=10&q=${keyword}&offset=${offset}&sort=r`)
     return (dispatch) => {
     axios.get(encodedURI)
 	.then((response) => {
