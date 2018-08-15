@@ -17,6 +17,7 @@ class DietSearchContainer extends Component {
       selectedFood: null,
       dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
       pageNumber: 1,
+      selectedPage: 1,
     }
   }
   
@@ -48,28 +49,34 @@ class DietSearchContainer extends Component {
       showNutrientFacts: false,
     })
   }
+
+  getSelectedPage(targetName, id) {
+    if (Number.isNaN(Number(targetName))) {
+      const newPageNumber = (targetName === 'next-page' || id === 'next') ? this.state.pageNumber + 1 : this.state.pageNumber - 1;
+      this.setState({
+        pageNumber: newPageNumber
+      })
+      return newPageNumber;
+    } else {
+        this.setState({
+          pageNumber: Number(targetName)
+        })
+      return Number(targetName);
+    }
+  }
+
   changeFoodPage(e) {
     e.preventDefault();
-    if (Number.isNaN(Number(e.target.name))) {
-      const newPageNumber = (e.target.name === 'next-page' || e.target.id === 'next') ? this.state.pageNumber + 1 : this.state.pageNumber - 1; 
-      console.log('newPageNumber', newPageNumber)
-        this.setState({
-          pageNumber: newPageNumber
-        })
-        this.props.getFoodSearchKeyword(this.state.foodTextInput, newPageNumber)
-    } else {
     this.setState({
-      pageNumber: Number(e.target.name)
+      selectedPage: this.getSelectedPage(e.target.name, e.target.id)
     })
-    this.props.getFoodSearchKeyword(this.state.foodTextInput, this.state.pageNumber)
-    console.log('page number', this.state.pageNumber)
-    }
+    this.props.getFoodSearchKeyword(this.state.foodTextInput, this.state.selectedPage)
   }
   
   render() {
     if (this.state.showNutrientFacts === true) {
      const nutritionFactUnit = this.props.nutritionFacts.map((data, index) => {
-       if ((data.name.includes('Energy') && data.unit === 'kcal')|| data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
+       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
         return <td key={index}>{data.value}{data.unit}</td>
        } 
      });
@@ -117,7 +124,8 @@ class DietSearchContainer extends Component {
      )
     }
     if (`${this.props.foodList}`.length > 0) {
-      const FoodList = this.props.foodList.map((food, index) => {
+      const FoodList = this.props.foodList.reduce((acc, food, index) => {
+        const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 2;
         let foodName = food.foodName.toUpperCase();
         if (foodName.includes('UPC')) {
           foodName = foodName.slice(0, foodName.indexOf(', UPC'))
@@ -125,10 +133,17 @@ class DietSearchContainer extends Component {
           foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
         }
         const { foodID } = food;
-          return <li className="list-group-item" key={index} id={foodID} onClick={this.onItemClick.bind(this, {foodID, foodName})}>{foodName}</li>;
-        });
-        const foodListPageNumbers = this.props.foodList.map((food, index) => {
-          return <li className="page-item"><a className="page-link" key={index} name={index + 1} onClick={(e)=> this.changeFoodPage(e)}href="#">{index + 1}</a></li>
+        if (index + 1 >= pageRange && acc.length < 10) {
+          acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.onItemClick.bind(this, {foodID, foodName})}>{foodName}</li>);
+        }
+        return acc;
+        }, []);
+        const remainingRecords = this.props.foodList.slice(this.state.selectedPage);
+        const pageRange = remainingRecords.length >= 10 ? 10 : 1;
+        const foodListPageNumbers = [...Array(pageRange)].map((_, index) => {
+          if (pageRange === 1) return null;
+          const isActive = (this.state.selectedPage === index + 1) ? 'active' : '';
+            return <li key={index + 1} className={`page-item ${isActive}`}><a className="page-link" key={index + 1} name={index + 1} onClick={(e)=> this.changeFoodPage(e)} href="#">{index + 1}</a></li>
         })
       return (
         <div>
@@ -151,19 +166,28 @@ class DietSearchContainer extends Component {
                 <div className="pagination-div">
                   <nav className="pagination-nav">
                     <ul className="pagination">
-                      <li className="page-item" name='previous-page' onClick={(e) => this.changeFoodPage(e)}>
-                        <a className="page-link" name='previous-page' href="#" aria-label="Previous">
-                          <span name='previous-page' aria-hidden="true">&laquo;</span>
-                          <span name='previous-page' className="sr-only">Previous</span>
-                        </a>
-                      </li>
-                       {foodListPageNumbers}
-                        <li className="page-item" name='next-page' onClick={(e) => this.changeFoodPage(e)}>
-                          <a className="page-link" name='next-page' href="#" aria-label="Next">
-                            <span name='next-page' id='next' aria-hidden="true">&raquo;</span>
-                            <span className="sr-only" name='next-page'>Next</span>
-                          </a>
+                    {
+                         this.state.pageNumber > 1 ? 
+                         (
+                          <li className="page-item" name='previous-page' onClick={(e) => this.changeFoodPage(e)}>
+                            <a className="page-link" name='previous-page' href="#" aria-label="Previous">
+                              <span name='previous-page' aria-hidden="true">&laquo;</span>
+                              <span name='previous-page' className="sr-only">Previous</span>
+                            </a>
                         </li>
+                         ) : (null)
+                       }
+                       {foodListPageNumbers}
+                       {
+                        (this.state.pageNumber !== 10 && pageRange !== 1) ? (
+                          <li className="page-item" name='next-page' onClick={(e) => this.changeFoodPage(e)}>
+                            <a className="page-link" name='next-page' href="#" aria-label="Next">
+                              <span name='next-page' id='next' aria-hidden="true">&raquo;</span>
+                              <span className="sr-only" name='next-page'>Next</span>
+                            </a>
+                          </li>
+                        ) : (null)
+                       }
                     </ul>
                 </nav>
               </div>

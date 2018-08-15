@@ -102,6 +102,12 @@ form {
   .pagination {
     margin: 0;
   }
+  .page-link {
+    color: black !important;
+  }
+  .page-item.active .page-link {
+    background-color: rgba(182, 174, 174, 0.93) !important;
+  }
 
   @media screen and (max-width: 810px) {
     .food-search-wrapper{
