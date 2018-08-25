@@ -25,6 +25,7 @@ h1{
 .tables-container {
   display: inline-block;
   margin: 0 0.5em;
+  background-color: #eee;
 }
 
 .workouts-container {

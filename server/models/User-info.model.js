@@ -11,6 +11,7 @@ const UserDataSchema = new mongoose.Schema({
       fat: Number,
       carbs: Number,
     },
+    userDietSummary: Array, 
     workouts: [String]
   }
 });

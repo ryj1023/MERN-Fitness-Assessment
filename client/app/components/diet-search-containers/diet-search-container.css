@@ -108,6 +108,15 @@ form {
   .page-item.active .page-link {
     background-color: rgba(182, 174, 174, 0.93) !important;
   }
+  .default-search-text {
+    color: #bfbdbd;
+    padding-top: 10%;
+  }
+
+  .nutrients-per-cup-table {
+    width:96% !important;
+    margin: auto !important;
+  }
 
   @media screen and (max-width: 810px) {
     .food-search-wrapper{

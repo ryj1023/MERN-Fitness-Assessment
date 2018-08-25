@@ -9,8 +9,30 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL';
 export const NO_ACCOUNT = 'NO_ACCOUNT';
 export const ACCOUNT_FOUND = 'ACCOUNT_FOUND';
+export const FOOD_ITEM_SAVED = 'FOOD_ITEM_SAVED';
 
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
+
+export const saveToUsersFoodList = (foodName, foodFacts, user) => {
+    const encodedURI = window.encodeURI(`/api/save-food-item`);
+    console.log('before')
+    axios.post(encodedURI, {
+        userDietSummary: { foodName, foodFacts },
+            email: user.email
+    }).then(res => {
+        console.log('done', res)
+        // return dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
+    })
+    // return (dispatch) => {
+    //     console.log('after')
+    //     axios.post(encodedURI, {
+    //         userDietSummary: { foodName, foodFacts },
+    //             email: user.email
+    //     }).then(res => {
+    //         console.log('done', res)
+    //     })
+    // }
+};
 
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
 	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=100&q=${keyword}&offset=${offset}&sort=r`)
@@ -68,6 +90,7 @@ export const saveUserData = (userData) => {
             console.log('done', res)
         })
     }
+
     // return () => {
     //     console.log('dispatched')
     //     axios.post(encodedURI, {

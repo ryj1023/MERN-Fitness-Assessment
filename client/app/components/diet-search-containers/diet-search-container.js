@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './diet-search-container.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts } from '../../actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList } from '../../actions/async-actions';
 import Navigation from '../navigations/navigation';
 import FoodChart from '../food-display/food-chart';
 import { saveUserData } from '../../actions/async-actions';
@@ -14,10 +14,11 @@ class DietSearchContainer extends Component {
 		this.state = {
       foodTextInput: null,
       showNutrientFacts: false,
-      selectedFood: null,
+      selectedFoodName: null,
       dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
       pageNumber: 1,
       selectedPage: 1,
+      // selectedFoodFacts: [],
     }
   }
   
@@ -36,11 +37,11 @@ class DietSearchContainer extends Component {
     this.props.getFoodSearchKeyword(this.state.foodTextInput)
   }
 
-  onItemClick(selectedFood) {
+  showFoodNutrients(selectedFood) {
     this.props.getFoodNutritionFacts(selectedFood.foodID);
     this.setState({
       showNutrientFacts: true,
-      selectedFood: selectedFood.foodName
+      selectedFoodName: selectedFood.foodName
     })
   }
 
@@ -70,16 +71,29 @@ class DietSearchContainer extends Component {
     this.setState({
       selectedPage: this.getSelectedPage(e.target.name, e.target.id)
     })
-    this.props.getFoodSearchKeyword(this.state.foodTextInput, this.state.selectedPage)
+  }
+
+  setStateForSelectedFoodFacts(selectedFoodFacts) {
+    this.setState({
+      selectedFoodFacts, 
+    })
+  }
+
+  addToUsersFoodList(selectedFoodFacts) {
+    saveToUsersFoodList(this.state.selectedFoodName, selectedFoodFacts, JSON.parse(localStorage.getItem('user')))
   }
   
   render() {
+    const selectedFoodFacts = [];
+    // showing selected food nutrient facts
     if (this.state.showNutrientFacts === true) {
      const nutritionFactUnit = this.props.nutritionFacts.map((data, index) => {
+       selectedFoodFacts.push(data);
        if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
         return <td key={index}>{data.value}{data.unit}</td>
        } 
      });
+     // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
      return (
       <div>
         <Navigation />
@@ -93,8 +107,8 @@ class DietSearchContainer extends Component {
                         <button className='food-search-button'>Search</button>
                       </form>
                 </nav>
-                <p>{this.state.selectedFood}</p>
-                    <table className="table">
+                <p>{this.state.selectedFoodName}</p>
+                    <table className="table nutrients-per-cup-table">
                         <thead className="thead-dark">
                             <tr>
                               <th colSpan="4" className='table-header-text'>Nutrients Per Cup</th>
@@ -116,7 +130,7 @@ class DietSearchContainer extends Component {
                     </table>
                   <div className='diet-search-button-div'>
                     <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-                    <button className='add-food-button'>Add To Daily Food Intake</button>
+                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
                   </div>
         </div>
       </div>
@@ -124,8 +138,9 @@ class DietSearchContainer extends Component {
      )
     }
     if (`${this.props.foodList}`.length > 0) {
+      // showing food list
       const FoodList = this.props.foodList.reduce((acc, food, index) => {
-        const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 2;
+        const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
         let foodName = food.foodName.toUpperCase();
         if (foodName.includes('UPC')) {
           foodName = foodName.slice(0, foodName.indexOf(', UPC'))
@@ -134,7 +149,7 @@ class DietSearchContainer extends Component {
         }
         const { foodID } = food;
         if (index + 1 >= pageRange && acc.length < 10) {
-          acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.onItemClick.bind(this, {foodID, foodName})}>{foodName}</li>);
+          acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.showFoodNutrients.bind(this, {foodID, foodName})}>{foodName}</li>);
         }
         return acc;
         }, []);
@@ -209,6 +224,7 @@ class DietSearchContainer extends Component {
                   <button className='food-search-button'>Search</button>
                 </form>
             </nav>
+            <h1 className="default-search-text">Start your search for your favorite foods</h1>
           </div>
         </div>
       </div>
@@ -224,6 +240,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveUserData }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveUserData, saveToUsersFoodList }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)

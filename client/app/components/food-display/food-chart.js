@@ -15,6 +15,7 @@ class FoodChart extends Component {
       hideSaveButton: (this.getStateForDietInfo()) ? true : false,
       isLoggedIn: JSON.parse(localStorage.getItem('user')) ? true : false,
       showSignInMessage: false,
+      user: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null
     }
   }
 
@@ -50,16 +51,64 @@ class FoodChart extends Component {
       })
     }
   }
+
+  getSavedFoodData (user) {
+    //  TODO: add detail object to parent object
+    const allSavedFoodData = {};
+    if (user) {
+      allSavedFoodData.previewData = user.userDietSummary.map(foodData => {
+        return {
+          foodName: foodData.foodName,
+          foodFacts: foodData.foodFacts.reduce((acc, data) => { 
+            if (data.name === 'Protein' || (data.name === 'Energy' && data.unit === 'kcal') || data.name.includes('(fat)') || data.name.includes('Carbohydrate')) {
+              acc[data.name] = data.value;
+            }
+            return acc;
+          }, {})
+        }
+      })
+    }
+
+    return allSavedFoodData;
+  }
   
   render() {
-    if (this.state.dailyDietInfo && this.state.dailyDietInfo.calories !== null) {
+    if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
+     const allSavedFoodData = this.getSavedFoodData(this.state.user ? this.state.user : null)
+     console.log('allSavedFoodData.previewData', allSavedFoodData.previewData)
+     const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => {
+       console.log('foodObject', foodObject)
+       return (
+        <tr key={index}>
+          <td>{foodObject.foodName}</td>
+          <td>{foodObject.foodFacts.Energy}</td>
+          <td>{foodObject.foodFacts.Protein}</td>
+          <td>{foodObject.foodFacts['Total lipid (fat)']}</td>
+          <td>{foodObject.foodFacts['Carbohydrate, by difference']}</td>
+        </tr>
+       )
+      //  return foodObject.foodFacts.reduce((acc, data, index) => {
+      //     // acc.push((
+      //         <tr key={index}>
+      //           <td>{foodObject.foodName}</td>
+      //           <td>{data.Energy}</td>
+      //           <td>{data.Protein}</td>
+      //           <td>{data.Fats}</td>
+      //           <td>{data['Carbohydrate, by difference']}</td>
+      //         </tr>
+      //     // ))
+          
+      //    return acc;
+      //  }, {})
+     })
+    //  {console.log('savedFoodTableData', savedFoodTableData)}
     return (
        <div className="food-chart-container">
         <div className="food-chart-content">
             <table className="table">
               <thead className="thead-dark">
                   <tr>
-                    <th colSpan="4" className='table-header-text'>Daily Nutrient Intake</th>
+                    <th colSpan="4" className='table-header-text'>Daily Nutrient Intake Goal</th>
                   </tr>
 							</thead>
               <thead className="thead-dark">
@@ -72,38 +121,31 @@ class FoodChart extends Component {
               </thead>
               <tbody>
                 <tr>
-                <td>{this.state.dailyDietInfo.calories}</td>
-                <td>{this.state.dailyDietInfo.protein}</td>
-                <td>{this.state.dailyDietInfo.fat}</td>
-                <td>{this.state.dailyDietInfo.carbs}</td>
+                  <td>{this.state.dailyDietInfo.calories}</td>
+                  <td>{this.state.dailyDietInfo.protein}</td>
+                  <td>{this.state.dailyDietInfo.fat}</td>
+                  <td>{this.state.dailyDietInfo.carbs}</td>
                 </tr>
               </tbody>
             </table>
 
             <table className="table">
-              <thead className="thead-light">
+              <thead className="thead-dark">
                 <tr>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Handle</th>
+                    <th colSpan="5" className='table-header-text'>Selected Foods</th>
+                </tr>
+              </thead>
+              <thead className="thead-dark">
+                <tr>
+                  <th scope="col">Food Name</th>
+                  <th scope="col">Calories</th>
+                  <th scope="col">Protein (grams)</th>
+                  <th scope="col">Fat (grams)</th>
+                  <th scope="col">Carbs (grams)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                </tr>
+                  {savedFoodTableData}
               </tbody>
             </table>
             <form onSubmit={(e)=> this.saveDietData(e)}>

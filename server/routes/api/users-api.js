@@ -57,6 +57,44 @@ module.exports = (app) => {
     })
   });
 
+  app.post('/api/save-food-item', (req, res) => {
+
+    Users.findOneAndUpdate(
+      { 'user.email': req.body.email },
+      {
+        $push: { 
+          'user.userDietSummary': req.body.userDietSummary
+        },
+      },{
+        new: true
+      },
+      (err, doc) => {
+        console.log('err', err)
+        console.log('doc', doc)
+        if (err) return res.status(500).send(err);
+        res.status(201).json(doc)
+      }
+    )
+    /*
+            user: {
+          userName: String,
+          email: String,
+          password: String,
+          dietInfo: {
+            calories: Number,
+            protein: Number,
+            fat: Number,
+            carbs: Number,
+          },
+          userDietSummary: [
+            { foodName: String ,
+            foodFacts: [] },
+          ], 
+          workouts: [String]
+        }
+    */
+  })
+
   app.post('/api/save', (req, res, next) => {
     Users.findOneAndUpdate(
       { 'user.email': req.body.email },
