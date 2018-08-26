@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './diet-search-container.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList } from '../../actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
+import { updatedFoodChart } from '../../actions'
 import Navigation from '../navigations/navigation';
 import FoodChart from '../food-display/food-chart';
-import { saveUserData } from '../../actions/async-actions';
+import axios from 'axios';
 
 class DietSearchContainer extends Component {
 
@@ -18,7 +19,8 @@ class DietSearchContainer extends Component {
       dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
       pageNumber: 1,
       selectedPage: 1,
-      // selectedFoodFacts: [],
+      updatedUserData: null,
+      selectedFood: {}
     }
   }
   
@@ -79,8 +81,24 @@ class DietSearchContainer extends Component {
     })
   }
 
-  addToUsersFoodList(selectedFoodFacts) {
-    saveToUsersFoodList(this.state.selectedFoodName, selectedFoodFacts, JSON.parse(localStorage.getItem('user')))
+  async addToUsersFoodList (selectedFoodFacts) {
+    // this.setState({
+    //   selectedFood: { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts }
+    // })
+    const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
+    this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
+    // saveToUsersFoodList(this.state.selectedFoodName, selectedFoodFacts, JSON.parse(localStorage.getItem('user')))
+    // const updatedUserData = await axios.get('/api/user-data', {
+    //   params: {
+    //     email: JSON.parse(localStorage.getItem('user')).email,
+    //   } 
+    // });
+    // console.log('updatedUserData from component', updatedUserData.data[0].user)
+    // this.setState({
+    //   updatedUserData: updatedUserData.data[0].user,
+    // })
+    // this.props.updatedFoodChart(this.state.updatedUserData)
+    // localStorage.setItem('user', JSON.stringify(this.state.updatedUserData));
   }
   
   render() {
@@ -98,7 +116,7 @@ class DietSearchContainer extends Component {
       <div>
         <Navigation />
         <div className="food-search-wrapper"> 
-          <FoodChart />  
+          <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
           <div className="diet-search-container">
           <nav className='food-search-nav'> 
                   <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
@@ -130,7 +148,7 @@ class DietSearchContainer extends Component {
                     </table>
                   <div className='diet-search-button-div'>
                     <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
+                    <button className='add-food-button' onClick={async () => await this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
                   </div>
         </div>
       </div>
@@ -164,7 +182,7 @@ class DietSearchContainer extends Component {
         <div>
           <Navigation /> 
             <div className="food-search-wrapper">
-            <FoodChart />
+            <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood} />
               <div className="diet-search-container">
                 <nav className='food-search-nav'> 
                   <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
@@ -215,7 +233,7 @@ class DietSearchContainer extends Component {
       <div>
       <Navigation /> 
       <div className="food-search-wrapper">
-      <FoodChart />  
+      <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
         <div className="diet-search-container">
           <nav className='food-search-nav'> 
             <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
@@ -236,10 +254,11 @@ const mapStateToProps = (state) => {
 	return {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-		nutritionFacts: state.nutritionFacts,
+    nutritionFacts: state.nutritionFacts,
+    updatedUserFoodList: state.updatedUserFoodList
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveUserData, saveToUsersFoodList }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)

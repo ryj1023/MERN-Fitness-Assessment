@@ -9,29 +9,43 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL';
 export const NO_ACCOUNT = 'NO_ACCOUNT';
 export const ACCOUNT_FOUND = 'ACCOUNT_FOUND';
-export const FOOD_ITEM_SAVED = 'FOOD_ITEM_SAVED';
+export const GET_UPDATED_USER_DATA = 'GET_UPDATED_USER_DATA';
 
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
 
-export const saveToUsersFoodList = (foodName, foodFacts, user) => {
-    const encodedURI = window.encodeURI(`/api/save-food-item`);
-    console.log('before')
-    axios.post(encodedURI, {
-        userDietSummary: { foodName, foodFacts },
-            email: user.email
-    }).then(res => {
-        console.log('done', res)
-        // return dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
-    })
-    // return (dispatch) => {
-    //     console.log('after')
-    //     axios.post(encodedURI, {
-    //         userDietSummary: { foodName, foodFacts },
-    //             email: user.email
-    //     }).then(res => {
-    //         console.log('done', res)
-    //     })
-    // }
+export const saveToUsersFoodList = async (dietSummary, user) => {
+    const encodedURI = window.encodeURI(`/api/save-food-items`);
+        const res = await axios.post(encodedURI, {
+            userDietSummary: dietSummary,
+                email: user.email
+        })
+
+        return getUserData(user);
+
+        // return (dispatch) => {
+        //     console.log('dispatch', dispatch)
+        //     return dispatch({type: GET_UPDATED_USER_DATA, payload: res.data});
+        // }
+    //  return async (dispatch) => {
+    //      console.log('dispatch', dispatch)
+        // console.log('hello')
+        // const encodedURI = window.encodeURI(`/api/save-food-item`);
+        // const res = await axios.post(encodedURI, {
+        //     userDietSummary: { foodName, foodFacts },
+        //         email: user.email
+        // })
+        // return dispatch({type: FOOD_ITEM_SAVED, payload: res.data});
+
+        // axios.post(encodedURI, {
+        //     userDietSummary: { foodName, foodFacts },
+        //         email: user.email
+        // }).then(res, dispatch => {
+        //     console.log('res', res)
+        //     console.log('dispatch', dispatch)
+        //     return dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
+        // })
+        // dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
+    //}
 };
 
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
@@ -70,18 +84,19 @@ export const getFoodNutritionFacts = (food) => {
 }
 
 export const getUserData = (data) => {
-    const encodedURI = window.encodeURI(`/api/users`)
-    return (dispatch) => {
-        axios.get(encodedURI)
-        .then((response) => {
-            console.log('response', response)
-            });
+    const encodedURI = window.encodeURI(`/api/user-data`)
+     axios.get(encodedURI, {
+            params: {
+                email: data.email,
+              }, 
+        })
+        // .then((response) => {
+        //     return dispatch({type: GET_UPDATED_USER_DATA, payload: response.data});
+        //     });
         };
-}
 
 export const saveUserData = (userData) => {
     const encodedURI = window.encodeURI(`/api/save`);
-    console.log('dispatching')
     return () => {
         axios.post(encodedURI, {
         userData: userData.dietInfo,

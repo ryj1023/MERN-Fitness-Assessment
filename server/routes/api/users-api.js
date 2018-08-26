@@ -57,14 +57,21 @@ module.exports = (app) => {
     })
   });
 
-  app.post('/api/save-food-item', (req, res) => {
+  app.get('/api/user-data', (req, res, next) => {
+    Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
+      if (err) return res.status(500).send(err)
+      res.json(user)
+    })
+  });
 
+  app.post('/api/save-food-items', (req, res) => {
     Users.findOneAndUpdate(
       { 'user.email': req.body.email },
       {
-        $push: { 
-          'user.userDietSummary': req.body.userDietSummary
-        },
+        // $push: { 
+        //   'user.userDietSummary': req.body.userDietSummary
+        // },
+        'user.userDietSummary': req.body.userDietSummary
       },{
         new: true
       },
