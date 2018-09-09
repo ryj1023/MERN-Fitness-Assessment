@@ -36,6 +36,8 @@ form {
  }
  .input-box-one {
   top: 0;
+  margin-top: 0 !important;
+  margin-right: 1%;
 }
  .submit-button, .back-button, .food-search-button, .add-food-button {
     background-color: #454545;
@@ -95,6 +97,7 @@ form {
   }
   .pagination-div {
     text-align: center;
+    margin-top: 1%;
   }
   .pagination-nav {
     display: inline-block;

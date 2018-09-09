@@ -148,7 +148,7 @@ class DietSearchContainer extends Component {
                     </table>
                   <div className='diet-search-button-div'>
                     <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-                    <button className='add-food-button' onClick={async () => await this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
+                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
                   </div>
         </div>
       </div>

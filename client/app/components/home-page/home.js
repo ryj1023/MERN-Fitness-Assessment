@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import api from '../../utils/api';
 import { bindActionCreators } from 'redux';
 import Navigation from '../navigations/navigation';
 import Workouts from '../workouts/workouts';

@@ -19,6 +19,7 @@ class FoodChart extends Component {
       showSignInMessage: false,
       user: this.props.updatedUserData ? this.props.updatedUserData : (JSON.parse(localStorage.getItem('user')) || null),
       savedFoodList: false,
+      err: null,
     }
   }
 
@@ -31,34 +32,25 @@ class FoodChart extends Component {
     return {};
   }
 
-  saveDietData(e, updatedUserFoodList) {
+  async saveDietData(e, updatedUserFoodList) {
     e.preventDefault();
     if (this.state.isLoggedIn) {
-      saveToUsersFoodList(updatedUserFoodList, JSON.parse(localStorage.getItem('user')))
+      // saveToUsersFoodList(updatedUserFoodList, JSON.parse(localStorage.getItem('user')))
+        const encodedURI = window.encodeURI(`/api/save-food-items`);
+        try {
+            const res = await axios.post(encodedURI, {
+                userDietSummary: updatedUserFoodList,
+                    email: JSON.parse(localStorage.getItem('user')).email
+            })
+          } catch (err) {
+            this.setState({ err: 'Could not save food item.' })
+          }
       const updatedStorageData = this.state.userLocalStorageData;
       updatedStorageData.userDietSummary = updatedUserFoodList
       localStorage.setItem('user', JSON.stringify(updatedStorageData));
       this.setState({
         savedFoodList: true,
       })
-    //   const encodedURI = window.encodeURI(`/api/save`);
-    //   axios.post(encodedURI, {
-    //   userData: this.props.clientDietInfo.clientInfo,
-    //   userName: this.state.user,
-    //   email: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).email : null,
-    //   }).then(res => {
-    //       alert('Info Saved!')
-    //       this.setState({
-    //         showSaveButton: false,
-    //       })
-    //   }).catch(err => {
-    //     alert('There was an error saving your Info. Please try again.')
-    //   });
-    // } else {
-    //   localStorage.setItem('submittedUserMetrics', JSON.stringify(this.props.clientDietInfo.clientInfo))
-    //   this.setState({
-    //     showSignInMessage: true,
-    //   })
     }
   }
 
@@ -113,9 +105,27 @@ class FoodChart extends Component {
    return null;
   }
 
+    getMacroTotals(foodData) {
+      const totals = {
+        calories: 0,
+        protein: 0, 
+        fats: 0,
+        carbs: 0
+      }
+
+      return foodData.reduce((acc, macros, index) => {
+        acc.calories += Number(macros.foodFacts.Energy)
+        acc.protein += Number(macros.foodFacts.Protein)
+        acc.fats += Number(macros.foodFacts['Total lipid (fat)'])
+        acc.carbs += Number(macros.foodFacts['Carbohydrate, by difference'])
+        return acc;
+      }, totals);
+    }
+
   render() {
     if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
      const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
+     const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
      const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => {
        return (
         <tr key={index}>
@@ -171,9 +181,16 @@ class FoodChart extends Component {
               </thead>
               <tbody>
                   {savedFoodTableData}
+                <tr>
+                  <td>Totals</td>
+                  <td>{macroTotals.calories.toFixed(2)}</td>
+                  <td>{macroTotals.protein.toFixed(2)}</td>
+                  <td>{macroTotals.fats.toFixed(2)}</td>
+                  <td>{macroTotals.carbs.toFixed(2)}</td>
+                </tr>
               </tbody>
             </table>
-            <form onSubmit={(e)=> this.saveDietData(e, this.updateUserData())}>
+            <form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
                <button className="submit-button">Save Diet Info</button>
             </form>
             {
@@ -196,7 +213,8 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
     nutritionFacts: state.nutritionFacts,
-    updatedUserFoodList: Object.keys(state.updatedUserFoodList).length > 0 ? state.updatedUserFoodList.updatedUserData : {}
+    updatedUserFoodList: Object.keys(state.updatedUserFoodList).length > 0 ? state.updatedUserFoodList.updatedUserData : {},
+    savedFoodData: state.savedFoodData
 	}
 }
 

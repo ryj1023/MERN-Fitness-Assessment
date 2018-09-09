@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import userData from './reducer-user-login';
 import QuestionReducer from './reducer-questions';
 import getInputReducer from './reducer-get-input';
+import savedFoodData from './saved-food-data'
 import calculateClientInfo from './reducer-calculate-client-info';
 import updatedUserFoodList from './update-food-list';
 import * as foods from './reducer-get-food-nutrients';
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
 	validationErrors: validation.validateSignUpInput,
 	signUpErrors: validation.validateNewEmail,
 	userData,
-	updatedUserFoodList
+	updatedUserFoodList,
+	savedFoodData
 })
 
 export default rootReducer;
