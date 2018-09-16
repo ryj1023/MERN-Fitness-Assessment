@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './diet-search-container.css';
+import Layout from '../../layouts/default';
 import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions'
-import Navigation from '../navigations/navigation';
-import FoodChart from '../food-display/food-chart';
-import axios from 'axios';
+import FoodChart from '../../components/food-display/food-chart';
 
 class DietSearchContainer extends Component {
 
@@ -114,7 +113,7 @@ class DietSearchContainer extends Component {
      // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
      return (
       <div>
-        <Navigation />
+        <Layout>
         <div className="food-search-wrapper"> 
           <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
           <div className="diet-search-container">
@@ -152,6 +151,7 @@ class DietSearchContainer extends Component {
                   </div>
         </div>
       </div>
+      </Layout>
      </div>
      )
     }
@@ -180,7 +180,7 @@ class DietSearchContainer extends Component {
         })
       return (
         <div>
-          <Navigation /> 
+          <Layout>
             <div className="food-search-wrapper">
             <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood} />
               <div className="diet-search-container">
@@ -226,12 +226,13 @@ class DietSearchContainer extends Component {
               </div>
               </div>
             </div>
+            </Layout>
         </div>
       );
     } 
     return (
       <div>
-      <Navigation /> 
+      <Layout>
       <div className="food-search-wrapper">
       <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
         <div className="diet-search-container">
@@ -245,6 +246,7 @@ class DietSearchContainer extends Component {
             <h1 className="default-search-text">Start your search for your favorite foods</h1>
           </div>
         </div>
+        </Layout>
       </div>
     );
   }

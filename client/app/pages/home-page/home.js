@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Navigation from '../navigations/navigation';
-import Workouts from '../workouts/workouts';
+import Layout from '../../layouts/default'
+import Workouts from '../../components/workouts/workouts';
 import './home.css';
 
 class Home extends Component {
@@ -24,8 +24,8 @@ class Home extends Component {
 		if (this.state.user) {
 			return(
 				<div>
-					<Navigation />
-					  <div className="home-wrapper">
+					<Layout>
+					<div className="home-wrapper">
 						  <div className="home-feed">
 						  <h1>Welcome, {this.state.user.userName ? this.state.user.userName : ''}!</h1>
 						  </div>
@@ -70,26 +70,23 @@ class Home extends Component {
 							  </div>
 						  </div>
 					  </div>
+					</Layout>
 			  </div>
 			  )
 		}
 			return(
 			 	<div>
-					 <Navigation />
-					 {/* <tr className="active">
-						<td>Active</td>
-						<td>Activeson</td>
-						<td>act@example.com</td>
-      			</tr> */}
+					 <Layout>
 						<div className="home-wrapper">
-							<div className="home-feed">
-							<h1>Home Page</h1>
-							</div>
-							<div className="tables-container">
-								<div></div>
-								<div></div>
-							</div>
+								<div className="home-feed">
+									<h1>Home Page</h1>
+								</div>
+								<div className="tables-container">
+										<div></div>
+										<div></div>
+								</div>
 						</div>
+					 </Layout>
 				</div>
 				)
 		}	

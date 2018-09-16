@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../headers/header';
-import Navigation from '../navigations/navigation';
-import Container from '../containers/container';
+import Layout from '../../layouts/default';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './profile.css'
@@ -29,24 +27,24 @@ class Profile extends Component {
 	render(){        
 		return (
             <div>
-                <Navigation />
-                    <div className="profile-wrapper">
-                        <div>	
-                            <h1>{this.state.userName}'s Profile</h1>
-                            {
-                                this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
-							  (
-                                <h1>calories: {this.state.dailyDietGoal.calories}</h1>
-                              ) : (
-                                  <div>
-                                    <p>You haven't done your fitness assessment yet</p>
-                                    <h3>Take the assessment <Link to='./assessment'>here</Link> to get your new goals!</h3>
-                                  </div>
-                              )
-                            }
+                <Layout>
+                        <div className="profile-wrapper">
+                            <div>	
+                                <h1>{this.state.userName}'s Profile</h1>
+                                {
+                                    this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
+                                (
+                                    <h1>calories: {this.state.dailyDietGoal.calories}</h1>
+                                ) : (
+                                    <div>
+                                        <p>You haven't done your fitness assessment yet</p>
+                                        <h3>Take the assessment <Link to='./assessment'>here</Link> to get your new goals!</h3>
+                                    </div>
+                                )
+                                }
+                            </div>
                         </div>
-                        <div></div>
-                    </div>
+                    </Layout>
             </div>
         ) 
 	}
