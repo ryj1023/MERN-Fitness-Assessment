@@ -138,33 +138,35 @@ class FoodChart extends Component {
        )
      })
     return (
+    
+
+     
        <div className="food-chart-container">
         <div className="food-chart-content">
-            <table className="table">
-              <thead className="thead-dark">
+        <table className="table intake-goals">
+                <thead className="thead-dark">
+                    <tr>
+                      <th colSpan="4" className='table-header-text'>Daily Nutrient Intake Goal</th>
+                    </tr>
+                </thead>
+                <thead className="thead-dark">
                   <tr>
-                    <th colSpan="4" className='table-header-text'>Daily Nutrient Intake Goal</th>
+                    <th scope="col">Calories</th>
+                    <th scope="col">Protein (grams)</th>
+                    <th scope="col">Fat (grams)</th>
+                    <th scope="col">Carbs (grams)</th>
                   </tr>
-							</thead>
-              <thead className="thead-dark">
-                <tr>
-                  <th scope="col">Calories</th>
-                  <th scope="col">Protein (grams)</th>
-                  <th scope="col">Fat (grams)</th>
-                  <th scope="col">Carbs (grams)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{this.state.dailyDietInfo.calories}</td>
-                  <td>{this.state.dailyDietInfo.protein}</td>
-                  <td>{this.state.dailyDietInfo.fat}</td>
-                  <td>{this.state.dailyDietInfo.carbs}</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table className="table">
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{this.state.dailyDietInfo.calories}</td>
+                    <td>{this.state.dailyDietInfo.protein}</td>
+                    <td>{this.state.dailyDietInfo.fat}</td>
+                    <td>{this.state.dailyDietInfo.carbs}</td>
+                  </tr>
+                </tbody>
+              </table>
+            <table className="table selected-foods">
               <thead className="thead-dark">
                 <tr>
                     <th colSpan="5" className='table-header-text'>Selected Foods</th>
@@ -198,6 +200,7 @@ class FoodChart extends Component {
             }
           </div>
         </div>
+      
     );
   } else return (
     <div className="food-chart-container">

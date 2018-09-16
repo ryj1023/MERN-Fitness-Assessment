@@ -33,6 +33,8 @@ form {
  }
  .diet-search-container {
     background-color: #eee;
+    height: inherit;
+    overflow: scroll;
  }
  .input-box-one {
   top: 0;
@@ -121,14 +123,16 @@ form {
     margin: auto !important;
   }
 
-  @media screen and (max-width: 810px) {
+  @media screen and (max-width: 745px) {
     .food-search-wrapper{
       height: 100vh;
       display: block;
+      margin: 4%;
      }
      .diet-search-container {
-      /* height: 50%; */
-      height: 100vh;
+      margin-top: 2%;
+      margin-bottom: 2%;
+      height: 50vh;
    }
    .food-search-form {
      margin: 0 auto;

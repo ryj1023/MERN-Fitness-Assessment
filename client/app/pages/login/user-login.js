@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../headers/header';
-import Navigation from '../navigations/navigation';
-import Container from '../containers/container';
+import Navigation from '../../components/navigations/navigation';
 import { loginUser } from '../../actions/async-actions';
 import './user-login.css';
 import { connect } from 'react-redux';

@@ -1,6 +1,6 @@
-body, .home-wrapper {
+/* body, .home-wrapper {
   height: 100vh;
-}
+} */
 h1{
   font-size: 20px;
   color: black;
@@ -11,7 +11,7 @@ h1{
 }
 
 .home-wrapper{
- height: 100vh;
+ /* height: 100vh; */
  display: grid;
  grid-template-columns: 2fr 1fr; /*fractions good for margins*/
  margin: 1em;
@@ -23,13 +23,14 @@ h1{
 }
 
 .tables-container {
+  height: 100vh;
   display: inline-block;
   margin: 0 0.5em;
   background-color: #eee;
 }
 
 .workouts-container {
-  height: 100vh;
+  /* height: 90vh; */
 }
 
 .tables-container > div {
@@ -37,7 +38,8 @@ h1{
 }
 
 .home-feed {
- background-color: #eee;
+  height: 100vh;
+  background-color: #eee;
 }
 
 .diet-display-table {
@@ -53,6 +55,8 @@ table, tr, th, td {
   color: black;
   border: 1px solid #ddd;
 }
+
+
 
 
 
