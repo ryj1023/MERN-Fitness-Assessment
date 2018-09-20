@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import App from './App';
-import Profile from './pages/user-profile/profile';
-import Login from './pages/login/user-login';
-import signUp from './pages/sign-up/user-sign-up';
-import dietSearch from './pages/food-search/diet-search-container';
-import Home from './pages/home-page/home';
+import Profile from './pages/user-profile/Profile';
+import Login from './pages/login/UserLogin';
+import signUp from './pages/sign-up/UserSignup';
+import dietSearch from './pages/food-search/DietSearchContainer';
+import Home from './pages/home-page/Home';
 export default () => {
  return (
    <BrowserRouter>

@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
-import RadioAnswers from './radio-answers';
+import RadioAnswers from './RadioAnswers';
 import './answer-form.css';
 
 export default class AnswerForm extends Component{
-	constructor(props){
-		super(props)
-		this.state = {
+	state = {
 			textInput: null,
 			textInput2: null,
 			radioInput: null,
 		}
-	}
 
 	onSubmit(event){
 		event.preventDefault();
 		const textInput = this.state.textInput;
 		const textInput2 = this.state.textInput2;
 		if(textInput && this.props.onAdd){
-			console.log('isnumber', this.isNumber(textInput))
 			if (this.isNumber(textInput)) {
 				this.props.onAdd(parseInt(textInput))
 			} else alert('Please enter in a valid number');
@@ -52,24 +48,9 @@ export default class AnswerForm extends Component{
 			this.props.calculateAnswers()
 		}
 	}
-	setInput(textInput){
-		this.setState({
-			textInput
-		})
-	}
-	setSecondInput(textInput2){
-		this.setState({
-			textInput2
-		})
-	}
 	getHeightInInches(input1, input2){
 		const totalHeight = input1 * 12 + input2;
 		return totalHeight;
-	}
-	setRadio(e){
-		this.setState({
-			radioInput: e.target.value,
-		})
 	}
 
 	render(){
@@ -78,14 +59,14 @@ export default class AnswerForm extends Component{
 					case 'height':
 					return(
 						 <form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-								<input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="Feet" autoFocus/>
-								<input className="input-box-two" name='choice' type="text" onChange={(e)=>this.setSecondInput(e.target.value)} placeholder="Inches"/>
+								<input className="input-box-one" type="text" onChange={(e)=> this.setState({textInput: e.target.value})} placeholder="Feet" autoFocus/>
+								<input className="input-box-two" name='choice' type="text" onChange={(e)=> this.setState({ textInput2: e.target.value })} placeholder="Inches"/>
 							<button className="submit two-input-submit">Submit</button> 
 		   			 </form>
 					)
 					break;
 					case 'radio':
-					const radioDisplay = this.props.answerLabels.map((label, index) => <RadioAnswers labels={label} key={index} onSelect={(e) => this.setRadio(e)}/>);
+					const radioDisplay = this.props.answerLabels.map((label, index) => <RadioAnswers labels={label} key={index} onSelect={(e) => this.setState({radioInput: e.target.value})}/>);
 						return (
 							<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
 								<div className="radio-display">	
@@ -98,7 +79,7 @@ export default class AnswerForm extends Component{
 					case 'text':
 					return(
 						<form className="submit-form" onSubmit={(e)=> this.onSubmit(e)}>
-		                  <input className="input-box-one" type="text" autoFocus onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter a number"/>
+		                  <input className="input-box-one" type="text" autoFocus onChange={(e)=>this.setState({textInput: e.target.value})} placeholder="please enter a number"/>
 		                  <button className="submit">Submit</button> 
 		            </form>
 						)

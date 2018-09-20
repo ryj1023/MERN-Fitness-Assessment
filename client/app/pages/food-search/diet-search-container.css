@@ -116,11 +116,16 @@ form {
   .default-search-text {
     color: #bfbdbd;
     padding-top: 10%;
+    margin: 2%;
   }
 
   .nutrients-per-cup-table {
     width:96% !important;
     margin: auto !important;
+  }
+
+  .selected-food-name {
+    color: black;
   }
 
   @media screen and (max-width: 745px) {

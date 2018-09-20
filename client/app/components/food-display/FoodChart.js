@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { saveUserData, saveToUsersFoodList } from '../../actions/async-actions';
-import { updatedFoodChart } from '../../actions/index';
+import { updatedFoodChart } from '../../actions';
+import SelectedFoodChart from './SelectedFoodChart';
 import './food-chart.css';
 import axios from 'axios';
 
 class FoodChart extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
+
+    state = {
       dailyDietInfo: this.getStateForDietInfo(),
       userLocalStorageData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {},
       // user: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
@@ -20,9 +20,9 @@ class FoodChart extends Component {
       user: this.props.updatedUserData ? this.props.updatedUserData : (JSON.parse(localStorage.getItem('user')) || null),
       savedFoodList: false,
       err: null,
+      updatedFoodPreviewInfo: null,
     }
-  }
-
+  
   getStateForDietInfo() {
     if (Object.keys(this.props.clientDietInfo).length > 0) {
       return this.props.clientDietInfo.clientInfo;
@@ -35,7 +35,6 @@ class FoodChart extends Component {
   async saveDietData(e, updatedUserFoodList) {
     e.preventDefault();
     if (this.state.isLoggedIn) {
-      // saveToUsersFoodList(updatedUserFoodList, JSON.parse(localStorage.getItem('user')))
         const encodedURI = window.encodeURI(`/api/save-food-items`);
         try {
             const res = await axios.post(encodedURI, {
@@ -64,15 +63,12 @@ class FoodChart extends Component {
         })
         .then((response) => {
           console.log('response', response)
-            // setState({
-            //     use
-            //   })
             });
     }
   }
 
   displayUpdatedFoodData (dietSummary) {
-    console.log('updatedUserFoodList', this.props.updatedUserFoodList)
+    console.log('dietSummary', dietSummary)
     //  TODO: add detail object to parent object
     const allSavedFoodData = {};
     if (dietSummary) {
@@ -122,25 +118,20 @@ class FoodChart extends Component {
       }, totals);
     }
 
+    removeSelectedFood(selectedFood, foodList) {
+      this.setState({
+        updatedFoodPreviewInfo: true
+      })
+      console.log('selected', selectedFood)
+    }
+
   render() {
     if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
      const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
+     console.log('userData', this.updateUserData())
      const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
-     const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => {
-       return (
-        <tr key={index}>
-          <td>{foodObject.foodName}</td>
-          <td>{foodObject.foodFacts.Energy}</td>
-          <td>{foodObject.foodFacts.Protein}</td>
-          <td>{foodObject.foodFacts['Total lipid (fat)']}</td>
-          <td>{foodObject.foodFacts['Carbohydrate, by difference']}</td>
-        </tr>
-       )
-     })
+     const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
     return (
-    
-
-     
        <div className="food-chart-container">
         <div className="food-chart-content">
         <table className="table intake-goals">
@@ -169,7 +160,7 @@ class FoodChart extends Component {
             <table className="table selected-foods">
               <thead className="thead-dark">
                 <tr>
-                    <th colSpan="5" className='table-header-text'>Selected Foods</th>
+                    <th colSpan="6" className='table-header-text'>Selected Foods</th>
                 </tr>
               </thead>
               <thead className="thead-dark">
@@ -179,6 +170,7 @@ class FoodChart extends Component {
                   <th scope="col">Protein (grams)</th>
                   <th scope="col">Fat (grams)</th>
                   <th scope="col">Carbs (grams)</th>
+                  <th scope="col">Remove Food</th>
                 </tr>
               </thead>
               <tbody>

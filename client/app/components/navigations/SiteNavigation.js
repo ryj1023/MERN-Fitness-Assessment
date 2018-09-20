@@ -52,7 +52,7 @@ export default class Navigation extends Component{
             return(
                 <div>
                     <nav className='nav-main'>
-                        <div> <Link to='/' className="logo">Lets Get Fit </Link></div>
+                        <div> <Link to='/' className="logo">Let's Get Fit </Link></div>
                             <Link to='./profile' className='nav-item'>Profile</Link>
                             <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
                             <Link to='./food-search' className='nav-item'>Food Search</Link>

@@ -6,12 +6,9 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 class Login extends Component {
-    constructor(props){
-		super(props);
-		this.state = {
-            email: null,
-            password: null,
-        };
+    state = {
+        email: null,
+        password: null,
     }
     
     setEmail(input){

@@ -5,11 +5,6 @@ import { validateSignUp } from '../../actions/async-actions';
 import { connect } from 'react-redux';
 
 class Workouts extends Component {
-    constructor(props){
-		super(props);
-		this.state = {
-        };
-    }
 
     goToSelectedWorkout (e) {
         e.preventDefault();

@@ -75,6 +75,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "babel-loader": "^7.1.4",
     "babel-plugin-transform-es2015-shorthand-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",

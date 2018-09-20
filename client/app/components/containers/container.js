@@ -3,16 +3,15 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Layout from '../../layouts/default';
-import QuestionDisplay from '../questions/question-display';
-import AnswerForm from '../answers/answer-form';
+import QuestionDisplay from '../questions/QuestionDisplay';
+import AnswerForm from '../answers/AnswerForm';
 import './container.css';
-import { addAnswer,  gatherFitnessInfo  } from '../../actions/';
+import { addAnswer,  gatherFitnessInfo  } from '../../actions';
 import calculateFitnessInput from '../../calculations/calculate-fitness-input';
 
 class Container extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
+
+		state = {
 			counter: 0,
 			startMenu: true,
 			calculateAnswerPrompt: false,
@@ -22,7 +21,6 @@ class Container extends Component {
 			foodResult: null,
 			user: '',
 		}
-	}
 
 	validateInput(input, type){
 		if(type === 'number'){
@@ -48,11 +46,6 @@ class Container extends Component {
 				calculateAnswerPrompt: true,
 			})
 		}
-	}
-	getStarted(toggle){
-		this.setState({
-			startMenu: toggle
-		})
 	}
 
 	startCalculateAnswers() {
@@ -100,7 +93,7 @@ class Container extends Component {
 					<Layout>
 					<div className="container-wrapper">
 							<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
-							<AnswerForm key="start-button" type="text" getStarted={() => this.getStarted(false)} text='Get Started' />
+							<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
 						</div>
 					</Layout>
 				</div>

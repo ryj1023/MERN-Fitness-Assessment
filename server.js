@@ -16,4 +16,7 @@ nodemon({
 .once('exit', function () {
   console.log('Shutting down server');
   // process.exit();
-});
+})
+.on('error', (err) => {
+  console.log('err', err)
+})

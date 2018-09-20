@@ -6,11 +6,9 @@ import Workouts from '../../components/workouts/workouts';
 import './home.css';
 
 class Home extends Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			user: null,
-		}
+	
+	state = {
+		user: null,
 	}
 
 	async componentDidMount() {

@@ -7,15 +7,12 @@ import './user-sign-up.css';
 import { connect } from 'react-redux';
 
 class SignUp extends Component {
-    constructor(props){
-		super(props);
-		this.state = {
+        state = {
             userName: null,
             email: null,
             password: null,
             confirmPassword: null,
         };
-    }
 
     onSubmit(e) {
         e.preventDefault();

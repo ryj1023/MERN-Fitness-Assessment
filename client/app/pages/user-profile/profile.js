@@ -5,14 +5,10 @@ import { Link } from 'react-router-dom';
 import './profile.css'
 
 class Profile extends Component {
-    constructor(props){
-		super(props);
-		this.state = {
+		state = {
             userName: JSON.parse(localStorage.getItem('user')).userName,
             dailyDietGoal: JSON.parse(localStorage.getItem('user')).dietInfo,
         };
-    }
-    
     async componentDidMount() {
         if (this.state.userName === undefined) {
             const res = await fetch('/api/users')
@@ -21,7 +17,6 @@ class Profile extends Component {
                 userName: userData[0].user.userName
             })
         }
-        console.log('this.state.dailyDietGoal', this.state.dailyDietGoal)
       }
 
 	render(){        

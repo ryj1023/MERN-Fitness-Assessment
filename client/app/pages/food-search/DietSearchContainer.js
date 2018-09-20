@@ -5,22 +5,19 @@ import './diet-search-container.css';
 import Layout from '../../layouts/default';
 import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions'
-import FoodChart from '../../components/food-display/food-chart';
+import FoodChart from '../../components/food-display/FoodChart';
 
 class DietSearchContainer extends Component {
-
-	constructor(props){
-		super(props)
-		this.state = {
-      foodTextInput: null,
-      showNutrientFacts: false,
-      selectedFoodName: null,
-      dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
-      pageNumber: 1,
-      selectedPage: 1,
-      updatedUserData: null,
-      selectedFood: {}
-    }
+  
+  state = {
+    foodTextInput: null,
+    showNutrientFacts: false,
+    selectedFoodName: null,
+    dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
+    pageNumber: 1,
+    selectedPage: 1,
+    updatedUserData: null,
+    selectedFood: {}
   }
   
   setInput(foodTextInput){
@@ -124,7 +121,7 @@ class DietSearchContainer extends Component {
                         <button className='food-search-button'>Search</button>
                       </form>
                 </nav>
-                <p>{this.state.selectedFoodName}</p>
+                <p className="selected-food-name">{this.state.selectedFoodName}</p>
                     <table className="table nutrients-per-cup-table">
                         <thead className="thead-dark">
                             <tr>
