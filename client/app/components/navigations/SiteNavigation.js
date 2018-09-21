@@ -55,7 +55,7 @@ export default class Navigation extends Component{
                         <div> <Link to='/' className="logo">Let's Get Fit </Link></div>
                             <Link to='./profile' className='nav-item'>Profile</Link>
                             <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
-                            <Link to='./food-search' className='nav-item'>Food Search</Link>
+                            <Link to='./nutrition-center' className='nav-item'>Nutrition Center</Link>
                             <Link to='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
                             <Link className='login' to='./profile'>{this.state.userName}</Link>
                                 <ul className='dropdown-ul'>
