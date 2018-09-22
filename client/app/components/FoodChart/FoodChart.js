@@ -9,7 +9,6 @@ import './food-chart.css';
 import axios from 'axios';
 
 class FoodChart extends Component {
-
     state = {
       dailyDietInfo: this.getStateForDietInfo(),
       userLocalStorageData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {},
@@ -68,7 +67,6 @@ class FoodChart extends Component {
   }
 
   displayUpdatedFoodData (dietSummary) {
-    console.log('dietSummary', dietSummary)
     //  TODO: add detail object to parent object
     const allSavedFoodData = {};
     if (dietSummary) {
@@ -122,13 +120,11 @@ class FoodChart extends Component {
       this.setState({
         updatedFoodPreviewInfo: true
       })
-      console.log('selected', selectedFood)
     }
 
   render() {
     if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
      const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
-     console.log('userData', this.updateUserData())
      const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
      const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
     return (

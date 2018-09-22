@@ -7,7 +7,7 @@ const initialState = {
 const updateFoodList = (state = initialState, action) => {
 	if(action.type === actions.UPDATED_FOOD_CHART){
 		return Object.assign({}, state, {
-            updatedUserData: [...action.payload, action.record],
+            	updatedUserData: [...action.payload, action.record],
 		})
 	}
 	return state;

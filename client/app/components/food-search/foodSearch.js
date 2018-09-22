@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import './diet-search-container.css';
-import Layout from '../../layouts/default';
+import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions'
-import FoodChart from '../../components/food-display/FoodChart';
 
 class DietSearchContainer extends Component {
   
@@ -77,24 +75,11 @@ class DietSearchContainer extends Component {
     })
   }
 
-  async addToUsersFoodList (selectedFoodFacts) {
-    // this.setState({
-    //   selectedFood: { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts }
-    // })
-    const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
-    this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
-    // saveToUsersFoodList(this.state.selectedFoodName, selectedFoodFacts, JSON.parse(localStorage.getItem('user')))
-    // const updatedUserData = await axios.get('/api/user-data', {
-    //   params: {
-    //     email: JSON.parse(localStorage.getItem('user')).email,
-    //   } 
-    // });
-    // console.log('updatedUserData from component', updatedUserData.data[0].user)
-    // this.setState({
-    //   updatedUserData: updatedUserData.data[0].user,
-    // })
-    // this.props.updatedFoodChart(this.state.updatedUserData)
-    // localStorage.setItem('user', JSON.stringify(this.state.updatedUserData));
+  async addToUsersFoodList (foodName, selectedFoodFacts) {
+    this.props.addSelectedFoodToFoodList(foodName, selectedFoodFacts)
+
+    // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
+    // this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
   }
   
   render() {
@@ -110,17 +95,13 @@ class DietSearchContainer extends Component {
      // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
      return (
       <div>
-        <Layout>
-        <div className="food-search-wrapper"> 
-          <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
-          <div className="diet-search-container">
           <nav className='food-search-nav'> 
                   <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
                       <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
                         <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
                         <button className='food-search-button'>Search</button>
                       </form>
-                </nav>
+            </nav>
                 <p className="selected-food-name">{this.state.selectedFoodName}</p>
                     <table className="table nutrients-per-cup-table">
                         <thead className="thead-dark">
@@ -144,11 +125,8 @@ class DietSearchContainer extends Component {
                     </table>
                   <div className='diet-search-button-div'>
                     <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(selectedFoodFacts)}>Add To Daily Food Intake</button>
+                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</button>
                   </div>
-        </div>
-      </div>
-      </Layout>
      </div>
      )
     }
@@ -177,10 +155,6 @@ class DietSearchContainer extends Component {
         })
       return (
         <div>
-          <Layout>
-            <div className="food-search-wrapper">
-            <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood} />
-              <div className="diet-search-container">
                 <nav className='food-search-nav'> 
                   <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
                       <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
@@ -221,18 +195,12 @@ class DietSearchContainer extends Component {
                     </ul>
                 </nav>
               </div>
-              </div>
-            </div>
-            </Layout>
         </div>
       );
     } 
     return (
       <div>
-      <Layout>
-      <div className="food-search-wrapper">
-      <FoodChart updatedUserData={this.state.updatedUserData} selectedFood={this.state.selectedFood}/>  
-        <div className="diet-search-container">
+        <div>
           <nav className='food-search-nav'> 
             <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
                 <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
@@ -242,8 +210,6 @@ class DietSearchContainer extends Component {
             </nav>
             <h1 className="default-search-text">Start your search for your favorite foods</h1>
           </div>
-        </div>
-        </Layout>
       </div>
     );
   }
