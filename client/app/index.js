@@ -1,6 +1,6 @@
 
 require('babel-polyfill');
-require('../../node_modules/bootstrap/dist/css/bootstrap.min.css');
+require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -19,3 +19,5 @@ render(
 	</Provider>
 	, root
 	);
+
+

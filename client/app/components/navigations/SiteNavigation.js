@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
 import { Redirect } from 'react-router-dom';
-
 import './navigation.css';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 export default class Navigation extends Component{
-    constructor(props){
-		super(props);
-		this.state = {
+    state = {
             loggedIn: false,
             showMenu: false,
-            userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
+            //userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
+            userName: null
         }
         
-        this.showDropdownMenu = this.showDropdownMenu.bind(this);
-        this.closeMenu = this.closeMenu.bind(this);
-    }
+        // this.showDropdownMenu = this.showDropdownMenu.bind(this);
+        // this.closeMenu = this.closeMenu.bind(this);
+        componentDidMount() {
+            this.setState({
+                userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
+            })
+        }
 
     logout(e) {
         e.preventDefault();
@@ -27,7 +29,7 @@ export default class Navigation extends Component{
         this.setState({ 
             showMenu: false 
         }, () => {
-            document.removeEventListener('click', this.closeMenu);
+            document.removeEventListener('click', this.closeMenu.bind(this));
         });
     }
 
@@ -36,7 +38,7 @@ export default class Navigation extends Component{
         this.setState({
             showMenu: true
         } , () => {
-            document.addEventListener('click', this.closeMenu);
+            document.addEventListener('click', this.closeMenu.bind(this));
         })
     }
 
@@ -52,12 +54,12 @@ export default class Navigation extends Component{
             return(
                 <div>
                     <nav className='nav-main'>
-                        <div> <Link to='/' className="logo">Let's Get Fit </Link></div>
-                            <Link to='./profile' className='nav-item'>Profile</Link>
-                            <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
-                            <Link to='./nutrition-center' className='nav-item'>Nutrition Center</Link>
-                            <Link to='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
-                            <Link className='login' to='./profile'>{this.state.userName}</Link>
+                        <div> <Link href='/'><a className="logo">Let's Get Fit</a></Link></div>
+                            <Link href='./profile'><a className='nav-item'>Profile</a></Link>
+                            <Link href='./assessment'><a className='nav-item'>Fitness Assessment</a></Link>
+                            <Link href='./nutrition-center'><a className='nav-item'>Nutrition Center</a></Link>
+                            <Link href='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
+                            <Link href='./profile'><a className='login'>{this.state.userName}</a></Link>
                                 <ul className='dropdown-ul'>
                                     <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                                     {
@@ -65,10 +67,10 @@ export default class Navigation extends Component{
                                 (
                                         <div className="nav-sub">
                                             <ul>
-                                                <Link className='dropdown-link' to='./profile'>Profile</Link>
-                                                <Link className='dropdown-link' to='./assessment'>Fitness Assessment</Link>
-                                                <Link className='dropdown-link' to='./food-search'>Food Search</Link>
-                                                <Link className='dropdown-link' to='/' onClick={(e) => this.logout(e)}>Logout</Link>
+                                                <Link href='./profile'><a className='dropdown-link'>Profile</a></Link>
+                                                <Link href='./assessment'><a className='dropdown-link'>Fitness Assessment</a></Link>
+                                                <Link href='./food-search'><a className='dropdown-link'>Food Search</a></Link>
+                                                <Link href='/' onClick={(e) => this.logout(e)}><a className='dropdown-link'>Logout</a></Link>
                                             </ul>
                                         </div>
                                 ) : ( null )
@@ -82,11 +84,11 @@ export default class Navigation extends Component{
 		return(
             <div>
                 <nav className='nav-main'>
-                    <div><Link to='/' className="logo">Lets Get Fit </Link></div>
-                        <Link to='./assessment' className='nav-item'>Fitness Assessment</Link>
-                        <Link className='dropdown-link' className='nav-item' to='./food-search'>Food Search</Link>
-                        <Link to='./login' href="./login" className='login'>Login</Link>
-                        <Link to='./sign-up' href="./sign-up" className='login'>Sign Up</Link>     
+                    <div><Link href={{ pathname: '/'}}><a className="logo">Lets Get Fit</a></Link></div>
+                        <Link href={{ pathname: './assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
+                        <Link href='./food-search'><a className='nav-item'>Food Search</a></Link>
+                        <Link href={{ pathname: './login'}} href="./login"><a className='login'>Login</a></Link>
+                        <Link href={{ pathname: './sign-up'}}><a className='login'>Sign Up</a></Link>     
                         <ul className='dropdown-ul'>
                             <li ><a  onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                             { 
@@ -94,10 +96,10 @@ export default class Navigation extends Component{
                                 (
                                     <div className="nav-sub">
                                         <ul>
-                                            <Link className='dropdown-link' to='./assessment'>Fitness Assessment</Link>
-                                            <Link className='dropdown-link' to='./food-search'>Food Search</Link>
-                                            <Link className='dropdown-link' to='./login' href="./login">Login</Link>
-                                            <Link className='dropdown-link' to='./sign-up' href="./sign-up">Sign Up</Link> 
+                                            <Link href={{ pathname: './assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>
+                                            <Link href={{ pathname: './food-search'}}><a className='dropdown-link'>Food Search</a></Link>
+                                            <Link href={{ pathname: './login'}} href="./login"><a className='dropdown-link'>Login</a></Link>
+                                            <Link href={{ pathname: './sign-up'}}><a className='dropdown-link'>Sign Up</a></Link> 
                                         </ul>
                                     </div>
                                 ) : ( null )

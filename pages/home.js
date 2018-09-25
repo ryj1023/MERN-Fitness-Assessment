@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import Page from './index';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Layout from '../../layouts/default'
-import Workouts from '../../components/workouts/workouts';
+import Layout from '../client/app/layouts/default'
+import Workouts from '../client/app/components/workouts/workouts';
 import './home.css';
 
 class Home extends Component {
@@ -11,8 +12,8 @@ class Home extends Component {
 		user: null,
 	}
 
-	async componentDidMount() {
-		const cachedUser = JSON.parse(localStorage.getItem('user'))
+	componentDidMount() {
+		const cachedUser = localStorage ? JSON.parse(localStorage.getItem('user')) : this.state.user
 				this.setState({
 					user: cachedUser
 			})
@@ -101,5 +102,5 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default Page(connect(mapStateToProps, mapDispatchToProps)(Home))
 

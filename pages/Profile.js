@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from '../../layouts/default';
+import Layout from '../client/app/layouts/default';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './profile.css'

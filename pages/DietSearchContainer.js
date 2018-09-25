@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../../layouts/default';
-import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
-import FoodChart from '../../components/FoodChart/FoodChart';
-import FoodSearch from '../../components/food-search/FoodSearch';
-import { updatedFoodChart } from '../../actions'
+import Layout from '../client/app/layouts/default';
+import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../client/app/actions/async-actions';
+import FoodChart from '../client/app/components/FoodChart/FoodChart';
+import FoodSearch from '../client/app/components/food-search/FoodSearch';
+import { updatedFoodChart } from '../client/app/actions'
 
 class DietSearchContainer extends Component {
   state = {
