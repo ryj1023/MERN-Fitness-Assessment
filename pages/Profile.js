@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import Layout from '../client/app/layouts/default';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import App from '../client/app/components/app/App';
 import './profile.css'
 
+
 class Profile extends Component {
-		state = {
-            userName: JSON.parse(localStorage.getItem('user')).userName,
-            dailyDietGoal: JSON.parse(localStorage.getItem('user')).dietInfo,
-        };
+    state = {
+        userName: null,
+        dailyDietGoal: null,
+    };
+
     async componentDidMount() {
-        if (this.state.userName === undefined) {
+        if (!JSON.parse(localStorage.getItem('user'))) {
             const res = await fetch('/api/users')
             const userData = await res.json();
             this.setState({
-                userName: userData[0].user.userName
+                userName: userData[0].user.userName,
+                dailyDietGoal: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
             })
         }
       }
@@ -33,7 +37,7 @@ class Profile extends Component {
                                 ) : (
                                     <div>
                                         <p>You haven't done your fitness assessment yet</p>
-                                        <h3>Take the assessment <Link to='./assessment'>here</Link> to get your new goals!</h3>
+                                        <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals!</h3>
                                     </div>
                                 )
                                 }
@@ -54,4 +58,5 @@ const mapStateToProps = (state) => {
 		nutritionFacts: state.nutritionFacts,
 	}
 }
-export default connect(mapStateToProps)(Profile)
+
+export default App(connect(mapStateToProps)(Profile))
