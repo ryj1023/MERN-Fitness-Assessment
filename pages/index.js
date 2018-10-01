@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Layout from '../client/app/layouts/default'
 import Workouts from '../client/app/components/workouts/workouts';
-import './home.css';
+import '../client/app/styles/home.css';
 
 class Home extends Component {
 	
@@ -21,7 +21,7 @@ class Home extends Component {
 
 	render(){
 		if (this.state.user) {
-			return(
+			return (
 				<div>
 					<Layout>
 					<div className="home-wrapper">
@@ -80,8 +80,6 @@ class Home extends Component {
 								<div className="home-feed">
 								</div>
 								<div className="tables-container">
-										<div></div>
-										<div></div>
 								</div>
 						</div>
 					 </Layout>

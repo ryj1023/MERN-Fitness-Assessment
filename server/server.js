@@ -1,21 +1,7 @@
-const bodyParser = require('body-parser');
 const express = require('express');
-const fs = require('fs');
 const mongoose = require('mongoose');
-const path = require('path');
-// const webpack = require('webpack');
-// const webpackDevMiddleware = require('webpack-dev-middleware');
-// const webpackHotMiddleware = require('webpack-hot-middleware');
-// const config = require('../configuration/config');
-// const webpackConfig = require('../webpack.config');
-const session = require('cookie-session')
-const expressValidator = require('express-validator');
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
-const cookieParser = require('cookie-parser');
-const flash = require('connect-flash');
-const isDev = process.env.NODE_ENV !== 'production';
-const port  = process.env.PORT || 8080;
+const Users = require('./models/User-info.model.js');
+
 
 // Configuration
 // ================================================================================================
@@ -35,80 +21,142 @@ const { parse } = require('url')
 const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
-app.prepare().then(() => {
-  createServer((req, res) => {
-    // Be sure to pass `true` as the second argument to `url.parse`.
-    // This tells it to parse the query portion of the URL.
-    const parsedUrl = parse(req.url, true)
-    const { pathname, query } = parsedUrl
+const _app = next({ dev })
+const handle = _app.getRequestHandler()
+_app.prepare()
+.then(() => {
+  const app = express()
 
-    if (pathname === '/') {
-      app.render(req, res, '/', query)
-    } else if (pathname === '/b') {
-      app.render(req, res, '/a', query)
-    } else {
-      handle(req, res, parsedUrl)
-    }
-  }).listen(3000, err => {
+  app.get('/api/sign-up', (req, res, next) => {
+    res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
+    req.session.errors = null;
+    });
+
+    app.post('/api/validation', (req, res, next) => {
+     req.checkBody('email', 'Invalid Email Address').isEmail();
+     req.checkBody('password', 'Password Is Too Short').isLength({min: 4})
+     req.checkBody('password', 'passwords don\'t match').equals(req.body.confirmPassword) // checks to see if the password and confirmPassword values match
+     let errors = req.validationErrors();
+     if (errors) {
+       res.json(errors)
+       errors = null;
+     } else {
+       res.send('validated');
+     }
+      // req.session.errors = null; // clears errors after shown to the user
+    });
+
+    app.post('/api/validation/create-user', (req, res) => {
+      Users.find({"user.email" : req.body.email}, (err, user) => {
+        if (err) return res.status(500).send(err)
+          if (user.length === 0) {
+            const post = new Users({
+              user: {
+               email: req.body.email,
+               userName: req.body.userName,
+               password: req.body.password,
+               dietInfo: {
+                 calories: req.body.calories,
+                 protein: req.body.protein,
+                 fat: req.body.fat,
+                 carbs: req.body.carbs,
+               },
+                 workouts: req.body.programs,
+              }
+            })
+            post.save((err, post) => {
+              if (err) { return next(err) }
+              res.status(201).json(post)
+            })
+          } else {
+            res.json('There is already an account with this email.')
+          }
+      })
+    })
+
+  app.get('/api/login', (req, res, next) => {
+    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, '-user.password', (err, user) => {
+      console.log('user', user)
+      if (err) return res.status(500).send(err)
+      res.json(user)
+    })
+  });
+
+  app.get('/api/user-data', (req, res, next) => {
+    Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
+      if (err) return res.status(500).send(err)
+      res.json(user)
+    })
+  });
+
+  app.post('/api/save-food-items', (req, res) => {
+    Users.findOneAndUpdate(
+      { 'user.email': req.body.email },
+      {
+        // $push: { 
+        //   'user.userDietSummary': req.body.userDietSummary
+        // },
+        'user.userDietSummary': req.body.userDietSummary
+      },{
+        new: true
+      },
+      (err, doc) => {
+        console.log('err', err)
+        console.log('doc', doc)
+        if (err) return res.status(500).send(err);
+        res.status(201).json(doc)
+      }
+    )
+    /*
+            user: {
+          userName: String,
+          email: String,
+          password: String,
+          dietInfo: {
+            calories: Number,
+            protein: Number,
+            fat: Number,
+            carbs: Number,
+          },
+          userDietSummary: [
+            { foodName: String ,
+            foodFacts: [] },
+          ], 
+          workouts: [String]
+        }
+    */
+  })
+
+  app.post('/api/save', (req, res, next) => {
+    Users.findOneAndUpdate(
+      { 'user.email': req.body.email },
+      {
+        'user.dietInfo.calories': req.body.userData.calories,
+        'user.dietInfo.protein': req.body.userData.protein,
+        'user.dietInfo.fat': req.body.userData.fat,
+        'user.dietInfo.carbs': req.body.userData.carbs,
+        'user.workouts': req.body.programs,
+      },
+      { new: true },
+      (err, doc) => {
+        if (err) return res.send(500, { error: err });
+        res.status(201).json(doc)
+      }
+    )
+  })
+    
+  app.get('*', (req, res) => {
+    return handle(req, res)
+  })
+    
+  app.listen(3000, (err) => {
     if (err) throw err
     console.log('> Ready on http://localhost:3000')
   })
 })
-
-// const app = express();
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-// app.use(cookieParser());
-// app.use(session({
-//   secret: 'secret',
-//   saveUninitialized: true,
-//   resave: true,
-// }));
-// app.use(passport.initialize());
-// app.use(expressValidator());
-// app.use(passport.session({
-//   secret: 'secret', saveUninitialized: false, resave: false,
-// }));
-// app.use(flash());
-// // API routes
-// require('./routes')(app);
-
-// // if (isDev) {
-// //   const compiler = webpack(webpackConfig);
-// //   app.use(historyApiFallback({
-// //     verbose: false
-// //   }));
-
-// //   app.use(webpackDevMiddleware(compiler, {
-// //     publicPath: webpackConfig.output.publicPath,
-// //     contentBase: path.resolve(__dirname, '../client/public'),
-// //     stats: {
-// //       colors: true,
-// //       hash: false,
-// //       timings: true,
-// //       chunks: false,
-// //       chunkModules: false,
-// //       modules: false
-// //     }
-// //   }));
-
-// //   app.use(webpackHotMiddleware(compiler));
-// //   app.use(express.static(path.resolve(__dirname, '../dist')));
-// // } else {
-// //   app.use(express.static(path.resolve(__dirname, '../dist')));
-// //   app.get('*', function (req, res) {
-// //     res.sendFile(path.resolve(__dirname, '../dist/index.html'));
-// //     res.end();
-// //   });
-// // }
-
-// // app.listen(port, '0.0.0.0', (err) => {
-// //   if (err) {
-// //     console.log(err);
-// //   }
-// //   console.info('>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
-// // });
+.catch((ex) => {
+  console.error(ex.stack)
+  process.exit(1)
+})
 
 //module.exports = app;

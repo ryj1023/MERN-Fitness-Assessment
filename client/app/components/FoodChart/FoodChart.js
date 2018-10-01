@@ -10,13 +10,13 @@ import axios from 'axios';
 
 class FoodChart extends Component {
     state = {
-      dailyDietInfo: this.getStateForDietInfo(),
-      userLocalStorageData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {},
+      dailyDietInfo: [],
+      userLocalStorageData: null,
       // user: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
-      hideSaveButton: (this.getStateForDietInfo()) ? true : false,
-      isLoggedIn: JSON.parse(localStorage.getItem('user')) ? true : false,
+      hideSaveButton: true,
+      isLoggedIn: false,
       showSignInMessage: false,
-      user: this.props.updatedUserData ? this.props.updatedUserData : (JSON.parse(localStorage.getItem('user')) || null),
+      user: null,
       savedFoodList: false,
       err: null,
       updatedFoodPreviewInfo: null,
@@ -29,6 +29,16 @@ class FoodChart extends Component {
       return JSON.parse(localStorage.getItem('user')).dietInfo
     } 
     return {};
+  }
+
+  componentDidMount() {
+    this.setState({
+      dailyDietInfo: this.getStateForDietInfo(),
+      userLocalStorageData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {},
+      hideSaveButton: (this.getStateForDietInfo()) ? true : false,
+      isLoggedIn: JSON.parse(localStorage.getItem('user')) ? true : false,
+      user: this.props.updatedUserData ? this.props.updatedUserData : (JSON.parse(localStorage.getItem('user')) || null),
+    })
   }
 
   async saveDietData(e, updatedUserFoodList) {

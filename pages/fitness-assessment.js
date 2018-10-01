@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Layout from '../../layouts/default';
-import QuestionDisplay from '../questions/QuestionDisplay';
-import AnswerForm from '../answers/AnswerForm';
-import './container.css';
-import { addAnswer,  gatherFitnessInfo  } from '../../actions';
-import calculateFitnessInput from '../../calculations/calculate-fitness-input';
+import Layout from '../client/app/layouts/default';
+import QuestionDisplay from '../client/app/components/questions/QuestionDisplay';
+import AnswerForm from '../client/app/components/answers/AnswerForm';
+import '../client/app/styles/fitness-assessment.css';
+import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
+import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
+import App from '../client/app/components/app/App';
 
 class Container extends Component {
 
@@ -139,4 +140,4 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo }, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(Container)
+export default App(connect(mapStateToProps, mapDispatchToProps)(Container))

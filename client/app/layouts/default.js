@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head'
-import Navigation from '../components/navigations/SiteNavigation';
+import Navigation from '../components/navigations/Navbar';
 import Footer from '../components/footer/Footer'
 import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 

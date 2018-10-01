@@ -11,7 +11,7 @@ class DietSearchContainer extends Component {
     foodTextInput: null,
     showNutrientFacts: false,
     selectedFoodName: null,
-    dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
+    dailyDietInfo: null,
     pageNumber: 1,
     selectedPage: 1,
     updatedUserData: null,
@@ -22,6 +22,12 @@ class DietSearchContainer extends Component {
 		this.setState({
       foodTextInput,
       counter: this.state.counter + 1,
+    })
+  }
+
+  componentDidMount() {
+    this.setState({
+      dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
     })
   }
 

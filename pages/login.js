@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import Navigation from '../../components/navigations/navigation';
-import { loginUser } from '../../actions/async-actions';
-import './user-login.css';
+import Navigation from '../client/app/components/navigations/Navbar';
+import { loginUser } from '../client/app/actions/async-actions';
+import App from '../client/app/components/app/App';
+import '../client/app/styles/login.css';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
+import Router from 'next/router';
 
 class Login extends Component {
     state = {
@@ -28,14 +30,12 @@ class Login extends Component {
         this.props.dispatch(loginUser(this.state))
     }
 
-    componentDidMount() {
-    }
-
 	render(){   
         if (this.props.userData[0] && Object.keys(this.props.userData[0]).length > 1) {
             localStorage.removeItem('user');
             localStorage.setItem('user', JSON.stringify(this.props.userData[0].user));
-            return <Redirect to='/' />;
+            // return <Redirect to='/' />;
+            Router.push('/')
         } else if (this.props.userData.includes('No Account')) {
             return (
                 <div>
@@ -73,4 +73,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(Login)
+export default App(connect(mapStateToProps)(Login))

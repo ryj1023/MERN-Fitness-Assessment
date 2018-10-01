@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import Navigation from '../client/app/components/navigations/SiteNavigation';
 import { validateSignUp } from '../client/app/actions/async-actions';
-import './user-sign-up.css';
+import '../client/app/styles/sign-up.css';
 import { connect } from 'react-redux';
 import Layout from '../client/app/layouts/default';
 import App from '../client/app/components/app/App';

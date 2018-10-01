@@ -3,7 +3,7 @@ import Layout from '../client/app/layouts/default';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import App from '../client/app/components/app/App';
-import './profile.css'
+import '../client/app/styles/profile.css'
 
 
 class Profile extends Component {

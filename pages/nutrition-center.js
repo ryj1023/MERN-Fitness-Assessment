@@ -5,14 +5,15 @@ import Layout from '../client/app/layouts/default';
 import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../client/app/actions/async-actions';
 import FoodChart from '../client/app/components/FoodChart/FoodChart';
 import FoodSearch from '../client/app/components/food-search/FoodSearch';
-import { updatedFoodChart } from '../client/app/actions'
+import { updatedFoodChart } from '../client/app/actions';
+import App from '../client/app/components/app/App';
 
 class DietSearchContainer extends Component {
   state = {
     foodTextInput: null,
     showNutrientFacts: false,
     selectedFoodName: null,
-    dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
+    dailyDietInfo: '',
     pageNumber: 1,
     selectedPage: 1,
     updatedUserData: null,
@@ -22,6 +23,12 @@ class DietSearchContainer extends Component {
   addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts) {
     const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
     this.props.updatedFoodChart(userDietSummary, { foodName: selectedFoodName, foodFacts: selectedFoodFacts })
+  }
+
+  componentDidMount() {
+    this.setState({
+      dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
+    })
   }
 
   render () {
@@ -59,4 +66,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)
+export default App(connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer))
