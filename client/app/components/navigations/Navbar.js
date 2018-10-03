@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { Button } from 'reactstrap'
 import './navigation.css';
 import Link from 'next/link';
 
@@ -10,8 +11,6 @@ export default class Navigation extends Component{
             userName: null
         }
         
-        // this.showDropdownMenu = this.showDropdownMenu.bind(this);
-        // this.closeMenu = this.closeMenu.bind(this);
         componentDidMount() {
             this.setState({
                 userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
@@ -20,6 +19,7 @@ export default class Navigation extends Component{
 
     logout(e) {
         e.preventDefault();
+        console.log('cleared')
         localStorage.clear('user')
         window.location = "/";
     }
@@ -53,12 +53,12 @@ export default class Navigation extends Component{
             return(
                 <div>
                     <nav className='nav-main'>
-                        <div> <Link href='/'><a className="logo">Let's Get Fit</a></Link></div>
-                            <Link href='./profile'><a className='nav-item'>Profile</a></Link>
-                            <Link href='./fitness-assessment'><a className='nav-item'>Fitness Assessment</a></Link>
-                            <Link href='./nutrition-center'><a className='nav-item'>Nutrition Center</a></Link>
-                            <Link href='/' onClick={(e) => this.logout(e)}className='login'>Logout</Link>
-                            <Link href='./profile'><a className='login'>{this.state.userName}</a></Link>
+                        <div> <Link href={{pathname: '/'}}><a className="logo">Let's Get Fit</a></Link></div>
+                            <Link href={{pathname: '/profile'}}><a className='nav-item'>Profile</a></Link>
+                            <Link href={{pathname: '/fitness-assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
+                            <Link href={{pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link>
+                            <Button className='nav-item' onClick={(e) => this.logout(e)}className='login'>Logout</Button>
+                            <Link href={{pathname: 'profile'}}><a className='login'>{this.state.userName}</a></Link>
                                 <ul className='dropdown-ul'>
                                     <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                                     {
@@ -66,9 +66,9 @@ export default class Navigation extends Component{
                                 (
                                         <div className="nav-sub">
                                             <ul>
-                                                <Link href='./profile'><a className='dropdown-link'>Profile</a></Link>
-                                                <Link href='./fitness-assessment'><a className='dropdown-link'>Fitness Assessment</a></Link>
-                                                <Link href='./nutrition-center'><a className='dropdown-link'>Food Search</a></Link>
+                                                <Link href={{ pathname: '/profile'}}><a className='dropdown-link'>Profile</a></Link>
+                                                <Link href={{pathname: '/fitness-assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>
+                                                <Link href={{pathname: '/nutrition-center'}}><a className='dropdown-link'>Food Search</a></Link>
                                                 <Link href='/' onClick={(e) => this.logout(e)}><a className='dropdown-link'>Logout</a></Link>
                                             </ul>
                                         </div>
@@ -83,11 +83,11 @@ export default class Navigation extends Component{
 		return(
             <div>
                 <nav className='nav-main'>
-                    <div><Link href={{ pathname: '/'}}><a className="logo">Lets Get Fit</a></Link></div>
-                        <Link href={{ pathname: './fitness-assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
-                        <Link href='./nutrition-center'><a className='nav-item'>Food Search</a></Link>
-                        <Link href={{ pathname: './login'}} href="./login"><a className='login'>Login</a></Link>
-                        <Link href={{ pathname: './sign-up'}}><a className='login'>Sign Up</a></Link>     
+                    <div><Link href={{ pathname: '/'}}><a className="logo">Lets Get Fit!</a></Link></div>
+                        <Link href={{ pathname: '/fitness-assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
+                        <Link href={{ pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link>
+                        <Link href={{ pathname: '/login'}} href="./login"><a className='login'>Login</a></Link>
+                        <Link href={{ pathname: '/sign-up'}}><a className='login'>Sign Up</a></Link>     
                         <ul className='dropdown-ul'>
                             <li ><a  onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
                             { 
@@ -95,10 +95,10 @@ export default class Navigation extends Component{
                                 (
                                     <div className="nav-sub">
                                         <ul>
-                                            <Link href={{ pathname: './fitness-assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>
-                                            <Link href={{ pathname: './nutrition-center'}}><a className='dropdown-link'>Food Search</a></Link>
-                                            <Link href={{ pathname: './login'}} href="./login"><a className='dropdown-link'>Login</a></Link>
-                                            <Link href={{ pathname: './sign-up'}}><a className='dropdown-link'>Sign Up</a></Link> 
+                                            <Link href={{ pathname: '/fitness-assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>
+                                            <Link href={{ pathname: '/nutrition-center'}}><a className='dropdown-link'>Nutrition Center</a></Link>
+                                            <Link href={{ pathname: '/login'}} href="./login"><a className='dropdown-link'>Login</a></Link>
+                                            <Link href={{ pathname: '/sign-up'}}><a className='dropdown-link'>Sign Up</a></Link> 
                                         </ul>
                                     </div>
                                 ) : ( null )

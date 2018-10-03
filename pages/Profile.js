@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Container, Row, Col, Table } from 'reactstrap';
 import Layout from '../client/app/layouts/default';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import App from '../client/app/components/app/App';
-import '../client/app/styles/profile.css'
+import '../client/app/styles/profile.css';
 
 
 class Profile extends Component {
@@ -25,26 +26,23 @@ class Profile extends Component {
 
 	render(){        
 		return (
-            <div>
                 <Layout>
-                        <div className="profile-wrapper">
-                            <div>	
-                                <h1>{this.state.userName}'s Profile</h1>
+                        <Container fluid>
+                            <Row>
                                 {
                                     this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
                                 (
                                     <h1>calories: {this.state.dailyDietGoal.calories}</h1>
                                 ) : (
-                                    <div>
+                                    <Col sm='12'>
                                         <p>You haven't done your fitness assessment yet</p>
                                         <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals!</h3>
-                                    </div>
+                                    </Col>
                                 )
                                 }
-                            </div>
-                        </div>
+                            </Row>
+                        </Container>
                     </Layout>
-            </div>
         ) 
 	}
 }

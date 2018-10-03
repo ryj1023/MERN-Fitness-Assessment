@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Layout from '../client/app/layouts/default'
 import Workouts from '../client/app/components/workouts/workouts';
-import '../client/app/styles/home.css';
+import { Container, Row, Col, Table } from 'reactstrap';
 
 class Home extends Component {
 	
@@ -20,71 +20,62 @@ class Home extends Component {
 	}
 
 	render(){
-		if (this.state.user) {
 			return (
-				<div>
 					<Layout>
-					<div className="home-wrapper">
-						  <div className="home-feed">
-						  <h1>Welcome, {this.state.user.userName ? this.state.user.userName : ''}!</h1>
-						  </div>
-						  <div className="tables-container">
-							  <div>
-							  { 
-								  (this.state.user.dietInfo && this.state.user.dietInfo.calories) ? 
-							  (
-									<table className="table">
-										<thead className="thead-dark">
-											<tr>
-												<th colSpan="4" className='table-header-text'>Daily Nutrient Intake</th>
-											</tr>
-										</thead>
-										<thead className="thead-dark">
-											<tr>
-												<th scope="col">Calories (Kcal)</th>
-												<th scope="col">Protein (Gs)</th>
-												<th scope="col">Fat (Gs)</th>
-												<th scope="col">Carbs (Gs)</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-											<td>{this.state.user.dietInfo.calories}</td>
-											<td>{this.state.user.dietInfo.protein}</td>
-											<td>{this.state.user.dietInfo.fat}</td>
-											<td>{this.state.user.dietInfo.carbs}</td>
-											</tr>
-										</tbody>
-            					</table>
-							  )
-									: (
-											<div>
-												<h2>No diet info yet</h2>
-											</div>
-										)
-							  }
-							  </div>
-							  <div className='workouts-container'>
-							  		<Workouts workoutData={this.state.user} />
-							  </div>
-						  </div>
-					  </div>
+						<Container fluid>
+							<Row>
+								<Col sm='8'>
+									<h1>Welcome, {this.state.user ? this.state.user.userName : ''}!</h1>
+								</Col>
+								<Col sm='4'>
+									<Row>
+										<Col sm='12'>
+											{ 
+												(this.state.user && this.state.user.dietInfo) ? 
+													(
+														<Table>
+															<thead className="thead-dark">
+																<tr>
+																	<th colSpan="4" className='table-header-text'>Daily Nutrient Intake</th>
+																</tr>
+															</thead>
+															<thead className="thead-dark">
+																<tr>
+																	<th scope="col">Calories (Kcal)</th>
+																	<th scope="col">Protein (Gs)</th>
+																	<th scope="col">Fat (Gs)</th>
+																	<th scope="col">Carbs (Gs)</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr>
+																<td>{this.state.user.dietInfo.calories}</td>
+																<td>{this.state.user.dietInfo.protein}</td>
+																<td>{this.state.user.dietInfo.fat}</td>
+																<td>{this.state.user.dietInfo.carbs}</td>
+																</tr>
+															</tbody>
+														</Table>
+													)
+													: 
+													(
+														<Col sm='12'>
+															<h2>No diet info yet</h2>
+														</Col>
+													)
+											}
+										</Col>
+									</Row>
+									<Row>
+										<Col sm='12'>
+											{/* <Workouts workoutData={this.state.user} /> */}
+										</Col>
+									</Row>
+								</Col>
+							</Row>
+						</Container>
 					</Layout>
-			  </div>
 			  )
-		}
-			return(
-			 	<div>
-					 <Layout>
-						<div className="home-wrapper">
-								<div className="home-feed">
-								</div>
-								<div className="tables-container">
-								</div>
-						</div>
-					 </Layout>
-				</div>
-				)
 		}	
 }	
 
