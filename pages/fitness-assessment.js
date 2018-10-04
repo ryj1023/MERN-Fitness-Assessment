@@ -9,8 +9,10 @@ import '../client/app/styles/fitness-assessment.css';
 import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
 import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
 import App from '../client/app/components/app/App';
+import { Container, Row, Col } from 'reactstrap';
 
-class Container extends Component {
+
+class FitnessAssessment extends Component {
 
 		state = {
 			counter: 0,
@@ -77,10 +79,8 @@ class Container extends Component {
 				switch(question.answerType){
 					case 'height':
 					return <AnswerForm key={this.state.counter} type="height" onAdd={input => this.getUserInput(input, 'number')} />
-					break;
 					case 'radio':
 					return <AnswerForm questionInfo={question} key={this.state.counter} answerLabels={question.answers} radioAnswersLength={question.answers.length} type="radio" onAdd={input => this.getUserInput(input, 'string')} />
-					break;
 					default:
 					return <AnswerForm key={this.state.counter} type="text" onAdd={input => this.getUserInput(input, 'number')} text="Submit" />
 				}
@@ -90,25 +90,29 @@ class Container extends Component {
 
 		if(this.state.startMenu === true){
 			return (
-				<div>
 					<Layout>
-					<div className="container-wrapper">
-							<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
-							<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
-						</div>
+						<Container>
+							<Row>
+								<Col>
+									<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
+									<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
+								</Col>
+							</Row>
+						</Container>
 					</Layout>
-				</div>
 				)
 		} else if(this.state.calculateAnswerPrompt === true) {
 			return(
-			<div>
 				<Layout>
-				<div className="container-wrapper">
-						<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
-						<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
-					</div>
+					<Container>
+							<Row>
+								<Col>
+									<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
+									<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
+								</Col>
+							</Row>
+						</Container>
 				</Layout>
-			</div>
 			)
 		}
 		else if(this.state.showClientInfo === true) {
@@ -118,10 +122,14 @@ class Container extends Component {
 			return(
 			 <div>
 					<Layout>
-						<div className="container-wrapper">
+						<Container>
+							<Row>
+								<Col>
 								{Questions}
-								<div>{Form}</div>
-						</div>
+								{Form}
+								</Col>
+							</Row>
+						</Container>
 					</Layout>
 				</div>
 				)
@@ -140,4 +148,4 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo }, dispatch);
-export default App(connect(mapStateToProps, mapDispatchToProps)(Container))
+export default App(connect(mapStateToProps, mapDispatchToProps)(FitnessAssessment))

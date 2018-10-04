@@ -7,6 +7,7 @@ import FoodChart from '../client/app/components/FoodChart/FoodChart';
 import FoodSearch from '../client/app/components/food-search/FoodSearch';
 import { updatedFoodChart } from '../client/app/actions';
 import App from '../client/app/components/app/App';
+import { Container, Row, Col } from 'reactstrap';
 
 class DietSearchContainer extends Component {
   state = {
@@ -34,22 +35,16 @@ class DietSearchContainer extends Component {
   render () {
     return (
       <Layout>
-         <div className="container-fluid">
-          <div className="row no-gutters mt-2">
-            <div className="col mr-1">
-              <FoodChart/>
-            </div>
-            <div className="col ml-1">
-              <FoodSearch addSelectedFoodToFoodList={(selectedFoodName, selectedFoodFacts) => this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts)}/>
-            </div>
-          </div>
-        </div>
-        <style jsx>{
-          `.col{
-            background-color: #eee
-          }
-          `}
-        </style>
+         <Container>
+          <Row className='mt-2'>
+              <Col>
+                <FoodChart/>
+              </Col>
+              <Col>
+                <FoodSearch addSelectedFoodToFoodList={(selectedFoodName, selectedFoodFacts) => this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts)}/>
+              </Col>
+            </Row>
+        </Container>
       </Layout>
     )
   }

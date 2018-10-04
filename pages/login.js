@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Navigation from '../client/app/components/navigations/Navbar';
+import Navigation from '../client/app/components/navigations/NavBar';
 import { loginUser } from '../client/app/actions/async-actions';
 import App from '../client/app/components/app/App';
 import '../client/app/styles/login.css';

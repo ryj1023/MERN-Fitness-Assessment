@@ -3,7 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
-import { updatedFoodChart } from '../../actions'
+import { updatedFoodChart } from '../../actions';
+import SmartTable from '../SmartTable/SmartTable';
+import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
+
 
 class DietSearchContainer extends Component {
   
@@ -90,50 +93,41 @@ class DietSearchContainer extends Component {
   
   render() {
     const selectedFoodFacts = [];
+    const tableHeaders = ['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']
+    const FoodSearchForm = () => (
+                <Row> 
+                  <Col>
+                      <Form inline onSubmit={(e)=> this.onSubmit(e)}>
+                        <FormGroup>
+                          <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
+                          <Button>Search</Button>
+                        </FormGroup>
+                      </Form>
+                    </Col>
+                  </Row>
+
+   )
     // showing selected food nutrient facts
     if (this.state.showNutrientFacts === true) {
-     const nutritionFactUnit = this.props.nutritionFacts.map((data, index) => {
+     const nutritionFactUnits = this.props.nutritionFacts.map((data) => {
        selectedFoodFacts.push(data);
        if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
-        return <td key={index}>{data.value}{data.unit}</td>
+        return `${data.value}${data.unit}`
        } 
      });
      // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
      return (
-      <div>
-          <nav className='food-search-nav'> 
-                  <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
-                      <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
-                        <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                        <button className='food-search-button'>Search</button>
-                      </form>
-            </nav>
-                <p className="selected-food-name">{this.state.selectedFoodName}</p>
-                    <table className="table nutrients-per-cup-table">
-                        <thead className="thead-dark">
-                            <tr>
-                              <th colSpan="4" className='table-header-text'>Nutrients Per Cup</th>
-                            </tr>
-                        </thead>
-                        <thead className="thead-dark">
-                          <tr>
-                            <th scope="col">Calories</th>
-                            <th scope="col">Protein (grams)</th>
-                            <th scope="col">Fat (grams)</th>
-                            <th scope="col">Carbs (grams)</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            {nutritionFactUnit}
-                          </tr>
-                        </tbody>
-                    </table>
-                  <div className='diet-search-button-div'>
-                    <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-                    <button className='add-food-button' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</button>
-                  </div>
-     </div>
+      <Container>
+        {FoodSearchForm()}
+        <Row>
+          <p className="selected-food-name">{this.state.selectedFoodName}</p>
+          <SmartTable tableData={nutritionFactUnits} tableHeaders={tableHeaders} />
+            <div className='diet-search-button-div'>
+              <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
+              <button className='add-food-button' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</button>
+            </div>
+        </Row>
+     </Container>
      )
     }
     if (`${this.props.foodList}`.length > 0) {
@@ -160,14 +154,8 @@ class DietSearchContainer extends Component {
             return <li key={index + 1} className={`page-item ${isActive}`}><a className="page-link" key={index + 1} name={index + 1} onClick={(e)=> this.changeFoodPage(e)} href="#">{index + 1}</a></li>
         })
       return (
-        <div>
-                <nav className='food-search-nav'> 
-                  <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
-                      <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
-                        <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                        <button className='food-search-button'>Search</button>
-                      </form>
-                </nav>
+        <Container>
+                {FoodSearchForm()}
                 <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
                   <ul className="list-group">
                     {FoodList}
@@ -201,22 +189,14 @@ class DietSearchContainer extends Component {
                     </ul>
                 </nav>
               </div>
-        </div>
+        </Container>
       );
     } 
     return (
-      <div>
-        <div>
-          <nav className='food-search-nav'> 
-            <h1 className='nav-heading'>Search Foods for macrconutrients</h1>
-                <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
-                  <input className="input-box-one" type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                  <button className='food-search-button'>Search</button>
-                </form>
-            </nav>
+      <Container>
+          {FoodSearchForm()}
             <h1 className="default-search-text">Start your search for your favorite foods</h1>
-          </div>
-      </div>
+      </Container>
     );
   }
 }
