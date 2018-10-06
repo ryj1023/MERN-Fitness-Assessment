@@ -2,8 +2,8 @@ import { Table } from 'reactstrap';
 
 const TableHeader = (props) => {
    return (
-      <Table>
-         <thead className="thead-dark">
+      <Table className={`table-dark ${props.width ? props.width : ''}`}>
+         <thead>
             <tr>
                {props.tableHeaders.map(header => <th>{header}</th>)}
             </tr>

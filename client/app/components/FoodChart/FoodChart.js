@@ -7,6 +7,7 @@ import { updatedFoodChart } from '../../actions';
 import SelectedFoodChart from './SelectedFoodChart';
 import './food-chart.css';
 import axios from 'axios';
+import { Container, Row, Col, Table } from 'reactstrap'
 
 class FoodChart extends Component {
     state = {
@@ -138,9 +139,9 @@ class FoodChart extends Component {
      const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
      const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
     return (
-       <div className="food-chart-container">
-        <div className="food-chart-content">
-        <table className="table intake-goals">
+       <Container className='bg-white'>
+        <Row>
+        <Table className="table intake-goals">
                 <thead className="thead-dark">
                     <tr>
                       <th colSpan="4" className='table-header-text'>Daily Nutrient Intake Goal</th>
@@ -162,8 +163,8 @@ class FoodChart extends Component {
                     <td>{this.state.dailyDietInfo.carbs}</td>
                   </tr>
                 </tbody>
-              </table>
-            <table className="table selected-foods">
+              </Table>
+            <Table className="table selected-foods">
               <thead className="thead-dark">
                 <tr>
                     <th colSpan="6" className='table-header-text'>Selected Foods</th>
@@ -189,22 +190,24 @@ class FoodChart extends Component {
                   <td>{macroTotals.carbs.toFixed(2)}</td>
                 </tr>
               </tbody>
-            </table>
+            </Table>
             <form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
                <button className="submit-button">Save Diet Info</button>
             </form>
             {
               (this.state.showSignInMessage) ? <a><Link to='./sign-up'>Create An Account</Link></a> : null
             }
-          </div>
-        </div>
+          </Row>
+        </Container>
       
     );
   } else return (
-    <div className="food-chart-container">
-      <h1>Daily Nutrient Intake</h1>
+    <Container>
+      <Row>
+        <h1>Daily Nutrient Intake</h1>
         <h3>No current daily intake available</h3>
-    </div>
+      </Row>
+    </Container>
   );
   }
 }

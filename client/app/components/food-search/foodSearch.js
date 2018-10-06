@@ -90,112 +90,126 @@ class DietSearchContainer extends Component {
     // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
     // this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
   }
-  
-  render() {
+
+  showNutrientFacts() {
     const selectedFoodFacts = [];
     const tableHeaders = ['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']
+    const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
+      selectedFoodFacts.push(data);
+      if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
+       acc.push(`${data.value}${data.unit}`)
+      } 
+      return acc;
+    }, []);
+    // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
+    return (
+      <>
+       <Row>
+         <Col>
+          <p className="selected-food-name">{this.state.selectedFoodName}</p>
+         </Col>
+        </Row>
+        <Row className='w-80 m-auto'>
+         <Col >
+          <SmartTable width="w-100" tableData={nutritionFactUnits} tableHeaders={tableHeaders} />
+         </Col>
+         </Row>
+         <Row className='w-80 m-auto align-bottom'>
+           <Col>
+             <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark float-left'>Back to Food Results</Button>
+             <Button className='btn btn-dark float-right' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</Button>
+           </Col>
+        </Row>
+      </>
+    )
+  }
+
+  showFoodList() {
+    const FoodList = this.props.foodList.reduce((acc, food, index) => {
+      const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
+      let foodName = food.foodName.toUpperCase();
+      if (foodName.includes('UPC')) {
+        foodName = foodName.slice(0, foodName.indexOf(', UPC'))
+      } else if (foodName.includes('GTIN')) {
+        foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
+      }
+      const { foodID } = food;
+      if (index + 1 >= pageRange && acc.length < 10) {
+        acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.showFoodNutrients.bind(this, {foodID, foodName})}>{foodName}</li>);
+      }
+      return acc;
+      }, []);
+      const remainingRecords = this.props.foodList.slice(this.state.selectedPage);
+      const pageRange = remainingRecords.length >= 10 ? 10 : 1;
+      const foodListPageNumbers = [...Array(pageRange)].map((_, index) => {
+        if (pageRange === 1) return null;
+        const isActive = (this.state.selectedPage === index + 1) ? 'active' : '';
+          return <li key={index + 1} className={`page-item ${isActive}`}><a className="page-link" key={index + 1} name={index + 1} onClick={(e)=> this.changeFoodPage(e)} href="#">{index + 1}</a></li>
+      })
+    return (
+      <>
+              <Row className="pre-scrollable">
+                <ul className="list-group">
+                  {FoodList}
+                </ul>
+              </Row>
+              
+              <div className="pagination-div">
+                <nav className="pagination-nav">
+                  <ul className="pagination">
+                  {
+                       this.state.pageNumber > 1 ? 
+                       (
+                        <li className="page-item" name='previous-page' onClick={(e) => this.changeFoodPage(e)}>
+                          <a className="page-link" name='previous-page' href="#" aria-label="Previous">
+                            <span name='previous-page' aria-hidden="true">&laquo;</span>
+                            <span name='previous-page' className="sr-only">Previous</span>
+                          </a>
+                      </li>
+                       ) : (null)
+                     }
+                     {foodListPageNumbers}
+                     {
+                      (this.state.pageNumber !== 10 && pageRange !== 1) ? (
+                        <li className="page-item" name='next-page' onClick={(e) => this.changeFoodPage(e)}>
+                          <a className="page-link" name='next-page' href="#" aria-label="Next">
+                            <span name='next-page' id='next' aria-hidden="true">&raquo;</span>
+                            <span className="sr-only" name='next-page'>Next</span>
+                          </a>
+                        </li>
+                      ) : (null)
+                     }
+                  </ul>
+              </nav>
+            </div>
+      </>
+    );
+  }
+  
+  render() {
     const FoodSearchForm = () => (
                 <Row> 
-                  <Col>
-                      <Form inline onSubmit={(e)=> this.onSubmit(e)}>
+                  <Col className='w-50 pt-4 pb-4'>
+                      <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <FormGroup>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
                           <Button>Search</Button>
                         </FormGroup>
                       </Form>
                     </Col>
+                    <style jsx global>{`
+                    .pre-scrollable {
+                      min-height: 450px;
+                    }`
+            }</style>
                   </Row>
 
    )
-    // showing selected food nutrient facts
-    if (this.state.showNutrientFacts === true) {
-     const nutritionFactUnits = this.props.nutritionFacts.map((data) => {
-       selectedFoodFacts.push(data);
-       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
-        return `${data.value}${data.unit}`
-       } 
-     });
-     // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
-     return (
-      <Container>
-        {FoodSearchForm()}
-        <Row>
-          <p className="selected-food-name">{this.state.selectedFoodName}</p>
-          <SmartTable tableData={nutritionFactUnits} tableHeaders={tableHeaders} />
-            <div className='diet-search-button-div'>
-              <button onClick={this.backToFoodResults.bind(this)} className='back-button'>Back to Food Results</button>
-              <button className='add-food-button' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</button>
-            </div>
-        </Row>
-     </Container>
-     )
-    }
-    if (`${this.props.foodList}`.length > 0) {
-      // showing food list
-      const FoodList = this.props.foodList.reduce((acc, food, index) => {
-        const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
-        let foodName = food.foodName.toUpperCase();
-        if (foodName.includes('UPC')) {
-          foodName = foodName.slice(0, foodName.indexOf(', UPC'))
-        } else if (foodName.includes('GTIN')) {
-          foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
-        }
-        const { foodID } = food;
-        if (index + 1 >= pageRange && acc.length < 10) {
-          acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.showFoodNutrients.bind(this, {foodID, foodName})}>{foodName}</li>);
-        }
-        return acc;
-        }, []);
-        const remainingRecords = this.props.foodList.slice(this.state.selectedPage);
-        const pageRange = remainingRecords.length >= 10 ? 10 : 1;
-        const foodListPageNumbers = [...Array(pageRange)].map((_, index) => {
-          if (pageRange === 1) return null;
-          const isActive = (this.state.selectedPage === index + 1) ? 'active' : '';
-            return <li key={index + 1} className={`page-item ${isActive}`}><a className="page-link" key={index + 1} name={index + 1} onClick={(e)=> this.changeFoodPage(e)} href="#">{index + 1}</a></li>
-        })
-      return (
-        <Container>
-                {FoodSearchForm()}
-                <form className="food-search-form" onSubmit={(e)=> this.onSubmit(e)}>
-                  <ul className="list-group">
-                    {FoodList}
-                  </ul>
-                </form>
-                <div className="pagination-div">
-                  <nav className="pagination-nav">
-                    <ul className="pagination">
-                    {
-                         this.state.pageNumber > 1 ? 
-                         (
-                          <li className="page-item" name='previous-page' onClick={(e) => this.changeFoodPage(e)}>
-                            <a className="page-link" name='previous-page' href="#" aria-label="Previous">
-                              <span name='previous-page' aria-hidden="true">&laquo;</span>
-                              <span name='previous-page' className="sr-only">Previous</span>
-                            </a>
-                        </li>
-                         ) : (null)
-                       }
-                       {foodListPageNumbers}
-                       {
-                        (this.state.pageNumber !== 10 && pageRange !== 1) ? (
-                          <li className="page-item" name='next-page' onClick={(e) => this.changeFoodPage(e)}>
-                            <a className="page-link" name='next-page' href="#" aria-label="Next">
-                              <span name='next-page' id='next' aria-hidden="true">&raquo;</span>
-                              <span className="sr-only" name='next-page'>Next</span>
-                            </a>
-                          </li>
-                        ) : (null)
-                       }
-                    </ul>
-                </nav>
-              </div>
-        </Container>
-      );
-    } 
+
     return (
-      <Container>
+      <Container fluid className="h-100">
           {FoodSearchForm()}
-            <h1 className="default-search-text">Start your search for your favorite foods</h1>
+          {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (      <h1 className="default-search-text">Start your search for your favorite foods</h1>)}
       </Container>
     );
   }

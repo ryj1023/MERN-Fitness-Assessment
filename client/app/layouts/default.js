@@ -6,15 +6,15 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const Layout = ({ children }) => {
    return (
-      <>
-         <Head>
+      <div className="h-100">
+         {/* <Head>
             <title>Fitness Assessment</title>
             <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-         </Head>
+         </Head> */}
          <NavBar />
          { children }
          <Footer/>
-      </>
+      </div>
    );
 };
 

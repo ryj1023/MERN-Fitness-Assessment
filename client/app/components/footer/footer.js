@@ -2,7 +2,7 @@ import React from 'react';
 import './footer.css';
 
 const Footer = () => (
-   <footer className="page-footer font-small pt-4">
+   <footer className="page-footer align-bottom font-small pt-4">
     <div className="container-fluid text-center text-md-left">
       <div className="row">
         <div className="col-md-12 mt-md-0 mt-3">
@@ -36,6 +36,13 @@ const Footer = () => (
     </div>   
     <div className="footer-copyright text-center py-3">© 2018 Copyright
     </div>
+    {/* <style jsx>{`
+      .page-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+      }
+    `}</style> */}
   </footer>
   )
 
