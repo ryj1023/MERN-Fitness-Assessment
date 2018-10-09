@@ -1,5 +1,5 @@
 import Document, { Head, Main, NextScript } from 'next/document'
-import Layout from '../client/app/layouts/default'
+
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -12,6 +12,7 @@ export default class MyDocument extends Document {
       <html>
         <Head>
         <title>Fitness Assessment</title>
+        <link rel='stylesheet' type='text/css' href='/static/nprogress.css' />
           <style>{`body { background-color: #efefef; height: 90vh} #__next { height: inherit}  /* custom! */`}</style>
         </Head>
         <body>

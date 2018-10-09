@@ -6,7 +6,8 @@ import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUs
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable/SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
-
+import 'rc-pagination/assets/index.css';
+import Pagination from 'rc-pagination';
 
 class DietSearchContainer extends Component {
   
@@ -73,6 +74,7 @@ class DietSearchContainer extends Component {
 
   changeFoodPage(e) {
     e.preventDefault();
+    console.log('e.target.name', e.target.name)
     this.setState({
       selectedPage: this.getSelectedPage(e.target.name, e.target.id)
     })
@@ -124,7 +126,61 @@ class DietSearchContainer extends Component {
     )
   }
 
+  // itemRender(current, type, element) {
+  //   if (type === 'page') {
+  //     return <a key={current} name={current} onClick={(e)=> this.setState({
+  //       selectedPage: this.getSelectedPage(current, undefined)
+  //     })}>{current}</a>
+  //   }
+  //   return element;
+  // }
+
   showFoodList() {
+    console.log('this.state.selectedPage', this.state.selectedPage)
+    const getSelectedPage = (targetName, id) => {
+      console.log('tagetName', targetName)
+      if (Number.isNaN(Number(targetName))) {
+        console.log('next-page')
+        const newPageNumber = (targetName === 'next-page' || id === 'next') ? this.state.pageNumber + 1 : this.state.pageNumber - 1;
+        this.setState({
+          pageNumber: newPageNumber
+        })
+        return newPageNumber;
+      } else {
+          this.setState({
+            pageNumber: Number(targetName)
+          })
+        return Number(targetName);
+      }
+    }
+
+    const itemRender = (current, type, element) => {
+      switch (type) {
+        case 'page':  {
+          return <Button key={current} name={current} onClick={()=> this.setState({
+            selectedPage: getSelectedPage(current, undefined)
+          })}>{current}</Button>
+        }
+        case 'prev': {
+          return <Button key={current} name={current} onClick={()=> this.setState({
+            selectedPage: getSelectedPage('prev', undefined)
+          })}>{'Prev'}</Button>
+        }
+        case 'next': {
+          return <Button key={current} name={current} onClick={()=> this.setState({
+            selectedPage: getSelectedPage('next-page', 'next')
+          })}>{'Next'}</Button>
+        }
+        default:
+        return element;
+      }
+      // if (type === 'page') {
+      //   return <Button key={current} name={current} onClick={()=> this.setState({
+      //     selectedPage: getSelectedPage(current, undefined)
+      //   })}>{current}</Button>
+      // } 
+      // return element;
+    }
     const FoodList = this.props.foodList.reduce((acc, food, index) => {
       const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
       let foodName = food.foodName.toUpperCase();
@@ -155,7 +211,25 @@ class DietSearchContainer extends Component {
               </Row>
               
               <div className="pagination-div">
-                <nav className="pagination-nav">
+                <Pagination
+                  defaultPageSize={10}
+                  pageSize={10}
+                  total={this.props.foodList.length}
+                  itemRender={itemRender}
+                />
+                <style jsx>{`
+                  div :global(.rc-pagination-item) {
+                    height: 0px
+                  }
+                  div :global(.rc-pagination-prev, .rc-pagination-next, .rc-pagination-jump-prev, .rc-pagination-jump-next) {
+                    height: 39px
+                  }
+                  div :global(.rc-pagination-prev a:after, .rc-pagination-next a:after {
+                    margin-top: 0px;
+                  }
+                    )
+                `}</style>
+                {/* <nav className="pagination-nav">
                   <ul className="pagination">
                   {
                        this.state.pageNumber > 1 ? 
@@ -180,7 +254,7 @@ class DietSearchContainer extends Component {
                       ) : (null)
                      }
                   </ul>
-              </nav>
+              </nav> */}
             </div>
       </>
     );
@@ -199,7 +273,7 @@ class DietSearchContainer extends Component {
                     </Col>
                     <style jsx global>{`
                     .pre-scrollable {
-                      min-height: 450px;
+                      min-height: 75%;
                     }`
             }</style>
                   </Row>
@@ -219,8 +293,8 @@ const mapStateToProps = (state) => {
 	return {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-      nutritionFacts: state.nutritionFacts,
-      updatedUserFoodList: state.updatedUserFoodList
+    nutritionFacts: state.nutritionFacts,
+    updatedUserFoodList: state.updatedUserFoodList
 	}
 }
 

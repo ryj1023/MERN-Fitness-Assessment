@@ -9,7 +9,7 @@ import '../client/app/styles/fitness-assessment.css';
 import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
 import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
 import App from '../client/app/components/app/App';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 
 
 class FitnessAssessment extends Component {

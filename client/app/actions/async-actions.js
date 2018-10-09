@@ -56,7 +56,7 @@ export const saveToUsersFoodList = async (dietSummary, user) => {
 };
 
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
-	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&max=100&q=${keyword}&offset=${offset}&sort=r`)
+	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`)
     return (dispatch) => {
     axios.get(encodedURI)
 	.then((response) => {

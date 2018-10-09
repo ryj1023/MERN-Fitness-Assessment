@@ -10,7 +10,13 @@ import Reducers from '../../reducers';
 const App = (Page) => {
 	return class PageWrapper extends Component {
 		render() {
-		return <Provider store={createStore(Reducers, applyMiddleware(thunk))}>
+			const store = createStore(Reducers, applyMiddleware(thunk));
+			if (module.hot) {
+				module.hot.accept(Reducers, () => {
+					store.replaceReducer(Reducers)
+				})
+			}
+		return <Provider store={store}>
 			<Page />
 		</Provider>
 		}
