@@ -13,7 +13,7 @@ export default class MyDocument extends Document {
         <Head>
         <title>Fitness Assessment</title>
         <link rel='stylesheet' type='text/css' href='/static/nprogress.css' />
-          <style>{`body { background-color: #efefef; height: 90vh} #__next { height: inherit}  /* custom! */`}</style>
+          <style>{`body { background-color: #efefef; height: 90vh} #__next { height: inherit}, .rc-pagination-prev, .rc-pagination-next { display: inline }  /* custom! */`}</style>
         </Head>
         <body>
             <Main className='main' />

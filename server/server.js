@@ -1,6 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Users = require('./models/User-info.model.js');
+const expressValidator = require('express-validator');
+const bodyParser = require('body-parser')
 
 
 // Configuration
@@ -26,6 +28,8 @@ const handle = _app.getRequestHandler()
 _app.prepare()
 .then(() => {
   const app = express()
+  app.use(expressValidator())
+  app.use(bodyParser.json())
 
   app.get('/api/sign-up', (req, res, next) => {
     res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})

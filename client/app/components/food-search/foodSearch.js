@@ -6,7 +6,7 @@ import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUs
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable/SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
-import 'rc-pagination/assets/index.css';
+// import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 
 class DietSearchContainer extends Component {
@@ -19,7 +19,8 @@ class DietSearchContainer extends Component {
     pageNumber: 1,
     selectedPage: 1,
     updatedUserData: null,
-    selectedFood: {}
+    selectedFood: {},
+    currentPage: 1,
   }
   
   setInput(foodTextInput){
@@ -74,7 +75,7 @@ class DietSearchContainer extends Component {
 
   changeFoodPage(e) {
     e.preventDefault();
-    console.log('e.target.name', e.target.name)
+    console.log('selectedPage', this.state.selectedPage)
     this.setState({
       selectedPage: this.getSelectedPage(e.target.name, e.target.id)
     })
@@ -125,22 +126,9 @@ class DietSearchContainer extends Component {
       </>
     )
   }
-
-  // itemRender(current, type, element) {
-  //   if (type === 'page') {
-  //     return <a key={current} name={current} onClick={(e)=> this.setState({
-  //       selectedPage: this.getSelectedPage(current, undefined)
-  //     })}>{current}</a>
-  //   }
-  //   return element;
-  // }
-
   showFoodList() {
-    console.log('this.state.selectedPage', this.state.selectedPage)
     const getSelectedPage = (targetName, id) => {
-      console.log('tagetName', targetName)
       if (Number.isNaN(Number(targetName))) {
-        console.log('next-page')
         const newPageNumber = (targetName === 'next-page' || id === 'next') ? this.state.pageNumber + 1 : this.state.pageNumber - 1;
         this.setState({
           pageNumber: newPageNumber
@@ -155,31 +143,33 @@ class DietSearchContainer extends Component {
     }
 
     const itemRender = (current, type, element) => {
+      const activeColorBackground = this.state.selectedPage === current ? '#E8E7E7' : '#6c757d'
+      const activeColor = this.state.selectedPage === current ? '#6c757d' : 'white'
       switch (type) {
         case 'page':  {
-          return <Button key={current} name={current} onClick={()=> this.setState({
+          return <Button style={{backgroundColor: activeColorBackground, color: activeColor }} key={current} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage(current, undefined)
           })}>{current}</Button>
         }
         case 'prev': {
-          return <Button key={current} name={current} onClick={()=> this.setState({
+          return <Button key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('prev', undefined)
           })}>{'Prev'}</Button>
         }
         case 'next': {
-          return <Button key={current} name={current} onClick={()=> this.setState({
+          return <Button key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('next-page', 'next')
           })}>{'Next'}</Button>
+        }
+        case 'jump-prev': {
+          return <Button key={current} name={current}>{'...'}</Button>
+        }
+        case 'jump-next': {
+          return <Button key={current} name={current}>{'...'}</Button>
         }
         default:
         return element;
       }
-      // if (type === 'page') {
-      //   return <Button key={current} name={current} onClick={()=> this.setState({
-      //     selectedPage: getSelectedPage(current, undefined)
-      //   })}>{current}</Button>
-      // } 
-      // return element;
     }
     const FoodList = this.props.foodList.reduce((acc, food, index) => {
       const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
@@ -195,67 +185,54 @@ class DietSearchContainer extends Component {
       }
       return acc;
       }, []);
-      const remainingRecords = this.props.foodList.slice(this.state.selectedPage);
-      const pageRange = remainingRecords.length >= 10 ? 10 : 1;
-      const foodListPageNumbers = [...Array(pageRange)].map((_, index) => {
-        if (pageRange === 1) return null;
-        const isActive = (this.state.selectedPage === index + 1) ? 'active' : '';
-          return <li key={index + 1} className={`page-item ${isActive}`}><a className="page-link" key={index + 1} name={index + 1} onClick={(e)=> this.changeFoodPage(e)} href="#">{index + 1}</a></li>
-      })
     return (
       <>
               <Row className="pre-scrollable">
-                <ul className="list-group">
+                <ul className="h-100 w-100">
                   {FoodList}
-                </ul>
-              </Row>
-              
-              <div className="pagination-div">
+                </ul>            
+          </Row>
+           <Row className='m-auto'>
+           <div className='m-auto w-100' style={{display: 'inherit'}}>
+              <div className='m-auto'>
                 <Pagination
-                  defaultPageSize={10}
-                  pageSize={10}
-                  total={this.props.foodList.length}
-                  itemRender={itemRender}
-                />
-                <style jsx>{`
-                  div :global(.rc-pagination-item) {
-                    height: 0px
-                  }
-                  div :global(.rc-pagination-prev, .rc-pagination-next, .rc-pagination-jump-prev, .rc-pagination-jump-next) {
-                    height: 39px
-                  }
-                  div :global(.rc-pagination-prev a:after, .rc-pagination-next a:after {
-                    margin-top: 0px;
-                  }
-                    )
-                `}</style>
-                {/* <nav className="pagination-nav">
-                  <ul className="pagination">
-                  {
-                       this.state.pageNumber > 1 ? 
-                       (
-                        <li className="page-item" name='previous-page' onClick={(e) => this.changeFoodPage(e)}>
-                          <a className="page-link" name='previous-page' href="#" aria-label="Previous">
-                            <span name='previous-page' aria-hidden="true">&laquo;</span>
-                            <span name='previous-page' className="sr-only">Previous</span>
-                          </a>
-                      </li>
-                       ) : (null)
-                     }
-                     {foodListPageNumbers}
-                     {
-                      (this.state.pageNumber !== 10 && pageRange !== 1) ? (
-                        <li className="page-item" name='next-page' onClick={(e) => this.changeFoodPage(e)}>
-                          <a className="page-link" name='next-page' href="#" aria-label="Next">
-                            <span name='next-page' id='next' aria-hidden="true">&raquo;</span>
-                            <span className="sr-only" name='next-page'>Next</span>
-                          </a>
-                        </li>
-                      ) : (null)
-                     }
-                  </ul>
-              </nav> */}
-            </div>
+                    defaultPageSize={10}
+                    pageSize={10}
+                    total={this.props.foodList.length}
+                    itemRender={itemRender}
+                    className='mt-3'
+                    onChange={(page) => this.setState({ selectedPage: page})}
+                    current={this.state.selectedPage}
+                  />
+                  <style jsx>{`
+
+                    div :global(.m-auto) {
+                      width: 80%
+                    }
+                    :global(.rc-pagination) {
+                      width:100%;
+                      list-style: none;
+                      padding:0;
+                    }
+                    :global(.rc-pagination-item) {
+                      display: inline;
+                      margin: 1px;
+                    }
+                    div :global(.rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next) {
+                      display: inline;
+                      margin: 1px;
+                    }
+                    div :global(.rc-pagination-prev a:after, .rc-pagination-next a:after {
+                      margin-top: 0px;
+                    }
+                    div :global(.rc-pagination-prev) {
+                      display: none;
+                    }
+                      )
+                  `}</style>
+                  </div>
+                </div>
+           </Row> 
       </>
     );
   }
@@ -263,9 +240,9 @@ class DietSearchContainer extends Component {
   render() {
     const FoodSearchForm = () => (
                 <Row> 
-                  <Col className='w-50 pt-4 pb-4'>
+                  <Col className='w-80 pt-4 pb-4'>
                       <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
-                        <FormGroup>
+                        <FormGroup className='m-auto'>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
                           <Button>Search</Button>
                         </FormGroup>
@@ -274,6 +251,8 @@ class DietSearchContainer extends Component {
                     <style jsx global>{`
                     .pre-scrollable {
                       min-height: 75%;
+                      width: 80%;
+                      margin: auto;
                     }`
             }</style>
                   </Row>
@@ -281,9 +260,9 @@ class DietSearchContainer extends Component {
    )
 
     return (
-      <Container fluid className="h-100">
+      <Container fluid style={{ height: '20vh'}}/*className="h-90"*/>
           {FoodSearchForm()}
-          {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (      <h1 className="default-search-text">Start your search for your favorite foods</h1>)}
+          {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
       </Container>
     );
   }

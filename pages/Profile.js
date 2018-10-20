@@ -14,6 +14,7 @@ class Profile extends Component {
     };
 
     async componentDidMount() {
+        
         if (!JSON.parse(localStorage.getItem('user'))) {
             const res = await fetch('/api/users')
             const userData = await res.json();
@@ -26,23 +27,21 @@ class Profile extends Component {
 
 	render(){        
 		return (
-                <Layout>
-                        <Container fluid>
-                            <Row>
-                                {
-                                    this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
-                                (
-                                    <h1>calories: {this.state.dailyDietGoal.calories}</h1>
-                                ) : (
-                                    <Col sm='12'>
-                                        <p>You haven't done your fitness assessment yet</p>
-                                        <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals!</h3>
-                                    </Col>
-                                )
-                                }
-                            </Row>
-                        </Container>
-                    </Layout>
+            <Container fluid>
+                <Row>
+                    {
+                        this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
+                    (
+                        <h1>calories: {this.state.dailyDietGoal.calories}</h1>
+                    ) : (
+                        <Col sm='12'>
+                            <p>You haven't done your fitness assessment yet</p>
+                            <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals!</h3>
+                        </Col>
+                    )
+                    }
+                </Row>
+            </Container>
         ) 
 	}
 }

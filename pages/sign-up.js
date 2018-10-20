@@ -1,91 +1,79 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 import { validateSignUp } from '../client/app/actions/async-actions';
 import '../client/app/styles/sign-up.css';
 import { connect } from 'react-redux';
-import Layout from '../client/app/layouts/default';
+// import Layout from '../client/app/layouts/default';
 import App from '../client/app/components/app/App';
+import { Form, Container, Row, Column, FormGroup, Label, Input, Button } from 'reactstrap';
+import Router from 'next/router'
 
-class SignUp extends Component {
-        state = {
-            userName: null,
-            email: null,
-            password: null,
-            confirmPassword: null,
-        };
-
-    onSubmit(e) {
-        e.preventDefault();
-        console.log('signup!')
-        this.props.validateSignUp(this.state)
-    }
-
-    setEmail(email) {
-        this.setState({
-            email
-        })
-    }
-    setUserName(userName) {
-        this.setState({
-            userName
-        })
-    }
-    setPassword(password) {
-        this.setState({
-            password
-        })
-    }
-    setConfirmPassword(confirmPassword) {
-        this.setState({
-            confirmPassword
-        })
-    }
-	render(){  
-        if (this.props.signUpResult !== 'success' || this.props.validationResult !== 'success') {
-            let error = '';
-            if (this.props.signUpResult.includes('already an account')) {
-                error = this.props.signUpResult
-            } else if (this.props.validationResult.length > 0) {
-                error = this.props.validationResult.map((msg, index) => {
-                return <p key={index}>{msg}</p>  
-            })
-        }
-            return (
-                <Layout>
-                    <div>
-                        {error}
-                        <div className='form-container'>
-                            <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="api/sign-up">
-                            <input type="text" name='email' placeholder="Enter an email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
-                            <input type="text" name='userName' placeholder="Enter a user name" onChange={(e)=>this.setUserName(e.target.value)} name="userName" required />
-                            <input type="password" name='password' placeholder="Enter a password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
-                            <input type="password" name='confirmPassword' placeholder="Repeat password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />
-                            <button className="sign-up-button">Sign Up</button> 
-                            </form>
-                        </div>
-                    </div>
-                </Layout>
-            )
-        } 
-         else if (this.props.validationResult === 'success') {
-             // return <Redirect to='/' />;
-        }   
-		return(
-            <Layout>
-                <div>
-                    <div className='form-container'>
-                        <form  onSubmit={(e)=> this.onSubmit(e)} method="post" action="api/sign-up">
-                        <input type="text" placeholder="Enter Email" onChange={(e)=>this.setEmail(e.target.value)} name="email" required />
-                        <input type="password" placeholder="Enter Password" onChange={(e)=>this.setPassword(e.target.value)} name="password" required />
-                        <input type="password" placeholder="Repeat Password" onChange={(e)=>this.setConfirmPassword(e.target.value)} name="confirmPassword" required />
-                        <button className="sign-up-button">Sign Up</button> 
-                        </form>
-                    </div>
-                </div>
-            </Layout>
-        ) 
-	}
+const formValues = {
+    userName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
 }
+
+const SignUp = (props) => (
+            <Formik
+                initialValues={formValues}
+                validationSchema={Yup.object().shape({
+                    userName: Yup.string(),
+                    email: Yup.string()
+                      .email('E-mail is not valid!')
+                      .required('E-mail is required!'),
+                    password: Yup.string()
+                      .min(6, 'Password has to be longer than 6 characters!')  
+                      .required('Password is required!'),
+                    confirmPassword: Yup.string()
+                      .oneOf([Yup.ref('password', null)], 'Passwords are not the same!')
+                      .required('Password confirmation is required!'),
+                  })}
+                onSubmit={(values, { setSubmitting, setErrors }) => {
+                    props.validateSignUp(values)
+                    setSubmitting(false)
+                }}
+                render={({ isSubmitting, errors, handleChange, handleSubmit }) => {
+                    if (props.signUpResult === 'success' && props.validationResult === 'success') window.location = "/" 
+                    return (
+                        <Form>
+                            {props.signUpResult.includes('already an account') ? <p>There is already an account associated with this email.</p> : (null)}
+                            <FormGroup>
+                            <Label className="form-field" htmlFor="userName">
+                                <span>User Name:</span>
+                                <Input name="userName" type="text" onChange={handleChange} />
+                            </Label>
+                            </FormGroup>
+                            <FormGroup>
+                            <Label className="form-field" htmlFor="email">
+                                <span>E-mail:</span>
+                                <Input name="email" type="email" onChange={handleChange} />
+                            </Label>
+                            </FormGroup>
+                        <div>{errors.email}</div>
+                            <FormGroup>
+                            <Label className="form-field" htmlFor="password">
+                                <span>Password:</span>
+                                <Input name="password" type="password" onChange={handleChange} />
+                            </Label>
+                        </FormGroup>
+                        <div className="form-field-error">{errors.password}</div>
+                        <FormGroup>
+                            <Label className="form-field" htmlFor="confirmPassword">
+                                <span>Confirm password:</span>
+                                <Input name="confirmPassword" type="password" onChange={handleChange} />
+                            </Label>
+                        </FormGroup>
+                        <div className="form-field-error">{errors.confirmPassword}</div>
+                        <Button onClick={handleSubmit}>{isSubmitting ? 'Loading' : 'Sign Up'}</Button>
+                        </Form>
+                  )
+            }}
+         />
+        )
 
 const mapStateToProps = (state) => {
     return {

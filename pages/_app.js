@@ -1,8 +1,9 @@
-import React from 'react'
-import App, {Container} from 'next/app'
-import Link from 'next/link'
-import NProgress from 'nprogress'
-import Router from 'next/router'
+import React from 'react';
+import App, {Container} from 'next/app';
+import Link from 'next/link';
+import NProgress from 'nprogress';
+import Router from 'next/router';
+import Layout from '../client/app/layouts/default'
 
 const linkStyle = {
   margin: '0 10px 0 0'
@@ -20,7 +21,9 @@ export default class MyApp extends App {
     const {Component, pageProps} = this.props
     return (
       <Container>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+          </Layout>
       </Container>
     )
   }

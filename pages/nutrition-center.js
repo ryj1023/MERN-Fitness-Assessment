@@ -34,18 +34,16 @@ class DietSearchContainer extends Component {
 
   render () {
     return (
-      <Layout>
-         <Container fluid className="m-2 h-100">
-          <Row className="h-100">
-              <Col className="border bg-white m-1">
-                <FoodChart/>
-              </Col>
-              <Col className="border  bg-white m-1">
-                <FoodSearch addSelectedFoodToFoodList={(selectedFoodName, selectedFoodFacts) => this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts)}/>
-              </Col>
-          </Row>
-        </Container>
-      </Layout>
+        <Container fluid className="h-100">
+        <Row className="h-100">
+            <Col className="border bg-white col-12 col-md-4">
+              <FoodChart/>
+            </Col>
+            <Col className="border bg-white col-12 col-md-8">
+              <FoodSearch addSelectedFoodToFoodList={(selectedFoodName, selectedFoodFacts) => this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts)}/>
+            </Col>
+        </Row>
+      </Container>
     )
   }
 }

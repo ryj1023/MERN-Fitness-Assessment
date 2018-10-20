@@ -60,13 +60,19 @@ export const getFoodSearchKeyword = (keyword, offset = 0) => {
     return (dispatch) => {
     axios.get(encodedURI)
 	.then((response) => {
-            const foodObjects = response.data.list.item.map((food) => {
+        let foodObjects = [];
+        if (response.data.list ) {
+            foodObjects = response.data.list.item.map((food) => {
                 return { 
                     foodName: food.name,
                     foodID: food.ndbno
                 }
             })
-            console.log('foodObjects', foodObjects.length)
+        } else {
+            foodObjects = [];
+            alert('No results found!')
+            return;
+        }
 			return dispatch({type: KEYWORD, payload: foodObjects})
         })
         .catch((err) => {
@@ -133,6 +139,7 @@ export const loginUser = (loginData) => {
         })
         .then((response) => {
             if (response.data.length > 0) {
+                localStorage.setItem('user', JSON.stringify(response.data[0].user));
                 return dispatch({type: ACCOUNT_FOUND, payload: response.data})
                 } else {
                     return dispatch({type: NO_ACCOUNT})
@@ -142,6 +149,7 @@ export const loginUser = (loginData) => {
     }
 
 export const validateSignUp = (signUpInfo) => {
+    console.log('signupInfo', signUpInfo)
     const encodedURI = window.encodeURI('/api/validation');
     return (dispatch) => {
         axios.post(encodedURI, {

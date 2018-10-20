@@ -9,7 +9,8 @@ import '../client/app/styles/fitness-assessment.css';
 import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
 import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
 import App from '../client/app/components/app/App';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem, Button } from 'reactstrap';
+import Pagination from 'rc-pagination';
 
 
 class FitnessAssessment extends Component {
@@ -90,29 +91,36 @@ class FitnessAssessment extends Component {
 
 		if(this.state.startMenu === true){
 			return (
-					<Layout>
-						<Container>
-							<Row>
-								<Col>
-									<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
-									<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
-								</Col>
-							</Row>
-						</Container>
-					</Layout>
+				<>
+					<Container>
+						<Row>
+							<Col>
+								<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
+								<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
+							</Col>
+						</Row>
+					</Container>
+					<style jsx global>{`
+						.rc-pagination {
+								list-style: none;
+								rc-pagination-jump-prev;
+							}
+							.rc-pagination-item, .rc-pagination-prev, .rc-pagination-next, .rc-pagination-jump-next, .rc-pagination-jump-prev {
+								display: inline
+							}
+						`}</style>
+				</>
 				)
 		} else if(this.state.calculateAnswerPrompt === true) {
 			return(
-				<Layout>
-					<Container>
-							<Row>
-								<Col>
-									<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
-									<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
-								</Col>
-							</Row>
-						</Container>
-				</Layout>
+				<Container>
+						<Row>
+							<Col>
+								<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
+								<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
+							</Col>
+						</Row>
+				</Container>
 			)
 		}
 		else if(this.state.showClientInfo === true) {
@@ -120,17 +128,15 @@ class FitnessAssessment extends Component {
 		} 
 		else {
 			return(
-			 <div>
-					<Layout>
-						<Container>
-							<Row>
-								<Col>
-								{Questions}
-								{Form}
-								</Col>
-							</Row>
-						</Container>
-					</Layout>
+			 	<div>
+					<Container>
+						<Row>
+							<Col>
+							{Questions}
+							{Form}
+							</Col>
+						</Row>
+					</Container>
 				</div>
 				)
 			}
