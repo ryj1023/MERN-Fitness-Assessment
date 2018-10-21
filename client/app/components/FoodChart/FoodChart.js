@@ -24,6 +24,7 @@ class FoodChart extends Component {
     }
   
   getStateForDietInfo() {
+    console.log('this.props.clientDietInfo', this.props.clientDietInfo)
     if (Object.keys(this.props.clientDietInfo).length > 0) {
       return this.props.clientDietInfo.clientInfo;
     } else if (JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).dietInfo.calories !== null){
@@ -63,19 +64,19 @@ class FoodChart extends Component {
     }
   }
 
-  componentDidMount () {
-    if (this.state.savedFoodList) {
-    const encodedURI = window.encodeURI(`/api/user-data`)
-     axios.get(encodedURI, {
-            params: {
-                email: JSON.parse(localStorage.getItem('user')).email
-              }, 
-        })
-        .then((response) => {
-          console.log('response', response)
-            });
-    }
-  }
+  // componentDidMount () {
+  //   if (this.state.savedFoodList) {
+  //   const encodedURI = window.encodeURI(`/api/user-data`)
+  //    axios.get(encodedURI, {
+  //           params: {
+  //               email: JSON.parse(localStorage.getItem('user')).email
+  //             }, 
+  //       })
+  //       .then((response) => {
+  //         console.log('response', response)
+  //           });
+  //   }
+  // }
 
   displayUpdatedFoodData (dietSummary) {
     //  TODO: add detail object to parent object
@@ -89,9 +90,11 @@ class FoodChart extends Component {
         return {
           foodName: foodData.foodName,
           foodFacts: foodData.foodFacts.reduce((acc, data) => { 
-            if (data.name === 'Protein' || (data.name === 'Energy' && data.unit === 'kcal') || data.name.includes('(fat)') || data.name.includes('Carbohydrate')) {
-              acc[data.name] = data.value;
-            }
+            if (data.name) {
+              if (data.name === 'Protein' || (data.name === 'Energy' && data.unit === 'kcal') || data.name.includes('(fat)') || data.name.includes('Carbohydrate')) {
+                acc[data.name] = data.value;
+              }
+          }
             return acc;
           }, {})
         }

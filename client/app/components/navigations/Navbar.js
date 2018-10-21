@@ -3,6 +3,7 @@ import { Button } from 'reactstrap'
 import './navigation.css';
 import Link from 'next/link';
 
+
 export default class Navigation extends Component{
     state = {
             loggedIn: false,
@@ -24,24 +25,13 @@ export default class Navigation extends Component{
         window.location = "/";
     }
 
-    closeMenu() {
+    toggleDropdown() {
         this.setState({ 
-            showMenu: false 
-        }, () => {
-            document.removeEventListener('click', this.closeMenu.bind(this));
+            showMenu: !this.state.showMenu
         });
     }
 
-    showDropdownMenu(e) {
-        e.preventDefault();
-        this.setState({
-            showMenu: true
-        } , () => {
-            document.addEventListener('click', this.closeMenu.bind(this));
-        })
-    }
-
-    async componentDidMount() {
+    componentDidMount() {
 		if (localStorage.getItem('user')!== null) {
 				this.setState({
 					loggedIn: true
@@ -57,14 +47,19 @@ export default class Navigation extends Component{
                             <Link href={{pathname: '/profile'}}><a className='nav-item'>Profile</a></Link>
                             <Link href={{pathname: '/fitness-assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
                             <Link href={{pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link>
-                            <Button className='nav-item' onClick={(e) => this.logout(e)}className='login'>Logout</Button>
-                            <Link href={{pathname: 'profile'}}><a className='login'>{this.state.userName}</a></Link>
+                            <Button onClick={(e) => this.logout(e)} className='login'>Logout</Button>
+                            {/* <Link href={{pathname: 'profile'}}><a className='login'>{this.state.userName}</a></Link> */}
                                 <ul className='dropdown-ul'>
-                                    <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a>
+                                    {/* <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a> */}
+                                    <li><a onClick={() => this.toggleDropdown()} href="#" className='dropdown-list'>
+                                            <div className='icon'></div>
+                                            <div className='icon'></div>
+                                            <div className='icon'></div>
+                                        </a>
                                     {
                                         this.state.showMenu ? 
                                 (
-                                        <div className="nav-sub">
+                                        <div className="nav-sub" onClick={() => this.toggleDropdown()}>
                                             <ul>
                                                 <Link href={{ pathname: '/profile'}}><a className='dropdown-link'>Profile</a></Link>
                                                 <Link href={{pathname: '/fitness-assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>

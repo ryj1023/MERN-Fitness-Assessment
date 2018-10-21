@@ -45,7 +45,7 @@ body,html{
 }
 
 .login:hover, .nav-item:hover, .logo:hover{
-  background-color: #9a9a9a;
+  background-color: #9a9a9a !important;
   color: white;
   text-decoration: none;
 }
@@ -63,6 +63,7 @@ body,html{
 }
 
 .login {
+  height: 70px;
   float: right;
   width: 90px;
   padding: 15px 15px;
@@ -70,6 +71,11 @@ body,html{
   line-height: 40px;
   color: #fff;
   text-decoration: none;
+  background-color: #454545 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  cursor: pointer;
+  transition: none !important;
 }
 
 .nav-content a{
@@ -118,12 +124,19 @@ body,html{
   display: none;
 }
 
+.icon {
+  width: 45%;
+  height: 5px;
+  background-color: white;
+  margin: 6px auto;
+}
+
 @media only screen and (min-width: 300px) and (max-width: 800px) {
   .dropdown-ul {
     display: block;
   }
   .nav-item, .login {
-      display: none;
+      display: none !important;
   }
   .nav-item {
     padding: 15px 40px;
@@ -134,7 +147,7 @@ body,html{
   }
   .dropdown-list {
     height: 70px;
-    padding: 1.3em;
+    padding: 1.1em;
     display: block;
     background-color: #454545;
     cursor: pointer;
