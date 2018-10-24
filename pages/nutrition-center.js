@@ -20,18 +20,18 @@ class DietSearchContainer extends Component {
             userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
                 email: userData.email
         })
-        console.log('res', res)
+        this.props.getUserData(userData)
+        // updatedFoodChart(res.data.user.userDietSummary)
     } catch (err) {
       console.log('err', err)
         // return (dispatch) => dispatch({type: ERROR_SAVING_FOOD_DATA, payload: 'Sorry we could not save your data.'})
     }
-    // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
-    // this.props.updatedFoodChart(userDietSummary, { foodName: selectedFoodName, foodFacts: selectedFoodFacts })
   }
 
   render () {
     return (
         <Container fluid className="h-100">
+        {console.log('updatedUserFoodList', this.props.updatedUserFoodList)}
         <Row className="h-100">
             <Col className="border bg-white col-12 col-md-5">
               <FoodChart/>
@@ -54,6 +54,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getUserData, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
 
 export default App(connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer))

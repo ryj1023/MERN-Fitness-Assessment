@@ -9,52 +9,12 @@ export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const DUPLICATE_EMAIL = 'DUPLICATE_EMAIL';
 export const NO_ACCOUNT = 'NO_ACCOUNT';
 export const ACCOUNT_FOUND = 'ACCOUNT_FOUND';
-export const GET_UPDATED_USER_DATA = 'GET_UPDATED_USER_DATA';
+export const UPDATED_FOOD_CHART = 'UPDATED_FOOD_CHART';
 export const ERROR_SAVING_FOOD_DATA = 'ERROR_SAVING_FOOD_DATA';
 export const FOOD_DATA_SAVED = 'FOOD_DATA_SAVED';
 
 
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
-
-export const saveToUsersFoodList = async (dietSummary, user) => {
-
-    const encodedURI = window.encodeURI(`/api/save-food-items`);
-    try {
-        const res = await axios.post(encodedURI, {
-            userDietSummary: dietSummary,
-                email: user.email
-        })
-        // getUserData(user);
-        // return (dispatch) => dispatch({type: FOOD_DATA_SAVED, payload: 'Food List Updated!'})
-    } catch (err) {
-        // return (dispatch) => dispatch({type: ERROR_SAVING_FOOD_DATA, payload: 'Sorry we could not save your data.'})
-    }
-
-        // return (dispatch) => {
-        //     console.log('dispatch', dispatch)
-        //     return dispatch({type: GET_UPDATED_USER_DATA, payload: res.data});
-        // }
-    //  return async (dispatch) => {
-    //      console.log('dispatch', dispatch)
-        // console.log('hello')
-        // const encodedURI = window.encodeURI(`/api/save-food-item`);
-        // const res = await axios.post(encodedURI, {
-        //     userDietSummary: { foodName, foodFacts },
-        //         email: user.email
-        // })
-        // return dispatch({type: FOOD_ITEM_SAVED, payload: res.data});
-
-        // axios.post(encodedURI, {
-        //     userDietSummary: { foodName, foodFacts },
-        //         email: user.email
-        // }).then(res, dispatch => {
-        //     console.log('res', res)
-        //     console.log('dispatch', dispatch)
-        //     return dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
-        // })
-        // dispatch({type: FOOD_ITEM_SAVED, payload: res.data})
-    //}
-};
 
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
 	const encodedURI = window.encodeURI(`https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`)
@@ -99,14 +59,14 @@ export const getFoodNutritionFacts = (food) => {
 
 export const getUserData = (data) => {
     const encodedURI = window.encodeURI(`/api/user-data`)
-     axios.get(encodedURI, {
+     return (dispatch) => axios.get(encodedURI, {
             params: {
                 email: data.email,
               }, 
         })
-        // .then((response) => {
-        //     return dispatch({type: GET_UPDATED_USER_DATA, payload: response.data});
-        //     });
+        .then((response) => {
+            dispatch({type: UPDATED_FOOD_CHART, payload: response.data[0].user.userDietSummary});
+            });
         };
 
 export const saveUserData = (userData) => {

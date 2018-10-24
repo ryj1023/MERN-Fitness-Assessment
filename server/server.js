@@ -105,8 +105,8 @@ _app.prepare()
         new: true
       },
       (err, doc) => {
-        console.log('err', err)
-        console.log('doc', doc)
+        // console.log('err', err)
+        // console.log('doc', doc)
         if (err) return res.status(500).send(err);
         res.status(201).json(doc)
       }
