@@ -17,16 +17,17 @@ export const FOOD_DATA_SAVED = 'FOOD_DATA_SAVED';
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
 
 export const saveToUsersFoodList = async (dietSummary, user) => {
+
     const encodedURI = window.encodeURI(`/api/save-food-items`);
     try {
         const res = await axios.post(encodedURI, {
             userDietSummary: dietSummary,
                 email: user.email
         })
-        getUserData(user);
-        return (dispatch) => dispatch({type: FOOD_DATA_SAVED, payload: 'Food List Updated!'})
+        // getUserData(user);
+        // return (dispatch) => dispatch({type: FOOD_DATA_SAVED, payload: 'Food List Updated!'})
     } catch (err) {
-        return (dispatch) => dispatch({type: ERROR_SAVING_FOOD_DATA, payload: 'Sorry we could not save your data.'})
+        // return (dispatch) => dispatch({type: ERROR_SAVING_FOOD_DATA, payload: 'Sorry we could not save your data.'})
     }
 
         // return (dispatch) => {

@@ -2,7 +2,17 @@ import { Table } from 'reactstrap';
 
 const TableHeader = (props) => {
    return (
-      <Table className={`table-dark ${props.width ? props.width : ''}`}>
+      <Table dark size="small">
+         {props.titleHeader ? (
+            <thead>
+               <tr>
+                  <th colSpan={props.tableHeaders.length}>{props.title}</th>
+               </tr>
+            </thead>
+        )
+         :
+         (null)
+         }
          <thead>
             <tr>
                {props.tableHeaders.map(header => <th>{header}</th>)}

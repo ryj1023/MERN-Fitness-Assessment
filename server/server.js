@@ -97,10 +97,10 @@ _app.prepare()
     Users.findOneAndUpdate(
       { 'user.email': req.body.email },
       {
-        // $push: { 
-        //   'user.userDietSummary': req.body.userDietSummary
-        // },
-        'user.userDietSummary': req.body.userDietSummary
+        $push: { 
+          'user.userDietSummary': req.body.userDietSummary
+        },
+        //'user.userDietSummary': req.body.userDietSummary
       },{
         new: true
       },

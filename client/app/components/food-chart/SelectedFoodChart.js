@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'reactstrap';
 
 const SelectedFoodChart = (props) => (
          <tr>
@@ -9,7 +10,8 @@ const SelectedFoodChart = (props) => (
             <td>{props.foodData.foodFacts['Carbohydrate, by difference']}</td>
             <td>
                <div style={{display: 'inline'}}>
-                  <button className="btn btn-danger" onClick={() => props.onRemove(props.foodData)}>Remove</button>
+                  <Button size="sm" onClick={() => props.onRemove(props.foodData)}>Remove</Button>
+                  <Button size="sm" className='w-100 mt-1' onClick={() => props.onRemove(props.foodData)}>Edit</Button>
                </div>
             </td>
          </tr>

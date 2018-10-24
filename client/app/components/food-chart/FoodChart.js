@@ -7,7 +7,8 @@ import { updatedFoodChart } from '../../actions';
 import SelectedFoodChart from './SelectedFoodChart';
 import './food-chart.css';
 import axios from 'axios';
-import { Container, Row, Col, Table } from 'reactstrap'
+import { Container, Row, Col, Table, Form, Button } from 'reactstrap';
+import SmartTable from '../SmartTable'; 
 
 class FoodChart extends Component {
     state = {
@@ -144,63 +145,49 @@ class FoodChart extends Component {
     return (
        <Container className='bg-white'>
         <Row>
-        <Table className="table intake-goals">
-                <thead className="thead-dark">
+          <Col>
+            <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.state.dailyDietInfo.calories, this.state.dailyDietInfo.protein, macroTotals.fats, macroTotals.carbs]}/>
+                <Table dark size="sm">
+                  <thead>
                     <tr>
-                      <th colSpan="4" className='table-header-text'>Daily Nutrient Intake Goal</th>
+                        <th colSpan="6">Selected Foods</th>
                     </tr>
-                </thead>
-                <thead className="thead-dark">
-                  <tr>
-                    <th scope="col">Calories</th>
-                    <th scope="col">Protein (grams)</th>
-                    <th scope="col">Fat (grams)</th>
-                    <th scope="col">Carbs (grams)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{this.state.dailyDietInfo.calories}</td>
-                    <td>{this.state.dailyDietInfo.protein}</td>
-                    <td>{this.state.dailyDietInfo.fat}</td>
-                    <td>{this.state.dailyDietInfo.carbs}</td>
-                  </tr>
-                </tbody>
-              </Table>
-            <Table className="table selected-foods">
-              <thead className="thead-dark">
-                <tr>
-                    <th colSpan="6" className='table-header-text'>Selected Foods</th>
-                </tr>
-              </thead>
-              <thead className="thead-dark">
-                <tr>
-                  <th scope="col">Food Name</th>
-                  <th scope="col">Calories</th>
-                  <th scope="col">Protein (grams)</th>
-                  <th scope="col">Fat (grams)</th>
-                  <th scope="col">Carbs (grams)</th>
-                  <th scope="col">Remove Food</th>
-                </tr>
-              </thead>
-              <tbody>
-                  {savedFoodTableData}
-                <tr>
-                  <td>Totals</td>
-                  <td>{macroTotals.calories.toFixed(2)}</td>
-                  <td>{macroTotals.protein.toFixed(2)}</td>
-                  <td>{macroTotals.fats.toFixed(2)}</td>
-                  <td>{macroTotals.carbs.toFixed(2)}</td>
-                </tr>
-              </tbody>
-            </Table>
-            <form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
-               <button className="submit-button">Save Diet Info</button>
-            </form>
+                  </thead>
+                  <thead>
+                    <tr>
+                      <th>Food Name</th>
+                      <th>Calories</th>
+                      <th>Protein (grams)</th>
+                      <th>Fat (grams)</th>
+                      <th>Carbs (grams)</th>
+                      <th>Remove Food</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {savedFoodTableData}
+                    <tr>
+                      <td>Totals</td>
+                      <td>{macroTotals.calories.toFixed(2)}</td>
+                      <td>{macroTotals.protein.toFixed(2)}</td>
+                      <td>{macroTotals.fats.toFixed(2)}</td>
+                      <td>{macroTotals.carbs.toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+                <Form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
+                  <Button>Save Diet Info</Button>
+                </Form>
+            </Col>
             {
               (this.state.showSignInMessage) ? <a><Link to='./sign-up'>Create An Account</Link></a> : null
             }
           </Row>
+          <style jsx global>{`
+              .table {
+                font-size: 0.7rem !important;
+              }
+            `}            
+            </style>
         </Container>
       
     );

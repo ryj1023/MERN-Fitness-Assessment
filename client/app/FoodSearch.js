@@ -15,7 +15,7 @@ class DietSearchContainer extends Component {
     foodTextInput: null,
     showNutrientFacts: false,
     selectedFoodName: null,
-    userData: null,
+    dailyDietInfo: null,
     pageNumber: 1,
     selectedPage: 1,
     updatedUserData: null,
@@ -31,9 +31,8 @@ class DietSearchContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('user', JSON.parse(localStorage.getItem('user')))
     this.setState({
-      userData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null,
+      dailyDietInfo: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
     })
   }
 
@@ -88,12 +87,12 @@ class DietSearchContainer extends Component {
     })
   }
 
-  // async addToUsersFoodList (foodName, selectedFoodFacts) {
-  //   this.props.addSelectedFoodToFoodList(foodName, selectedFoodFacts)
+  async addToUsersFoodList (foodName, selectedFoodFacts) {
+    this.props.addSelectedFoodToFoodList(foodName, selectedFoodFacts)
 
-  //   // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
-  //   // this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
-  // }
+    // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
+    // this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
+  }
 
   showNutrientFacts() {
     const selectedFoodFacts = [];
@@ -121,8 +120,7 @@ class DietSearchContainer extends Component {
          <Row className='w-80 m-auto align-bottom'>
            <Col>
              <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark float-left'>Back to Food Results</Button>
-             {/* <Button className='btn btn-dark float-right' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</Button> */}
-             <Button className='btn btn-dark float-right' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Daily Food Intake</Button>
+             <Button className='btn btn-dark float-right' onClick={async () => await this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</Button>
            </Col>
         </Row>
       </>
@@ -263,7 +261,6 @@ class DietSearchContainer extends Component {
 
     return (
       <Container fluid style={{ height: '20vh'}}/*className="h-90"*/>
-      {console.log('this.state.userData', this.state.userData)}
           {FoodSearchForm()}
           {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
       </Container>
