@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './FoodSearch.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
-import { updatedFoodChart } from '../../actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
+import { updatedFoodChart } from '../../actions'; 
 import SmartTable from '../SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
@@ -277,6 +277,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)

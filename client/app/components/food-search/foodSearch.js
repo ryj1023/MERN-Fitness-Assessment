@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './FoodSearch.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../../actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
@@ -263,7 +263,6 @@ class DietSearchContainer extends Component {
 
     return (
       <Container fluid style={{ height: '20vh'}}/*className="h-90"*/>
-      {console.log('this.state.userData', this.state.userData)}
           {FoodSearchForm()}
           {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
       </Container>
@@ -280,6 +279,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)

@@ -59,15 +59,18 @@ export const getFoodNutritionFacts = (food) => {
 
 export const getUserData = (data) => {
     const encodedURI = window.encodeURI(`/api/user-data`)
-     return (dispatch) => axios.get(encodedURI, {
-            params: {
-                email: data.email,
-              }, 
-        })
-        .then((response) => {
-            dispatch({type: UPDATED_FOOD_CHART, payload: response.data[0].user.userDietSummary});
-            });
-        };
+     return (dispatch) => {
+         if (Array.isArray(data)) return dispatch({type: UPDATED_FOOD_CHART, payload: data});
+            axios.get(encodedURI, {
+                params: {
+                    email: data,
+                }, 
+            })
+            .then((response) => {
+                    return dispatch({type: UPDATED_FOOD_CHART, payload: response.data[0].user.userDietSummary});
+                });
+        }
+    };
 
 export const saveUserData = (userData) => {
     const encodedURI = window.encodeURI(`/api/save`);

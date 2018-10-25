@@ -15,13 +15,13 @@ const TableHeader = (props) => {
          }
          <thead>
             <tr>
-               {props.tableHeaders.map(header => <th>{header}</th>)}
+               {props.tableHeaders.map((header, index) => <th key={index}>{header}</th>)}
             </tr>
          </thead>
          <tbody>
          <tr>
             {/* <th scope="row">{props.rowNumber}</th> */}
-            {props.tableData.map(header => <td>{header}</td>)}
+            {props.tableData.map((header, index) => <td key={index}>{header}</td>)}
          </tr>
          </tbody>
       </Table>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Layout from '../client/app/layouts/default';
-import { getFoodSearchKeyword, getFoodNutritionFacts, saveToUsersFoodList, getUserData } from '../client/app/actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../client/app/actions/async-actions';
 import FoodChart from '../client/app/components/food-chart/FoodChart';
 import FoodSearch from '../client/app/components/food-search/FoodSearch';
 import { updatedFoodChart } from '../client/app/actions';
@@ -12,26 +12,37 @@ import axios from 'axios';
 
 class DietSearchContainer extends Component {
 
+  state = {
+    userFoodList: this.props.updatedUserFoodList.foodList
+  }
+
   async addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData) {
-    //await this.props.saveToUsersFoodList({ foodName: selectedFoodName, foodFacts: selectedFoodFacts }, userData)
     const encodedURI = window.encodeURI(`/api/save-food-items`);
     try {
         const res = await axios.post(encodedURI, {
             userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
                 email: userData.email
         })
-        this.props.getUserData(userData)
+        // this.props.getUserData(userData, this.state.userFoodList)
+        this.props.getUserData(res.data.user.userDietSummary)
         // updatedFoodChart(res.data.user.userDietSummary)
     } catch (err) {
       console.log('err', err)
-        // return (dispatch) => dispatch({type: ERROR_SAVING_FOOD_DATA, payload: 'Sorry we could not save your data.'})
     }
+  }
+
+  componentDidMount () {
+    if (this.props.updatedUserFoodList.foodList.length === 0) {
+      if (JSON.parse(localStorage.getItem('user'))) {
+        this.props.getUserData(JSON.parse(localStorage.getItem('user')).email)
+      }
+    } 
   }
 
   render () {
     return (
         <Container fluid className="h-100">
-        {console.log('updatedUserFoodList', this.props.updatedUserFoodList)}
+        {console.log('this.props.updatedUserFoodList', this.props.updatedUserFoodList)}
         <Row className="h-100">
             <Col className="border bg-white col-12 col-md-5">
               <FoodChart/>
@@ -54,6 +65,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getUserData, getFoodNutritionFacts, saveToUsersFoodList, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getUserData, getFoodNutritionFacts, updatedFoodChart }, dispatch);
 
 export default App(connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer))

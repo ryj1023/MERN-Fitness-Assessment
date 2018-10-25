@@ -106,11 +106,11 @@ class FoodChart extends Component {
   }
 
   updateUserData() {
-   if (Object.keys(this.props.updatedUserFoodList).length > 0) {
-     return this.props.updatedUserFoodList
-   } else if (this.state.user) {
-     return this.state.user.userDietSummary
-   }
+  //  if (Object.keys(this.props.updatedUserFoodList).length > 0) {
+  //    return this.props.updatedUserFoodList
+  //  } else if (this.state.user) {
+  //    return this.state.user.userDietSummary
+  //  }
    return null;
   }
 
@@ -139,14 +139,14 @@ class FoodChart extends Component {
 
   render() {
     if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
-     const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
-     const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
-     const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
+     //const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
+     //const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
+     //const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
     return (
        <Container className='bg-white'>
         <Row>
           <Col>
-            <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.state.dailyDietInfo.calories, this.state.dailyDietInfo.protein, macroTotals.fats, macroTotals.carbs]}/>
+            {/* <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.state.dailyDietInfo.calories, this.state.dailyDietInfo.protein, macroTotals.fats, macroTotals.carbs]}/> */}
                 <Table dark size="sm">
                   <thead>
                     <tr>
@@ -164,13 +164,13 @@ class FoodChart extends Component {
                     </tr>
                   </thead>
                   <tbody>
-                      {savedFoodTableData}
+                      {/* {savedFoodTableData} */}
                     <tr>
                       <td>Totals</td>
-                      <td>{macroTotals.calories.toFixed(2)}</td>
+                      {/* <td>{macroTotals.calories.toFixed(2)}</td>
                       <td>{macroTotals.protein.toFixed(2)}</td>
                       <td>{macroTotals.fats.toFixed(2)}</td>
-                      <td>{macroTotals.carbs.toFixed(2)}</td>
+                      <td>{macroTotals.carbs.toFixed(2)}</td> */}
                     </tr>
                   </tbody>
                 </Table>
@@ -207,7 +207,7 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
     nutritionFacts: state.nutritionFacts,
-    updatedUserFoodList: Object.keys(state.updatedUserFoodList).length > 0 ? state.updatedUserFoodList.updatedUserData : {},
+    // updatedUserFoodList: Object.keys(state.updatedUserFoodList).length > 0 ? state.updatedUserFoodList.updatedUserData : {},
     savedFoodData: state.savedFoodData
 	}
 }
