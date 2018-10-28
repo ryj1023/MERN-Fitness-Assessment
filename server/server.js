@@ -95,18 +95,37 @@ _app.prepare()
 
   app.post('/api/remove-food-item', (req, res) => {
     console.log('req.body', req.body)
-    // { 'user.userDietSummary': { $elemMatch: { foodName: req.query.foodName }}
-    Users.findOneAndUpdate({'user.userName': req.body.userName },
-    {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
+    // { 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }}
+    // Users.findOneAndUpdate({'user.userName': req.body.userName },
+    // {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
+    // {
+    //   new: true,
+    //   multi: false,
+    // },
+    //  (err, doc) => {
+    //   console.log('doc', doc)
+    //   if (err) return res.send(500, { error: err });
+    //       res.status(201).json(doc)
+    // })
+    Users.findOneAndUpdate({'user.userName': req.body.userName, 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }} },
+    {$unset: { 'user.userDietSummary.$': '' } },
     {
-      new: true
+      new: true,
+      multi: false,
     },
      (err, doc) => {
-      console.log('doc', doc)
-      if (err) return res.send(500, { error: err });
-          res.status(201).json(doc)
-    })
+          Users.findOneAndUpdate({'user.userName': req.body.userName },
+          {$pull: { 'user.userDietSummary': null } },
+        {
+          new: true,
+          multi: false,
+        }, (err, doc) => {
+          console.log('doc', doc)
+          if (err) return res.send(500, { error: err });
+              res.status(201).json(doc)
+        })
   })
+})
 
   app.post('/api/save-food-items', (req, res) => {
     Users.findOneAndUpdate(

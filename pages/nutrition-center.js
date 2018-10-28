@@ -43,6 +43,7 @@ class DietSearchContainer extends Component {
         try {
           const encodedURI = window.encodeURI(`/api/user-data`)
           const res = await axios.get(encodedURI, { params: {email: JSON.parse(localStorage.getItem('user')).email}})
+          console.log('res', res)
           this.getUpdatedFoodChart(res.data[0].user)
           this.setState({ loading: false,
           userName: res.data[0].user.userName })
