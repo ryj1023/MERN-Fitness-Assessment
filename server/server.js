@@ -93,6 +93,21 @@ _app.prepare()
     })
   });
 
+  app.post('/api/remove-food-item', (req, res) => {
+    console.log('req.body', req.body)
+    // { 'user.userDietSummary': { $elemMatch: { foodName: req.query.foodName }}
+    Users.findOneAndUpdate({'user.userName': req.body.userName },
+    {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
+    {
+      new: true
+    },
+     (err, doc) => {
+      console.log('doc', doc)
+      if (err) return res.send(500, { error: err });
+          res.status(201).json(doc)
+    })
+  })
+
   app.post('/api/save-food-items', (req, res) => {
     Users.findOneAndUpdate(
       { 'user.email': req.body.email },
@@ -100,13 +115,10 @@ _app.prepare()
         $push: { 
           'user.userDietSummary': req.body.userDietSummary
         },
-        //'user.userDietSummary': req.body.userDietSummary
       },{
         new: true
       },
       (err, doc) => {
-        // console.log('err', err)
-        // console.log('doc', doc)
         if (err) return res.status(500).send(err);
         res.status(201).json(doc)
       }

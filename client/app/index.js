@@ -13,11 +13,11 @@ import AppRoutes from './routes';
 const root = document.getElementById('root');
 
 
-render(
-	<Provider store={createStore(Reducers, applyMiddleware(thunk))}>
-		<AppRoutes />
-	</Provider>
-	, root
-	);
+// render(
+// 	<Provider store={createStore(Reducers, applyMiddleware(thunk))}>
+// 		<AppRoutes />
+// 	</Provider>
+// 	, root
+// 	);
 
 

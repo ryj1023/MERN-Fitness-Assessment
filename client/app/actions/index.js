@@ -6,6 +6,7 @@ export const KEYWORD= 'KEYWORD';
 export const RESOLVED_FOOD_OBJECT = 'RESOLVED_FOOD_OBJECT';
 export const CLEAR_FOOD_LIST = 'CLEAR_FOOD_LIST';
 export const UPDATED_FOOD_CHART = 'UPDATED_FOOD_CHART';
+export const DAILY_DIET_GOALS = 'DAILY_DIET_GOALS';
 
 export const addAnswer = answer => ({
 	type: ADD_ANSWER,
@@ -17,13 +18,20 @@ export const gatherFitnessInfo = (info) => ({
 	info
 });
 
-export const updatedFoodChart = (payload, record) => {
+export const updatedFoodChart = (data) => {
 	return {
 		type: UPDATED_FOOD_CHART,
-		payload,
-		record
+		payload: data
 	}
 }
+
+export const getDailyDietGoals = (payload) => {
+	return {
+		type: DAILY_DIET_GOALS,
+		payload
+	}
+};
+
 
 
 

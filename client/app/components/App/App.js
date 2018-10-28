@@ -17,7 +17,7 @@ const App = (Page) => {
 				})
 			}
 		return <Provider store={store}>
-			<Page />
+			<Page store={store}/>
 		</Provider>
 		}
 	}

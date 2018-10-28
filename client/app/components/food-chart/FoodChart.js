@@ -11,83 +11,15 @@ import { Container, Row, Col, Table, Form, Button } from 'reactstrap';
 import SmartTable from '../SmartTable'; 
 
 class FoodChart extends Component {
-    state = {
-      dailyDietInfo: [],
-      userLocalStorageData: null,
-      // user: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
-      hideSaveButton: true,
-      isLoggedIn: false,
-      showSignInMessage: false,
-      user: null,
-      savedFoodList: false,
-      err: null,
-      updatedFoodPreviewInfo: null,
-    }
-  
-  getStateForDietInfo() {
-    console.log('this.props.clientDietInfo', this.props.clientDietInfo)
-    if (Object.keys(this.props.clientDietInfo).length > 0) {
-      return this.props.clientDietInfo.clientInfo;
-    } else if (JSON.parse(localStorage.getItem('user')) && JSON.parse(localStorage.getItem('user')).dietInfo.calories !== null){
-      return JSON.parse(localStorage.getItem('user')).dietInfo
-    } 
-    return {};
-  }
-
-  componentDidMount() {
-    this.setState({
-      dailyDietInfo: this.getStateForDietInfo(),
-      userLocalStorageData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : {},
-      hideSaveButton: (this.getStateForDietInfo()) ? true : false,
-      isLoggedIn: JSON.parse(localStorage.getItem('user')) ? true : false,
-      user: this.props.updatedUserData ? this.props.updatedUserData : (JSON.parse(localStorage.getItem('user')) || null),
-    })
-  }
-
-  async saveDietData(e, updatedUserFoodList) {
-    e.preventDefault();
-    if (this.state.isLoggedIn) {
-        const encodedURI = window.encodeURI(`/api/save-food-items`);
-        try {
-            const res = await axios.post(encodedURI, {
-                userDietSummary: updatedUserFoodList,
-                    email: JSON.parse(localStorage.getItem('user')).email
-            })
-          } catch (err) {
-            this.setState({ err: 'Could not save food item.' })
-          }
-      const updatedStorageData = this.state.userLocalStorageData;
-      updatedStorageData.userDietSummary = updatedUserFoodList
-      localStorage.setItem('user', JSON.stringify(updatedStorageData));
-      this.setState({
-        savedFoodList: true,
-      })
-    }
-  }
-
-  // componentDidMount () {
-  //   if (this.state.savedFoodList) {
-  //   const encodedURI = window.encodeURI(`/api/user-data`)
-  //    axios.get(encodedURI, {
-  //           params: {
-  //               email: JSON.parse(localStorage.getItem('user')).email
-  //             }, 
-  //       })
-  //       .then((response) => {
-  //         console.log('response', response)
-  //           });
-  //   }
-  // }
 
   displayUpdatedFoodData (dietSummary) {
-    //  TODO: add detail object to parent object
-    const allSavedFoodData = {};
-    if (dietSummary) {
-      // if (Object.keys(this.props.selectedFood).length > 0) {
-      //   console.log('this.props.selectedFood', this.props.selectedFood)
-      //   dietSummary.push(this.props.selectedFood)
-      // }
-      allSavedFoodData.previewData = dietSummary.map(foodData => {
+    const totals = {
+      calories: 0,
+      protein: 0, 
+      fats: 0,
+      carbs: 0
+    }
+      const previewFoodData = dietSummary.map(foodData => {
         return {
           foodName: foodData.foodName,
           foodFacts: foodData.foodFacts.reduce((acc, data) => { 
@@ -100,97 +32,123 @@ class FoodChart extends Component {
           }, {})
         }
       })
-    }
-
-    return allSavedFoodData;
-  }
-
-  updateUserData() {
-  //  if (Object.keys(this.props.updatedUserFoodList).length > 0) {
-  //    return this.props.updatedUserFoodList
-  //  } else if (this.state.user) {
-  //    return this.state.user.userDietSummary
-  //  }
-   return null;
-  }
-
-    getMacroTotals(foodData) {
-      const totals = {
-        calories: 0,
-        protein: 0, 
-        fats: 0,
-        carbs: 0
-      }
-
-      return foodData.reduce((acc, macros, index) => {
+      
+      const macroTotals = previewFoodData.reduce((acc, macros, index) => {
         acc.calories += Number(macros.foodFacts.Energy)
         acc.protein += Number(macros.foodFacts.Protein)
         acc.fats += Number(macros.foodFacts['Total lipid (fat)'])
         acc.carbs += Number(macros.foodFacts['Carbohydrate, by difference'])
         return acc;
       }, totals);
-    }
 
-    removeSelectedFood(selectedFood, foodList) {
-      this.setState({
-        updatedFoodPreviewInfo: true
-      })
+      return { previewFoodData, macroTotals}
+  }
+
+
+
+    async removeSelectedFood(selectedFood, userName) {
+      // const encodedURI = window.encodeURI(`/api/remove-food-items`);
+      //   const res = await axios.post(encodedURI, {
+      //       userDietSummary: { foodName: selectedFood.foodName }
+      //   })
+      try {
+        const encodedURI = window.encodeURI(`/api/remove-food-item`);
+        const res = await axios.post(encodedURI, 
+           {
+              foodName: selectedFood.foodName, 
+              userName
+            }
+          )
+          this.props.getUpdatedFoodChart(res.data.user)
+          console.log('res', res)
+      } catch (err) {
+        console.log('err', err)
+      }
+      
+
+      
+      // this.props.removeFoodFromList()
+      // this.setState({
+      //   updatedFoodPreviewInfo: true
+      // })
     }
 
   render() {
-    if (Object.keys(this.state.dailyDietInfo).length > 0 && this.state.dailyDietInfo.calories !== null) {
-     //const allSavedFoodData = this.displayUpdatedFoodData(this.updateUserData())
-     //const macroTotals = this.getMacroTotals(allSavedFoodData.previewData)
-     //const savedFoodTableData = allSavedFoodData.previewData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={(selected) => this.removeSelectedFood(selected, allSavedFoodData.previewData)}/>)
+    if (this.props.userFoodList.length > 0) {
+     const { previewFoodData, macroTotals } = this.displayUpdatedFoodData(this.props.userFoodList)
+     const savedFoodTableData = previewFoodData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={async (selected) => await this.removeSelectedFood(selected, this.props.userName)}/>)
     return (
-       <Container className='bg-white'>
+       <Container className='bg-white food-chart-container'>
         <Row>
           <Col>
-            {/* <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.state.dailyDietInfo.calories, this.state.dailyDietInfo.protein, macroTotals.fats, macroTotals.carbs]}/> */}
-                <Table dark size="sm">
-                  <thead>
-                    <tr>
-                        <th colSpan="6">Selected Foods</th>
-                    </tr>
-                  </thead>
-                  <thead>
-                    <tr>
-                      <th>Food Name</th>
-                      <th>Calories</th>
-                      <th>Protein (grams)</th>
-                      <th>Fat (grams)</th>
-                      <th>Carbs (grams)</th>
-                      <th>Remove Food</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {/* {savedFoodTableData} */}
-                    <tr>
-                      <td>Totals</td>
-                      {/* <td>{macroTotals.calories.toFixed(2)}</td>
-                      <td>{macroTotals.protein.toFixed(2)}</td>
-                      <td>{macroTotals.fats.toFixed(2)}</td>
-                      <td>{macroTotals.carbs.toFixed(2)}</td> */}
-                    </tr>
-                  </tbody>
-                </Table>
-                <Form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
+            <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
+                <Row className='food-chart'>
+                  <Table dark size="sm" className="food-chart-table">
+                    <thead>
+                      <tr>
+                          <th className="text-center" colSpan="6">Selected Foods</th>
+                      </tr>
+                    </thead>
+                    <thead>
+                      <tr>
+                        <th>Food Name</th>
+                        <th>Calories</th>
+                        <th>Protein (grams)</th>
+                        <th>Fat (grams)</th>
+                        <th>Carbs (grams)</th>
+                        <th>Remove Food</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {savedFoodTableData}
+                      <tr>
+                        <td>Totals</td>
+                        <td>{macroTotals.calories.toFixed(2)}</td>
+                        <td>{macroTotals.protein.toFixed(2)}</td>
+                        <td>{macroTotals.fats.toFixed(2)}</td>
+                        <td>{macroTotals.carbs.toFixed(2)}</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                  
+                </Row>
+                {/* <Form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
                   <Button>Save Diet Info</Button>
-                </Form>
+                </Form> */}
             </Col>
-            {
+            {/* {
               (this.state.showSignInMessage) ? <a><Link to='./sign-up'>Create An Account</Link></a> : null
-            }
+            } */}
           </Row>
           <style jsx global>{`
-              .table {
+              .table, tr, th, td {
+                color: white;
                 font-size: 0.7rem !important;
+              }
+              .food-chart {
+                height: 60%;
+              }
+              .food-chart > table {
+                height: 100%;
+              }
+              .food-chart > div {
+                height: 100%;
+              }
+              .food-chart-table {
+                display: block;
+                height: 60%;
+                overflow-y: scroll;
+              }
+              .food-chart-container, .food-chart-container > div, .food-chart-container > div > div {
+                height: inherit;
               }
             `}            
             </style>
         </Container>
       
     );
+  } else if (this.props.foodChartLoading) {
+    return <h1>loading...</h1>
   } else return (
     <Container>
       <Row>

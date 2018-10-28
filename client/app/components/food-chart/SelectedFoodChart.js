@@ -11,7 +11,6 @@ const SelectedFoodChart = (props) => (
             <td>
                <div style={{display: 'inline'}}>
                   <Button size="sm" onClick={() => props.onRemove(props.foodData)}>Remove</Button>
-                  <Button size="sm" className='w-100 mt-1' onClick={() => props.onRemove(props.foodData)}>Edit</Button>
                </div>
             </td>
          </tr>

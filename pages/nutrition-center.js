@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../client/app/layouts/default';
-import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../client/app/actions/async-actions';
+import axios from 'axios';
+import { Container, Row, Col, Button } from 'reactstrap';
+import { getUserData } from '../client/app/actions/async-actions';
+import { updatedFoodChart, getDailyDietGoals } from '../client/app/actions';
 import FoodChart from '../client/app/components/food-chart/FoodChart';
 import FoodSearch from '../client/app/components/food-search/FoodSearch';
-import { updatedFoodChart } from '../client/app/actions';
 import App from '../client/app/components/app/App';
-import { Container, Row, Col } from 'reactstrap';
-import axios from 'axios';
+
 
 class DietSearchContainer extends Component {
 
-  state = {
-    userFoodList: this.props.updatedUserFoodList.foodList
-  }
 
   async addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData) {
     const encodedURI = window.encodeURI(`/api/save-food-items`);
@@ -23,35 +20,55 @@ class DietSearchContainer extends Component {
             userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
                 email: userData.email
         })
-        // this.props.getUserData(userData, this.state.userFoodList)
         this.props.getUserData(res.data.user.userDietSummary)
-        // updatedFoodChart(res.data.user.userDietSummary)
+        localStorage.setItem('user', JSON.stringify(res.data[0].user));
     } catch (err) {
       console.log('err', err)
     }
   }
 
-  componentDidMount () {
+  componentWillMount() {
+    this.setState({ loading: true })
+  }
+
+ getUpdatedFoodChart(userData) {
+    this.props.store.dispatch(updatedFoodChart(userData.userDietSummary))
+    this.props.store.dispatch(getDailyDietGoals(userData.dietInfo))
+    localStorage.setItem('user', JSON.stringify(userData));
+  }
+
+  async componentDidMount () {
     if (this.props.updatedUserFoodList.foodList.length === 0) {
       if (JSON.parse(localStorage.getItem('user'))) {
-        this.props.getUserData(JSON.parse(localStorage.getItem('user')).email)
+        try {
+          const encodedURI = window.encodeURI(`/api/user-data`)
+          const res = await axios.get(encodedURI, { params: {email: JSON.parse(localStorage.getItem('user')).email}})
+          this.getUpdatedFoodChart(res.data[0].user)
+          this.setState({ loading: false,
+          userName: res.data[0].user.userName })
+        } catch (err) {
+          console.log('err', err)
+        }
+      } else {
+        this.setState({ loading: false })
       }
     } 
+    this.setState({ loading: false })
+
   }
 
   render () {
     return (
         <Container fluid className="h-100">
-        {console.log('this.props.updatedUserFoodList', this.props.updatedUserFoodList)}
-        <Row className="h-100">
-            <Col className="border bg-white col-12 col-md-5">
-              <FoodChart/>
-            </Col>
-            <Col className="border bg-white col-12 col-md-7">
-              <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>
-            </Col>
-        </Row>
-      </Container>
+          <Row className="h-100">
+              <Col className="border bg-white col-12 col-md-5 h-100">
+                <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)}foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>
+              </Col>
+              <Col className="border bg-white col-12 col-md-7">
+                <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>
+              </Col>
+          </Row>
+        </Container>
     )
   }
 }
@@ -61,10 +78,11 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
     nutritionFacts: state.nutritionFacts,
-    updatedUserFoodList: state.updatedUserFoodList
+    updatedUserFoodList: state.updatedUserFoodList,
+    dailyDietGoals: state.dailyDietGoals
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getUserData, getFoodNutritionFacts, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getUserData, updatedFoodChart, getDailyDietGoals }, dispatch);
 
 export default App(connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer))

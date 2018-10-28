@@ -2,29 +2,31 @@ import { Table } from 'reactstrap';
 
 const TableHeader = (props) => {
    return (
-      <Table dark size="small">
-         {props.titleHeader ? (
+       <>
+        <Table dark size="small">
+            {props.titleHeader ? (
+                <thead>
+                <tr>
+                    <th className="text-center" colSpan={props.tableHeaders.length}>{props.title}</th>
+                </tr>
+                </thead>
+            )
+            :
+            (null)
+            }
             <thead>
-               <tr>
-                  <th colSpan={props.tableHeaders.length}>{props.title}</th>
-               </tr>
+                <tr>
+                {props.tableHeaders.map((header, index) => <th key={index}>{header}</th>)}
+                </tr>
             </thead>
-        )
-         :
-         (null)
-         }
-         <thead>
+            <tbody>
             <tr>
-               {props.tableHeaders.map((header, index) => <th key={index}>{header}</th>)}
+                {/* <th scope="row">{props.rowNumber}</th> */}
+                {props.tableData.map((header, index) => <td key={index}>{header}</td>)}
             </tr>
-         </thead>
-         <tbody>
-         <tr>
-            {/* <th scope="row">{props.rowNumber}</th> */}
-            {props.tableData.map((header, index) => <td key={index}>{header}</td>)}
-         </tr>
-         </tbody>
-      </Table>
+            </tbody>
+        </Table>
+      </>
    )
 }
 
