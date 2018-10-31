@@ -46,14 +46,4 @@ class Profile extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	return {
-		questions: state.questions,
-		answers: state.answers,
-		clientDietInfo: state.clientInfo,
-		foodList: state.foodList,
-		nutritionFacts: state.nutritionFacts,
-	}
-}
-
-export default App(connect(mapStateToProps)(Profile))
+export default App(connect()(Profile))

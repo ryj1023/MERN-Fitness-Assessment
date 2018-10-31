@@ -76,9 +76,7 @@ class DietSearchContainer extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-    nutritionFacts: state.nutritionFacts,
     updatedUserFoodList: state.updatedUserFoodList,
     dailyDietGoals: state.dailyDietGoals
 	}

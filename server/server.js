@@ -22,8 +22,6 @@ mongoose.connection.once('open', function() {
 _app.prepare()
 .then(() => {
   // app.use(handler).listen(3000)
-  app.use(expressValidator())
-  app.use(bodyParser.json())
   app.get('*', (req, res) => {
     return handle(req, res)
   })

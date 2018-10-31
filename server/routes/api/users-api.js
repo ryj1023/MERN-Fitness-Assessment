@@ -1,7 +1,11 @@
 const Users = require('../../models/User-info.model.js');
 const request = require('request');
 const axios = require('axios');
+const expressValidator = require('express-validator');
+const bodyParser = require('body-parser')
 module.exports = (app) => {
+  app.use(expressValidator())
+  app.use(bodyParser.json())
   app.get('/api/sign-up', (req, res, next) => {
     res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
     req.session.errors = null;
@@ -59,8 +63,6 @@ module.exports = (app) => {
 
   app.get('/api/user-data', (req, res, next) => {
     Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
-      console.log('err', err)
-      console.log('user', user)
       if (err) res.status(500).send(err)
       res.json(user)
     })

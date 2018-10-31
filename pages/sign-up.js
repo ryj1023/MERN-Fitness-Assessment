@@ -5,10 +5,8 @@ import * as Yup from 'yup';
 import { validateSignUp } from '../client/app/actions/async-actions';
 import '../client/app/styles/sign-up.css';
 import { connect } from 'react-redux';
-// import Layout from '../client/app/layouts/default';
 import App from '../client/app/components/app/App';
 import { Form, Container, Row, Column, FormGroup, Label, Input, Button } from 'reactstrap';
-import Router from 'next/router'
 
 const formValues = {
     userName: '',
@@ -77,7 +75,6 @@ const SignUp = (props) => (
 
 const mapStateToProps = (state) => {
     return {
-        questions: state.questions,
         validationResult: state.validationErrors,
         signUpResult: state.signUpErrors,
     }

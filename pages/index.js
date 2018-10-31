@@ -77,16 +77,6 @@ class Home extends Component {
 		}	
 }	
 
-const mapStateToProps = (state) => {
-	return {
-		questions: state.questions,
-		answers: state.answers,
-		clientDietInfo: state.clientInfo,
-		foodList: state.foodList,
-		nutritionFacts: state.nutritionFacts,
-	}
-}
-
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-export default App(connect(mapStateToProps, mapDispatchToProps)(Home))
+export default App(connect(mapDispatchToProps)(Home))
 
