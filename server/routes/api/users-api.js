@@ -59,25 +59,58 @@ module.exports = (app) => {
 
   app.get('/api/user-data', (req, res, next) => {
     Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
-      if (err) return res.status(500).send(err)
+      console.log('err', err)
+      console.log('user', user)
+      if (err) res.status(500).send(err)
       res.json(user)
     })
   });
+
+  app.post('/api/remove-food-item', (req, res) => {
+    console.log('req.body', req.body)
+    // { 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }}
+    // Users.findOneAndUpdate({'user.userName': req.body.userName },
+    // {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
+    // {
+    //   new: true,
+    //   multi: false,
+    // },
+    //  (err, doc) => {
+    //   console.log('doc', doc)
+    //   if (err) return res.send(500, { error: err });
+    //       res.status(201).json(doc)
+    // })
+    Users.findOneAndUpdate({'user.userName': req.body.userName, 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }} },
+    {$unset: { 'user.userDietSummary.$': '' } },
+    {
+      new: true,
+      multi: false,
+    },
+     (err, doc) => {
+          Users.findOneAndUpdate({'user.userName': req.body.userName },
+          {$pull: { 'user.userDietSummary': null } },
+        {
+          new: true,
+          multi: false,
+        }, (err, doc) => {
+          console.log('doc', doc)
+          if (err) return res.send(500, { error: err });
+              res.status(201).json(doc)
+        })
+  })
+})
 
   app.post('/api/save-food-items', (req, res) => {
     Users.findOneAndUpdate(
       { 'user.email': req.body.email },
       {
-        // $push: { 
-        //   'user.userDietSummary': req.body.userDietSummary
-        // },
-        'user.userDietSummary': req.body.userDietSummary
+        $push: { 
+          'user.userDietSummary': req.body.userDietSummary
+        },
       },{
         new: true
       },
       (err, doc) => {
-        console.log('err', err)
-        console.log('doc', doc)
         if (err) return res.status(500).send(err);
         res.status(201).json(doc)
       }

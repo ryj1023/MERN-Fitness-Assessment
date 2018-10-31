@@ -47,10 +47,6 @@ class FoodChart extends Component {
 
 
     async removeSelectedFood(selectedFood, userName) {
-      // const encodedURI = window.encodeURI(`/api/remove-food-items`);
-      //   const res = await axios.post(encodedURI, {
-      //       userDietSummary: { foodName: selectedFood.foodName }
-      //   })
       try {
         const encodedURI = window.encodeURI(`/api/remove-food-item`);
         const res = await axios.post(encodedURI, 
@@ -64,13 +60,6 @@ class FoodChart extends Component {
       } catch (err) {
         console.log('err', err)
       }
-      
-
-      
-      // this.props.removeFoodFromList()
-      // this.setState({
-      //   updatedFoodPreviewInfo: true
-      // })
     }
 
   render() {
@@ -112,13 +101,7 @@ class FoodChart extends Component {
                   </Table>
                   
                 </Row>
-                {/* <Form onSubmit={async (e)=> await this.saveDietData(e, this.updateUserData())}>
-                  <Button>Save Diet Info</Button>
-                </Form> */}
             </Col>
-            {/* {
-              (this.state.showSignInMessage) ? <a><Link to='./sign-up'>Create An Account</Link></a> : null
-            } */}
           </Row>
           <style jsx global>{`
               .table, tr, th, td {
@@ -165,7 +148,6 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
     nutritionFacts: state.nutritionFacts,
-    // updatedUserFoodList: Object.keys(state.updatedUserFoodList).length > 0 ? state.updatedUserFoodList.updatedUserData : {},
     savedFoodData: state.savedFoodData
 	}
 }

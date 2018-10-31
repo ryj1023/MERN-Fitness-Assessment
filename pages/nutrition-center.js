@@ -12,6 +12,9 @@ import App from '../client/app/components/app/App';
 
 class DietSearchContainer extends Component {
 
+  state = {
+    loading: true
+  }
 
   async addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData) {
     const encodedURI = window.encodeURI(`/api/save-food-items`);
@@ -27,9 +30,6 @@ class DietSearchContainer extends Component {
     }
   }
 
-  componentWillMount() {
-    this.setState({ loading: true })
-  }
 
  getUpdatedFoodChart(userData) {
     this.props.store.dispatch(updatedFoodChart(userData.userDietSummary))

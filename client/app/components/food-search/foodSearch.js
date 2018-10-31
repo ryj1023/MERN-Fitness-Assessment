@@ -31,7 +31,6 @@ class DietSearchContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('user', JSON.parse(localStorage.getItem('user')))
     this.setState({
       userData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null,
     })
