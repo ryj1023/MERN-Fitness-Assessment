@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Suspense, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -63,7 +63,7 @@ class DietSearchContainer extends Component {
         <Container fluid className="h-100">
           <Row className="h-100">
               <Col className="border bg-white col-12 col-md-5 h-100">
-                <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)}foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>
+                <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)} foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>
               </Col>
               <Col className="border bg-white col-12 col-md-7">
                 <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>

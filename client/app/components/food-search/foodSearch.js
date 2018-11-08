@@ -5,7 +5,7 @@ import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable';
-import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 
@@ -96,33 +96,67 @@ class DietSearchContainer extends Component {
 
   showNutrientFacts() {
     const selectedFoodFacts = [];
-    const tableHeaders = ['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']
+    const microNutrients = [];
     const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
       selectedFoodFacts.push(data);
       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
        acc.push(`${data.value}${data.unit}`)
-      } 
+      } else {
+        microNutrients.push({name: data.name, value: `${data.value}${data.unit}`});
+      }
       return acc;
     }, []);
-    // this.setStateForSelectedFoodFacts([...selectedFoodFacts]);
     return (
       <>
-       <Row>
-         <Col>
-          <p className="selected-food-name">{this.state.selectedFoodName}</p>
-         </Col>
-        </Row>
         <Row className='w-80 m-auto'>
          <Col >
-          <SmartTable width="w-100" tableData={nutritionFactUnits} tableHeaders={tableHeaders} />
+          <SmartTable width="w-100" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} />
          </Col>
          </Row>
-         <Row className='w-80 m-auto align-bottom'>
-           <Col>
-             <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark float-left'>Back to Food Results</Button>
+         <Row className="m-auto" style={{ width: '95%', maxHeight: '300px'}}>
+          <Col className="micronutrient-collapse-container w-50">
+              <Card className="h-100 mb-3">
+                <CardBody className="h-100 p-0">
+                  <a color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
+                  <span className="glyphicon glyphicon-envelope"></span>
+                    Micronutrients
+                  </a>
+                    <UncontrolledCollapse className="row m-auto" style={{ height: '90%', width: '80%'}} toggler="#toggler">
+                      <Table className="w-100" style={{ display: 'inline-block', overflow: 'scroll' }} dark>
+                      <thead></thead>
+                      <tbody>
+                        <tr>
+                          <th>Micronutrient</th>
+                          <th>Value</th>
+                        </tr>
+                        {microNutrients.map((record, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>{record.name}</td>
+                              <td>{record.value}</td>
+                            </tr>
+                          )
+                        })}
+                        </tbody>
+                      </Table>
+                      {/* <SmartTable width="w-100"  tableData={microNutrients.map(record => record.value)} tableHeaders={microNutrients.map(record => record.name)} /> */}
+                    </UncontrolledCollapse>
+                </CardBody>
+              </Card>
+            </Col>
+            <style jsx>{`
+              .micronutrient-collapse-container {
+                height: 45%;
+              }
+            `}</style>
+            <Col>
+             <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-sm btn-dark m-2'>Back</Button>
              {/* <Button className='btn btn-dark float-right' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</Button> */}
-             <Button className='btn btn-dark float-right' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Daily Food Intake</Button>
+             <Button className='btn btn-sm btn-dark m-2' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
            </Col>
+         </Row>     
+         <Row className='w-80 m-auto align-bottom'>
+           
         </Row>
       </>
     )
@@ -180,33 +214,41 @@ class DietSearchContainer extends Component {
       } else if (foodName.includes('GTIN')) {
         foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
       }
-      const { foodID } = food;
+      const { foodID, manufacturer } = food;
       if (index + 1 >= pageRange && acc.length < 10) {
-        acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.showFoodNutrients.bind(this, {foodID, foodName})}>{foodName}</li>);
+        acc.push(<li className="list-group-item" key={index} id={foodID} onClick={this.showFoodNutrients.bind(this, {foodID, foodName})}><b>{foodName}</b>
+        <br />
+        {manufacturer === 'none' ? 'manufacturer unavailable' : manufacturer}
+        </li>);
       }
       return acc;
       }, []);
     return (
       <>
-              <Row className="pre-scrollable">
-                <ul className="h-100 w-100">
-                  {FoodList}
-                </ul>            
+          <Row className="pre-scrollable">
+              <ul className="h-100 w-100">
+                {FoodList}
+              </ul>            
           </Row>
            <Row className='m-auto'>
            <div className='m-auto w-100' style={{display: 'inherit'}}>
               <div className='m-auto'>
-                <Pagination
-                    defaultPageSize={10}
-                    pageSize={10}
-                    total={this.props.foodList.length}
-                    itemRender={itemRender}
-                    className='mt-3'
-                    onChange={(page) => this.setState({ selectedPage: page})}
-                    current={this.state.selectedPage}
-                  />
+                {this.props.foodList.length > 10 ?
+                  <Pagination
+                  defaultPageSize={10}
+                  pageSize={10}
+                  total={this.props.foodList.length}
+                  itemRender={itemRender}
+                  className='mt-3'
+                  onChange={(page) => this.setState({ selectedPage: page})}
+                  current={this.state.selectedPage}
+                /> : (null)
+                }
                   <style jsx>{`
-
+                    :global(.list-group-item) {
+                      cursor: pointer !important;
+                      font-size: 0.9rem;
+                    }
                     div :global(.m-auto) {
                       width: 80%
                     }

@@ -36,7 +36,7 @@ class Profile extends Component {
                     ) : (
                         <Col sm='12'>
                             <p>You haven't done your fitness assessment yet</p>
-                            <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals!</h3>
+                            <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals</h3>
                         </Col>
                     )
                     }
