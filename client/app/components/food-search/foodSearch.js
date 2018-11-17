@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable';
-import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, UncontrolledCollapse, Button, CardBody, Card } from 'reactstrap';
+import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, UncontrolledCollapse, Button, CardBody, Card, Collapse } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
+import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
 
 class DietSearchContainer extends Component {
-  
+
   state = {
-    foodTextInput: null,
-    showNutrientFacts: false,
-    selectedFoodName: null,
-    userData: null,
-    pageNumber: 1,
-    selectedPage: 1,
-    updatedUserData: null,
-    selectedFood: {},
-    currentPage: 1,
-  }
+      foodTextInput: null,
+      showNutrientFacts: false,
+      selectedFoodName: null,
+      userData: null,
+      pageNumber: 1,
+      selectedPage: 1,
+      updatedUserData: null,
+      selectedFood: {},
+      currentPage: 1,
+      collapse: false,
+    }
+  
+  
+
+  
   
   setInput(foodTextInput){
 		this.setState({
@@ -87,13 +94,6 @@ class DietSearchContainer extends Component {
     })
   }
 
-  // async addToUsersFoodList (foodName, selectedFoodFacts) {
-  //   this.props.addSelectedFoodToFoodList(foodName, selectedFoodFacts)
-
-  //   // const userDietSummary = Object.keys(this.props.updatedUserFoodList.updatedUserData).length > 0 ? this.props.updatedUserFoodList.updatedUserData : JSON.parse(localStorage.getItem('user')).userDietSummary;
-  //   // this.props.updatedFoodChart(userDietSummary, { foodName: this.state.selectedFoodName, foodFacts: selectedFoodFacts })
-  // }
-
   showNutrientFacts() {
     const selectedFoodFacts = [];
     const microNutrients = [];
@@ -116,12 +116,12 @@ class DietSearchContainer extends Component {
          <Row className="m-auto" style={{ width: '95%', maxHeight: '300px'}}>
           <Col className="micronutrient-collapse-container w-50">
               <Card className="h-100 mb-3">
-                <CardBody className="h-100 p-0">
-                  <a color="primary" id="toggler" style={{ marginBottom: '1rem' }}>
-                  <span className="glyphicon glyphicon-envelope"></span>
+                <CardBody className="h-100 m-auto p-0">
+                  <a color="primary" onClick={() => this.setState({ collapse: !this.state.collapse })} id="toggler" style={{ marginBottom: '1rem' }}>
+                    { this.state.collapse ? <IoIosArrowDropup className="mb-1"/> : <IoIosArrowDropdown className="mb-1"/> }
                     Micronutrients
                   </a>
-                    <UncontrolledCollapse className="row m-auto" style={{ height: '90%', width: '80%'}} toggler="#toggler">
+                    <Collapse isOpen={this.state.collapse} className="row m-auto" style={{ height: '90%', width: '80%'}} ref={this.dropdownRef} toggler="#toggler">
                       <Table className="w-100" style={{ display: 'inline-block', overflow: 'scroll' }} dark>
                       <thead></thead>
                       <tbody>
@@ -140,7 +140,7 @@ class DietSearchContainer extends Component {
                         </tbody>
                       </Table>
                       {/* <SmartTable width="w-100"  tableData={microNutrients.map(record => record.value)} tableHeaders={microNutrients.map(record => record.name)} /> */}
-                    </UncontrolledCollapse>
+                    </Collapse>
                 </CardBody>
               </Card>
             </Col>

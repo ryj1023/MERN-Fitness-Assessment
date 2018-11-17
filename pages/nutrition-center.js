@@ -23,8 +23,9 @@ class DietSearchContainer extends Component {
             userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
                 email: userData.email
         })
+        console.log('res', res)
         this.props.getUserData(res.data.user.userDietSummary)
-        localStorage.setItem('user', JSON.stringify(res.data[0].user));
+        localStorage.setItem('user', JSON.stringify(res.data.user));
     } catch (err) {
       console.log('err', err)
     }
@@ -43,7 +44,6 @@ class DietSearchContainer extends Component {
         try {
           const encodedURI = window.encodeURI(`/api/user-data`)
           const res = await axios.get(encodedURI, { params: {email: JSON.parse(localStorage.getItem('user')).email}})
-          console.log('res', res)
           this.getUpdatedFoodChart(res.data[0].user)
           this.setState({ loading: false,
           userName: res.data[0].user.userName })
