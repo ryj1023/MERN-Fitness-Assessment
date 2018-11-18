@@ -69,7 +69,7 @@ class FoodChart extends Component {
     return (
        <Container className='bg-white food-chart-container'>
         <Row>
-          <Col>
+          <Col className='food-chart-column'>
             <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
                 <Row className='food-chart'>
                   <Table dark size="sm" className="food-chart-table">
@@ -102,6 +102,12 @@ class FoodChart extends Component {
                   
                 </Row>
             </Col>
+            <style>{`
+              .food-chart-column {
+                margin: 10px 0;
+              }
+            `}
+            </style>
           </Row>
           <style jsx global>{`
               .table, tr, th, td {

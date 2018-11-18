@@ -163,7 +163,7 @@ body,html{
   .nav-main > ul, .nav-main > ul > li {
     margin: auto;
     width: 8em;  
-    float: none !important;
+    float: right !important;
   }
   .nav-sub > ul {
     z-index: 1;

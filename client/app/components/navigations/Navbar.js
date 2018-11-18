@@ -63,7 +63,7 @@ export default class Navigation extends Component{
                                             <ul>
                                                 <Link href={{ pathname: '/profile'}}><a className='dropdown-link'>Profile</a></Link>
                                                 <Link href={{pathname: '/fitness-assessment'}}><a className='dropdown-link'>Fitness Assessment</a></Link>
-                                                <Link href={{pathname: '/nutrition-center'}}><a className='dropdown-link'>Food Search</a></Link>
+                                                <Link href={{pathname: '/nutrition-center'}}><a className='dropdown-link'>Nutrtition Center</a></Link>
                                                 <Link href='/' onClick={(e) => this.logout(e)}><a className='dropdown-link'>Logout</a></Link>
                                             </ul>
                                         </div>

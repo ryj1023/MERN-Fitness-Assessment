@@ -182,25 +182,25 @@ class DietSearchContainer extends Component {
       const activeColor = this.state.selectedPage === current ? '#6c757d' : 'white'
       switch (type) {
         case 'page':  {
-          return <Button style={{backgroundColor: activeColorBackground, color: activeColor }} key={current} name={current} onClick={()=> this.setState({
+          return <Button className="pagination-btn" style={{backgroundColor: activeColorBackground, color: activeColor }} key={current} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage(current, undefined)
           })}>{current}</Button>
         }
         case 'prev': {
-          return <Button key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
+          return <Button className="pagination-btn" key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('prev', undefined)
           })}>{'Prev'}</Button>
         }
         case 'next': {
-          return <Button key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
+          return <Button className="pagination-btn" key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('next-page', 'next')
           })}>{'Next'}</Button>
         }
         case 'jump-prev': {
-          return <Button key={current} name={current}>{'...'}</Button>
+          return <Button className="pagination-btn" key={current} name={current}>{'...'}</Button>
         }
         case 'jump-next': {
-          return <Button key={current} name={current}>{'...'}</Button>
+          return <Button className="pagination-btn" key={current} name={current}>{'...'}</Button>
         }
         default:
         return element;
@@ -245,6 +245,9 @@ class DietSearchContainer extends Component {
                 /> : (null)
                 }
                   <style jsx>{`
+                    :global(.pagination-btn) {
+                      padding: 6px !important;
+                    }
                     :global(.list-group-item) {
                       cursor: pointer !important;
                       font-size: 0.9rem;
@@ -303,10 +306,17 @@ class DietSearchContainer extends Component {
    )
 
     return (
-      <Container fluid style={{ height: '20vh'}}/*className="h-90"*/>
-          {FoodSearchForm()}
-          {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
-      </Container>
+      <>
+        <Container fluid  className="food-search-container" /* style={{ height: '20vh'}} className="h-90"*/>
+            {FoodSearchForm()}
+            {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
+        </Container>
+        <style jsx>{`
+          .food-search-container {
+            margin: 10px 0;
+          }
+        `}</style>
+      </>
     );
   }
 }

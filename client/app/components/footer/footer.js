@@ -36,13 +36,13 @@ const Footer = () => (
     </div>   
     <div className="footer-copyright text-center py-3">© 2018 Copyright
     </div>
-    <style jsx>{`
+    {/* <style jsx>{`
       .page-footer {
         position: relative;
         width: 100%;
         bottom: 0;
       }
-    `}</style>
+    `}</style> */}
   </footer>
   )
 
