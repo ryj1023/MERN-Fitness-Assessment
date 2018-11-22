@@ -12,12 +12,14 @@
   "scripts": {
     "dev": "node ./server/server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node ./server/server.js"
+    "start": "NODE_ENV=production node ./server/server.js",
+    "postinstall": "npm rebuild"
   },
   "engines": {
     "node": "^0.12.2 ",
     "npm": "3.10.5"
   },
+  "postinstall": "npm rebuild",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^7.2.5",
