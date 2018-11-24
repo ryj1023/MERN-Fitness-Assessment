@@ -1,7 +1,4 @@
 import * as asyncActions from '../actions/async-actions';
-import * as actions from '../actions/index';
-import api from '../utils/api';
-import { createStore } from 'redux';
 
 const initialState = [];
 

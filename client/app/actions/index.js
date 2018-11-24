@@ -1,5 +1,3 @@
-import api from '../utils/api';
-import axios from 'axios';
 export const ADD_ANSWER = 'ADD_ANSWER';
 export const CLIENT_INFO = 'CLIENT_INFO';
 export const KEYWORD= 'KEYWORD';

@@ -1,4 +1,3 @@
-import api from '../utils/api';
 import axios from 'axios';
 export const KEYWORD= 'KEYWORD';
 export const SELECTED_FOOD = 'SELECETED_FOOD';
