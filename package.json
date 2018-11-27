@@ -15,10 +15,10 @@
     "start": "NODE_ENV=production node ./server/server.js"
   },
   "engines": {
-    "node": "^0.12.2 ",
-    "npm": "3.10.5"
+    "node": "^10.10.0",
+    "npm": "^3.10.5",
+    "yarn": "^1.12.3"
   },
-  "postinstall": "npm rebuild",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
     "autoprefixer": "^7.2.5",

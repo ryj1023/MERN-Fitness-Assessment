@@ -10,8 +10,8 @@ export default class MyDocument extends Document {
   render() {
     return (
       <html>
-        <Head>
         <title>Fitness Assessment</title>
+        <Head>
         <link rel='stylesheet' type='text/css' href='/static/nprogress.css' />
           <style>{`body { background-color: #efefef; height: 90vh} #__next { height: inherit}, .rc-pagination-prev, .rc-pagination-next { display: inline }  /* custom! */`}</style>
         </Head>
