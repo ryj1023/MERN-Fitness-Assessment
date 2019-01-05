@@ -4,12 +4,13 @@ const axios = require('axios');
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser')
 module.exports = (app) => {
-  app.use(expressValidator())
-  app.use(bodyParser.json())
-  app.get('/api/sign-up', (req, res, next) => {
-    res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
-    req.session.errors = null;
-    });
+    app.use(expressValidator())
+    app.use(bodyParser.json())
+
+    app.get('/api/sign-up', (req, res, next) => {
+      res.render('index', {title: 'validator', success: req.session.success, errors: req.session.errors})
+      req.session.errors = null;
+      });
 
     app.post('/api/validation', (req, res, next) => {
      req.checkBody('email', 'Invalid Email Address').isEmail();
@@ -53,107 +54,108 @@ module.exports = (app) => {
       })
     })
 
-  app.get('/api/login', (req, res, next) => {
-    Users.find({"user.email" : req.query.email, "user.password": req.query.password }, '-user.password', (err, user) => {
-      console.log('user', user)
-      if (err) return res.status(500).send(err)
-      res.json(user)
-    })
-  });
+    app.get('/api/login', (req, res, next) => {
+      Users.find({"user.email" : req.query.email, "user.password": req.query.password }, '-user.password', (err, user) => {
+        console.log('user', user)
+        if (err) return res.status(500).send(err)
+        res.json(user)
+      })
+    });
 
-  app.get('/api/user-data', (req, res, next) => {
-    Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
-      if (err) res.status(500).send(err)
-      res.json(user)
-    })
-  });
+    app.get('/api/user-data', (req, res, next) => {
+      console.log('user data request')
+      Users.find({"user.email" : req.query.email }, '-user.password', (err, user) => {
+        if (err) res.status(500).send(err)
+        res.json(user)
+      })
+    });
 
-  app.post('/api/remove-food-item', (req, res) => {
-    console.log('req.body', req.body)
-    // { 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }}
-    // Users.findOneAndUpdate({'user.userName': req.body.userName },
-    // {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
-    // {
-    //   new: true,
-    //   multi: false,
-    // },
-    //  (err, doc) => {
-    //   console.log('doc', doc)
-    //   if (err) return res.send(500, { error: err });
-    //       res.status(201).json(doc)
-    // })
-    Users.findOneAndUpdate({'user.userName': req.body.userName, 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }} },
-    {$unset: { 'user.userDietSummary.$': '' } },
-    {
-      new: true,
-      multi: false,
-    },
-     (err, doc) => {
-          Users.findOneAndUpdate({'user.userName': req.body.userName },
-          {$pull: { 'user.userDietSummary': null } },
+    app.post('/api/remove-food-item', (req, res) => {
+      console.log('req.body', req.body)
+      // { 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }}
+      // Users.findOneAndUpdate({'user.userName': req.body.userName },
+      // {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
+      // {
+      //   new: true,
+      //   multi: false,
+      // },
+      //  (err, doc) => {
+      //   console.log('doc', doc)
+      //   if (err) return res.send(500, { error: err });
+      //       res.status(201).json(doc)
+      // })
+      Users.findOneAndUpdate({'user.userName': req.body.userName, 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }} },
+      {$unset: { 'user.userDietSummary.$': '' } },
+      {
+        new: true,
+        multi: false,
+      },
+      (err, doc) => {
+            Users.findOneAndUpdate({'user.userName': req.body.userName },
+            {$pull: { 'user.userDietSummary': null } },
+          {
+            new: true,
+            multi: false,
+          }, (err, doc) => {
+            console.log('doc', doc)
+            if (err) return res.send(500, { error: err });
+                res.status(201).json(doc)
+          })
+      })
+    })
+
+    app.post('/api/save-food-items', (req, res) => {
+      Users.findOneAndUpdate(
+        { 'user.email': req.body.email },
         {
-          new: true,
-          multi: false,
-        }, (err, doc) => {
-          console.log('doc', doc)
-          if (err) return res.send(500, { error: err });
-              res.status(201).json(doc)
-        })
-  })
-})
-
-  app.post('/api/save-food-items', (req, res) => {
-    Users.findOneAndUpdate(
-      { 'user.email': req.body.email },
-      {
-        $push: { 
-          'user.userDietSummary': req.body.userDietSummary
-        },
-      },{
-        new: true
-      },
-      (err, doc) => {
-        if (err) return res.status(500).send(err);
-        res.status(201).json(doc)
-      }
-    )
-    /*
-            user: {
-          userName: String,
-          email: String,
-          password: String,
-          dietInfo: {
-            calories: Number,
-            protein: Number,
-            fat: Number,
-            carbs: Number,
+          $push: { 
+            'user.userDietSummary': req.body.userDietSummary
           },
-          userDietSummary: [
-            { foodName: String ,
-            foodFacts: [] },
-          ], 
-          workouts: [String]
+        },{
+          new: true
+        },
+        (err, doc) => {
+          if (err) return res.status(500).send(err);
+          res.status(201).json(doc)
         }
-    */
-  })
+      )
+      /*
+              user: {
+            userName: String,
+            email: String,
+            password: String,
+            dietInfo: {
+              calories: Number,
+              protein: Number,
+              fat: Number,
+              carbs: Number,
+            },
+            userDietSummary: [
+              { foodName: String ,
+              foodFacts: [] },
+            ], 
+            workouts: [String]
+          }
+      */
+    })
 
-  app.post('/api/save', (req, res, next) => {
-    Users.findOneAndUpdate(
-      { 'user.email': req.body.email },
-      {
-        'user.dietInfo.calories': req.body.userData.calories,
-        'user.dietInfo.protein': req.body.userData.protein,
-        'user.dietInfo.fat': req.body.userData.fat,
-        'user.dietInfo.carbs': req.body.userData.carbs,
-        'user.workouts': req.body.programs,
-      },
-      { new: true },
-      (err, doc) => {
-        if (err) return res.send(500, { error: err });
-        res.status(201).json(doc)
-      }
-    )
-  })
+    app.post('/api/save', (req, res, next) => {
+      Users.findOneAndUpdate(
+        { 'user.email': req.body.email },
+        {
+          'user.dietInfo.calories': req.body.userData.calories,
+          'user.dietInfo.protein': req.body.userData.protein,
+          'user.dietInfo.fat': req.body.userData.fat,
+          'user.dietInfo.carbs': req.body.userData.carbs,
+          'user.workouts': req.body.programs,
+        },
+        { new: true },
+        (err, doc) => {
+          if (err) return res.send(500, { error: err });
+          res.status(201).json(doc)
+        }
+      )
+    })
 }
 
 

@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 const TableHeader = (props) => {
    return (
        <>
-        <Table dark size="small">
+        <Table className='smart-table mb-2' dark>
             {props.titleHeader ? (
                 <thead>
                 <tr>
@@ -26,6 +26,12 @@ const TableHeader = (props) => {
             </tr>
             </tbody>
         </Table>
+        <style jsx>{`
+            .smart-table {
+                max-width: ${props.width};
+                margin: auto;
+            }
+        `}</style>
       </>
    )
 }

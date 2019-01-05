@@ -11,6 +11,7 @@ import calculateFitnessInput from '../client/app/calculations/calculate-fitness-
 import App from '../client/app/components/app/App';
 import { Container, Row, Col, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import Pagination from 'rc-pagination';
+import Router from 'next/router'
 
 
 class FitnessAssessment extends Component {
@@ -111,7 +112,7 @@ class FitnessAssessment extends Component {
 						`}</style>
 				</>
 				)
-		} else if(this.state.calculateAnswerPrompt === true) {
+		} else if (this.state.calculateAnswerPrompt === true) {
 			return(
 				<Container>
 						<Row>
@@ -124,7 +125,8 @@ class FitnessAssessment extends Component {
 			)
 		}
 		else if(this.state.showClientInfo === true) {
-			return <Redirect to='/food-search' />
+			// TODO: save this.props.clientDietInfo			
+			Router.push('/nutrition-center')
 		} 
 		else {
 			return(

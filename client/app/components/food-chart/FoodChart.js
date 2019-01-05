@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { saveUserData, saveToUsersFoodList } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SelectedFoodChart from './SelectedFoodChart';
-import './food-chart.css';
+// import './food-chart.css';
 import axios from 'axios';
 import { Container, Row, Col, Table, Form, Button } from 'reactstrap';
 import SmartTable from '../SmartTable'; 
@@ -70,9 +70,9 @@ class FoodChart extends Component {
        <Container className='bg-white food-chart-container'>
         <Row>
           <Col className='food-chart-column'>
-            <SmartTable titleHeader={true} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
+            <SmartTable titleHeader={true} width={'350px'} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
                 <Row className='food-chart'>
-                  <Table dark size="sm" className="food-chart-table">
+                  <Table className="food-chart-table">
                     <thead>
                       <tr>
                           <th className="text-center" colSpan="6">Selected Foods</th>
@@ -90,12 +90,13 @@ class FoodChart extends Component {
                     </thead>
                     <tbody>
                         {savedFoodTableData}
-                      <tr>
+                      <tr className='totals-row'>
                         <td>Totals</td>
                         <td>{macroTotals.calories.toFixed(2)}</td>
                         <td>{macroTotals.protein.toFixed(2)}</td>
                         <td>{macroTotals.fats.toFixed(2)}</td>
                         <td>{macroTotals.carbs.toFixed(2)}</td>
+                        <td></td>
                       </tr>
                     </tbody>
                   </Table>
@@ -103,15 +104,32 @@ class FoodChart extends Component {
                 </Row>
             </Col>
             <style>{`
+              
+              .food-chart-table {
+                max-height: 400px;
+                border: 1px solid black;
+              }
               .food-chart-column {
                 margin: 10px 0;
+              }
+              .food-chart-table > tr:nth-child(2n + 1), tbody > tr {
+                background: #bfbdbd;
+              }
+              thead, .food-chart-table tr:nth-child(2n)  {
+                background: #454545;
+              }
+              .totals-row {
+                background: green;
               }
             `}
             </style>
           </Row>
           <style jsx global>{`
+              .food-chart-table {
+                max-width: 500px;
+                margin: auto;
+              }
               .table, tr, th, td {
-                color: white;
                 font-size: 0.7rem !important;
               }
               .food-chart {

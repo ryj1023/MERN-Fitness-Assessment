@@ -49,6 +49,7 @@ class DietSearchContainer extends Component {
           userName: res.data[0].user.userName })
         } catch (err) {
           console.log('err', err)
+          this.setState({ loading: false })
         }
       } else {
         this.setState({ loading: false })
@@ -60,7 +61,7 @@ class DietSearchContainer extends Component {
 
   render () {
     return (
-        <Container fluid className={this.state.loading ? "h-100" : ''}>
+        <Container fluid className='h-100'/*className={this.state.loading ? "h-100" : ''}*/>
           <Row className="h-100">
               <Col className="border bg-white col-12 col-md-5">
                 <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)} foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>
