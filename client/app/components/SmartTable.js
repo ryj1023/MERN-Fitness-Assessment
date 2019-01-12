@@ -4,17 +4,12 @@ const TableHeader = (props) => {
    return (
        <>
         <Table className='smart-table mb-2' dark>
-            {props.titleHeader ? (
-                <thead>
-                <tr>
-                    <th className="text-center" colSpan={props.tableHeaders.length}>{props.title}</th>
-                </tr>
-                </thead>
-            )
-            :
-            (null)
-            }
             <thead>
+                {props.titleHeader && 
+                    <tr>
+                        <th className="text-center" colSpan={props.tableHeaders.length}>{props.title}</th>
+                    </tr>
+                }
                 <tr>
                 {props.tableHeaders.map((header, index) => <th key={index}>{header}</th>)}
                 </tr>
@@ -26,11 +21,25 @@ const TableHeader = (props) => {
             </tr>
             </tbody>
         </Table>
-        <style jsx>{`
+        <style jsx global>{`
             .smart-table {
                 max-width: ${props.width};
                 margin: auto;
             }
+            th, tbody :global(tr:nth-child(2n))  {
+                background: #454545;
+              }
+            .smart-table :global(tr:nth-child(2n + 1)) {
+                background: #bfbdbd;
+                color: black;
+              }
+              .smart-table :global(tr:nth-child(2n + 1)) > td {
+                  color: black
+              }
+              th {
+                  color: white;
+              }
+              
         `}</style>
       </>
    )

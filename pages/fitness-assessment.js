@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import Layout from '../client/app/layouts/default';
 import QuestionDisplay from '../client/app/components/questions/QuestionDisplay';
 import AnswerForm from '../client/app/components/answers/AnswerForm';
-import '../client/app/styles/fitness-assessment.css';
+// import '../client/app/styles/fitness-assessment.css';
+import styles from '../client/app/styles/fitness-assessment-styles.js';
 import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
 import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
 import App from '../client/app/components/app/App';
@@ -56,6 +57,7 @@ class FitnessAssessment extends Component {
 	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
 		this.props.gatherFitnessInfo(calculatedAnswers);
+		console.log('calculatedAnswers', calculatedAnswers)
 		this.setState({
 			showClientInfo: true,
 			calculateAnswerPrompt: false
@@ -70,75 +72,60 @@ class FitnessAssessment extends Component {
 }
 
 	render(){
-		const Questions = this.props.questions.map((question, index) => { 
+		const { questions } = this.props;
+		const { counter, startMenu, calculateAnswerPrompt, user, showClientInfo } = this.state;
+		console.log('showClientInfo', showClientInfo)
+		const Questions = questions.map((question, index) => { 
 			if((question.userInput === this.state.counter)){
 				return <QuestionDisplay key={question.userInput} {...question} />
 			}
 		});
 
-		const Form = this.props.questions.map((question, index) => {
+		const Form = questions.map((question, index) => {
 			if(question.userInput === this.state.counter){
 				switch(question.answerType){
 					case 'height':
-					return <AnswerForm key={this.state.counter} type="height" onAdd={input => this.getUserInput(input, 'number')} />
+					return <AnswerForm key={counter} type="height" onAdd={input => this.getUserInput(input, 'number')} />
 					case 'radio':
-					return <AnswerForm questionInfo={question} key={this.state.counter} answerLabels={question.answers} radioAnswersLength={question.answers.length} type="radio" onAdd={input => this.getUserInput(input, 'string')} />
+					return <AnswerForm questionInfo={question} key={counter} answerLabels={question.answers} radioAnswersLength={question.answers.length} type="radio" onAdd={input => this.getUserInput(input, 'string')} />
 					default:
-					return <AnswerForm key={this.state.counter} type="text" onAdd={input => this.getUserInput(input, 'number')} text="Submit" />
+					return <AnswerForm key={counter} type="text" onAdd={input => this.getUserInput(input, 'number')} text="Submit" />
 				}
 
 			}
 		})
-
-		if(this.state.startMenu === true){
-			return (
-				<>
-					<Container>
-						<Row>
-							<Col>
-								<QuestionDisplay key="start" user={this.state.user} heading="Welcome" subheading="Answer the following questions and we will make out a customized food intake and exercise program just for you!" />
-								<AnswerForm key="start-button" type="text" getStarted={() => this.setState({ startMenu: false })} text='Get Started' />
-							</Col>
-						</Row>
-					</Container>
-					<style jsx global>{`
-						.rc-pagination {
-								list-style: none;
-								rc-pagination-jump-prev;
-							}
-							.rc-pagination-item, .rc-pagination-prev, .rc-pagination-next, .rc-pagination-jump-next, .rc-pagination-jump-prev {
-								display: inline
-							}
-						`}</style>
-				</>
-				)
-		} else if (this.state.calculateAnswerPrompt === true) {
-			return(
-				<Container>
-						<Row>
-							<Col>
-								<QuestionDisplay key={this.state.counter} heading="That's It!" subheading="Press calculate answers button to view your results" />
-								<AnswerForm key="calculate-answers-button" type="text" calculateAnswers={() => this.startCalculateAnswers()} text='Calculate Answers' />
-							</Col>
-						</Row>
-				</Container>
-			)
-		}
-		else if(this.state.showClientInfo === true) {
+	    const Heading = startMenu ? 'Welcome' : 'That\'s It!'
+		 const Subheading = startMenu ? 'Answer the following questions and we will make out a customized food intake and exercise program just for you!' : 'Press calculate answers button to view your results';
+		if(showClientInfo === true) {
 			// TODO: save this.props.clientDietInfo			
 			Router.push('/nutrition-center')
-		} 
-		else {
-			return(
+		} else {
+			return (
 			 	<div>
 					<Container>
 						<Row>
 							<Col>
-							{Questions}
-							{Form}
+								{ 
+									(startMenu || calculateAnswerPrompt) ?
+										(
+											<>
+												<QuestionDisplay key={calculateAnswerPrompt ? counter : 'start'} user={`${user ? user : ''}`} heading={Heading} subheading={Subheading} />
+												<AnswerForm type="text" key={startMenu ? 'start-button' : 'calculate-answers-button'} calculateAnswers={() => this.startCalculateAnswers()} type="text" startMenu={startMenu} getStarted={() => this.setState({ startMenu: false })} text={startMenu ? 'Get Started' : 'Calculate Answers'} />
+											</>
+										)
+										:
+										(
+											<>
+												{Questions}
+												{Form}
+											</>
+										)
+								}
 							</Col>
+							
 						</Row>
 					</Container>
+					<style jsx>{styles}</style>
 				</div>
 				)
 			}
