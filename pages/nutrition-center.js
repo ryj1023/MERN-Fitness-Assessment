@@ -8,6 +8,8 @@ import { updatedFoodChart, getDailyDietGoals } from '../client/app/actions';
 import FoodChart from '../client/app/components/food-chart/FoodChart';
 import FoodSearch from '../client/app/components/food-search/FoodSearch';
 import App from '../client/app/components/app/App';
+import styles from '../client/app/styles/nutrition-center-styles'
+
 
 
 class DietSearchContainer extends Component {
@@ -61,16 +63,23 @@ class DietSearchContainer extends Component {
 
   render () {
     return (
-        <Container fluid className='h-100'/*className={this.state.loading ? "h-100" : ''}*/>
+      <div>
+        <Container className='nutrition-center-container h-100'/*className={this.state.loading ? "h-100" : ''}*/>
           <Row className="h-100">
-              <Col className="border bg-white col-12 col-md-5">
-                <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)} foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>
-              </Col>
-              <Col className="border bg-white col-12 col-md-7">
-                <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>
+              <Col lg='10' className='m-auto'>
+                <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)} foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>                
               </Col>
           </Row>
+          <Row>
+            <Col>
+              <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>            
+            </Col>
+          </Row>
         </Container>
+        <style jsx>
+								{styles}
+						</style>
+        </div>
     )
   }
 }

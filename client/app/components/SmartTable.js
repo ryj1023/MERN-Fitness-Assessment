@@ -3,7 +3,7 @@ import { Table } from 'reactstrap';
 const TableHeader = (props) => {
    return (
        <>
-        <Table className='smart-table mb-2' dark>
+        <Table className='smart-table table-responsive mb-2' dark>
             <thead>
                 {props.titleHeader && 
                     <tr>

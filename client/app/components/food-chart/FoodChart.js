@@ -17,7 +17,7 @@ class FoodChart extends Component {
     const totals = {
       calories: 0,
       protein: 0, 
-      fats: 0,
+      fat: 0,
       carbs: 0
     }
       const previewFoodData = dietSummary.map(foodData => {
@@ -35,10 +35,10 @@ class FoodChart extends Component {
       })
       
       const macroTotals = previewFoodData.reduce((acc, macros, index) => {
-        acc.calories += Number(macros.foodFacts.Energy)
-        acc.protein += Number(macros.foodFacts.Protein)
-        acc.fats += Number(macros.foodFacts['Total lipid (fat)'])
-        acc.carbs += Number(macros.foodFacts['Carbohydrate, by difference'])
+        acc.calories += macros.foodFacts.Energy ? Number(macros.foodFacts.Energy) : 0
+        acc.protein += macros.foodFacts.Protein ? Number(macros.foodFacts.Protein) : 0
+        acc.fat += macros.foodFacts['Total lipid (fat)'] ? Number(macros.foodFacts['Total lipid (fat)']) : 0
+        acc.carbs += macros.foodFacts['Carbohydrate, by difference'] ? Number(macros.foodFacts['Carbohydrate, by difference']) : 0
         return acc;
       }, totals);
 
@@ -64,50 +64,56 @@ class FoodChart extends Component {
     }
 
   render() {
+    const { dailyDietGoals } = this.props;
+    console.log('dailyDietGoals', dailyDietGoals)
     if (this.props.userFoodList.length > 0) {
-     const { previewFoodData, macroTotals } = this.displayUpdatedFoodData(this.props.userFoodList)
+     const { previewFoodData, macroTotals } = this.displayUpdatedFoodData(this.props.userFoodList) 
      const savedFoodTableData = previewFoodData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={async (selected) => await this.removeSelectedFood(selected, this.props.userName)}/>)
-    return (
+     const selectedMacrosOverGoal = Object.keys(dailyDietGoals).filter(key => dailyDietGoals[key] < macroTotals[key])
+     console.log('selectedMacrosOverGoal', selectedMacrosOverGoal)
+     const macroTotalStatus = (selectedTotal, dailyTotal) => {
+       if (!dailyTotal || !selectedTotal) {
+         return ''
+       } else if (dailyTotal > selectedTotal) {
+         return 'under-total'
+       } else if (dailyTotal < selectedTotal) {
+         return 'over-total'
+       }
+       return ''
+     }
+     return (
       <>
-       <Container className='bg-white food-chart-container'>
-        <Row>
-          <Col className='food-chart-column'>
-            <SmartTable titleHeader={true} width={'350px'} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
-                <Row className='food-chart'>
-                  <table className="table food-chart-table">
-                    <thead>
-                      <tr>
-                          <th className="text-center" colSpan="6">Selected Foods</th>
-                      </tr>
-                      <tr>
-                        <th>Food Name</th>
-                        <th>Calories</th>
-                        <th>Protein (grams)</th>
-                        <th>Fat (grams)</th>
-                        <th>Carbs (grams)</th>
-                        <th>Remove Food</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                        {savedFoodTableData}
-                      <tr className='totals-row'>
-                        <td>Totals</td>
-                        <td>{macroTotals.calories.toFixed(2)}</td>
-                        <td>{macroTotals.protein.toFixed(2)}</td>
-                        <td>{macroTotals.fats.toFixed(2)}</td>
-                        <td>{macroTotals.carbs.toFixed(2)}</td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <style jsx>{styles}</style>
-                
-                </Row>
-            </Col>
-          </Row>
-        </Container>
+        <SmartTable titleHeader={true} width={'350px'} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
+          <div className='food-chart'>
+            <table className="table table-dark table-responsive food-chart-table">
+              <thead>
+                <tr>
+                    <th className="text-center" colSpan="6">Selected Foods</th>
+                </tr>
+                <tr>
+                  <th>Food Name</th>
+                  <th>Calories</th>
+                  <th>Protein (grams)</th>
+                  <th>Fat (grams)</th>
+                  <th>Carbs (grams)</th>
+                  <th>Remove Food</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {savedFoodTableData}
+                <tr className={`totals-row ${selectedMacrosOverGoal.length > 0 ? 'totals-row-over' : 'totals-row-under'}`}>
+                  <td>Totals</td>
+                  <td className={`${macroTotalStatus(macroTotals.calories, dailyDietGoals.calories)}`}>{macroTotals.calories}</td>
+                  <td className={`${macroTotalStatus(macroTotals.protein, dailyDietGoals.protein)}`}>{macroTotals.protein.toFixed(2)}</td>
+                  <td className={`${macroTotalStatus(macroTotals.fat, dailyDietGoals.fat)}`}>{macroTotals.fat.toFixed(2)}</td>
+                  <td className={`${macroTotalStatus(macroTotals.carbs, dailyDietGoals.carbs)}`}>{macroTotals.carbs.toFixed(2)}</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <style jsx>{styles}</style>
+          </div>
         </>
-      
     );
   } else if (this.props.foodChartLoading) {
     return <h1>loading...</h1>

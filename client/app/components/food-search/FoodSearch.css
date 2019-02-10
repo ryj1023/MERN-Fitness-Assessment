@@ -1,6 +1,16 @@
 
 form {
   width: inherit;
+  /* min-height: 200px;
+  background: white; */
+}
+
+.micronutrient-collapse {
+  /* max-height: 200px; */
+}
+.food-search-container {
+  background: white;
+  min-height: 100px;
 }
 .food-search-nav{
   width: 100%;

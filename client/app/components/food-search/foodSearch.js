@@ -6,10 +6,13 @@ import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable';
-import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, UncontrolledCollapse, Button, CardBody, Card, Collapse } from 'reactstrap';
+import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, Collapse } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
+import Router from 'next/router'
+
+// TODO: turn dropdown into modal
 
 class DietSearchContainer extends Component {
 
@@ -24,11 +27,8 @@ class DietSearchContainer extends Component {
       selectedFood: {},
       currentPage: 1,
       collapse: false,
+      modalOpen: false,
     }
-  
-  
-
-  
   
   setInput(foodTextInput){
 		this.setState({
@@ -45,6 +45,7 @@ class DietSearchContainer extends Component {
 
   onSubmit(e){
     e.preventDefault();
+    Router.push('/nutrition-center#search')
     this.setState({
       showNutrientFacts: false,
     })
@@ -97,6 +98,7 @@ class DietSearchContainer extends Component {
   showNutrientFacts() {
     const selectedFoodFacts = [];
     const microNutrients = [];
+    const { modalOpen } = this.state;
     const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
       selectedFoodFacts.push(data);
       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
@@ -106,23 +108,22 @@ class DietSearchContainer extends Component {
       }
       return acc;
     }, []);
+    if (this.props.nutritionFacts[0]) {
+      nutritionFactUnits.push(`${this.props.nutritionFacts[0].measures[0].qty} ${this.props.nutritionFacts[0].measures[0].label}`)
+    }
     return (
       <>
-        <Row className='w-80 m-auto'>
-         <Col >
-          <SmartTable width="w-100" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} />
-         </Col>
-         </Row>
-         <Row className="m-auto" style={{ width: '95%', maxHeight: '300px'}}>
-          <Col className="micronutrient-collapse-container w-50">
-              <Card className="h-100 mb-3">
-                <CardBody className="h-100 m-auto p-0">
-                  <a color="primary" onClick={() => this.setState({ collapse: !this.state.collapse })} id="toggler" style={{ marginBottom: '1rem' }}>
-                    { this.state.collapse ? <IoIosArrowDropup className="mb-1"/> : <IoIosArrowDropdown className="mb-1"/> }
-                    Micronutrients
-                  </a>
-                    <Collapse isOpen={this.state.collapse} className="row m-auto" style={{ height: '90%', width: '80%'}} ref={this.dropdownRef} toggler="#toggler">
-                      <Table className="w-100" style={{ display: 'inline-block', overflow: 'scroll' }} dark>
+        <Row className=''>
+         <Col className='m-auto' xs='12' lg='10'>
+          <SmartTable width="100%" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
+            <div className='text-center'>
+            <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark m-2'>Back</Button>
+                <Button className='btn btn-dark m-2' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
+                <Button className='btn btn-dark m-2' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show Micronutrients</Button>
+                <Modal isOpen={modalOpen} toggle={() => this.setState({ modalOpen: !modalOpen })}>
+                  <ModalHeader toggle={() => this.setState({ modalOpen: !modalOpen })}>Micronutrients</ModalHeader>
+                  <ModalBody>
+                    <Table className="w-100" style={{ overflow: 'scroll' }} dark>
                       <thead></thead>
                       <tbody>
                         <tr>
@@ -138,26 +139,17 @@ class DietSearchContainer extends Component {
                           )
                         })}
                         </tbody>
-                      </Table>
-                      {/* <SmartTable width="w-100"  tableData={microNutrients.map(record => record.value)} tableHeaders={microNutrients.map(record => record.name)} /> */}
-                    </Collapse>
-                </CardBody>
-              </Card>
-            </Col>
+                    </Table>
+                  </ModalBody>
+                </Modal>
+              </div>
             <style jsx>{`
               .micronutrient-collapse-container {
                 height: 45%;
               }
             `}</style>
-            <Col>
-             <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-sm btn-dark m-2'>Back</Button>
-             {/* <Button className='btn btn-dark float-right' onClick={() => this.addToUsersFoodList(this.state.selectedFoodName, [...selectedFoodFacts])}>Add To Daily Food Intake</Button> */}
-             <Button className='btn btn-sm btn-dark m-2' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
            </Col>
          </Row>     
-         <Row className='w-80 m-auto align-bottom'>
-           
-        </Row>
       </>
     )
   }
@@ -285,12 +277,12 @@ class DietSearchContainer extends Component {
   
   render() {
     const FoodSearchForm = () => (
-                <Row> 
+                <Row id='search'> 
                   <Col className='w-80 pt-4 pb-4'>
                       <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <FormGroup className='m-auto'>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                          <Button>Search</Button>
+                          <a className='btn' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
                         </FormGroup>
                       </Form>
                     </Col>
@@ -309,7 +301,7 @@ class DietSearchContainer extends Component {
       <>
         <Container fluid  className="food-search-container" /* style={{ height: '20vh'}} className="h-90"*/>
             {FoodSearchForm()}
-            {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (<h1 className="default-search-text">Start your search for your favorite foods</h1>)}
+            {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (null/*<h1 className="default-search-text">Start your search for your favorite foods</h1>*/)}
         </Container>
         <style jsx>{`
           .food-search-container {

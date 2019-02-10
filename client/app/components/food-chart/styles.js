@@ -1,10 +1,6 @@
 import css from 'styled-jsx/css'
 
 export default css`    
-.food-chart-table {
-   max-height: 400px;
-   border: 1px solid black;
- }
  .food-chart-column {
    margin: 10px 0;
  }
@@ -26,13 +22,26 @@ export default css`
  th, tbody :global(tr:nth-child(2n) td) {
    color: white;
 }
- .totals-row {
-   background: green;
+ .under-total {
+   background: #03c303;
  }
- .food-chart-table {
-   max-width: 500px;
-   margin: auto;
+
+ .over-total {
+  background: #d40808;
  }
+
+ .totals-row td {
+   font-weight: bold;
+ }
+
+ .totals-row-under {
+   border 5px solid #03c303;
+ }
+
+ .totals-row-over {
+  border 5px solid ;
+ }
+
  .table, tr, th, td {
    font-size: 0.7rem !important;
  }
@@ -46,7 +55,8 @@ export default css`
    height: 100%;
  }
  .food-chart-table {
-   display: block;
+   margin: auto;
+   max-height: 400px;
    height: 60%;
    overflow-y: scroll;
  }
