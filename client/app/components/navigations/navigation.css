@@ -164,7 +164,7 @@ body,html{
   .dropdown-ul {
     display: block;
   }
-  .nav-item, .login {
+  .nav-item, .login, .dropdown-container {
       display: none !important;
   }
   .nav-item {
