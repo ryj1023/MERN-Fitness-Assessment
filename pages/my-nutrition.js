@@ -12,7 +12,7 @@ import styles from '../client/app/styles/nutrition-center-styles'
 
 
 
-class DietSearchContainer extends Component {
+class MyNutrition extends Component {
 
   state = {
     loading: true
@@ -58,22 +58,21 @@ class DietSearchContainer extends Component {
       }
     } 
     this.setState({ loading: false })
-
   }
 
   render () {
     return (
       <div>
         <Container className='nutrition-center-container h-100'/*className={this.state.loading ? "h-100" : ''}*/>
+        {/* <Row>
+            <Col>
+              <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>            
+            </Col>
+          </Row> */}
           <Row className="h-100">
               <Col lg='10' className='m-auto'>
                 <FoodChart getUpdatedFoodChart={(userData) => this.getUpdatedFoodChart(userData)} foodChartLoading={this.state.loading} userName={this.state.userName} userFoodList={this.props.updatedUserFoodList.foodList} {...this.props}/>                
               </Col>
-          </Row>
-          <Row>
-            <Col>
-              <FoodSearch addSelectedFoodToFoodList={async (selectedFoodName, selectedFoodFacts, userData) => await this.addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData)}/>            
-            </Col>
           </Row>
         </Container>
         <style jsx>
@@ -94,4 +93,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getUserData, updatedFoodChart, getDailyDietGoals }, dispatch);
 
-export default App(connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer))
+export default App(connect(mapStateToProps, mapDispatchToProps)(MyNutrition))

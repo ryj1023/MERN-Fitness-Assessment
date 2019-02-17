@@ -20,7 +20,6 @@ export const getFoodSearchKeyword = (keyword, offset = 0) => {
     return (dispatch) => {
     axios.get(encodedURI)
 	.then((response) => {
-        console.log('response', response)
         let foodObjects = [];
         if (response.data.list ) {
             foodObjects = response.data.list.item.map((food) => {

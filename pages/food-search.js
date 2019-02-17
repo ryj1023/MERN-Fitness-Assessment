@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import './FoodSearch.css';
-import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
-import { updatedFoodChart } from '../../actions';
-import SmartTable from '../SmartTable';
+// import './FoodSearch.css';
+import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../client/app/actions/async-actions';
+import { updatedFoodChart } from '../client/app/actions';
+import SmartTable from '../client/app/components/SmartTable';
+import App from '../client/app/components/app/App';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, Collapse } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
 import Router from 'next/router'
+import axios from 'axios'
 
 // TODO: turn dropdown into modal
 
-class DietSearchContainer extends Component {
+class FoodSearch extends Component {
 
   state = {
       foodTextInput: null,
@@ -45,7 +47,6 @@ class DietSearchContainer extends Component {
 
   onSubmit(e){
     e.preventDefault();
-    Router.push('/nutrition-center#search')
     this.setState({
       showNutrientFacts: false,
     })
@@ -95,6 +96,21 @@ class DietSearchContainer extends Component {
     })
   }
 
+  async addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData) {
+   const encodedURI = window.encodeURI(`/api/save-food-items`);
+   try {
+       const res = await axios.post(encodedURI, {
+           userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
+               email: userData.email
+       })
+       console.log('res', res)
+       this.props.getUserData(res.data.user.userDietSummary)
+       localStorage.setItem('user', JSON.stringify(res.data.user));
+   } catch (err) {
+     console.log('err', err)
+   }
+ }
+
   showNutrientFacts() {
     const selectedFoodFacts = [];
     const microNutrients = [];
@@ -118,7 +134,7 @@ class DietSearchContainer extends Component {
           <SmartTable responsive={false} id={'food-search'} width="100%" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
             <div className='text-center'>
             <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark m-2'>Back</Button>
-                <Button className='btn btn-dark m-2' onClick={async () => await this.props.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
+                <Button className='btn btn-dark m-2' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
                 <Button className='btn btn-dark m-2' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show Micronutrients</Button>
                 <Modal isOpen={modalOpen} toggle={() => this.setState({ modalOpen: !modalOpen })}>
                   <ModalHeader toggle={() => this.setState({ modalOpen: !modalOpen })}>Micronutrients</ModalHeader>
@@ -318,11 +334,11 @@ const mapStateToProps = (state) => {
 	return {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-    nutritionFacts: state.nutritionFacts,
-    updatedUserFoodList: state.updatedUserFoodList
+      nutritionFacts: state.nutritionFacts,
+      updatedUserFoodList: state.updatedUserFoodList
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(DietSearchContainer)
+export default App(connect(mapStateToProps, mapDispatchToProps)(FoodSearch))

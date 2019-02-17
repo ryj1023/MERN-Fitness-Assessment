@@ -83,7 +83,7 @@ class FoodChart extends Component {
      }
      return (
       <>
-        <SmartTable titleHeader={true} width={'350px'} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
+        <SmartTable responsive={false} titleHeader={true} id={'food-chart'} width={'350px'} title={'Daily Nutrient Intake Goal'} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
           <div className='food-chart'>
             <table className="table table-dark table-responsive food-chart-table">
               <thead>

@@ -1,9 +1,10 @@
 import { Table } from 'reactstrap';
 
 const TableHeader = (props) => {
+    const { responsive, id } = props;
    return (
        <>
-        <Table className='smart-table table-responsive mb-2' dark>
+        <Table id={id} className={`smart-table ${responsive ? 'table-responsive' : ''} mb-2`} dark>
             <thead>
                 {props.titleHeader && 
                     <tr>
@@ -22,8 +23,10 @@ const TableHeader = (props) => {
             </tbody>
         </Table>
         <style jsx global>{`
-            .smart-table {
+            #${id} {
                 max-width: ${props.width};
+            }
+            .smart-table {
                 margin: auto;
             }
             th, tbody :global(tr:nth-child(2n))  {
@@ -39,6 +42,12 @@ const TableHeader = (props) => {
               th {
                   color: white;
               }
+              @media only screen and (max-width: 576px) {
+                .smart-table {
+                  display: block;
+                  overflow-x: auto;
+                }
+            
               
         `}</style>
       </>

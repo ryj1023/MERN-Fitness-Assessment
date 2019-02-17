@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button } from 'reactstrap'
+import { Button, UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap'
 import './navigation.css';
 import Link from 'next/link';
 
@@ -46,7 +46,20 @@ export default class Navigation extends Component{
                         <div> <Link href={{pathname: '/'}}><a className="logo">Let's Get Fit</a></Link></div>
                             <Link href={{pathname: '/profile'}}><a className='nav-item'>Profile</a></Link>
                             <Link href={{pathname: '/fitness-assessment'}}><a className='nav-item'>Fitness Assessment</a></Link>
-                            <Link href={{pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link>
+                            <UncontrolledButtonDropdown>
+                                <DropdownToggle className='dropdown-button' caret>
+                                    Nutrition Center
+                                </DropdownToggle>
+                                <DropdownMenu>
+                                    <DropdownItem>
+                                        <Link href={{pathname: '/my-nutrition'}}><a>My Nutrition</a></Link>
+                                    </DropdownItem>
+                                    <DropdownItem>
+                                        <Link href={{pathname: '/food-search'}}><a>Food Search</a></Link>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledButtonDropdown>
+                            {/* <Link href={{pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link> */}
                             <Button onClick={(e) => this.logout(e)} className='login'>Logout</Button>
                             {/* <Link href={{pathname: 'profile'}}><a className='login'>{this.state.userName}</a></Link> */}
                                 <ul className='dropdown-ul'>

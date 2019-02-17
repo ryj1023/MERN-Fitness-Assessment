@@ -7,7 +7,17 @@ body,html{
   padding: 30px;
 }
 
-.nav-main{
+.dropdown-button {
+  background-color: #454545 !important;
+  border-color: #454545 !important;
+}
+
+.dropdown-button:hover {
+  border-color: #9a9a9a !important;
+  border-radius: 0;
+}
+
+.nav-main, .dropdown-button, .dropdown-menu, .dropdown-menu button {
   width: 100%;
   background-color: #454545;
   height: 70px;
@@ -44,13 +54,13 @@ body,html{
   text-decoration: none;
 }
 
-.login:hover, .nav-item:hover, .logo:hover{
+.login:hover, .nav-item:hover, .logo:hover, .dropdown-button:hover, .dropdown-menu button:hover {
   background-color: #9a9a9a !important;
   color: white;
   text-decoration: none;
 }
 
-.nav-item:focus{
+.nav-item:focus, .dropdown-button{
   /*fouus allows the item to be highlighted after clicking*/
   background-color: #9a9a9a;
 }
@@ -78,13 +88,21 @@ body,html{
   transition: none !important;
 }
 
+.dropdown-button {
+  padding: 22px 20px !important;
+}
+
+.btn-group {
+  vertical-align: unset !important;
+}
+
 .nav-content a{
   /*do not use padding here*/
   color: #fff;
   text-decoration:none;
 }
   
-.nav-sub ul{
+.nav-sub ul {
   /*left justifies the dropdown list*/
   padding: 0;
   margin: 0;
@@ -107,6 +125,17 @@ body,html{
    background-color: #9a9a9a;
    color: white;
    text-decoration: none;
+}
+
+.dropdown-menu {
+  width: 171px;
+  padding-top: 0 !important;
+}
+
+.dropdown-menu button, .dropdown-menu button a {
+  text-decoration: none;
+  color: white;
+  padding: 22px 15px;
 }
 
 .nav-content{
