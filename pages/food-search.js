@@ -159,16 +159,19 @@ class FoodSearch extends Component {
                   </ModalBody>
                 </Modal>
               </div>
-            <style jsx>{`
-              .micronutrient-collapse-container {
-                height: 45%;
-              }
-            `}</style>
            </Col>
          </Row>     
       </>
     )
   }
+
+  defaultLayout() {
+    return <div className='w-75 m-auto default-layout-container'>
+        <h1 className='pt-2 pl-2 pr-2'>Find your favorite foods!</h1>
+        <p className='p-2'>Search for specific foods by name or UPC code to get all the necessary nutrition information you need to reach your goals.</p>
+      </div>
+  }
+
   showFoodList() {
     const getSelectedPage = (targetName, id) => {
       if (Number.isNaN(Number(targetName))) {
@@ -197,18 +200,18 @@ class FoodSearch extends Component {
         case 'prev': {
           return <Button className="pagination-btn" key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('prev', undefined)
-          })}>{'Prev'}</Button>
+          })}>Prev</Button>
         }
         case 'next': {
           return <Button className="pagination-btn" key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('next-page', 'next')
-          })}>{'Next'}</Button>
+          })}>Next</Button>
         }
         case 'jump-prev': {
-          return <Button className="pagination-btn" key={current} name={current}>{'...'}</Button>
+          return <Button className="pagination-btn" key={current} name={current}>...</Button>
         }
         case 'jump-next': {
-          return <Button className="pagination-btn" key={current} name={current}>{'...'}</Button>
+          return <Button className="pagination-btn" key={current} name={current}>...</Button>
         }
         default:
         return element;
@@ -231,6 +234,7 @@ class FoodSearch extends Component {
       }
       return acc;
       }, []);
+
     return (
       <>
           <Row className="pre-scrollable">
@@ -252,39 +256,6 @@ class FoodSearch extends Component {
                   current={this.state.selectedPage}
                 /> : (null)
                 }
-                  <style jsx>{`
-                    :global(.pagination-btn) {
-                      padding: 6px !important;
-                    }
-                    :global(.list-group-item) {
-                      cursor: pointer !important;
-                      font-size: 0.9rem;
-                    }
-                    div :global(.m-auto) {
-                      width: 80%
-                    }
-                    :global(.rc-pagination) {
-                      width:100%;
-                      list-style: none;
-                      padding:0;
-                    }
-                    :global(.rc-pagination-item) {
-                      display: inline;
-                      margin: 1px;
-                    }
-                    div :global(.rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next) {
-                      display: inline;
-                      margin: 1px;
-                    }
-                    div :global(.rc-pagination-prev a:after, .rc-pagination-next a:after {
-                      margin-top: 0px;
-                    }
-                    div :global(.rc-pagination-prev) {
-                      display: none;
-                    }
-                    }
-                      )
-                  `}</style>
                   </div>
                 </div>
            </Row> 
@@ -299,17 +270,10 @@ class FoodSearch extends Component {
                       <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <FormGroup className='m-auto'>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                          <a className='btn' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
+                          <a className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
                         </FormGroup>
                       </Form>
                     </Col>
-                    <style jsx global>{`
-                    .pre-scrollable {
-                      min-height: 75%;
-                      width: 80%;
-                      margin: auto;
-                    }`
-            }</style>
                   </Row>
 
    )
@@ -318,11 +282,57 @@ class FoodSearch extends Component {
       <>
         <Container fluid  className="food-search-container" /* style={{ height: '20vh'}} className="h-90"*/>
             {FoodSearchForm()}
-            {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (null/*<h1 className="default-search-text">Start your search for your favorite foods</h1>*/)}
+            {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
         </Container>
         <style jsx>{`
           .food-search-container {
             margin: 10px 0;
+          }
+          .default-layout-container {
+            background: white;
+            border: 1px solid black;
+            border-radius: 6px;
+          }
+          button {
+            background: #454545 !important; 
+          }
+          .btn:disabled  {
+            background: #454545 !important; 
+          }
+          .rc-pagination-disabled {
+            opacity: .65;
+            background: #454545 !important; 
+          }
+          .rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next, .rc-pagination-disabled, .rc-pagination-item {
+            display: inline-block;
+            margin: 1px;
+            border-radius: 4px
+          }
+          .list-group-item:hover {
+            background: #ccc;
+            cursor: pointer;
+          }
+          .btn {
+            background: #454545;
+            color: white;
+          }
+          .btn:hover {
+            color: white;
+            background: #23272b !important;
+          }
+          .pre-scrollable {
+            min-height: 75%;
+            width: 80%;
+            margin: auto;
+          }
+          .default-layout-container p {
+            color: black;
+          }
+          .micronutrient-collapse-container {
+            height: 45%;
+          }
+          .close {
+            background: #fff !important;
           }
         `}</style>
       </>

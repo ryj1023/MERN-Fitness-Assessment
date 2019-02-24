@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import './FoodSearch.css';
+// import './FoodSearch.css';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SmartTable from '../SmartTable';
@@ -11,8 +11,6 @@ import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Mo
 import Pagination from 'rc-pagination';
 import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
 import Router from 'next/router'
-
-// TODO: turn dropdown into modal
 
 class DietSearchContainer extends Component {
 
@@ -83,7 +81,6 @@ class DietSearchContainer extends Component {
 
   changeFoodPage(e) {
     e.preventDefault();
-    console.log('selectedPage', this.state.selectedPage)
     this.setState({
       selectedPage: this.getSelectedPage(e.target.name, e.target.id)
     })
@@ -143,11 +140,11 @@ class DietSearchContainer extends Component {
                   </ModalBody>
                 </Modal>
               </div>
-            <style jsx>{`
+            {/* <style jsx>{`
               .micronutrient-collapse-container {
                 height: 45%;
               }
-            `}</style>
+            `}</style> */}
            </Col>
          </Row>     
       </>
@@ -236,7 +233,7 @@ class DietSearchContainer extends Component {
                   current={this.state.selectedPage}
                 /> : (null)
                 }
-                  <style jsx>{`
+                  {/* <style jsx>{`
                     :global(.pagination-btn) {
                       padding: 6px !important;
                     }
@@ -268,7 +265,7 @@ class DietSearchContainer extends Component {
                     }
                     }
                       )
-                  `}</style>
+                  `}</style> */}
                   </div>
                 </div>
            </Row> 
@@ -287,28 +284,34 @@ class DietSearchContainer extends Component {
                         </FormGroup>
                       </Form>
                     </Col>
-                    <style jsx global>{`
+                    {/* <style jsx>{`
+                    .btn {
+                      background: black;
+                    }
                     .pre-scrollable {
                       min-height: 75%;
                       width: 80%;
                       margin: auto;
                     }`
-            }</style>
+            }</style> */}
                   </Row>
 
    )
 
     return (
       <>
-        <Container fluid  className="food-search-container" /* style={{ height: '20vh'}} className="h-90"*/>
+        <Container fluid className="food-search-container">
             {FoodSearchForm()}
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (null/*<h1 className="default-search-text">Start your search for your favorite foods</h1>*/)}
         </Container>
-        <style jsx>{`
+        {/* <style jsx>{`
           .food-search-container {
-            margin: 10px 0;
+            margin: 10px 5px;
           }
-        `}</style>
+          .btn {
+            background: black;
+          }
+        `}</style> */}
       </>
     );
   }

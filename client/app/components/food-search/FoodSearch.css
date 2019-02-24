@@ -11,6 +11,7 @@ form {
 .food-search-container {
   background: white;
   min-height: 100px;
+  height: 90vh;
 }
 .food-search-nav{
   width: 100%;
