@@ -6,11 +6,11 @@ const TableHeader = (props) => {
        <>
         <Table id={id} className={`smart-table ${responsive ? 'table-responsive' : ''} mb-2`} dark>
             <thead>
-                {props.titleHeader && 
+                {/* {props.titleHeader && 
                     <tr>
                         <th className="text-center" colSpan={props.tableHeaders.length}>{props.title}</th>
                     </tr>
-                }
+                } */}
                 <tr>
                 {props.tableHeaders.map((header, index) => <th key={index}>{header}</th>)}
                 </tr>

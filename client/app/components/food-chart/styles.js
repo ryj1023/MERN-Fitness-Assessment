@@ -33,15 +33,16 @@ export default css`
  .totals-row td {
    font-weight: bold;
  }
-
- .totals-row-under {
-   border 5px solid #03c303;
+ .under-label, .over-label {
+   background: blue;
+   border-radius: 2px;
  }
-
- .totals-row-over {
-  border 5px solid ;
+ .under-label {
+   background: #03c303;
  }
-
+ .over-label {
+  background: #d40808
+ }
  .table, tr, th, td {
    font-size: 0.7rem !important;
  }

@@ -6,7 +6,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { getUserData } from '../client/app/actions/async-actions';
 import { updatedFoodChart, getDailyDietGoals } from '../client/app/actions';
 import FoodChart from '../client/app/components/food-chart/FoodChart';
-import FoodSearch from '../client/app/components/food-search/FoodSearch';
+// import FoodSearch from '../client/app/components/food-search/FoodSearch';
 import App from '../client/app/components/app/App';
 import styles from '../client/app/styles/nutrition-center-styles'
 

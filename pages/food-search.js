@@ -7,7 +7,7 @@ import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../cli
 import { updatedFoodChart } from '../client/app/actions';
 import SmartTable from '../client/app/components/SmartTable';
 import App from '../client/app/components/app/App';
-import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, Collapse } from 'reactstrap';
+import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
 import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
@@ -103,7 +103,6 @@ class FoodSearch extends Component {
            userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
                email: userData.email
        })
-       console.log('res', res)
        this.props.getUserData(res.data.user.userDietSummary)
        localStorage.setItem('user', JSON.stringify(res.data.user));
    } catch (err) {
@@ -118,9 +117,9 @@ class FoodSearch extends Component {
     const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
       selectedFoodFacts.push(data);
       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
-       acc.push(`${data.value}${data.unit}`)
+        acc.push(`${data.measures[0].value}${data.unit}`)
       } else {
-        microNutrients.push({name: data.name, value: `${data.value}${data.unit}`});
+        microNutrients.push({name: data.name, value: `${data.measures[0].value}${data.unit}`});
       }
       return acc;
     }, []);
@@ -131,11 +130,18 @@ class FoodSearch extends Component {
       <>
         <Row className=''>
          <Col className='m-auto' xs='12' lg='10'>
-          <SmartTable responsive={false} id={'food-search'} width="100%" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
+         <Card>
+           <CardBody>
+             <h5>Macronutrients</h5>
+            <SmartTable responsive={false} id={'food-search'} width="100%" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
+            <div>
+              <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark ml-0 mr-1 mt-1 mb-1'>Back</Button>
+              <Button className='btn btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
+              <Button className='btn btn-dark m-1' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show Micronutrients</Button>
+            </div>
+           </CardBody>
+         </Card>
             <div className='text-center'>
-            <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark m-2'>Back</Button>
-                <Button className='btn btn-dark m-2' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
-                <Button className='btn btn-dark m-2' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show Micronutrients</Button>
                 <Modal isOpen={modalOpen} toggle={() => this.setState({ modalOpen: !modalOpen })}>
                   <ModalHeader toggle={() => this.setState({ modalOpen: !modalOpen })}>Micronutrients</ModalHeader>
                   <ModalBody>
@@ -166,10 +172,12 @@ class FoodSearch extends Component {
   }
 
   defaultLayout() {
-    return <div className='w-75 m-auto default-layout-container'>
-        <h1 className='pt-2 pl-2 pr-2'>Find your favorite foods!</h1>
-        <p className='p-2'>Search for specific foods by name or UPC code to get all the necessary nutrition information you need to reach your goals.</p>
-      </div>
+    return <Card className='w-75 m-auto'>
+        <CardBody>
+          <h1 className='pt-2 pl-2 pr-2'>Find your favorite foods!</h1>
+          <p className='p-2'>Search for specific foods by name or UPC code to get all the necessary nutrition information you need to reach your goals.</p>
+        </CardBody>
+      </Card>
   }
 
   showFoodList() {
@@ -237,8 +245,8 @@ class FoodSearch extends Component {
 
     return (
       <>
-          <Row className="pre-scrollable">
-              <ul className="h-100 w-100">
+          <Row className="m-auto">
+              <ul className="h-100 w-100 p-0">
                 {FoodList}
               </ul>            
           </Row>
@@ -316,7 +324,7 @@ class FoodSearch extends Component {
             background: #454545;
             color: white;
           }
-          .btn:hover {
+          .btn-dark:hover {
             color: white;
             background: #23272b !important;
           }

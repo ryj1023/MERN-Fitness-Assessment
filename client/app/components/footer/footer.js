@@ -1,5 +1,5 @@
 import React from 'react';
-import './footer.css';
+// import './footer.css';
 
 const Footer = () => (
    <footer className="page-footer align-bottom font-small pt-4">

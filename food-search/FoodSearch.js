@@ -51,6 +51,7 @@ class DietSearchContainer extends Component {
   }
 
   showFoodNutrients(selectedFood) {
+    console.log('selectedFood', selectedFood)
     this.props.getFoodNutritionFacts(selectedFood.foodID);
     this.setState({
       showNutrientFacts: true,
