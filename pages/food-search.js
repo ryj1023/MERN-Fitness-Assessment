@@ -84,15 +84,8 @@ class FoodSearch extends Component {
 
   changeFoodPage(e) {
     e.preventDefault();
-    console.log('selectedPage', this.state.selectedPage)
     this.setState({
       selectedPage: this.getSelectedPage(e.target.name, e.target.id)
-    })
-  }
-
-  setStateForSelectedFoodFacts(selectedFoodFacts) {
-    this.setState({
-      selectedFoodFacts, 
     })
   }
 
@@ -292,7 +285,7 @@ class FoodSearch extends Component {
             {FoodSearchForm()}
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
         </Container>
-        <style jsx>{`
+        <style jsx='true'>{`
           .food-search-container {
             margin: 10px 0;
           }

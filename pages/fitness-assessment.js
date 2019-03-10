@@ -57,7 +57,6 @@ class FitnessAssessment extends Component {
 	startCalculateAnswers() {
 		const calculatedAnswers = calculateFitnessInput(this.props.answers);
 		this.props.gatherFitnessInfo(calculatedAnswers);
-		console.log('calculatedAnswers', calculatedAnswers)
 		this.setState({
 			showClientInfo: true,
 			calculateAnswerPrompt: false
@@ -74,7 +73,6 @@ class FitnessAssessment extends Component {
 	render(){
 		const { questions } = this.props;
 		const { counter, startMenu, calculateAnswerPrompt, user, showClientInfo } = this.state;
-		console.log('showClientInfo', showClientInfo)
 		const Questions = questions.map((question, index) => { 
 			if((question.userInput === this.state.counter)){
 				return <QuestionDisplay key={question.userInput} {...question} />
