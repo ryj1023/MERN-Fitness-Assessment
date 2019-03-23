@@ -431,7 +431,6 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
     nutritionFacts: state.nutritionFacts,
-    updatedUserFoodList: state.updatedUserFoodList
 	}
 }
 

@@ -51,8 +51,6 @@ class TableHeader extends Component {
                        display: block;
                        overflow-x: auto;
                      }
-                 
-                   
              `}</style>
            </>
         )
