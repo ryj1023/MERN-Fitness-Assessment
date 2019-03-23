@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './question.css';
 
 const QuestionDisplay = (props) => {
@@ -17,7 +17,7 @@ const QuestionDisplay = (props) => {
 				</div>
 				)
 		}
-	}
+}
 
 	export default QuestionDisplay;
 

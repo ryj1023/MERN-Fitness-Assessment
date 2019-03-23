@@ -58,12 +58,9 @@ export default class Navigation extends Component{
                                         <Link href={{pathname: '/food-search'}}><a>Food Search</a></Link>
                                     </DropdownItem>
                                 </DropdownMenu>
-                            </UncontrolledButtonDropdown>
-                            {/* <Link href={{pathname: '/nutrition-center'}}><a className='nav-item'>Nutrition Center</a></Link> */}
-                            <Button onClick={(e) => this.logout(e)} className='login'>Logout</Button>
-                            {/* <Link href={{pathname: 'profile'}}><a className='login'>{this.state.userName}</a></Link> */}
+                            </UncontrolledButtonDropdown>                            
+                            <Button onClick={(e) => this.logout(e)} className='login'>Logout</Button>                            
                                 <ul className='dropdown-ul'>
-                                    {/* <li><a onClick={(e) => this.showDropdownMenu(e)} href="#" className='dropdown-list'>Menu</a> */}
                                     <li><a onClick={() => this.toggleDropdown()} href="#" className='dropdown-list'>
                                             <div className='icon'></div>
                                             <div className='icon'></div>

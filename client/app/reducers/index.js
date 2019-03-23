@@ -1,8 +1,6 @@
 
 import { combineReducers } from 'redux';
 import userData from './reducer-user-login';
-import questionReducer from './reducer-questions';
-import getInputReducer from './reducer-get-input';
 import savedFoodData from './saved-food-data'
 import calculateClientInfo from './reducer-calculate-client-info';
 import updatedUserFoodList from './update-food-list';
@@ -12,8 +10,6 @@ import dailyDietGoals from './user-daily-diet-goals';
 
 
 const rootReducer = combineReducers({
-	questions: questionReducer,
-	answers: getInputReducer,
 	clientInfo: calculateClientInfo,
 	foodList: foods.getFoodsFromKeyword,
 	nutritionFacts: foods.getNutritionFromSelectedFood,

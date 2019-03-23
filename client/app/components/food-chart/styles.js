@@ -64,4 +64,15 @@ export default css`
  .food-chart-container, .food-chart-container > div, .food-chart-container > div > div {
    height: inherit;
  }
+
+   .daily-intake-goals-table tbody tr {
+    background: #bfbdbd !important;
+   }
+
+   @media only screen and (max-width: 576px) {
+     .daily-intake-goals-table {
+       display: block;
+       overflow-x: auto;
+     }
+ 
 `

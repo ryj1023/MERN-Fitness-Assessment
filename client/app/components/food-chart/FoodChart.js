@@ -26,13 +26,16 @@ class FoodChart extends Component {
           foodFacts: foodData.foodFacts.reduce((acc, data) => { 
             if (data.name) {
               if (data.name === 'Protein' || (data.name === 'Energy' && data.unit === 'kcal') || data.name.includes('(fat)') || data.name.includes('Carbohydrate')) {
-                acc[data.name] = data.value;
+                acc[data.name] = data.measures[0].value;
               }
           }
+          
             return acc;
           }, {})
         }
       })
+
+      console.log('previewFoodData', previewFoodData)
       
       const macroTotals = previewFoodData.reduce((acc, macros, index) => {
         acc.calories += macros.foodFacts.Energy ? Number(macros.foodFacts.Energy) : 0
@@ -79,13 +82,27 @@ class FoodChart extends Component {
        }
        return ''
      }
+     const DietGoalsTableData = [this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]
+     console.log('DietGoalsTableData', DietGoalsTableData)
      return (
       <>
-          <Card className='w-50 m-auto'>
+          <Card className='m-auto'>
             <CardBody>
               <h5>Daily Nutrient Intake Goals</h5>
-              <SmartTable responsive={false} titleHeader={true} id={'food-chart'} /*width={'350px'}*/ /*title={'Daily Nutrient Intake Goal'}*/ tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)']} tableData={[this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]}/>
+                <Table className={`mb-2`} dark>
+                  <thead>
+                      <tr>
+                      {['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)'].map((header, index) => <th key={index}>{header}</th>)}
+                      </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                      {DietGoalsTableData.map((data, index) => <td key={index}>{data}</td>)}
+                  </tr>
+                  </tbody>
+              </Table>
             </CardBody>
+            <style jsx>{styles}</style>
           </Card>
           <div className='food-chart'>
             <Card className='mt-2'>

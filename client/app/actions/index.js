@@ -11,10 +11,12 @@ export const addAnswer = answer => ({
 	answer
 });
 
-export const gatherFitnessInfo = (info) => ({
-	type: CLIENT_INFO,
-	info
-});
+export const gatherFitnessInfo = (info) => {
+	return {
+		type: CLIENT_INFO,
+		info
+	}
+};
 
 export const updatedFoodChart = (data) => {
 	return {

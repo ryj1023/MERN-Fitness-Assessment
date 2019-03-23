@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import _ from 'lodash'
 import ReactDOM from "react-dom";
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -30,6 +31,13 @@ class FoodSearch extends Component {
       currentPage: 1,
       collapse: false,
       modalOpen: false,
+      selectedFoodFacts: [],
+      microNutrients: [],
+      nutritionFactUnits: [],
+      customFoodFacts: [],
+      customMicroNutrients: [],
+      customNutritionFactUnits: [],
+      servingSize: '',
     }
   
   setInput(foodTextInput){
@@ -53,6 +61,36 @@ class FoodSearch extends Component {
     this.props.getFoodSearchKeyword(this.state.foodTextInput)
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.selectedFoodFacts !== nextProps.nutritionFacts) {
+      return {
+        selectedFoodFacts: nextProps.nutritionFacts
+      }
+    }
+     return null
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const selectedFoodFacts = [];
+    const nutritionFactUnits = [];
+    const microNutrients = [];
+    if (this.state.selectedFoodFacts !== prevState.selectedFoodFacts) {
+      const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
+        selectedFoodFacts.push(data);
+        if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
+          acc.push(`${data.measures[0].value}${data.unit}`)
+        } else {
+          microNutrients.push({name: data.name, value: `${data.measures[0].value}`, unit: data.unit});
+        }
+        return acc;
+      }, []);
+      if (this.props.nutritionFacts[0]) {
+        nutritionFactUnits.push(`${this.props.nutritionFacts[0].measures[0].qty}`)
+      }
+      this.setState({ selectedFoodFacts: this.state.selectedFoodFacts, microNutrients, nutritionFactUnits })
+    }
+  }
+
   showFoodNutrients(selectedFood) {
     this.props.getFoodNutritionFacts(selectedFood.foodID);
     this.setState({
@@ -64,6 +102,7 @@ class FoodSearch extends Component {
   backToFoodResults() {
     this.setState({
       showNutrientFacts: false,
+      servingSize: '',
     })
   }
 
@@ -93,8 +132,8 @@ class FoodSearch extends Component {
    const encodedURI = window.encodeURI(`/api/save-food-items`);
    try {
        const res = await axios.post(encodedURI, {
-           userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
-               email: userData.email
+          userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
+          email: userData.email
        })
        this.props.getUserData(res.data.user.userDietSummary)
        localStorage.setItem('user', JSON.stringify(res.data.user));
@@ -103,22 +142,38 @@ class FoodSearch extends Component {
    }
  }
 
-  showNutrientFacts() {
-    const selectedFoodFacts = [];
-    const microNutrients = [];
-    const { modalOpen } = this.state;
-    const nutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
-      selectedFoodFacts.push(data);
+ updateServingSize(servingSize) {
+   const { selectedFoodFacts, microNutrients } = this.state;
+   const updatedSelectedFoodFacts = _.cloneDeep([...selectedFoodFacts])
+   if (parseFloat(servingSize) === parseFloat(this.props.nutritionFacts[0].measures[0].qty) || servingSize === '') {
+     this.setState({
+      customFoodFacts: [], customMicroNutrients: [], customNutritionFactUnits: [], servingSize
+     })
+   }
+    updatedSelectedFoodFacts.forEach(foodFact => {
+      foodFact.measures[0].value = String(parseFloat(foodFact.measures[0].value) * servingSize)
+      foodFact.measures[0].qty = parseFloat(servingSize);
+    })
+    const customMicroNutrients = microNutrients.map(micro => {
+      return { ...micro, value: String(parseFloat(micro.value) * parseFloat(servingSize)) }
+    })
+    const customNutritionFactUnits = this.props.nutritionFacts.reduce((acc, data) => {
       if ((data.name.includes('Energy') && data.unit === 'kcal') || data.name.includes('Protein') || data.name.includes('lipid') || data.name.includes('Carbohydrate')){
-        acc.push(`${data.measures[0].value}${data.unit}`)
-      } else {
-        microNutrients.push({name: data.name, value: `${data.measures[0].value}${data.unit}`});
+        acc.push(`${parseFloat(data.measures[0].value) * parseFloat(servingSize)}${data.unit}`)
       }
       return acc;
     }, []);
     if (this.props.nutritionFacts[0]) {
-      nutritionFactUnits.push(`${this.props.nutritionFacts[0].measures[0].qty} ${this.props.nutritionFacts[0].measures[0].label}`)
+      customNutritionFactUnits.push(`${this.props.nutritionFacts[0].measures[0].qty}`)
     }
+  this.setState({ customMicroNutrients, customNutritionFactUnits, customFoodFacts: updatedSelectedFoodFacts, servingSize })
+ }
+
+  showNutrientFacts() {
+    const { modalOpen, customMicroNutrients, customFoodFacts, customNutritionFactUnits } = this.state
+    const microNutrients = this.state.servingSize !== ''  ? customMicroNutrients : this.state.microNutrients
+    const selectedFoodFacts = this.state.servingSize !== ''  ? customFoodFacts : this.state.selectedFoodFacts
+    const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
     return (
       <>
         <Row className=''>
@@ -126,7 +181,15 @@ class FoodSearch extends Component {
          <Card>
            <CardBody>
              <h5>Macronutrients</h5>
-            <SmartTable responsive={false} id={'food-search'} width="100%" title={this.state.selectedFoodName} titleHeader={true} tableData={nutritionFactUnits} tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
+            <SmartTable updateServingSize={(servingSize) => this.updateServingSize(servingSize)} 
+              responsive={false} 
+              id={'food-search'} 
+              width="100%" 
+              title={this.state.selectedFoodName} 
+              titleHeader={true} 
+              servingType={this.props.nutritionFacts[0] && this.props.nutritionFacts[0].measures[0].label ? this.props.nutritionFacts[0].measures[0].label : null} 
+              tableData={nutritionFactUnits} 
+              tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
             <div>
               <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark ml-0 mr-1 mt-1 mb-1'>Back</Button>
               <Button className='btn btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
@@ -138,7 +201,7 @@ class FoodSearch extends Component {
                 <Modal isOpen={modalOpen} toggle={() => this.setState({ modalOpen: !modalOpen })}>
                   <ModalHeader toggle={() => this.setState({ modalOpen: !modalOpen })}>Micronutrients</ModalHeader>
                   <ModalBody>
-                    <Table className="w-100" style={{ overflow: 'scroll' }} dark>
+                    <Table className="w-100 themed-table " style={{ overflow: 'scroll' }} dark>
                       <thead></thead>
                       <tbody>
                         <tr>
@@ -149,14 +212,23 @@ class FoodSearch extends Component {
                           return (
                             <tr key={index}>
                               <td>{record.name}</td>
-                              <td>{record.value}</td>
+                              <td>{record.value}{record.unit}</td>
                             </tr>
                           )
                         })}
                         </tbody>
                     </Table>
-                  </ModalBody>
+                  </ModalBody>                 
                 </Modal>
+                <style jsx='true'>{`
+                  thead, tbody :global(tr:nth-child(2n + 1))  {
+                      background: #454545;
+                    }
+                  tr:nth-child(2n) {
+                      background: #bfbdbd;
+                      color: black;
+                    }
+                    `}</style>
               </div>
            </Col>
          </Row>     
@@ -286,6 +358,19 @@ class FoodSearch extends Component {
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
         </Container>
         <style jsx='true'>{`
+        .themed-table {
+          margin: auto;
+      }
+      th, tbody :global(tr:nth-child(2n))  {
+          background: #454545;
+        }
+      .themed-table :global(tr:nth-child(2n + 1)) {
+          background: #bfbdbd;
+          color: black;
+        }
+        th {
+            color: white;
+        }
           .food-search-container {
             margin: 10px 0;
           }
@@ -345,8 +430,8 @@ const mapStateToProps = (state) => {
 	return {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-      nutritionFacts: state.nutritionFacts,
-      updatedUserFoodList: state.updatedUserFoodList
+    nutritionFacts: state.nutritionFacts,
+    updatedUserFoodList: state.updatedUserFoodList
 	}
 }
 
