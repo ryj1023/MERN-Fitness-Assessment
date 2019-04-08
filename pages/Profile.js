@@ -1,49 +1,40 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Container, Row, Col, Table } from 'reactstrap';
-import Layout from '../client/app/layouts/default';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import App from '../client/app/components/app/App';
 import '../client/app/styles/profile.css';
+import Router from 'next/router'
 
 
-class Profile extends Component {
-    state = {
-        userName: null,
-        dailyDietGoal: null,
-    };
-
-    async componentDidMount() {
-        
-        if (!JSON.parse(localStorage.getItem('user'))) {
-            const res = await fetch('/api/users')
-            const userData = await res.json();
-            this.setState({
-                userName: userData[0].user.userName,
-                dailyDietGoal: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).dietInfo : null,
-            })
-        }
+const Profile = (props) => {
+   const [userName, getUserName] = useState(null)
+   const [dailyDietGoals, getDailyDietGoals] = useState(null)
+   useEffect(() => {
+      if (JSON.parse(localStorage.getItem('user'))) {
+         getUserName(JSON.parse(localStorage.getItem('user')).userName)
+         getDailyDietGoals(JSON.parse(localStorage.getItem('user')).dietInfo)
+      } else {
+         Router.push('/login')
       }
-
-	render(){        
-		return (
-            <Container fluid>
-                <Row>
-                    {
-                        this.state.dailyDietGoal && this.state.dailyDietGoal.calories ? 
-                    (
-                        <h1>calories: {this.state.dailyDietGoal.calories}</h1>
-                    ) : (
-                        <Col sm='12'>
-                            <p>You haven't done your fitness assessment yet</p>
-                            <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals</h3>
-                        </Col>
-                    )
-                    }
-                </Row>
-            </Container>
-        ) 
-	}
+   }, [])
+   return (
+         <Container fluid>
+               <Row>
+                  {
+                     dailyDietGoals && dailyDietGoals.calories ? 
+                  (
+                     <h1>calories: {dailyDietGoals.calories}</h1>
+                  ) : (
+                     <Col sm='12'>
+                           <p>You haven't done your fitness assessment yet</p>
+                           <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals</h3>
+                     </Col>
+                  )
+                  }
+               </Row>
+         </Container>
+   ) 
 }
 
 export default App(connect()(Profile))

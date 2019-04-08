@@ -26,10 +26,6 @@ class FoodSearch extends Component {
       userData: null,
       pageNumber: 1,
       selectedPage: 1,
-      updatedUserData: null,
-      selectedFood: {},
-      currentPage: 1,
-      collapse: false,
       modalOpen: false,
       selectedFoodFacts: [],
       microNutrients: [],
@@ -176,7 +172,7 @@ class FoodSearch extends Component {
     const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
     return (
       <>
-        <Row className=''>
+        <Row className=''> 
          <Col className='m-auto' xs='12' lg='10'>
          <Card>
            <CardBody>
@@ -190,10 +186,10 @@ class FoodSearch extends Component {
               servingType={this.props.nutritionFacts[0] && this.props.nutritionFacts[0].measures[0].label ? this.props.nutritionFacts[0].measures[0].label : null} 
               tableData={nutritionFactUnits} 
               tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
-            <div>
-              <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark ml-0 mr-1 mt-1 mb-1'>Back</Button>
-              <Button className='btn btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add To Food Intake</Button>
-              <Button className='btn btn-dark m-1' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show Micronutrients</Button>
+            <div className='d-flex justify-content-sm-start d-flex justify-content-between'>
+              <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark btn-sm ml-0 mr-1 mt-1 mb-1'>Back</Button>
+              <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add to food intake</Button>
+              <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show micronutrients</Button>
             </div>
            </CardBody>
          </Card>
@@ -320,11 +316,12 @@ class FoodSearch extends Component {
               <div className='m-auto'>
                 {this.props.foodList.length > 10 ?
                   <Pagination
+                  showLessItems
                   defaultPageSize={10}
                   pageSize={10}
                   total={this.props.foodList.length}
                   itemRender={itemRender}
-                  className='mt-3'
+                  className='mt-3 p-0'
                   onChange={(page) => this.setState({ selectedPage: page})}
                   current={this.state.selectedPage}
                 /> : (null)
@@ -341,7 +338,7 @@ class FoodSearch extends Component {
                 <Row id='search'> 
                   <Col className='w-80 pt-4 pb-4'>
                       <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
-                        <FormGroup className='m-auto'>
+                        <FormGroup className='m-auto d-flex justify-content-center '>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
                           <a className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
                         </FormGroup>
@@ -358,19 +355,19 @@ class FoodSearch extends Component {
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
         </Container>
         <style jsx='true'>{`
-        .themed-table {
-          margin: auto;
-      }
-      th, tbody :global(tr:nth-child(2n))  {
-          background: #454545;
-        }
-      .themed-table :global(tr:nth-child(2n + 1)) {
-          background: #bfbdbd;
-          color: black;
-        }
-        th {
-            color: white;
-        }
+          .themed-table {
+            margin: auto;
+          }
+          th, tbody :global(tr:nth-child(2n))  {
+              background: #454545;
+            }
+          .themed-table :global(tr:nth-child(2n + 1)) {
+              background: #bfbdbd;
+              color: black;
+            }
+          th {
+              color: white;
+          }
           .food-search-container {
             margin: 10px 0;
           }
@@ -391,8 +388,11 @@ class FoodSearch extends Component {
           }
           .rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next, .rc-pagination-disabled, .rc-pagination-item {
             display: inline-block;
-            margin: 1px;
             border-radius: 4px
+          }
+          .rc-pagination-item-active > button {
+            color: white !important;
+            background: #23272b !important;
           }
           .list-group-item:hover {
             background: #ccc;
@@ -402,7 +402,7 @@ class FoodSearch extends Component {
             background: #454545;
             color: white;
           }
-          .btn-dark:hover {
+          .btn:hover {
             color: white;
             background: #23272b !important;
           }
