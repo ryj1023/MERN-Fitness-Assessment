@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './question.css';
+import './index.css';
 
 const QuestionDisplay = (props) => {
 		if(props.question){

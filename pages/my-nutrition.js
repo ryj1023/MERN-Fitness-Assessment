@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { updatedFoodChart, getDailyDietGoals } from '../client/app/actions';
 import FoodChart from '../client/app/components/food-chart/FoodChart';
-import App from '../client/app/components/app/app';
+import App from '../client/app/components/app';
 import styles from '../client/app/styles/nutrition-center-styles'
 
 const getUpdatedFoodChart = (props, userData) => {

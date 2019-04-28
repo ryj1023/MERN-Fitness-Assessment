@@ -1,7 +1,7 @@
 import { useEffect, useState, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import App from '../client/app/components/app/app';
+import App from '../client/app/components/app';
 import { Container, Row, Col, ListGroup, ListGroupItem, Button, Card, Label, FormResponse } from 'reactstrap';
 import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
 import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';

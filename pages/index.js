@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import App from '../client/app/components/app/app';
+import App from '../client/app/components/app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Layout from '../client/app/layouts/default'
-import Workouts from '../client/app/components/workouts/workouts';
+import Workouts from '../client/app/components/workouts';
 import { Container, Row, Col, Table } from 'reactstrap';
 
 class Home extends Component {

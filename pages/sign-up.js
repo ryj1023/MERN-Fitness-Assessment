@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { validateSignUp } from '../client/app/actions/async-actions';
 import '../client/app/styles/sign-up.css';
 import { connect } from 'react-redux';
-import App from '../client/app/components/app/app';
+import App from '../client/app/components/app';
 import { Form, Container, Row, Column, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const formValues = {

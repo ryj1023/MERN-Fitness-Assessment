@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Form, Container, Row, Column, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import Navigation from '../client/app/components/navigations/NavBar';
+import Navigation from '../client/app/components/navigations';
 import { loginUser } from '../client/app/actions/async-actions';
-import App from '../client/app/components/app/app';
+import App from '../client/app/components/app';
 import '../client/app/styles/login.css';
 import { connect } from 'react-redux';
 
