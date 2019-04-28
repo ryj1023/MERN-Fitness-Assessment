@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from 'react';
 import { Container, Row, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import Link from 'next/link';
-import App from '../client/app/components/app/App';
+import App from '../client/app/components/app/app';
 import '../client/app/styles/profile.css';
 import Router from 'next/router'
 

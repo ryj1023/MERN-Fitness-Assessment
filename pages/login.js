@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Navigation from '../client/app/components/navigations/NavBar';
 import { loginUser } from '../client/app/actions/async-actions';
-import App from '../client/app/components/app/App';
+import App from '../client/app/components/app/app';
 import '../client/app/styles/login.css';
 import { connect } from 'react-redux';
 

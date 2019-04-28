@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../client/app/actions/async-actions';
 import { updatedFoodChart } from '../client/app/actions';
 import SmartTable from '../client/app/components/SmartTable';
-import App from '../client/app/components/app/App';
+import App from '../client/app/components/app/app';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
 // import 'rc-pagination/assets/index.css';
 import Pagination from 'rc-pagination';
