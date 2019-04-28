@@ -15,7 +15,7 @@
     "start": "NODE_ENV=production node ./server/server.js"
   },
   "engines": {
-    "node": "^10.10.0",
+    "node": "10.15.3",
     "npm": "^3.10.5",
     "yarn": "^1.12.3"
   },

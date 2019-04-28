@@ -4,9 +4,10 @@ dist/
 # Config file
 config/config.js
 configuration/.env
+/*.env
 
 # Node stuff
-node_modules
+/node_modules
 .npm
 .node_repl_history
 .lock-wscript
