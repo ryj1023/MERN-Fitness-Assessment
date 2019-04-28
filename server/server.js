@@ -10,6 +10,7 @@ const next = require('next')
 const dev = process.env.NODE_ENV !== 'production'
 const _app = next({ dev })
 const handle = _app.getRequestHandler()
+const port = process.env.PORT || 3000;
 require('./routes/api/users-api')(app)
 require('dotenv').config();
 mongoose.connect(process.env.MONGOLAB_URI, {
@@ -26,7 +27,7 @@ _app.prepare()
     return handle(req, res)
   })
     
-  app.listen(3000, (err) => {
+  app.listen(port, (err) => {
     if (err) throw err
     console.log('> Ready on http://localhost:3000')
   })
