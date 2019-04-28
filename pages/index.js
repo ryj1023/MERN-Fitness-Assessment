@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import App from '../client/app/components/app/App';
+import App from '../client/app/components/app/app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Layout from '../client/app/layouts/default'
