@@ -80,7 +80,7 @@ input:hover:focus::-ms-placeholder, textarea:hover::focus:-ms-placeholder {
     background: #454545;
     height: 198px;
     margin: auto;
-    width: 500px;
+    /* width: 500px; */
 }
 
 header {
@@ -93,7 +93,7 @@ header {
 
 form {
   position: relative;
-  width: 500px;
+  /* width: 500px; */
   margin: 50px auto;
 }
 

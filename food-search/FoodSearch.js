@@ -278,7 +278,7 @@ class DietSearchContainer extends Component {
     const FoodSearchForm = () => (
                 <Row id='search'> 
                   <Col className='w-80 pt-4 pb-4'>
-                      <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
+                      <Form className='text-center m-auto w-100' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <FormGroup className='m-auto'>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
                           <a className='btn' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
