@@ -8,21 +8,20 @@ import Router from 'next/router'
 
 
 const Profile = (props) => {
-   // const [userName, getUserName] = useState(null)
-   // const [dailyDietGoals, getDailyDietGoals] = useState(null)
-   // useEffect(() => {
-   //    if (JSON.parse(localStorage.getItem('user'))) {
-   //       getUserName(JSON.parse(localStorage.getItem('user')).userName)
-   //       getDailyDietGoals(JSON.parse(localStorage.getItem('user')).dietInfo)
-   //    } else {
-   //       Router.push('/login')
-   //    }
-   // }, [])
+   const [userName, getUserName] = useState(null)
+   const [dailyDietGoals, getDailyDietGoals] = useState(null)
+   useEffect(() => {
+      if (JSON.parse(localStorage.getItem('user'))) {
+         getUserName(JSON.parse(localStorage.getItem('user')).userName)
+         getDailyDietGoals(JSON.parse(localStorage.getItem('user')).dietInfo)
+      } else {
+         Router.push('/login')
+      }
+   }, [])
    return (
          <Container fluid>
                <Row>
-                  <h1>Profile!</h1>
-                  {/* {
+                  {
                      dailyDietGoals && dailyDietGoals.calories ? 
                   (
                      <h1>calories: {dailyDietGoals.calories}</h1>
@@ -32,10 +31,11 @@ const Profile = (props) => {
                            <h3>Take the assessment <Link href='./assessment'><a>here</a></Link> to get your new goals</h3>
                      </Col>
                   )
-                  } */}
+                  }
                </Row>
          </Container>
    ) 
 }
 
 export default App(connect()(Profile))
+
