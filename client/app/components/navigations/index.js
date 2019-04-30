@@ -80,7 +80,7 @@ export default class Navigation extends Component{
                     <nav className='nav-main'>
                         <div className='d-flex align-items-center'>
                             <Link href={{pathname: '/'}}><a className="logo btn btn-lg rounded-0 text-white nav-item">Let's Get Fit</a></Link>
-                            <Link href={{pathname: '/profile'}}><a className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Profile</a></Link>
+                            { loggedIn && <Link href={{pathname: '/profile'}}><a className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Profile</a></Link> }
                             <UncontrolledButtonDropdown className='dropdown-container d-none d-sm-flex'>
                                 <DropdownToggle className='dropdown-button btn-lg border-0 rounded-0' caret>
                                     Nutrition Center
