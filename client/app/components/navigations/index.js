@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Drawer from 'react-motion-drawer';
-import { Button, UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap'
+import { Button, UncontrolledButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle, ListGroup, ListGroupItem } from 'reactstrap'
 // import './navigation.css';
 import Link from 'next/link';
 import { AlignJustify } from 'react-feather';
@@ -28,23 +28,24 @@ export default class Navigation extends Component{
         });
     }
 
-    // componentDidMount() {
-    //     // this.setState({
-    //     //     userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
-    //     // })
-	// 	if (localStorage.getItem('user') !== null) {
-	// 			this.setState({
-    //                 loggedIn: true,
-    //                 isLoading: false
-    //             })
-    //     } else {
-    //         this.setState({
-    //             loggedIn: true,
-    //             isLoading: false
-    //         })
-    //     } 
-        
-    // }       
+    componentDidMount() {
+        console.log('mounted!!')
+        // this.setState({
+        //     userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
+        // })
+		// if (localStorage.getItem('user') !== null) {
+		// 		this.setState({
+        //             loggedIn: true,
+        //             isLoading: false
+        //         })
+        // } else {
+        //     this.setState({
+        //         loggedIn: true,
+        //         isLoading: false
+        //     })
+        // } 
+        this.setState({ openRight: false })
+    }       
 	render(){
         const {
             openRight,
@@ -57,25 +58,28 @@ export default class Navigation extends Component{
         if (loading) return null;
             return(
                 <div>
-                       <Drawer 
-                        onChange={() => {}}
+                    <Drawer 
                         fadeOut
                         open={openRight}
-                        onChange={open => this.setState({ openRight: open })}
+                        onChange={open => {
+                            this.setState({ openRight: open })}
+                        }
                         // noTouchOpen={noTouchOpen}
                         // noTouchClose={noTouchClose}
                         drawerStyle={{ backgroundColor: 'white'}}
-                       >
-                           <div style={{ width: "100%" }}>
-                                <h3>Navigation</h3>
-                            </div>
-                            <div style={{ padding: "2em" }}>
-                                <h3>Navigation</h3>
-                            </div>
+                    >
+                         <ListGroup className='w-100'>
+                            <ListGroupItem><Link href={{pathname: '/'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Dashboard</a></Link></ListGroupItem>
+                            <ListGroupItem><Link href={{pathname: '/profile'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Profile</a></Link></ListGroupItem>
+                            <ListGroupItem><Link href={{pathname: '/fitness-assessment'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Fitness Assessment</a></Link></ListGroupItem>
+                            <ListGroupItem><Link href={{pathname: '/food-search'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Food Search</a></Link></ListGroupItem>
+                            <ListGroupItem><Link href={{pathname: '/my-nutrition'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>My Nutrition</a></Link></ListGroupItem>
+                            {loggedIn ? <ListGroupItem onClick={(e) => this.logout(e)} className='w-100 rounded-0 text-dark font-weight-bold'>Log Out</ListGroupItem> : <ListGroupItem><Link href={{pathname: '/login'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Log In</a></Link></ListGroupItem>}
+                        </ListGroup>
                         </Drawer>
                     <nav className='nav-main'>
                         <div className='d-flex align-items-center'>
-                            <Link href={{pathname: '/'}}><a className="logo btn btn-lg rounded-0 text-white">Let's Get Fit</a></Link>
+                            <Link href={{pathname: '/'}}><a className="logo btn btn-lg rounded-0 text-white nav-item">Let's Get Fit</a></Link>
                             <Link href={{pathname: '/profile'}}><a className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Profile</a></Link>
                             <UncontrolledButtonDropdown className='dropdown-container d-none d-sm-flex'>
                                 <DropdownToggle className='dropdown-button btn-lg border-0 rounded-0' caret>
@@ -93,29 +97,25 @@ export default class Navigation extends Component{
                                     </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledButtonDropdown>                            
-                            {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='login'>Login</a></Link>}
-                                <ul className='dropdown-ul d-md-none ml-auto'>
-                                    <li className='list-group-item border-0'>
-                                        <a onClick={() => this.toggleDropdown()} href="#" className='dropdown-list'>
-                                            <div className='icon'></div>
-                                            <div className='icon'></div>
-                                            <div className='icon'></div>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <a
-                                    style={{ padding: 15 }}
-                                    className=""
-                                    onClick={() =>
-                                    this.setState({ openRight: !openRight})}
-                                >
-                                    <AlignJustify/>
-                                </a>
+                            {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='text-white btn btn-lg rounded-0 nav-item'>Login</a></Link>}
+                                <div className='w-100 d-flex justify-content-end'>
+                                    <a
+                                        style={{ padding: 15 }}
+                                        className="d-sm-none hamburger-menu btn"
+                                        onClick={() =>
+                                        this.setState({ openRight: !openRight})}
+                                    >
+                                        <AlignJustify color='white'/>
+                                    </a>
+                                </div>
                     </div>
                     </nav>
                     <style jsx>{`
-                        nav {
-                            min-height: 55px;
+                    .hamburger-menu {
+                        cursor: pointer;
+                    }
+                        .logo {
+                            white-space: nowrap;
                         }
                         nav, nav :global(.list-group-item, .btn-lg) {
                             background-color: #454545;
@@ -123,7 +123,7 @@ export default class Navigation extends Component{
                         div :global(.dropdown-item) {
                             white-space: normal;
                         }
-                        {/*.dropdown-list {
+                        .dropdown-list {
                             height: 70px;
                             padding: 1.1em;
                             background-color: #454545;
@@ -132,11 +132,11 @@ export default class Navigation extends Component{
                             text-decoration: none;
                             text-align: center;
                           }
-                          .dropdown-list:hover {
-                            background-color: #9a9a9a;
+                          .dropdown-list:hover, .nav-item:hover, div :global(.dropdown-item a:hover) {
+                            background-color: #5a6268 !important;
                             text-decoration: none;
                             color: white;
-                          } */}
+                          }
                           .icon {
                             width: 45%;
                             height: 5px;

@@ -21,12 +21,12 @@ class Home extends Component {
 
 	render(){
 			return (
-				<Container fluid>
+				<Container className='mt-2'>
 					<Row>
-						<Col sm='8'>
-							<h1>Welcome, {this.state.user ? this.state.user.userName : ''}!</h1>
+						<Col sm='6'>
+							<h1>Welcome{this.state.user ? `, ${this.state.user.userName}` : ''}!</h1>
 						</Col>
-						<Col sm='4'>
+						<Col sm='6'>
 							<Row>
 								<Col sm='12'>
 									{ 

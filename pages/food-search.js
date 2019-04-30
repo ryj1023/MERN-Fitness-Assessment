@@ -316,15 +316,15 @@ class FoodSearch extends Component {
               <div className='m-auto'>
                 {this.props.foodList.length > 10 ?
                   <Pagination
-                  showLessItems
-                  defaultPageSize={10}
-                  pageSize={10}
-                  total={this.props.foodList.length}
-                  itemRender={itemRender}
-                  className='mt-3 p-0'
-                  onChange={(page) => this.setState({ selectedPage: page})}
-                  current={this.state.selectedPage}
-                /> : (null)
+                    showLessItems
+                    defaultPageSize={10}
+                    pageSize={10}
+                    total={this.props.foodList.length}
+                    itemRender={itemRender}
+                    className='mt-3 p-0'
+                    onChange={(page) => this.setState({ selectedPage: page})}
+                    current={this.state.selectedPage}
+                  /> : (null)
                 }
                   </div>
                 </div>
@@ -394,7 +394,7 @@ class FoodSearch extends Component {
             color: white !important;
             background: #23272b !important;
           }
-          .list-group-item:hover {
+          div global(.list-group-item:hover) {
             background: #ccc;
             cursor: pointer;
           }
@@ -404,7 +404,7 @@ class FoodSearch extends Component {
           }
           .btn:hover {
             color: white;
-            background: #23272b !important;
+            background: #5a6268 !important;
           }
           .pre-scrollable {
             min-height: 75%;
