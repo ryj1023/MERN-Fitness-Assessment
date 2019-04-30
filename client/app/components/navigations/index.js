@@ -97,7 +97,7 @@ export default class Navigation extends Component{
                                     </DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledButtonDropdown>                            
-                            {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='text-white btn btn-lg rounded-0 nav-item d-sm-flex ml-auto'>Login</a></Link>}
+                            {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='text-white btn btn-lg rounded-0 nav-item d-sm-flex d-none ml-auto'>Login</a></Link>}
                                 <div className='w-100 d-flex justify-content-end'>
                                     <a
                                         style={{ padding: 15 }}
