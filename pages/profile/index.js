@@ -2,8 +2,8 @@ import React, { Component, useState, useEffect } from 'react';
 import { Container, Row, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import Link from 'next/link';
-import App from '../client/app/components/app';
-import '../client/app/styles/profile.css';
+import App from '../../client/app/components/app';
+import '../../client/app/styles/profile.css';
 import Router from 'next/router'
 
 
@@ -38,3 +38,4 @@ const Profile = (props) => {
 }
 
 export default App(connect()(Profile))
+
