@@ -285,16 +285,6 @@ class DietSearchContainer extends Component {
                         </FormGroup>
                       </Form>
                     </Col>
-                    {/* <style jsx>{`
-                    .btn {
-                      background: black;
-                    }
-                    .pre-scrollable {
-                      min-height: 75%;
-                      width: 80%;
-                      margin: auto;
-                    }`
-            }</style> */}
                   </Row>
 
    )
@@ -304,15 +294,7 @@ class DietSearchContainer extends Component {
         <Container fluid className="food-search-container">
             {FoodSearchForm()}
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (null/*<h1 className="default-search-text">Start your search for your favorite foods</h1>*/)}
-        </Container>
-        {/* <style jsx>{`
-          .food-search-container {
-            margin: 10px 5px;
-          }
-          .btn {
-            background: black;
-          }
-        `}</style> */}
+        </Container> 
       </>
     );
   }

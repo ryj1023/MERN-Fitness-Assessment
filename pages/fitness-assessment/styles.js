@@ -56,7 +56,6 @@ body, .home-wrapper {
   /* .submit-form {
     margin: 0;
   }
-
   .label-text {
     font-size: 16px;
   }

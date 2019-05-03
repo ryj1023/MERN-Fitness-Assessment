@@ -13,7 +13,8 @@ const App = (Page) => {
 			const store = createStore(Reducers, applyMiddleware(thunk));
 			if (module.hot) {
 				module.hot.accept(Reducers, () => {
-					store.replaceReducer(Reducers)
+					const nextRootReducer = require('../../reducers');
+					store.replaceReducer(nextRootReducer)
 				})
 			}
 		return <Provider store={store}>

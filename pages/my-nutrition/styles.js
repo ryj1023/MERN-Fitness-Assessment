@@ -4,4 +4,3 @@ export default css`
    div {
       padding: 10px;
    }
-`

@@ -3,10 +3,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { Container, Row, Col, Button } from 'reactstrap';
-import { updatedFoodChart, getDailyDietGoals } from '../client/app/actions';
-import FoodChart from '../client/app/components/food-chart/FoodChart';
-import App from '../client/app/components/app';
-import styles from '../client/app/styles/nutrition-center-styles'
+import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions';
+import FoodChart from '../../client/app/components/food-chart/FoodChart';
+import App from '../../client/app/components/app';
+import styles from './styles'
 
 const getUpdatedFoodChart = (props, userData) => {
    props.store.dispatch(updatedFoodChart(userData.userDietSummary))

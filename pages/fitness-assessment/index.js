@@ -1,13 +1,13 @@
 import { useEffect, useState, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import App from '../client/app/components/app';
+import App from '../../client/app/components/app';
 import { Container, Row, Col, ListGroup, ListGroupItem, Button, Card, Label, FormResponse } from 'reactstrap';
-import { addAnswer,  gatherFitnessInfo  } from '../client/app/actions';
-import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input';
+import { addAnswer,  gatherFitnessInfo  } from '../../client/app/actions';
+import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import styles from '../client/app/styles/fitness-assessment-styles.js';
+import styles from './styles.js';
 import Router from 'next/router'
 
 const validationSchema = Yup.object().shape({
