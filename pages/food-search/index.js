@@ -6,7 +6,7 @@ import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../
 import { updatedFoodChart } from '../../client/app/actions';
 import SmartTable from '../../client/app/components/SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
-import { IoIosArrowDropup, IoIosArrowDropdown  } from 'react-icons/io';
+import Pagination from 'rc-pagination';
 import axios from 'axios'
 
 // TODO: turn dropdown into modal
