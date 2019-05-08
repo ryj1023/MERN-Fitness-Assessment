@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import App from '../client/app/components/app';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Layout from '../client/app/layouts/default'
-import Workouts from '../client/app/components/workouts';
 import { Container, Row, Col, Table } from 'reactstrap';
 
 class Home extends Component {
@@ -78,5 +75,5 @@ class Home extends Component {
 }	
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
-export default App(connect(mapDispatchToProps)(Home))
+export default connect(mapDispatchToProps)(Home)
 

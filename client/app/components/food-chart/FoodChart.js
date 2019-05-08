@@ -33,10 +33,7 @@ class FoodChart extends Component {
             return acc;
           }, {})
         }
-      })
-
-      console.log('previewFoodData', previewFoodData)
-      
+      })      
       const macroTotals = previewFoodData.reduce((acc, macros, index) => {
         acc.calories += macros.foodFacts.Energy ? Number(macros.foodFacts.Energy) : 0
         acc.protein += macros.foodFacts.Protein ? Number(macros.foodFacts.Protein) : 0
@@ -60,7 +57,6 @@ class FoodChart extends Component {
             }
           )
           this.props.getUpdatedFoodChart(res.data.user)
-          console.log('res', res)
       } catch (err) {
         console.log('err', err)
       }
@@ -83,7 +79,6 @@ class FoodChart extends Component {
        return ''
      }
      const DietGoalsTableData = [this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]
-     console.log('DietGoalsTableData', DietGoalsTableData)
      return (
       <>
           <Card className='m-auto'>

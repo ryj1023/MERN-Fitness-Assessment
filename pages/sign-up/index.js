@@ -3,9 +3,7 @@ import { bindActionCreators } from 'redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { validateSignUp } from '../../client/app/actions/async-actions';
-import '../../client/app/styles/sign-up.css';
 import { connect } from 'react-redux';
-import App from '../../client/app/components/app';
 import { Form, Container, Row, Column, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const formValues = {
@@ -81,5 +79,5 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ validateSignUp }, dispatch);
-export default App(connect(mapStateToProps, mapDispatchToProps)(SignUp))
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
 

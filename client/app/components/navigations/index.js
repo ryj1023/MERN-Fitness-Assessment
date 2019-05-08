@@ -29,7 +29,6 @@ export default class Navigation extends Component{
     }
 
     componentDidMount() {
-        console.log('mounted!!')
         // this.setState({
         //     userName: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')).userName : '',
         // })

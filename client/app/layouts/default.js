@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head'
 import NavBar from '../components/navigations';
-// import Footer from '../components/footer/Footer'
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import '../../../styles/styles.scss'
 
 const Layout = ({ children }) => {

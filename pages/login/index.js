@@ -4,7 +4,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import Navigation from '../../client/app/components/navigations';
 import { loginUser } from '../../client/app/actions/async-actions';
-import App from '../../client/app/components/app';
 import { connect } from 'react-redux';
 
 const formValues = {
@@ -72,4 +71,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default App(connect(mapStateToProps)(Login))
+export default connect(mapStateToProps)(Login)
