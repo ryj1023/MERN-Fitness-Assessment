@@ -39,7 +39,7 @@ const FitnessAssessment = (props) => {
          <Container>
             <Row>
                <Col>
-                  <Card className='mt-3'>
+                  <Card className='mt-3 p-2'>
                      <Formik
                         initialValues={{
                            age: '',
@@ -60,10 +60,12 @@ const FitnessAssessment = (props) => {
                            <form onSubmit={handleSubmit}>
                               <Container>
                                  <Row>
-                                    <p className="ml-auto mr-auto mt-3 mb-3">Please enter some data so we can calculate your fitness goals.</p>
+                                    <Col className='text-center'>
+                                       <p className="font-weight-bold">Please enter some data so we can calculate your fitness goals</p>
+                                    </Col>
                                  </Row>
                                  <Row>
-                                    <Col>
+                                    <Col sm='12' lg='6'>
                                        <div className="form-group">
                                           <Label for="exampleFormControlSelect2">Age</Label>
                                           <input
@@ -119,7 +121,7 @@ const FitnessAssessment = (props) => {
                                              ) : null}
                                        </div>
                                     </Col>
-                                    <Col>
+                                    <Col sm='12' lg='6'>
                                        <div className="form-group">
                                           <Label for="exampleFormControlSelect2">Target weight</Label>
                                           <input
@@ -159,12 +161,18 @@ const FitnessAssessment = (props) => {
                                        </div>
                                     </Col>
                                  </Row>
+                                 <Row>
+                                 <Col>
+                                    <div className='form-group text-center'>
+                                    {errors.name &&
+                                       <div>
+                                          {errors.name}
+                                       </div>}
+                                       <button className='btn btn-outline-secondary w-100' type="submit">Submit</button>
+                                    </div>
+                                    </Col>
+                                 </Row>
                               </Container>
-                              {errors.name &&
-                              <div>
-                                 {errors.name}
-                              </div>}
-                              <button className='btn' type="submit">Submit</button>
                            </form>
                         )}
                      </Formik>

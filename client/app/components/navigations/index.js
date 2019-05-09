@@ -67,14 +67,14 @@ export default class Navigation extends Component{
                         // noTouchClose={noTouchClose}
                         drawerStyle={{ backgroundColor: 'white'}}
                     >
-                         <ListGroup className='w-100'>
-                            <ListGroupItem><Link href={{pathname: '/'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Dashboard</a></Link></ListGroupItem>
-                            { loggedIn && <ListGroupItem><Link href={{pathname: '/profile'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Profile</a></Link></ListGroupItem> }
-                            <ListGroupItem><Link href={{pathname: '/fitness-assessment'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Fitness Assessment</a></Link></ListGroupItem>
-                            <ListGroupItem><Link href={{pathname: '/food-search'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Food Search</a></Link></ListGroupItem>
-                            <ListGroupItem><Link href={{pathname: '/my-nutrition'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>My Nutrition</a></Link></ListGroupItem>
-                            {loggedIn ? <ListGroupItem onClick={(e) => this.logout(e)} className='w-100 rounded-0 text-dark font-weight-bold'>Log Out</ListGroupItem> : <ListGroupItem><Link href={{pathname: '/login'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold'>Log In</a></Link></ListGroupItem>}
-                        </ListGroup>
+                         <div className='w-100 d-flex flex-column side-rail-list'>
+                            <Link href={{pathname: '/'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3'>Dashboard</a></Link>
+                            { loggedIn && <Link href={{pathname: '/profile'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Profile</a></Link>}
+                            <Link href={{pathname: '/fitness-assessment'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Fitness Assessment</a></Link>
+                            <Link href={{pathname: '/food-search'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Food Search</a></Link>
+                            <Link href={{pathname: '/my-nutrition'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>My Nutrition</a></Link>
+                            {loggedIn ? <div onClick={(e) => this.logout(e)} className='text-left w-100 rounded-0 text-dark font-weight-bold p-3 border-top border-bottom'>Log Out</div> : <Link href={{pathname: '/login'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top border-bottom'>Log In</a></Link>}
+                        </div>
                         </Drawer>
                     <nav className='nav-main'>
                         <div className='d-flex align-items-center'>
@@ -110,9 +110,13 @@ export default class Navigation extends Component{
                     </div>
                     </nav>
                     <style jsx>{`
-                    .hamburger-menu {
-                        cursor: pointer;
-                    }
+                        .side-rail-list a:hover, .side-rail-list div:hover  {
+                            background: #f5f5f5;
+                            cursor: pointer;
+                        }
+                        .hamburger-menu {
+                            cursor: pointer;
+                        }
                         .logo {
                             white-space: nowrap;
                         }
