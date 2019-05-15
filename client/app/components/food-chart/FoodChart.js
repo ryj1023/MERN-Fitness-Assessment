@@ -133,7 +133,7 @@ class FoodChart extends Component {
         </>
     );
   } else if (this.props.foodChartLoading) {
-    return <h1>loading...</h1>
+    return <p>loading...</p>
   } else return (
     <Container>
       <Row>

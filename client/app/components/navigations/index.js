@@ -99,8 +99,7 @@ export default class Navigation extends Component{
                             {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='text-white btn btn-lg rounded-0 nav-item d-sm-flex d-none ml-auto'>Login</a></Link>}
                                 <div className='w-100 d-flex justify-content-end'>
                                     <a
-                                        style={{ padding: 15 }}
-                                        className="d-sm-none hamburger-menu btn"
+                                        className="d-sm-none hamburger-menu btn btn-lg rounded-0"
                                         onClick={() =>
                                         this.setState({ openRight: !openRight})}
                                     >
@@ -135,7 +134,7 @@ export default class Navigation extends Component{
                             text-decoration: none;
                             text-align: center;
                           }
-                          .dropdown-list:hover, .nav-item:hover, div :global(.dropdown-item a:hover) {
+                          .dropdown-list:hover, .hamburger-menu:hover, .nav-item:hover, div :global(.dropdown-item a:hover) {
                             background-color: #5a6268 !important;
                             text-decoration: none;
                             color: white;
