@@ -69,20 +69,22 @@ export default class Navigation extends Component{
                     >
                          <div className='w-100 d-flex flex-column side-rail-list'>
                             <Link href={{pathname: '/'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3'>Dashboard</a></Link>
-                            { loggedIn && <Link href={{pathname: '/profile'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Profile</a></Link>}
+                            {/* { loggedIn && <Link href={{pathname: '/profile'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Profile</a></Link>} */}
                             <Link href={{pathname: '/fitness-assessment'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Fitness Assessment</a></Link>
                             <Link href={{pathname: '/food-search'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>Food Search</a></Link>
                             <Link href={{pathname: '/my-nutrition'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top'>My Nutrition</a></Link>
                             {loggedIn ? <div onClick={(e) => this.logout(e)} className='text-left w-100 rounded-0 text-dark font-weight-bold p-3 border-top border-bottom'>Log Out</div> : <Link href={{pathname: '/login'}}><a onClick={() => this.setState({ openRight: false })} className='w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top border-bottom'>Log In</a></Link>}
+                    {!loggedIn && <Link href={{ pathname: '/sign-up'}}><a onClick={() => this.setState({ openRight: false })} className='text-left w-100 rounded-0 text-dark text-decoration-none font-weight-bold p-3 border-top border-bottom'>Sign Up</a></Link> }
                         </div>
                         </Drawer>
                     <nav className='nav-main'>
                         <div className='d-flex align-items-center'>
                             <Link href={{pathname: '/'}}><a className="logo btn btn-lg rounded-0 text-white nav-item">Let's Get Fit</a></Link>
-                            { loggedIn && <Link href={{pathname: '/profile'}}><a className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Profile</a></Link> }
+                            {/* { loggedIn && <Link href={{pathname: '/profile'}}><a className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Profile</a></Link> } */}
+                            <Link href={{pathname: '/fitness-assessment'}}><a style={{whiteSpace: 'nowrap'}} className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Fitness Assessment</a></Link>
                             <UncontrolledButtonDropdown className='dropdown-container d-none d-sm-flex'>
                                 <DropdownToggle className='dropdown-button btn-lg border-0 rounded-0' caret>
-                                    Nutrition Center
+                                    Nutrition
                                 </DropdownToggle>
                                 <DropdownMenu className='p-0 w-100'>
                                     <DropdownItem className='p-0'>
@@ -91,12 +93,13 @@ export default class Navigation extends Component{
                                     <DropdownItem className='p-0'>
                                         <Link href={{pathname: '/food-search'}}><a className='text-white btn w-100 btn-lg rounded-0'>Food Search</a></Link>
                                     </DropdownItem>
-                                    <DropdownItem className='p-0'>
+                                    {/* <DropdownItem className='p-0'>
                                         <Link href={{pathname: '/fitness-assessment'}}><a className='text-white btn w-100 btn-lg rounded-0'>Fitness Assessment</a></Link>
-                                    </DropdownItem>
+                                    </DropdownItem> */}
                                 </DropdownMenu>
                             </UncontrolledButtonDropdown>                            
                             {loggedIn ? <Button onClick={(e) => this.logout(e)} className='d-none d-sm-flex login ml-auto btn-lg border-0 rounded-0'>Logout</Button> : <Link href={{ pathname: '/login'}} href="./login"><a className='text-white btn btn-lg rounded-0 nav-item d-sm-flex d-none ml-auto'>Login</a></Link>}
+                    {!loggedIn &&  <Link href={{ pathname: '/sign-up'}}><a style={{whiteSpace: 'nowrap'}} className='d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white'>Sign Up</a></Link> } 
                                 <div className='w-100 d-flex justify-content-end'>
                                     <a
                                         className="d-sm-none hamburger-menu btn btn-lg rounded-0"
