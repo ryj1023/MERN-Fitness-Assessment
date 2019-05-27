@@ -52,7 +52,6 @@ const Login = props => (
                     submitCount,
                 }) => {
                     if (props.userData.length > 0) window.location = '/'
-                    console.log('props', props)
                     return (
                         <>
                             {!isSubmitting &&
