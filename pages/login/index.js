@@ -51,7 +51,7 @@ const Login = props => (
                     touched,
                     submitCount,
                 }) => {
-                    // if (props.userData.length > 0) window.location = '/'
+                    if (props.userData.length > 0) window.location = '/'
                     console.log('props', props)
                     return (
                         <>
