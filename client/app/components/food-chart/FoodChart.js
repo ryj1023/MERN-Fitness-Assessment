@@ -58,6 +58,7 @@ class FoodChart extends Component {
           )
           this.props.getUpdatedFoodChart(res.data.user)
       } catch (err) {
+        alert('There was a problem removing this item.')
         console.log('err', err)
       }
     }

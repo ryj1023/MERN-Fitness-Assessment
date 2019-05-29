@@ -71,19 +71,7 @@ module.exports = (app) => {
     });
 
     app.post('/api/remove-food-item', (req, res) => {
-      console.log('req.body', req.body)
-      // { 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }}
-      // Users.findOneAndUpdate({'user.userName': req.body.userName },
-      // {$pull: { 'user.userDietSummary': {foodName: req.body.foodName } } },
-      // {
-      //   new: true,
-      //   multi: false,
-      // },
-      //  (err, doc) => {
-      //   console.log('doc', doc)
-      //   if (err) return res.send(500, { error: err });
-      //       res.status(201).json(doc)
-      // })
+      // first you need to set the desired data to a blank value before you can pull the data from the database
       Users.findOneAndUpdate({'user.userName': req.body.userName, 'user.userDietSummary': { $elemMatch: { foodName: req.body.foodName }} },
       {$unset: { 'user.userDietSummary.$': '' } },
       {

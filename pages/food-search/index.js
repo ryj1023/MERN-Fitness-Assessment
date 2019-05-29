@@ -7,7 +7,8 @@ import { updatedFoodChart } from '../../client/app/actions';
 import SmartTable from '../../client/app/components/SmartTable';
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
 import Pagination from 'rc-pagination';
-import axios from 'axios'
+import axios from 'axios';
+import Link from 'next/link'
 
 // TODO: turn dropdown into modal
 
@@ -127,6 +128,9 @@ class FoodSearch extends Component {
        })
        this.props.getUserData(res.data.user.userDietSummary)
        localStorage.setItem('user', JSON.stringify(res.data.user));
+       if (res.status === 201) {
+         alert('Added to daily intake list!')
+       }
    } catch (err) {
      console.log('err', err)
    }
@@ -166,7 +170,6 @@ class FoodSearch extends Component {
     const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
     return (
       <>
-        <Row className=''> 
          <Col className='m-auto' xs='12' lg='10'>
          <Card>
            <CardBody>
@@ -221,18 +224,20 @@ class FoodSearch extends Component {
                     `}</style>
               </div>
            </Col>
-         </Row>     
       </>
     )
   }
 
   defaultLayout() {
-    return <Card className='w-75 m-auto'>
+    return <Col sm='12' lg='10' className='m-auto'>
+        <Card className='m-auto'>
         <CardBody>
           <h1 className='pt-2 pl-2 pr-2'>Find your favorite foods!</h1>
           <p className='p-2'>Search for specific foods by name or UPC code to get all the necessary nutrition information you need to reach your goals.</p>
         </CardBody>
       </Card>
+    </Col>
+
   }
 
   showFoodList() {
@@ -256,7 +261,7 @@ class FoodSearch extends Component {
       const activeColor = this.state.selectedPage === current ? '#6c757d' : 'white'
       switch (type) {
         case 'page':  {
-          return <Button className="pagination-btn" style={{backgroundColor: activeColorBackground, color: activeColor }} key={current} name={current} onClick={()=> this.setState({
+          return <Button className="pagination-btn" /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={current} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage(current, undefined)
           })}>{current}</Button>
         }
@@ -300,14 +305,12 @@ class FoodSearch extends Component {
 
     return (
       <>
-          <Row className="m-auto">
-              <ul className="h-100 w-100 p-0">
+          <Col sm='12' lg='10' className='m-auto'>
+               <ul className="h-100 w-100 p-0">
                 {FoodList}
-              </ul>            
-          </Row>
-           <Row className='m-auto'>
-           <div className='m-auto w-100' style={{display: 'inherit'}}>
-              <div className='m-auto'>
+              </ul> 
+          </Col>       
+           <Col sm='12' lg='10' className='m-auto'>
                 {this.props.foodList.length > 10 ?
                   <Pagination
                     showLessItems
@@ -320,34 +323,38 @@ class FoodSearch extends Component {
                     current={this.state.selectedPage}
                   /> : (null)
                 }
-                  </div>
-                </div>
-           </Row> 
+         </Col>
       </>
     );
   }
   
   render() {
     const FoodSearchForm = () => (
-                <Row id='search'> 
-                  <Col className='w-80 pt-4 pb-4'>
-                      <Form className='text-center m-auto' inline onSubmit={(e)=> this.onSubmit(e)}>
-                        <FormGroup className='m-auto d-flex justify-content-center '>
+                  <Col sm='12' lg='10' className='m-auto pt-4 pb-4'>
+                      <Form className='text-center m-auto d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
+                        <FormGroup className='d-flex justify-content-between'>
+                          <div className='d-flex'>
                           <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                          <a className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</a>
+                          <Button className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</Button>
+                          </div>
+                          <div>
+                          <Link href='/my-nutrition'><a className='btn'>My Nutrition</a></Link>
+                          </div>                          
                         </FormGroup>
                       </Form>
                     </Col>
-                  </Row>
+
 
    )
 
     return (
-      <>
-        <Container fluid  className="food-search-container" /* style={{ height: '20vh'}} className="h-90"*/>
-            {FoodSearchForm()}
+      <div>
+        <div className="container-fluid food-search-container">
+          <Row>
+          {FoodSearchForm()}
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
-        </Container>
+          </Row>
+        </div>
         <style jsx='true'>{`
           .themed-table {
             margin: auto;
@@ -370,26 +377,24 @@ class FoodSearch extends Component {
             border: 1px solid black;
             border-radius: 6px;
           }
-          button {
-            background: #454545 !important; 
-          }
+     
           .btn:disabled  {
             background: #454545 !important; 
           }
-          .rc-pagination-disabled {
+          div :global(.rc-pagination-disabled) {
             opacity: .65;
             background: #454545 !important; 
           }
-          .rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next, .rc-pagination-disabled, .rc-pagination-item {
+          div :global(.rc-pagination-next, .rc-pagination-prev, .rc-pagination-jump-prev, .rc-pagination-jump-next, .rc-pagination-disabled, .rc-pagination-item) {
             display: inline-block;
             border-radius: 4px
           }
-          .rc-pagination-item-active > button {
+          div :global(.rc-pagination-item-active > button) {
             color: white !important;
-            background: #23272b !important;
+            background: #5a6268 !important;
           }
-          div global(.list-group-item:hover) {
-            background: #ccc;
+          div :global(.list-group-item:hover) {
+            background: #f5f5f5;
             cursor: pointer;
           }
           .btn {
@@ -398,7 +403,6 @@ class FoodSearch extends Component {
           }
           .btn:hover {
             color: white;
-            background: #5a6268 !important;
           }
           .pre-scrollable {
             min-height: 75%;
@@ -415,7 +419,7 @@ class FoodSearch extends Component {
             background: #fff !important;
           }
         `}</style>
-      </>
+      </div>
     );
   }
 }
