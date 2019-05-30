@@ -103,7 +103,12 @@ class FoodChart extends Component {
           <div className='food-chart'>
             <Card className='mt-2'>
               <CardBody>
-                <h5>Selected Foods</h5>
+                <div className='d-flex justify-content-between'>
+                  <h5>Selected Foods</h5>
+                  <div className='d-flex'>
+                  <span className='under-label mx-1 mb-2 p-1 text-white'>Under Goal</span><span className='over-label mx-1 mb-2 p-1 text-white'>Over Goal</span>
+                  </div>
+                </div>
                 <table className="table table-dark table-responsive food-chart-table">
                   <thead>
                     <tr>
@@ -118,7 +123,7 @@ class FoodChart extends Component {
                   <tbody>
                       {savedFoodTableData}
                     <tr className={`totals-row ${selectedMacrosOverGoal.length > 0 ? 'totals-row-over' : 'totals-row-under'}`}>
-                      <td>Totals<div className='d-inline-block float-right'><span className='under-label m-1 p-1'>Under Goal</span><span className='over-label m-1 p-1'>Over Goal</span></div></td>
+                      <td>Totals</td>
                       <td className={`${macroTotalStatus(macroTotals.calories, dailyDietGoals.calories)}`}>{macroTotals.calories}</td>
                       <td className={`${macroTotalStatus(macroTotals.protein, dailyDietGoals.protein)}`}>{macroTotals.protein.toFixed(2)}</td>
                       <td className={`${macroTotalStatus(macroTotals.fat, dailyDietGoals.fat)}`}>{macroTotals.fat.toFixed(2)}</td>

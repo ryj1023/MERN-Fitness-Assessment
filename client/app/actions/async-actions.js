@@ -11,6 +11,7 @@ export const ACCOUNT_FOUND = 'ACCOUNT_FOUND'
 export const UPDATED_FOOD_CHART = 'UPDATED_FOOD_CHART'
 export const ERROR_SAVING_FOOD_DATA = 'ERROR_SAVING_FOOD_DATA'
 export const FOOD_DATA_SAVED = 'FOOD_DATA_SAVED'
+export const RECIPES = 'RECIPES'
 
 // API key 9f0bbbda4cb847039bfa501b34dc58c7
 
@@ -197,5 +198,16 @@ export const validateSignUp = signUpInfo => {
                         })
                 }
             })
+    }
+}
+
+export const getFeaturedRecipeList = food => {
+    return async dispatch => {
+        try {
+            const result = await axios.get(`/api/get-recipe-list`)
+            return dispatch({ type: RECIPES, payload: result.data.recipes })
+        } catch (err) {
+            throw err
+        }
     }
 }

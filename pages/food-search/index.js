@@ -428,7 +428,7 @@ const mapStateToProps = (state) => {
 	return {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
-    nutritionFacts: state.nutritionFacts,
+      nutritionFacts: state.nutritionFacts,
 	}
 }
 
