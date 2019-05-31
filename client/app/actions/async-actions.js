@@ -201,10 +201,23 @@ export const validateSignUp = signUpInfo => {
     }
 }
 
-export const getFeaturedRecipeList = food => {
+export const getFeaturedRecipeList = userData => {
     return async dispatch => {
         try {
-            const result = await axios.get(`/api/get-recipe-list`)
+            // Will introduce feature for user to enter in a search term. For now the list will return what is currently trending
+            // const foodKey =
+            //     userData.userDietSummary && userData.userDietSummary.length > 0
+            //         ? userData.userDietSummary[
+            //               Math.floor(
+            //                   Math.random() *
+            //                       Math.floor(userData.userDietSummary.length)
+            //               )
+            //           ].foodName
+            //         : ''
+            const foodKey = ''
+            const result = await axios.post(`/api/get-recipe-list`, {
+                foodKey,
+            })
             return dispatch({ type: RECIPES, payload: result.data.recipes })
         } catch (err) {
             throw err

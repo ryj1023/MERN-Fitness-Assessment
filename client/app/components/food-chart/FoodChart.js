@@ -88,7 +88,7 @@ class FoodChart extends Component {
                 <Table className={`mb-2`} dark>
                   <thead>
                       <tr>
-                      {['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)'].map((header, index) => <th key={index}>{header}</th>)}
+                      {['Calories (kcal)', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)'].map((header, index) => <th key={index}>{header}</th>)}
                       </tr>
                   </thead>
                   <tbody>
@@ -103,7 +103,7 @@ class FoodChart extends Component {
           <div className='food-chart'>
             <Card className='mt-2'>
               <CardBody>
-                <div className='d-flex justify-content-between'>
+                <div className='d-block d-sm-flex justify-content-between'>
                   <h5>Selected Foods</h5>
                   <div className='d-flex'>
                   <span className='under-label mx-1 mb-2 p-1 text-white'>Under Goal</span><span className='over-label mx-1 mb-2 p-1 text-white'>Over Goal</span>
@@ -112,8 +112,8 @@ class FoodChart extends Component {
                 <table className="table table-dark table-responsive food-chart-table">
                   <thead>
                     <tr>
-                      <th>Food Name</th>
-                      <th>Calories</th>
+                      <th className='align-middle'>Food Name</th>
+                      <th>Calories (kcal)</th>
                       <th>Protein (grams)</th>
                       <th>Fat (grams)</th>
                       <th>Carbs (grams)</th>

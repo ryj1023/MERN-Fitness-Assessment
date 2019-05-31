@@ -5,13 +5,13 @@ import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
 
-const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
+const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
         if (!user) {
-            setUser(JSON.parse(localStorage.getItem('user')))
+            setUser(() => JSON.parse(localStorage.getItem('user')))
         }
-        getFeaturedRecipeList()
+        getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
     }, [])
     return (
         <Container className="mt-2">
@@ -25,7 +25,9 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         <CardBody>
                             {user && user.dietInfo ? (
                                 <>
-                                    <h5>Daily Nutrient Intake Goals</h5>
+                                    <h5 className="mb-3">
+                                        Daily Nutrient Intake Goals
+                                    </h5>
                                     <Table
                                         dark
                                         className="table table-dark food-chart-table"
@@ -67,14 +69,16 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
-                {foodRecipes && foodRecipes.recipes && (
+                {foodRecipes && foodRecipes.recipes.length > 0 && (
                     <div className="col col-12">
                         <Card>
                             <CardBody>
                                 <Container>
                                     <Row>
                                         <Col sm="12">
-                                            <h5>Featured Recipes</h5>
+                                            <h5 className="mb-3">
+                                                Featured Recipes
+                                            </h5>
                                         </Col>
                                         {foodRecipes.recipes.reduce(
                                             (acc, recipe, index) => {
@@ -172,6 +176,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
 const mapStateToProps = state => {
     return {
         foodRecipes: state.foodRecipes,
+        foodList: state.foodList,
     }
 }
 

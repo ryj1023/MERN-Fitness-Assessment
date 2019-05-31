@@ -330,21 +330,19 @@ class FoodSearch extends Component {
   
   render() {
     const FoodSearchForm = () => (
-                  <Col sm='12' lg='10' className='m-auto pt-4 pb-4'>
-                      <Form className='text-center m-auto d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
-                        <FormGroup className='d-flex justify-content-between'>
-                          <div className='d-flex'>
-                          <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                          <Button className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</Button>
-                          </div>
-                          <div>
-                          <Link href='/my-nutrition'><a className='btn'>My Nutrition</a></Link>
-                          </div>                          
-                        </FormGroup>
-                      </Form>
-                    </Col>
-
-
+                  <Col sm='12' lg='10' className='pt-4 d-block mx-auto d-sm-flex justify-content-between mb-2'>
+                     <div className='mb-2 mb-md-0'>
+                        <Link href='/my-nutrition'><a className='text-decoration-none'>My Nutrition</a></Link>
+                     </div>
+                     <Form className='text-center d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
+                        <div className='d-flex justify-content-between'>
+                           <div className='d-flex'>
+                              <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
+                              <Button className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</Button>
+                           </div>                         
+                        </div>
+                     </Form>
+                </Col>
    )
 
     return (

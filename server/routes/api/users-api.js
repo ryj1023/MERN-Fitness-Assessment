@@ -175,10 +175,12 @@ module.exports = app => {
         )
     })
 
-    app.get('/api/get-recipe-list', async (req, res) => {
+    app.post('/api/get-recipe-list', async (req, res) => {
         try {
             const result = await axios.get(
-                `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&q=shredded%20chicken`
+                `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&sort=t&q=${encodeURI(
+                    req.body.foodKey
+                )}`
             )
             res.json(result.data)
         } catch (err) {
