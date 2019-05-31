@@ -11,77 +11,16 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
         if (!user) {
             setUser(JSON.parse(localStorage.getItem('user')))
         }
-        // getFeaturedRecipeList()
+        getFeaturedRecipeList()
     }, [])
     return (
-        <Container fluid className="mt-2">
+        <Container className="mt-2">
+            <h1>
+                Welcome
+                {user ? `, ${user.userName}` : ''}!
+            </h1>
             <Row>
-                <div className="col col-12 col-md-6">
-                    <Card>
-                        <CardBody>
-                            <h1>
-                                Welcome
-                                {user ? `, ${user.userName}` : ''}!
-                            </h1>
-                            {/* <p className="font-weight-bold">Featured Recipes</p>
-                            <Container>
-                                <Row>
-                                    {foodRecipes &&
-                                        foodRecipes.recipes.reduce(
-                                            (acc, recipe, index) => {
-                                                if (index + 1 < 5) {
-                                                    acc.push(
-                                                        <Col
-                                                            key={
-                                                                recipe.recipe_id
-                                                            }
-                                                            sm="6"
-                                                        >
-                                                            <p>
-                                                                {recipe.title}
-                                                            </p>
-                                                            <div className="d-flex">
-                                                                <a
-                                                                    target="_blank"
-                                                                    href={
-                                                                        recipe.source_url
-                                                                    }
-                                                                >
-                                                                    <img
-                                                                        className="w-100"
-                                                                        style={{
-                                                                            maxHeight:
-                                                                                '200px',
-                                                                        }}
-                                                                        src={
-                                                                            recipe.image_url
-                                                                        }
-                                                                    />
-                                                                </a>
-                                                                <a
-                                                                    target="_blank"
-                                                                    href={
-                                                                        recipe.publisher_url
-                                                                    }
-                                                                >
-                                                                    {
-                                                                        recipe.publisher
-                                                                    }
-                                                                </a>
-                                                            </div>
-                                                        </Col>
-                                                    )
-                                                }
-                                                return acc
-                                            },
-                                            []
-                                        )}
-                                </Row>
-                            </Container> */}
-                        </CardBody>
-                    </Card>
-                </div>
-                <div className="col col-12 col-md-6">
+                <div className="col col-12 mb-2">
                     <div className="card w-100">
                         <CardBody>
                             {user && user.dietInfo ? (
@@ -128,11 +67,77 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
+                {foodRecipes && foodRecipes.recipes && (
+                    <div className="col col-12">
+                        <Card>
+                            <CardBody>
+                                <Container>
+                                    <Row>
+                                        <Col sm="12">
+                                            <h5>Featured Recipes</h5>
+                                        </Col>
+                                        {foodRecipes.recipes.reduce(
+                                            (acc, recipe, index) => {
+                                                if (index < 6) {
+                                                    acc.push(
+                                                        <Col
+                                                            key={
+                                                                recipe.recipe_id
+                                                            }
+                                                            sm="12"
+                                                            md="6"
+                                                            lg="4"
+                                                            className="d-flex align-items-center justify-content-center mb-2"
+                                                        >
+                                                            <div className="text-center">
+                                                                <a
+                                                                    target="_blank"
+                                                                    href={
+                                                                        recipe.source_url
+                                                                    }
+                                                                >
+                                                                    <img
+                                                                        className="w-100"
+                                                                        src={
+                                                                            recipe.image_url
+                                                                        }
+                                                                    />
+                                                                </a>
+                                                                <p className="mt-2 mb-0">
+                                                                    {
+                                                                        recipe.title
+                                                                    }
+                                                                </p>
+                                                                <a
+                                                                    target="_blank"
+                                                                    className="small"
+                                                                    href={
+                                                                        recipe.publisher_url
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        recipe.publisher
+                                                                    }
+                                                                </a>
+                                                            </div>
+                                                        </Col>
+                                                    )
+                                                }
+                                                return acc
+                                            },
+                                            []
+                                        )}
+                                    </Row>
+                                </Container>
+                            </CardBody>
+                        </Card>
+                    </div>
+                )}
             </Row>
             <style jsx>{`
-                .col :global(.card) {
-                    min-height: 300px;
-                }
+                // .col :global(.card) {
+                //     min-height: 300px;
+                // }
                 tbody > tr {
                     background: #bfbdbd;
                 }
@@ -152,6 +157,12 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                 th,
                 tbody :global(tr:nth-child(2n) td) {
                     color: white;
+                }
+                img {
+                    max-height: 200px;
+                    max-width: 200px;
+                    width: auto;
+                    height: auto;
                 }
             `}</style>
         </Container>
