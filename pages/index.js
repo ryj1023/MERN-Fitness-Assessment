@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
+import Link from 'next/link'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
     const [user, setUser] = useState(null)
@@ -57,8 +58,15 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                     </Table>
                                 </>
                             ) : (
-                                <Col sm="12">
-                                    <h2>No diet info yet</h2>
+                                <Col sm="12" className="d-flex">
+                                    <h5 className="mr-2">
+                                        No diet information yet
+                                    </h5>
+                                    {!user && (
+                                        <Link href="sign-up">
+                                            <a>Sign up now</a>
+                                        </Link>
+                                    )}
                                 </Col>
                             )}
                         </CardBody>

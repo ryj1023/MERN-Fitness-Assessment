@@ -161,11 +161,11 @@ module.exports = app => {
         Users.findOneAndUpdate(
             { 'user.email': req.body.email },
             {
-                'user.dietInfo.calories': req.body.userData.calories,
-                'user.dietInfo.protein': req.body.userData.protein,
-                'user.dietInfo.fat': req.body.userData.fat,
-                'user.dietInfo.carbs': req.body.userData.carbs,
-                'user.workouts': req.body.programs,
+                'user.dietInfo.calories': req.body.dietGoals.calories,
+                'user.dietInfo.protein': req.body.dietGoals.protein,
+                'user.dietInfo.fat': req.body.dietGoals.fat,
+                'user.dietInfo.carbs': req.body.dietGoals.carbs,
+                'user.workouts': req.body.dietGoals.programs,
             },
             { new: true },
             (err, doc) => {

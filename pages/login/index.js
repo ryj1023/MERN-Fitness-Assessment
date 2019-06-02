@@ -51,7 +51,11 @@ const Login = props => (
                     touched,
                     submitCount,
                 }) => {
-                    if (props.userData.length > 0) window.location = '/'
+                    if (
+                        submitCount > 1 &&
+                        props.userData !== 'No Account Found'
+                    )
+                        window.location = '/'
                     return (
                         <>
                             {!isSubmitting &&
@@ -63,7 +67,10 @@ const Login = props => (
                                             invalid. Please try another email
                                             and password combination or sign up
                                             for an account{' '}
-                                            <Link href="/sign-up">here</Link>.
+                                            <Link href="/sign-up">
+                                                <a>here</a>
+                                            </Link>
+                                            .
                                         </p>
                                     </UncontrolledAlert>
                                 </div>
@@ -84,6 +91,8 @@ const Login = props => (
                                                 touched.email &&
                                                 errors.email &&
                                                 errors.email
+                                                    ? true
+                                                    : false
                                             }
                                         />
                                         <FormFeedback>
@@ -106,6 +115,8 @@ const Login = props => (
                                                 touched.password &&
                                                 errors.password &&
                                                 errors.password
+                                                    ? true
+                                                    : false
                                             }
                                         />
                                         <FormFeedback>
@@ -114,7 +125,7 @@ const Login = props => (
                                     </Label>
                                 </FormGroup>
                                 <button
-                                    className="w-50 btn btn-outline-secondary"
+                                    className="w-100 btn btn-outline-secondary"
                                     onClick={handleSubmit}
                                 >
                                     {isSubmitting ? 'Loading' : 'Log In'}

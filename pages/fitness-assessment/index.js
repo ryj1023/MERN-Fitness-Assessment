@@ -1,13 +1,15 @@
 import { useEffect, useState, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Row, Col, ListGroup, ListGroupItem, Button, Card, Label, FormResponse } from 'reactstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem, Button, Card, Label, FormResponse, Modal, ModalBody, ModalHeader, Table } from 'reactstrap';
 import { addAnswer,  gatherFitnessInfo  } from '../../client/app/actions';
+import { saveUserData  } from '../../client/app/actions/async-actions';
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import styles from './styles.js';
 import Router from 'next/router'
+import Link from 'next/link'
 
 const validationSchema = Yup.object().shape({
 	age: Yup.number()	
@@ -33,7 +35,14 @@ const validationSchema = Yup.object().shape({
 
 const FitnessAssessment = (props) => {
    const [userData, setUserData] = useState(null)
-   useEffect(() => setUserData(localStorage.getItem('user')))
+   const [modal, openModal] = useState(false)
+   const [fitnessGoals, setFitnessGoals] = useState(null)
+   useEffect(() => {
+      setUserData(localStorage.getItem('user'))
+      if (fitnessGoals) {
+         openModal(true)
+      }
+   }, [fitnessGoals])
    return (
       <div>
          <Container>
@@ -52,8 +61,17 @@ const FitnessAssessment = (props) => {
                         }}
                         validationSchema={validationSchema}
                         onSubmit={(values, actions) => {
-                           props.gatherFitnessInfo(calculateFitnessInput(values));
-                           Router.push('/my-nutrition')
+                           
+                           if (!userData) {
+                              setFitnessGoals(calculateFitnessInput(values))
+                           } else {
+                              // const calculatedFitnessGoals = calculateFitnessInput(values) 
+                              // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
+                              // props.saveUserData(calculatedFitnessGoals, userData)
+                              // Router.push('/my-nutrition') 
+                           }
+                                                 
+                         
                         }}
                      >
                         {({ handleSubmit, handleChange, handleBlur, values, errors, touched }) => (
@@ -178,8 +196,36 @@ const FitnessAssessment = (props) => {
                      </Formik>
                   </Card>
                </Col>
-               
             </Row>
+            <div>
+            {/* <Link color="danger" onClick={() => setModal((prevModalStatus) => !prevModalStatus)}></Link> */}
+            {fitnessGoals &&  <Modal isOpen={modal} toggle={() => openModal(false)}>
+               <ModalHeader className='border-0' toggle={() => openModal((prevModalStatus) => !prevModalStatus)}>Your daily diet goals</ModalHeader>
+               <ModalBody>
+               <Table>
+                  <thead>
+                        <tr>
+                           <th>Calories</th>
+                           <th>Protein</th>
+                           <th>Carbs</th>
+                           <th>Fat</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>{fitnessGoals.calories}</td>
+                           <td>{fitnessGoals.protein}</td>
+                           <td>{fitnessGoals.carbs}</td>
+                           <td>{fitnessGoals.fat}</td>
+                        </tr>
+                     </tbody>
+                  </Table>
+               </ModalBody>
+               <div className='d-flex m-3'>
+                  <span><Link href={{pathname: 'sign-up', query: { calories: fitnessGoals.calories, protein: fitnessGoals.protein, carbs: fitnessGoals.carbs, fat: fitnessGoals.fat}}}><a className=''>Sign up now</a></Link>{' '} to save your diet goals.</span>
+               </div>
+            </Modal>}
+            </div>
          </Container>
          <style jsx>{styles}</style>
    </div>
@@ -192,5 +238,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo, saveUserData }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(FitnessAssessment)

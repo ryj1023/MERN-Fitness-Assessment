@@ -25,188 +25,208 @@ const formValues = {
     confirmPassword: '',
 }
 
-const SignUp = props => (
-    <Container>
-        <Row>
-            <Col>
-                <div className="card mx-auto mt-4">
-                    <CardBody>
-                        <Formik
-                            initialValues={formValues}
-                            validationSchema={Yup.object().shape({
-                                userName: Yup.string(),
-                                email: Yup.string()
-                                    .email('E-mail is not valid!')
-                                    .required('E-mail is required!'),
-                                password: Yup.string()
-                                    .min(
-                                        6,
-                                        'Password has to be longer than 6 characters!'
+const SignUp = props => {
+    return (
+        <Container>
+            <Row>
+                <Col>
+                    <div className="card mx-auto mt-4">
+                        <CardBody>
+                            <Formik
+                                initialValues={formValues}
+                                validationSchema={Yup.object().shape({
+                                    userName: Yup.string(),
+                                    email: Yup.string()
+                                        .email('E-mail is not valid!')
+                                        .required('E-mail is required!'),
+                                    password: Yup.string()
+                                        .min(
+                                            6,
+                                            'Password has to be longer than 6 characters!'
+                                        )
+                                        .required('Password is required!'),
+                                    confirmPassword: Yup.string()
+                                        .oneOf(
+                                            [Yup.ref('password', null)],
+                                            'Passwords are not the same!'
+                                        )
+                                        .required(
+                                            'Password confirmation is required!'
+                                        ),
+                                })}
+                                onSubmit={(
+                                    values,
+                                    { setSubmitting, setErrors }
+                                ) => {
+                                    props.validateSignUp(
+                                        values,
+                                        props.dietGoals
                                     )
-                                    .required('Password is required!'),
-                                confirmPassword: Yup.string()
-                                    .oneOf(
-                                        [Yup.ref('password', null)],
-                                        'Passwords are not the same!'
+                                    setSubmitting(false)
+                                }}
+                                render={({
+                                    isSubmitting,
+                                    errors,
+                                    handleChange,
+                                    handleSubmit,
+                                    touched,
+                                }) => {
+                                    if (
+                                        props.signUpResult === 'success' &&
+                                        props.validationResult === 'success'
                                     )
-                                    .required(
-                                        'Password confirmation is required!'
-                                    ),
-                            })}
-                            onSubmit={(
-                                values,
-                                { setSubmitting, setErrors }
-                            ) => {
-                                props.validateSignUp(values)
-                                setSubmitting(false)
-                            }}
-                            render={({
-                                isSubmitting,
-                                errors,
-                                handleChange,
-                                handleSubmit,
-                                touched,
-                            }) => {
-                                if (
-                                    props.signUpResult === 'success' &&
-                                    props.validationResult === 'success'
-                                )
-                                    window.location = '/'
-                                console.log('errors', errors)
-                                return (
-                                    <Form>
-                                        {props.signUpResult.includes(
-                                            'already an account'
-                                        ) ? (
-                                            <UncontrolledAlert color="danger">
-                                                <p>
-                                                    There is already an account
-                                                    associated with this email.
-                                                    Please use another email or
-                                                    sign into your existing
-                                                    account.
-                                                </p>
-                                            </UncontrolledAlert>
-                                        ) : null}
-                                        <FormGroup>
-                                            <Label
-                                                className="form-field"
-                                                htmlFor="userName"
-                                                className="w-100"
+                                        window.location = '/'
+                                    console.log('errors', errors)
+                                    return (
+                                        <Form>
+                                            {props.signUpResult.includes(
+                                                'already an account'
+                                            ) ? (
+                                                <UncontrolledAlert color="danger">
+                                                    <p>
+                                                        There is already an
+                                                        account associated with
+                                                        this email. Please use
+                                                        another email or sign
+                                                        into your existing
+                                                        account.
+                                                    </p>
+                                                </UncontrolledAlert>
+                                            ) : null}
+                                            <FormGroup>
+                                                <Label
+                                                    className="form-field"
+                                                    htmlFor="userName"
+                                                    className="w-100"
+                                                >
+                                                    <span>User Name:</span>
+                                                    <Input
+                                                        name="userName"
+                                                        type="text"
+                                                        onChange={handleChange}
+                                                        invalid={
+                                                            touched.userName &&
+                                                            errors.userName &&
+                                                            errors.userName
+                                                                ? true
+                                                                : false
+                                                        }
+                                                    />
+                                                    <FormFeedback>
+                                                        {errors.userName}
+                                                    </FormFeedback>
+                                                </Label>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label
+                                                    className="form-field"
+                                                    htmlFor="email"
+                                                    className="w-100"
+                                                >
+                                                    <span>E-mail:</span>
+                                                    <Input
+                                                        name="email"
+                                                        type="email"
+                                                        onChange={handleChange}
+                                                        invalid={
+                                                            touched.email &&
+                                                            errors.email &&
+                                                            errors.email
+                                                                ? true
+                                                                : false
+                                                        }
+                                                    />
+                                                    <FormFeedback>
+                                                        {errors.email}
+                                                    </FormFeedback>
+                                                </Label>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label
+                                                    className="form-field"
+                                                    htmlFor="password"
+                                                    className="w-100"
+                                                >
+                                                    <span>Password:</span>
+                                                    <Input
+                                                        name="password"
+                                                        type="password"
+                                                        onChange={handleChange}
+                                                        invalid={
+                                                            touched.password &&
+                                                            errors.password &&
+                                                            errors.password
+                                                                ? true
+                                                                : false
+                                                        }
+                                                    />
+                                                    <FormFeedback>
+                                                        {errors.password}
+                                                    </FormFeedback>
+                                                </Label>
+                                            </FormGroup>
+                                            <FormGroup>
+                                                <Label
+                                                    className="form-field"
+                                                    htmlFor="confirmPassword"
+                                                    className="w-100"
+                                                >
+                                                    <span>
+                                                        Confirm password:
+                                                    </span>
+                                                    <Input
+                                                        name="confirmPassword"
+                                                        type="password"
+                                                        onChange={handleChange}
+                                                        invalid={
+                                                            touched.confirmPassword &&
+                                                            errors.confirmPassword &&
+                                                            errors.confirmPassword
+                                                                ? true
+                                                                : false
+                                                        }
+                                                    />
+                                                    <FormFeedback>
+                                                        {errors.confirmPassword}
+                                                    </FormFeedback>
+                                                </Label>
+                                            </FormGroup>
+                                            <button
+                                                className="btn btn-outline-secondary w-100"
+                                                onClick={handleSubmit}
                                             >
-                                                <span>User Name:</span>
-                                                <Input
-                                                    name="userName"
-                                                    type="text"
-                                                    onChange={handleChange}
-                                                    invalid={
-                                                        touched.userName &&
-                                                        errors.userName &&
-                                                        errors.userName
-                                                            ? true
-                                                            : false
-                                                    }
-                                                />
-                                                <FormFeedback>
-                                                    {errors.userName}
-                                                </FormFeedback>
-                                            </Label>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label
-                                                className="form-field"
-                                                htmlFor="email"
-                                                className="w-100"
-                                            >
-                                                <span>E-mail:</span>
-                                                <Input
-                                                    name="email"
-                                                    type="email"
-                                                    onChange={handleChange}
-                                                    invalid={
-                                                        touched.email &&
-                                                        errors.email &&
-                                                        errors.email
-                                                            ? true
-                                                            : false
-                                                    }
-                                                />
-                                                <FormFeedback>
-                                                    {errors.email}
-                                                </FormFeedback>
-                                            </Label>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label
-                                                className="form-field"
-                                                htmlFor="password"
-                                                className="w-100"
-                                            >
-                                                <span>Password:</span>
-                                                <Input
-                                                    name="password"
-                                                    type="password"
-                                                    onChange={handleChange}
-                                                    invalid={
-                                                        touched.password &&
-                                                        errors.password &&
-                                                        errors.password
-                                                            ? true
-                                                            : false
-                                                    }
-                                                />
-                                                <FormFeedback>
-                                                    {errors.password}
-                                                </FormFeedback>
-                                            </Label>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Label
-                                                className="form-field"
-                                                htmlFor="confirmPassword"
-                                                className="w-100"
-                                            >
-                                                <span>Confirm password:</span>
-                                                <Input
-                                                    name="confirmPassword"
-                                                    type="password"
-                                                    onChange={handleChange}
-                                                    invalid={
-                                                        touched.confirmPassword &&
-                                                        errors.confirmPassword &&
-                                                        errors.confirmPassword
-                                                            ? true
-                                                            : false
-                                                    }
-                                                />
-                                                <FormFeedback>
-                                                    {errors.confirmPassword}
-                                                </FormFeedback>
-                                            </Label>
-                                        </FormGroup>
-                                        <button
-                                            className="btn btn-outline-secondary w-50"
-                                            onClick={handleSubmit}
-                                        >
-                                            {isSubmitting
-                                                ? 'Loading'
-                                                : 'Sign Up'}
-                                        </button>
-                                    </Form>
-                                )
-                            }}
-                        />
-                    </CardBody>
-                </div>
-            </Col>
-        </Row>
-        <style jsx>{`
-            .card {
-                max-width: 370px;
-            }
-        `}</style>
-    </Container>
-)
+                                                {isSubmitting
+                                                    ? 'Loading'
+                                                    : 'Sign Up'}
+                                            </button>
+                                        </Form>
+                                    )
+                                }}
+                            />
+                        </CardBody>
+                    </div>
+                </Col>
+            </Row>
+            <style jsx>{`
+                .card {
+                    max-width: 370px;
+                }
+            `}</style>
+        </Container>
+    )
+}
+
+SignUp.getInitialProps = ({ query }) => {
+    const { calories, protein, carbs, fat } = query
+    return {
+        dietGoals: {
+            calories,
+            protein,
+            carbs,
+            fat,
+        },
+    }
+}
 
 const mapStateToProps = state => {
     return {

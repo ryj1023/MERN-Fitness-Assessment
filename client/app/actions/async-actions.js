@@ -85,26 +85,19 @@ export const getUserData = data => {
     }
 }
 
-export const saveUserData = userData => {
+export const saveUserData = (dietGoals, userStoredData) => {
     const encodedURI = window.encodeURI(`/api/save`)
+    const userData = JSON.parse(userStoredData)
     return () => {
         axios
             .post(encodedURI, {
-                userData: userData.dietInfo,
-                userName: userData.userName,
+                dietGoals,
+                email: userData.email,
             })
             .then(res => {
-                console.log('done', res)
+                localStorage.setItem('user', res.data.user)
             })
     }
-
-    // return () => {
-    //     console.log('dispatched')
-    //     axios.post(encodedURI, {
-    //         userData: userData.dietInfo,
-    //         userName: userData.userName,
-    //     })
-    // };
 }
 
 export const loginUser = loginData => {
@@ -134,8 +127,9 @@ export const loginUser = loginData => {
     }
 }
 
-export const validateSignUp = signUpInfo => {
+export const validateSignUp = (signUpInfo, dietGoals = null) => {
     console.log('signupInfo', signUpInfo)
+    console.log('dietGoals', dietGoals)
     const encodedURI = window.encodeURI('/api/validation')
     return dispatch => {
         axios
@@ -149,9 +143,6 @@ export const validateSignUp = signUpInfo => {
                     const errors = res.data.map(err => err.msg)
                     return dispatch({ type: SIGNUP_ERRORS, payload: errors })
                 } else if (res.data === 'validated') {
-                    const userSubmittedData = JSON.parse(
-                        localStorage.getItem('submittedUserMetrics')
-                    )
                     const encodedURI = window.encodeURI(
                         '/api/validation/create-user'
                     )
@@ -160,21 +151,14 @@ export const validateSignUp = signUpInfo => {
                             email: signUpInfo.email,
                             userName: signUpInfo.userName,
                             password: signUpInfo.password,
-                            calories: userSubmittedData
-                                ? userSubmittedData.calories
-                                : null,
-                            protein: userSubmittedData
-                                ? userSubmittedData.protein
-                                : null,
-                            fat: userSubmittedData
-                                ? userSubmittedData.fat
-                                : null,
-                            carbs: userSubmittedData
-                                ? userSubmittedData.carbs
-                                : null,
-                            programs: userSubmittedData
-                                ? userSubmittedData.programs
-                                : [],
+                            calories: dietGoals ? dietGoals.calories : null,
+                            protein: dietGoals ? dietGoals.protein : null,
+                            fat: dietGoals ? dietGoals.fat : null,
+                            carbs: dietGoals ? dietGoals.carbs : null,
+                            // programs: dietGoals
+                            //     ? dietGoals.programs
+                            //     : [],
+                            propgrams: [],
                         })
                         .then(res => {
                             if (

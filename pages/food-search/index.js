@@ -185,7 +185,7 @@ class FoodSearch extends Component {
               tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
             <div className='d-flex justify-content-sm-start d-flex justify-content-between'>
               <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark btn-sm ml-0 mr-1 mt-1 mb-1'>Back</Button>
-              <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add to food intake</Button>
+              {this.state.userData && <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add to food intake</Button>}
               <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show micronutrients</Button>
             </div>
            </CardBody>
