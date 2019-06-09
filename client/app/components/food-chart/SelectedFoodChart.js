@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 const SelectedFoodChart = props => {
-    console.log('props', props)
     return (
         <>
             <tr>
