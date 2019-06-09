@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { bindActionCreators } from 'redux';
 import { saveUserData, saveToUsersFoodList } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
@@ -64,10 +64,10 @@ class FoodChart extends Component {
     }
 
   render() {
-    const { dailyDietGoals } = this.props;
-    if (this.props.userFoodList.length > 0) {
-     const { previewFoodData, macroTotals } = this.displayUpdatedFoodData(this.props.userFoodList) 
-     const savedFoodTableData = previewFoodData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={async (selected) => await this.removeSelectedFood(selected, this.props.userName)}/>)
+    const { dailyDietGoals, userFoodList, userName, foodChartLoading } = this.props;
+    if (Object.keys(dailyDietGoals).length > 0) {
+     const { previewFoodData, macroTotals } = this.displayUpdatedFoodData(userFoodList) 
+     const savedFoodTableData = previewFoodData.map((foodObject, index) => <SelectedFoodChart foodData={foodObject} key={index} onRemove={async (selected) => await this.removeSelectedFood(selected, userName)}/>)
      const selectedMacrosOverGoal = Object.keys(dailyDietGoals).filter(key => dailyDietGoals[key] < macroTotals[key])
      const macroTotalStatus = (selectedTotal, dailyTotal) => {
        if (!dailyTotal || !selectedTotal) {
@@ -79,7 +79,7 @@ class FoodChart extends Component {
        }
        return ''
      }
-     const DietGoalsTableData = [this.props.dailyDietGoals.calories, this.props.dailyDietGoals.protein, this.props.dailyDietGoals.fat, this.props.dailyDietGoals.carbs]
+     const DietGoalsTableData = [dailyDietGoals.calories, dailyDietGoals.protein, dailyDietGoals.fat, dailyDietGoals.carbs]
      return (
       <>
           <Card className='m-auto'>
@@ -103,10 +103,12 @@ class FoodChart extends Component {
           <div className='food-chart'>
             <Card className='mt-2'>
               <CardBody>
-                <div className='d-block d-sm-flex justify-content-between'>
+                {savedFoodTableData.length > 0 ? 
+                  <>
+                       <div className='d-block d-sm-flex justify-content-between'>
                   <h5>Selected Foods</h5>
                   <div className='d-flex'>
-                  <span className='under-label mx-1 mb-2 p-1 text-white'>Under Goal</span><span className='over-label mx-1 mb-2 p-1 text-white'>Over Goal</span>
+                    <span className='under-label mx-1 mb-2 p-1 text-white'>Under Goal</span><span className='over-label mx-1 mb-2 p-1 text-white'>Over Goal</span>
                   </div>
                 </div>
                 <table className="table table-dark table-responsive food-chart-table">
@@ -132,13 +134,18 @@ class FoodChart extends Component {
                     </tr>
                   </tbody>
                 </table>
+                  </>
+              : <div>
+                <h5>You have no foods selected</h5>
+                <Link href='/food-search'><a>Search for foods</a></Link>
+              </div>}
               </CardBody>
             </Card>
             <style jsx>{styles}</style>
           </div>
         </>
     );
-  } else if (this.props.foodChartLoading) {
+  } else if (foodChartLoading) {
     return <p>loading...</p>
   } else return (
     <Container>

@@ -87,15 +87,18 @@ export const getUserData = data => {
 
 export const saveUserData = (dietGoals, userStoredData) => {
     const encodedURI = window.encodeURI(`/api/save`)
-    const userData = JSON.parse(userStoredData)
+    // console.log('userStoredData', userStoredData)
+    // const userData = JSON.parse(userStoredData)
+    // console.log('userData', userData)
     return () => {
         axios
             .post(encodedURI, {
                 dietGoals,
-                email: userData.email,
+                email: userStoredData.email,
             })
             .then(res => {
-                localStorage.setItem('user', res.data.user)
+                console.log('res.data', res.data.user)
+                localStorage.setItem('user', JSON.stringify(res.data.user))
             })
     }
 }
@@ -111,6 +114,7 @@ export const loginUser = loginData => {
                 },
             })
             .then(response => {
+                console.log('response', response)
                 if (response.data.length > 0) {
                     localStorage.setItem(
                         'user',

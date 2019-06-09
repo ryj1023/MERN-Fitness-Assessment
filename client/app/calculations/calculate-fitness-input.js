@@ -72,6 +72,6 @@ calories needed - sedentary: BMR * 1.2 moderate: BMR * 1.55 heavy: BMR * 1.9 */
             'http://healthyliving.azcentral.com/work-out-five-days-per-week-weights-2692.html',
         ]
     }
-
+    console.log('fitnessData', fitnessData)
     return fitnessData
 }

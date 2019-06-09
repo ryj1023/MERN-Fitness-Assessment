@@ -51,15 +51,12 @@ const Login = props => (
                     touched,
                     submitCount,
                 }) => {
-                    if (
-                        submitCount > 1 &&
-                        props.userData !== 'No Account Found'
-                    )
+                    if (submitCount >= 1 && props.userData.length > 0) {
                         window.location = '/'
+                    }
                     return (
                         <>
-                            {!isSubmitting &&
-                            props.userData.includes('No Account') ? (
+                            {submitCount >= 1 && props.userData.length === 0 ? (
                                 <div>
                                     <UncontrolledAlert color="danger">
                                         <p>

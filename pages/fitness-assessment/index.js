@@ -2,7 +2,7 @@ import { useEffect, useState, Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container, Row, Col, ListGroup, ListGroupItem, Button, Card, Label, FormResponse, Modal, ModalBody, ModalHeader, Table } from 'reactstrap';
-import { addAnswer,  gatherFitnessInfo  } from '../../client/app/actions';
+import { gatherFitnessInfo  } from '../../client/app/actions';
 import { saveUserData  } from '../../client/app/actions/async-actions';
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input';
 import { Formik } from 'formik';
@@ -38,7 +38,7 @@ const FitnessAssessment = (props) => {
    const [modal, openModal] = useState(false)
    const [fitnessGoals, setFitnessGoals] = useState(null)
    useEffect(() => {
-      setUserData(localStorage.getItem('user'))
+      setUserData(JSON.parse(localStorage.getItem('user')))
       if (fitnessGoals) {
          openModal(true)
       }
@@ -61,14 +61,14 @@ const FitnessAssessment = (props) => {
                         }}
                         validationSchema={validationSchema}
                         onSubmit={(values, actions) => {
-                           
+                           console.log('values', values)
                            if (!userData) {
                               setFitnessGoals(calculateFitnessInput(values))
                            } else {
-                              // const calculatedFitnessGoals = calculateFitnessInput(values) 
+                              const calculatedFitnessGoals = calculateFitnessInput(values) 
                               // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
-                              // props.saveUserData(calculatedFitnessGoals, userData)
-                              // Router.push('/my-nutrition') 
+                              props.saveUserData(calculatedFitnessGoals, userData)
+                              Router.push('/my-nutrition') 
                            }
                                                  
                          
@@ -238,5 +238,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ addAnswer, gatherFitnessInfo, saveUserData }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ gatherFitnessInfo, saveUserData }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(FitnessAssessment)
