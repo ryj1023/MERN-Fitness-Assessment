@@ -13,8 +13,6 @@ export const ERROR_SAVING_FOOD_DATA = 'ERROR_SAVING_FOOD_DATA'
 export const FOOD_DATA_SAVED = 'FOOD_DATA_SAVED'
 export const RECIPES = 'RECIPES'
 
-// API key 9f0bbbda4cb847039bfa501b34dc58c7
-
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
     const encodedURI = window.encodeURI(
         `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
