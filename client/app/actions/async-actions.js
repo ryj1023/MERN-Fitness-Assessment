@@ -57,6 +57,7 @@ export const getFoodNutritionFacts = food => {
                 const foodObjects = response.data.report.food.nutrients.map(
                     food => food
                 )
+
                 return dispatch({ type: SELECTED_FOOD, payload: foodObjects })
             })
             .catch(err => {

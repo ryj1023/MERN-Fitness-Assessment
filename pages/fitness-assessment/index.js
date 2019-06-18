@@ -111,21 +111,23 @@ const FitnessAssessment = (props) => {
                                           {errors.heightInFeet && touched.heightInFeet ? (
                                                 <div>{errors.heightInFeet}</div>
                                              ) : null}
-                                          <Label for="exampleFormControlSelect2">Height in inches</Label>
-                                          <input
-                                             type="number"
-                                             onChange={handleChange}
-                                             onBlur={handleBlur}
-                                             value={values.heightInInches}
-                                             name="heightInInches"
-                                             className='form-control'
-                                          />
-                                          {errors.heightInInches && touched.heightInInches ? (
-                                                <div>{errors.heightInInches}</div>
-                                             ) : null}
                                        </div>
                                        <div className="form-group">
-                                          <Label for="exampleFormControlSelect2">Current weight</Label>
+                                           <Label for="exampleFormControlSelect2">Height in inches</Label>
+                                             <input
+                                                type="number"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.heightInInches}
+                                                name="heightInInches"
+                                                className='form-control'
+                                             />
+                                             {errors.heightInInches && touched.heightInInches ? (
+                                                   <div>{errors.heightInInches}</div>
+                                                ) : null}
+                                       </div>
+                                       <div className="form-group">
+                                          <Label for="exampleFormControlSelect2">Current weight (in pounds)</Label>
                                           <input
                                              type="number"
                                              onChange={handleChange}
@@ -141,7 +143,7 @@ const FitnessAssessment = (props) => {
                                     </Col>
                                     <Col sm='12' lg='6'>
                                        <div className="form-group">
-                                          <Label for="exampleFormControlSelect2">Target weight</Label>
+                                          <Label for="exampleFormControlSelect2">Target weight (in pounds)</Label>
                                           <input
                                              type="number"
                                              onChange={handleChange}

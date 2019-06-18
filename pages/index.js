@@ -5,6 +5,7 @@ import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
 import Link from 'next/link'
+import $ from 'jquery'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
     const [user, setUser] = useState(null)
@@ -13,10 +14,13 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
             setUser(() => JSON.parse(localStorage.getItem('user')))
         }
         getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
+        $('#welcome-text')
+            .delay(500)
+            .animate({ opacity: 1 }, 500)
     }, [])
     return (
         <Container className="mt-2">
-            <h1>
+            <h1 id="welcome-text">
                 Welcome
                 {user ? `, ${user.userName}` : ''}!
             </h1>
@@ -60,7 +64,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                             ) : (
                                 <Col sm="12" className="d-flex">
                                     <h5 className="mr-2">
-                                        No diet information yet
+                                        No diet information yet.
                                     </h5>
                                     {!user && (
                                         <Link href="sign-up">
@@ -150,6 +154,9 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                 // .col :global(.card) {
                 //     min-height: 300px;
                 // }
+                #welcome-text {
+                    opacity: 0;
+                }
                 tbody > tr {
                     background: #bfbdbd;
                 }

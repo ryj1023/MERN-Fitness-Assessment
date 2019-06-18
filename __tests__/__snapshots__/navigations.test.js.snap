@@ -1,0 +1,527 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation component correctly sets state 1`] = `
+<div
+  className="jsx-1729287270"
+>
+  <Drawer
+    config={
+      Object {
+        "damping": 40,
+        "stiffness": 350,
+      }
+    }
+    drawerStyle={
+      Object {
+        "backgroundColor": "white",
+      }
+    }
+    fadeOut={true}
+    handleWidth={20}
+    height="100%"
+    noTouchClose={false}
+    noTouchOpen={false}
+    offset={0}
+    onChange={[Function]}
+    open={false}
+    overlayColor="rgba(0, 0, 0, 0.4)"
+    panTolerance={50}
+    peakingWidth={50}
+    right={false}
+    width={300}
+    zIndex={10000}
+  >
+    <div
+      className="jsx-1729287270 w-100 d-flex flex-column side-rail-list"
+    >
+      <Link
+        href={
+          Object {
+            "pathname": "/",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3"
+          id="dashboard"
+          onClick={[Function]}
+        >
+          Dashboard
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/fitness-assessment",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          Fitness Assessment
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/food-search",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          Food Search
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/my-nutrition",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          My Nutrition
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/login",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top border-bottom"
+          onClick={[Function]}
+        >
+          Log In
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/sign-up",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 text-left w-100 rounded-0 text-dark text-decoration-none font-weight-bold p-3 border-top border-bottom"
+          onClick={[Function]}
+        >
+          Sign Up
+        </a>
+      </Link>
+    </div>
+  </Drawer>
+  <nav
+    className="jsx-1729287270 nav-main"
+  >
+    <div
+      className="jsx-1729287270 d-flex align-items-center"
+    >
+      <Link
+        href={
+          Object {
+            "pathname": "/",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 logo btn btn-lg rounded-0 text-white nav-item"
+        >
+          Let's Get Fit
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/fitness-assessment",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          Fitness Assessment
+        </a>
+      </Link>
+      <UncontrolledButtonDropdown
+        className="dropdown-container d-none d-sm-flex"
+      >
+        <DropdownToggle
+          aria-haspopup={true}
+          caret={true}
+          className="dropdown-button btn-lg border-0 rounded-0"
+          color="secondary"
+        >
+          Nutrition
+        </DropdownToggle>
+        <DropdownMenu
+          className="p-0 w-100"
+          flip={true}
+          tag="div"
+        >
+          <DropdownItem
+            className="p-0"
+            tag="button"
+            toggle={true}
+          >
+            <Link
+              href={
+                Object {
+                  "pathname": "/my-nutrition",
+                }
+              }
+            >
+              <a
+                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
+              >
+                My Nutrition
+              </a>
+            </Link>
+          </DropdownItem>
+          <DropdownItem
+            className="p-0"
+            tag="button"
+            toggle={true}
+          >
+            <Link
+              href={
+                Object {
+                  "pathname": "/food-search",
+                }
+              }
+            >
+              <a
+                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
+              >
+                Food Search
+              </a>
+            </Link>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledButtonDropdown>
+      <Link
+        href="./login"
+      >
+        <a
+          className="jsx-1729287270 text-white btn btn-lg rounded-0 nav-item d-sm-flex d-none ml-auto"
+        >
+          Login
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/sign-up",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          Sign Up
+        </a>
+      </Link>
+      <div
+        className="jsx-1729287270 w-100 d-flex justify-content-end"
+      >
+        <a
+          className="jsx-1729287270 d-sm-none hamburger-menu btn btn-lg rounded-0"
+          onClick={[Function]}
+        >
+          <AlignJustify
+            color="white"
+            size="24"
+          />
+        </a>
+      </div>
+    </div>
+  </nav>
+  <JSXStyle
+    css=".side-rail-list.jsx-1729287270 a.jsx-1729287270:hover,.side-rail-list.jsx-1729287270 div.jsx-1729287270:hover{background:#f5f5f5;cursor:pointer;}.hamburger-menu.jsx-1729287270{cursor:pointer;}.logo.jsx-1729287270{white-space:nowrap;}nav.jsx-1729287270,nav.jsx-1729287270 .list-group-item,.btn-lg{background-color:#454545;}div.jsx-1729287270 .dropdown-item{white-space:normal;}.dropdown-list.jsx-1729287270{height:70px;padding:1.1em;background-color:#454545;cursor:pointer;color:white;-webkit-text-decoration:none;text-decoration:none;text-align:center;}.dropdown-list.jsx-1729287270:hover,.hamburger-menu.jsx-1729287270:hover,.nav-item.jsx-1729287270:hover,div.jsx-1729287270 .dropdown-item a:hover{background-color:#5a6268 !important;-webkit-text-decoration:none;text-decoration:none;color:white;}.icon.jsx-1729287270{width:45%;height:5px;background-color:white;margin:6px auto;}"
+    styleId="1729287270"
+  />
+</div>
+`;
+
+exports[`Navigation component expect to render navigations component 1`] = `
+<div
+  className="jsx-1729287270"
+>
+  <Drawer
+    config={
+      Object {
+        "damping": 40,
+        "stiffness": 350,
+      }
+    }
+    drawerStyle={
+      Object {
+        "backgroundColor": "white",
+      }
+    }
+    fadeOut={true}
+    handleWidth={20}
+    height="100%"
+    noTouchClose={false}
+    noTouchOpen={false}
+    offset={0}
+    onChange={[Function]}
+    open={false}
+    overlayColor="rgba(0, 0, 0, 0.4)"
+    panTolerance={50}
+    peakingWidth={50}
+    right={false}
+    width={300}
+    zIndex={10000}
+  >
+    <div
+      className="jsx-1729287270 w-100 d-flex flex-column side-rail-list"
+    >
+      <Link
+        href={
+          Object {
+            "pathname": "/",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3"
+          id="dashboard"
+          onClick={[Function]}
+        >
+          Dashboard
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/fitness-assessment",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          Fitness Assessment
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/food-search",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          Food Search
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/my-nutrition",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
+          onClick={[Function]}
+        >
+          My Nutrition
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/login",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top border-bottom"
+          onClick={[Function]}
+        >
+          Log In
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/sign-up",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 text-left w-100 rounded-0 text-dark text-decoration-none font-weight-bold p-3 border-top border-bottom"
+          onClick={[Function]}
+        >
+          Sign Up
+        </a>
+      </Link>
+    </div>
+  </Drawer>
+  <nav
+    className="jsx-1729287270 nav-main"
+  >
+    <div
+      className="jsx-1729287270 d-flex align-items-center"
+    >
+      <Link
+        href={
+          Object {
+            "pathname": "/",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 logo btn btn-lg rounded-0 text-white nav-item"
+        >
+          Let's Get Fit
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/fitness-assessment",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          Fitness Assessment
+        </a>
+      </Link>
+      <UncontrolledButtonDropdown
+        className="dropdown-container d-none d-sm-flex"
+      >
+        <DropdownToggle
+          aria-haspopup={true}
+          caret={true}
+          className="dropdown-button btn-lg border-0 rounded-0"
+          color="secondary"
+        >
+          Nutrition
+        </DropdownToggle>
+        <DropdownMenu
+          className="p-0 w-100"
+          flip={true}
+          tag="div"
+        >
+          <DropdownItem
+            className="p-0"
+            tag="button"
+            toggle={true}
+          >
+            <Link
+              href={
+                Object {
+                  "pathname": "/my-nutrition",
+                }
+              }
+            >
+              <a
+                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
+              >
+                My Nutrition
+              </a>
+            </Link>
+          </DropdownItem>
+          <DropdownItem
+            className="p-0"
+            tag="button"
+            toggle={true}
+          >
+            <Link
+              href={
+                Object {
+                  "pathname": "/food-search",
+                }
+              }
+            >
+              <a
+                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
+              >
+                Food Search
+              </a>
+            </Link>
+          </DropdownItem>
+        </DropdownMenu>
+      </UncontrolledButtonDropdown>
+      <Link
+        href="./login"
+      >
+        <a
+          className="jsx-1729287270 text-white btn btn-lg rounded-0 nav-item d-sm-flex d-none ml-auto"
+        >
+          Login
+        </a>
+      </Link>
+      <Link
+        href={
+          Object {
+            "pathname": "/sign-up",
+          }
+        }
+      >
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
+        >
+          Sign Up
+        </a>
+      </Link>
+      <div
+        className="jsx-1729287270 w-100 d-flex justify-content-end"
+      >
+        <a
+          className="jsx-1729287270 d-sm-none hamburger-menu btn btn-lg rounded-0"
+          onClick={[Function]}
+        >
+          <AlignJustify
+            color="white"
+            size="24"
+          />
+        </a>
+      </div>
+    </div>
+  </nav>
+  <JSXStyle
+    css=".side-rail-list.jsx-1729287270 a.jsx-1729287270:hover,.side-rail-list.jsx-1729287270 div.jsx-1729287270:hover{background:#f5f5f5;cursor:pointer;}.hamburger-menu.jsx-1729287270{cursor:pointer;}.logo.jsx-1729287270{white-space:nowrap;}nav.jsx-1729287270,nav.jsx-1729287270 .list-group-item,.btn-lg{background-color:#454545;}div.jsx-1729287270 .dropdown-item{white-space:normal;}.dropdown-list.jsx-1729287270{height:70px;padding:1.1em;background-color:#454545;cursor:pointer;color:white;-webkit-text-decoration:none;text-decoration:none;text-align:center;}.dropdown-list.jsx-1729287270:hover,.hamburger-menu.jsx-1729287270:hover,.nav-item.jsx-1729287270:hover,div.jsx-1729287270 .dropdown-item a:hover{background-color:#5a6268 !important;-webkit-text-decoration:none;text-decoration:none;color:white;}.icon.jsx-1729287270{width:45%;height:5px;background-color:white;margin:6px auto;}"
+    styleId="1729287270"
+  />
+</div>
+`;

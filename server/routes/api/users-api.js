@@ -89,6 +89,12 @@ module.exports = app => {
         )
     })
 
+    // app.get('/get-food-images', () => {
+    //     axios
+    //         .get('https://serpapi.com/search.json?q=Apple&tbm=isch&ijn=0')
+    //         .then(success => console.log('data', success))
+    // })
+
     app.post('/api/remove-food-item', (req, res) => {
         // first you need to set the desired data to a blank value before you can pull the data from the database
         Users.findOneAndUpdate(
