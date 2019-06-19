@@ -176,7 +176,6 @@ module.exports = app => {
     })
 
     app.post('/api/get-recipe-list', async (req, res) => {
-        console.log('foodKey', req.body.foodKey)
         try {
             const result = await axios.get(
                 `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&q=${encodeURI(
