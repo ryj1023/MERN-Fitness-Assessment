@@ -44,12 +44,15 @@ class FoodSearch extends Component {
     })
   }
 
-  onSubmit(e){
+  async onSubmit(e){
     e.preventDefault();
     this.setState({
       showNutrientFacts: false,
     })
     this.props.getFoodSearchKeyword(this.state.foodTextInput)
+    // const result = await axios.post(`/api/get-recipe-list`, {
+    //   foodKey: this.state.foodTextInput,
+    // })
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -83,7 +86,7 @@ class FoodSearch extends Component {
   }
 
   showFoodNutrients(selectedFood) {
-    this.props.getFoodNutritionFacts(selectedFood.foodID);
+    this.props.getFoodNutritionFacts(selectedFood.foodID, this.state.foodTextInput);
     this.setState({
       showNutrientFacts: true,
       selectedFoodName: selectedFood.foodName

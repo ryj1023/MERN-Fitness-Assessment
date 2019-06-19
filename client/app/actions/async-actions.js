@@ -44,9 +44,9 @@ export const getFoodSearchKeyword = (keyword, offset = 0) => {
     }
 }
 
-export const getFoodNutritionFacts = food => {
+export const getFoodNutritionFacts = (foodID, foodName) => {
     const encodedURI = window.encodeURI(
-        `https://api.nal.usda.gov/ndb/reports/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=${food}&type=f`
+        `https://api.nal.usda.gov/ndb/reports/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=${foodID}&type=f`
     )
     return dispatch => {
         axios
@@ -55,7 +55,6 @@ export const getFoodNutritionFacts = food => {
                 const foodObjects = response.data.report.food.nutrients.map(
                     food => food
                 )
-
                 return dispatch({ type: SELECTED_FOOD, payload: foodObjects })
             })
             .catch(err => {
@@ -113,7 +112,6 @@ export const loginUser = loginData => {
                 },
             })
             .then(response => {
-                console.log('response', response)
                 if (response.data.length > 0) {
                     localStorage.setItem(
                         'user',
@@ -131,8 +129,6 @@ export const loginUser = loginData => {
 }
 
 export const validateSignUp = (signUpInfo, dietGoals = null) => {
-    console.log('signupInfo', signUpInfo)
-    console.log('dietGoals', dietGoals)
     const encodedURI = window.encodeURI('/api/validation')
     return dispatch => {
         axios
@@ -191,16 +187,6 @@ export const validateSignUp = (signUpInfo, dietGoals = null) => {
 export const getFeaturedRecipeList = userData => {
     return async dispatch => {
         try {
-            // Will introduce feature for user to enter in a search term. For now the list will return what is currently trending
-            // const foodKey =
-            //     userData.userDietSummary && userData.userDietSummary.length > 0
-            //         ? userData.userDietSummary[
-            //               Math.floor(
-            //                   Math.random() *
-            //                       Math.floor(userData.userDietSummary.length)
-            //               )
-            //           ].foodName
-            //         : ''
             const foodKey = ''
             const result = await axios.post(`/api/get-recipe-list`, {
                 foodKey,

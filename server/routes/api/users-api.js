@@ -89,12 +89,6 @@ module.exports = app => {
         )
     })
 
-    // app.get('/get-food-images', () => {
-    //     axios
-    //         .get('https://serpapi.com/search.json?q=Apple&tbm=isch&ijn=0')
-    //         .then(success => console.log('data', success))
-    // })
-
     app.post('/api/remove-food-item', (req, res) => {
         // first you need to set the desired data to a blank value before you can pull the data from the database
         Users.findOneAndUpdate(
@@ -182,9 +176,10 @@ module.exports = app => {
     })
 
     app.post('/api/get-recipe-list', async (req, res) => {
+        console.log('foodKey', req.body.foodKey)
         try {
             const result = await axios.get(
-                `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&sort=t&q=${encodeURI(
+                `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&q=${encodeURI(
                     req.body.foodKey
                 )}`
             )
