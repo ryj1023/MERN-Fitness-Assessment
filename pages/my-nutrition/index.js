@@ -71,7 +71,9 @@ const NutritionCenter = props => {
                                     </h5>
                                     <div className="text-center">
                                         <Link href="sign-up">
-                                            <a>Sign up now</a>
+                                            <a className="text-decoration-none">
+                                                Sign up now
+                                            </a>
                                         </Link>
                                     </div>
                                 </CardBody>

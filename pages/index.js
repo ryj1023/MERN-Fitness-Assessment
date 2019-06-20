@@ -68,7 +68,9 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                     </h5>
                                     {!user && (
                                         <Link href="sign-up">
-                                            <a>Sign up now</a>
+                                            <a className="text-decoration-none">
+                                                Sign up now
+                                            </a>
                                         </Link>
                                     )}
                                 </Col>

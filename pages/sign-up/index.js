@@ -192,7 +192,7 @@ const SignUp = props => {
                                                 </Label>
                                             </FormGroup>
                                             <button
-                                                className="btn btn-outline-secondary w-100"
+                                                className="btn btn-primary w-100"
                                                 onClick={handleSubmit}
                                             >
                                                 {isSubmitting

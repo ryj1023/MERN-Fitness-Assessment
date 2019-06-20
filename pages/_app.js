@@ -28,7 +28,7 @@ export default class MyApp extends App {
                     <Layout>
                         <div>
                             <Component store={store} {...pageProps} />
-                            <style jsx>
+                            {/* <style jsx>
                                 {`
                                     :global(.btn) {
                                         background: #454545;
@@ -38,7 +38,7 @@ export default class MyApp extends App {
                                         background: #5a6268;
                                     }
                                 `}
-                            </style>
+                            </style> */}
                         </div>
                     </Layout>
                 </Provider>

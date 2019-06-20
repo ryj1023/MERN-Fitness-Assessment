@@ -50,9 +50,18 @@ class FoodSearch extends Component {
       showNutrientFacts: false,
     })
     this.props.getFoodSearchKeyword(this.state.foodTextInput)
-    // const result = await axios.post(`/api/get-recipe-list`, {
-    //   foodKey: this.state.foodTextInput,
-    // })
+
+  }
+
+  async getRecipes() {
+    try {
+      const result = await axios.post(`/api/get-recipe-list`, {
+        foodKey: this.state.foodTextInput,
+      })
+    } catch (err) {
+      console.log('err', err)
+    }
+
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -264,25 +273,25 @@ class FoodSearch extends Component {
       const activeColor = this.state.selectedPage === current ? '#6c757d' : 'white'
       switch (type) {
         case 'page':  {
-          return <Button className="pagination-btn" /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={current} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="mx-1 pagination-btn" /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={current} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage(current, undefined)
           })}>{current}</Button>
         }
         case 'prev': {
-          return <Button className="pagination-btn" key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="pagination-btn" key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('prev', undefined)
           })}>Prev</Button>
         }
         case 'next': {
-          return <Button className="pagination-btn" key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="pagination-btn ml-1" key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('next-page', 'next')
           })}>Next</Button>
         }
         case 'jump-prev': {
-          return <Button className="pagination-btn" key={current} name={current}>...</Button>
+          return <Button color='primary' className="pagination-btn mx-1" key={current} name={current}>...</Button>
         }
         case 'jump-next': {
-          return <Button className="pagination-btn" key={current} name={current}>...</Button>
+          return <Button color='primary' className="pagination-btn mx-1" key={current} name={current}>...</Button>
         }
         default:
         return element;
@@ -334,14 +343,15 @@ class FoodSearch extends Component {
   render() {
     const FoodSearchForm = () => (
                   <Col sm='12' lg='10' className='pt-4 d-block mx-auto d-sm-flex justify-content-between mb-2'>
-                     <div className='mb-2 mb-md-0'>
-                        <Link href='/my-nutrition'><a className='text-decoration-none'>My Nutrition</a></Link>
+                     <div className='mb-2 mb-md-0 d-flex align-items-center'>
+                        <Link href='/my-nutrition'><a className='text-decoration-none btn btn-link pl-0'>My Nutrition</a></Link>
+                        {/* {this.props.foodList.length > 0 && <button onClick={() => this.getRecipes()} className='btn btn-link text-decoration-none'>See Recipes</button>} */}
                      </div>
                      <Form className='text-center d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <div className='d-flex justify-content-between'>
                            <div className='d-flex'>
                               <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                              <Button className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</Button>
+                              <button className='btn ml-1 btn btn-primary' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</button>
                            </div>                         
                         </div>
                      </Form>
@@ -382,7 +392,7 @@ class FoodSearch extends Component {
           .btn:disabled  {
             background: #454545 !important; 
           }
-          div :global(.rc-pagination-disabled) {
+          div :global(.rc-pagination-disabled > button) {
             opacity: .65;
             background: #454545 !important; 
           }
@@ -398,13 +408,7 @@ class FoodSearch extends Component {
             background: #f5f5f5;
             cursor: pointer;
           }
-          .btn {
-            background: #454545;
-            color: white;
-          }
-          .btn:hover {
-            color: white;
-          }
+        
           .pre-scrollable {
             min-height: 75%;
             width: 80%;

@@ -78,7 +78,6 @@ module.exports = app => {
     })
 
     app.get('/api/user-data', (req, res, next) => {
-        console.log('user data request')
         Users.find(
             { 'user.email': req.query.email },
             '-user.password',
@@ -137,24 +136,6 @@ module.exports = app => {
                 res.status(201).json(doc)
             }
         )
-        /*
-              user: {
-            userName: String,
-            email: String,
-            password: String,
-            dietInfo: {
-              calories: Number,
-              protein: Number,
-              fat: Number,
-              carbs: Number,
-            },
-            userDietSummary: [
-              { foodName: String ,
-              foodFacts: [] },
-            ], 
-            workouts: [String]
-          }
-      */
     })
 
     app.post('/api/save', (req, res, next) => {

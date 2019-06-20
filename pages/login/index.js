@@ -122,7 +122,7 @@ const Login = props => (
                                     </Label>
                                 </FormGroup>
                                 <button
-                                    className="w-100 btn btn-outline-secondary"
+                                    className="w-100 btn btn-primary"
                                     onClick={handleSubmit}
                                 >
                                     {isSubmitting ? 'Loading' : 'Log In'}
