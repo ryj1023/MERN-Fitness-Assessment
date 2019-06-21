@@ -6,7 +6,6 @@ const RecipesModal = ({ recipesModalOpen, foodTextInput, onClose }) => {
     const [recipeList, setRecipeList] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [noResults, setNoResults] = useState(false)
-    console.log('foodTextInput', foodTextInput)
     useEffect(() => {
         if (recipesModalOpen) {
             setIsLoading(true)
@@ -67,7 +66,7 @@ const RecipesModal = ({ recipesModalOpen, foodTextInput, onClose }) => {
                                 <div className="w-50 text-center">
                                     <p>{recipe.title}</p>
                                     <a href={recipe.source_url} target="_blank">
-                                        See Recipe
+                                        See Full Recipe
                                     </a>
                                 </div>
                             </div>
