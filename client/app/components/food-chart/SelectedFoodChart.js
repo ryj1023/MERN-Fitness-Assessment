@@ -31,6 +31,7 @@ const SelectedFoodChart = props => {
                 <td>
                     <div style={{ display: 'inline' }}>
                         <Button
+                            color="primary"
                             size="sm"
                             onClick={() => props.onRemove(props.foodData)}
                         >
@@ -38,6 +39,11 @@ const SelectedFoodChart = props => {
                         </Button>
                     </div>
                 </td>
+                <style jsx>{`
+                    td :global(.btn-primary) {
+                        border-color: white !important;
+                    }
+                `}</style>
             </tr>
         </>
     )
