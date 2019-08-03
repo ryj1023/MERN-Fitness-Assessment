@@ -7,7 +7,7 @@ import { saveUserData  } from '../../client/app/actions/async-actions';
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import styles from './styles.js.js';
+import styles from './styles.js˝';
 import Router from 'next/router'
 import Link from 'next/link'
 
