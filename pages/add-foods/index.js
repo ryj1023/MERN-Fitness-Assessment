@@ -13,7 +13,7 @@ import Link from 'next/link'
 
 // TODO: turn dropdown into modal
 
-class FoodSearch extends Component {
+class AddFoods extends Component {
 
   state = {
       foodTextInput: null,
@@ -340,7 +340,7 @@ class FoodSearch extends Component {
     const FoodSearchForm = () => (
                   <Col sm='12' lg='10' className='pt-4 d-block mx-auto d-sm-flex justify-content-between mb-2'>
                      <div className='mb-2 mb-md-0 d-flex align-items-center'>
-                        <Link href='/my-nutrition'><a className='text-decoration-none btn btn-link pl-0'>My Nutrition</a></Link>
+                        <Link href='/my-goals'><a className='text-decoration-none btn btn-link pl-0'>My Goals</a></Link>
                         {foodTextInput && foodList.length > 0 && <button onClick={() => this.setState({ recipesModalOpen: true })} className='btn btn-link text-decoration-none'>See Recipes</button>}
                      </div>
                      <Form className='text-center d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
@@ -435,4 +435,4 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData }, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(FoodSearch)
+export default connect(mapStateToProps, mapDispatchToProps)(AddFoods)

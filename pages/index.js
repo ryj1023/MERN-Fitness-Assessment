@@ -7,7 +7,7 @@ import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
 import Link from 'next/link'
 import $ from 'jquery'
 
-const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
+const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
         if (!user) {
@@ -193,7 +193,6 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
 const mapStateToProps = state => {
     return {
         foodRecipes: state.foodRecipes,
-        foodList: state.foodList,
     }
 }
 

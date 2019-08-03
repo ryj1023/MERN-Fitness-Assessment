@@ -34,7 +34,7 @@ const getUserData = async (props, setIsLoading, setUserName) => {
     setIsLoading(false)
 }
 
-const NutritionCenter = props => {
+const MyGoals = props => {
     const [isLoading, setIsLoading] = useState(true)
     const [userName, setUserName] = useState(null)
     useEffect(() => {
@@ -100,4 +100,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NutritionCenter)
+)(MyGoals)
