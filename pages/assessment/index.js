@@ -68,7 +68,7 @@ const FitnessAssessment = (props) => {
                               const calculatedFitnessGoals = calculateFitnessInput(values) 
                               // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
                               props.saveUserData(calculatedFitnessGoals, userData)
-                              Router.push('/my-nutrition') 
+                              Router.push('/my-goals') 
                            }
                                                  
                          
