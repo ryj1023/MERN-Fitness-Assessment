@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Link from 'next/link';
 import { bindActionCreators } from 'redux';
-import { saveUserData, saveToUsersFoodList } from '../../actions/async-actions';
 import { updatedFoodChart } from '../../actions';
 import SelectedFoodChart from './SelectedFoodChart';
 // import './food-chart.css';
@@ -150,7 +149,7 @@ class FoodChart extends Component {
                   </>
               : <div>
                 <h5>You have no foods selected</h5>
-                <Link href='/food-search'><a>Search for foods</a></Link>
+                <Link href='/add-foods'><a>Search for foods</a></Link>
               </div>}
               </CardBody>
             </Card>
@@ -180,5 +179,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ saveUserData, updatedFoodChart }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ updatedFoodChart }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(FoodChart)

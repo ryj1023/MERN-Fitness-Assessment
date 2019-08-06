@@ -19,10 +19,12 @@ import {
 import BMRForm from './components/BMRForm'
 import MacrosForm from './components/MacrosForm'
 import { gatherFitnessInfo } from '../../client/app/actions'
-import { saveUserData } from '../../client/app/actions/async-actions'
+// import { saveUserData } from '../../client/app/actions/async-actions'
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input'
 import styles from './styles.js'
 import Router from 'next/router'
+import Link from 'next/link'
+import axios from 'axios'
 
 const SelectGoalTypeForm = () => {
     return (
@@ -68,19 +70,45 @@ const Assessment = props => {
     console.log('props', props)
     const [userData, setUserData] = useState(null)
     const [modal, openModal] = useState(false)
-    const [fitnessGoals, setFitnessGoals] = useState(null)
+    const [dietGoals, setDietGoals] = useState(null)
+    const [updateSuccess, setUpdateSuccess] = useState(false)
+    console.log('dietGoals', dietGoals)
     useEffect(() => {
         setUserData(JSON.parse(localStorage.getItem('user')))
-        if (fitnessGoals) {
+        if (dietGoals) {
             openModal(true)
         }
-    }, [fitnessGoals])
+    }, [dietGoals])
+    const saveDietGoals = dietGoals => {
+        const { email } = userData
+        const encodedURI = window.encodeURI(`/api/save`)
+        axios
+            .post(encodedURI, {
+                dietGoals,
+                email,
+            })
+            .then(res => {
+                console.log('res.data', res.data.user)
+                localStorage.setItem('user', JSON.stringify(res.data.user))
+                alert('Your diet goals have been updated!')
+                setUpdateSuccess(true)
+            })
+            .catch(err => {
+                console.log('err', err)
+                alert('There was a problem with saving your diet goals')
+            })
+    }
     const getFormType = () => {
         switch (form) {
             case 'bmr':
                 return <BMRForm />
             case 'macros':
-                return <MacrosForm calories={calories} />
+                return (
+                    <MacrosForm
+                        submitMacros={dietGoals => setDietGoals(dietGoals)}
+                        calories={calories}
+                    />
+                )
             default:
                 return <SelectGoalTypeForm />
         }
@@ -95,7 +123,7 @@ const Assessment = props => {
                 </Row>
                 <div>
                     {/* <Link color="danger" onClick={() => setModal((prevModalStatus) => !prevModalStatus)}></Link> */}
-                    {fitnessGoals && (
+                    {dietGoals && (
                         <Modal isOpen={modal} toggle={() => openModal(false)}>
                             <ModalHeader
                                 className="border-0"
@@ -114,36 +142,59 @@ const Assessment = props => {
                                             <th>Calories</th>
                                             <th>Protein</th>
                                             <th>Carbs</th>
-                                            <th>Fat</th>
+                                            <th>Fats</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{fitnessGoals.calories}</td>
-                                            <td>{fitnessGoals.protein}</td>
-                                            <td>{fitnessGoals.carbs}</td>
-                                            <td>{fitnessGoals.fat}</td>
+                                            <td>{dietGoals.calories}</td>
+                                            <td>{dietGoals.protein}</td>
+                                            <td>{dietGoals.carbs}</td>
+                                            <td>{dietGoals.fats}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
                             </ModalBody>
                             <div className="d-flex m-3">
-                                <span>
-                                    <Link
-                                        href={{
-                                            pathname: 'sign-up',
-                                            query: {
-                                                calories: fitnessGoals.calories,
-                                                protein: fitnessGoals.protein,
-                                                carbs: fitnessGoals.carbs,
-                                                fat: fitnessGoals.fat,
-                                            },
-                                        }}
-                                    >
-                                        <a>Sign up now</a>
-                                    </Link>{' '}
-                                    to save your diet goals.
-                                </span>
+                                {!userData && (
+                                    <span className="text-nowrap">
+                                        <Link
+                                            href={{
+                                                pathname: 'sign-up',
+                                                query: {
+                                                    calories:
+                                                        dietGoals.calories,
+                                                    protein: dietGoals.protein,
+                                                    carbs: dietGoals.carbs,
+                                                    fats: dietGoals.fats,
+                                                },
+                                            }}
+                                        >
+                                            <a>Sign up now</a>
+                                        </Link>{' '}
+                                        to save your diet goals.
+                                    </span>
+                                )}
+                                <div className="d-flex justify-content-between w-100">
+                                    {userData && (
+                                        <Button
+                                            disabled={updateSuccess}
+                                            color="primary"
+                                            onClick={() =>
+                                                saveDietGoals(dietGoals)
+                                            }
+                                        >
+                                            Save Diet Data
+                                        </Button>
+                                    )}
+                                    {updateSuccess && (
+                                        <Link href={{ pathname: '/my-goals' }}>
+                                            <a className="ml-2 btn btn-primary">
+                                                My Goals
+                                            </a>
+                                        </Link>
+                                    )}
+                                </div>
                             </div>
                         </Modal>
                     )}
@@ -163,12 +214,12 @@ const mapStateToProps = state => {
 Assessment.getInitialProps = ({ query }) => {
     return {
         form: query.form || null,
-        calories: query.calories || null
+        calories: query.calories || null,
     }
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ gatherFitnessInfo, saveUserData }, dispatch)
+    bindActionCreators({ gatherFitnessInfo }, dispatch)
 export default connect(
     mapStateToProps,
     mapDispatchToProps

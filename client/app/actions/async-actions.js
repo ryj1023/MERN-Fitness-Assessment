@@ -83,24 +83,6 @@ export const getUserData = data => {
     }
 }
 
-export const saveUserData = (dietGoals, userStoredData) => {
-    const encodedURI = window.encodeURI(`/api/save`)
-    // console.log('userStoredData', userStoredData)
-    // const userData = JSON.parse(userStoredData)
-    // console.log('userData', userData)
-    return () => {
-        axios
-            .post(encodedURI, {
-                dietGoals,
-                email: userStoredData.email,
-            })
-            .then(res => {
-                console.log('res.data', res.data.user)
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-            })
-    }
-}
-
 export const loginUser = loginData => {
     const encodedURI = window.encodeURI(`/api/login`)
     return dispatch => {
@@ -152,7 +134,7 @@ export const validateSignUp = (signUpInfo, dietGoals = null) => {
                             password: signUpInfo.password,
                             calories: dietGoals ? dietGoals.calories : null,
                             protein: dietGoals ? dietGoals.protein : null,
-                            fat: dietGoals ? dietGoals.fat : null,
+                            fat: dietGoals ? dietGoals.fats : null,
                             carbs: dietGoals ? dietGoals.carbs : null,
                             // programs: dietGoals
                             //     ? dietGoals.programs

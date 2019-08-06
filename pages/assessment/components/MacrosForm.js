@@ -2,21 +2,7 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { getMacros } from '../../../client/app/util/dailyMacrosCalculator'
-import {
-    Container,
-    Row,
-    Col,
-    ListGroup,
-    ListGroupItem,
-    Button,
-    Card,
-    Label,
-    FormResponse,
-    Modal,
-    ModalBody,
-    ModalHeader,
-    Table,
-} from 'reactstrap'
+import { Container, Row, Col, Label } from 'reactstrap'
 import Router from 'next/router'
 
 const validationSchema = Yup.object().shape({
@@ -32,10 +18,9 @@ const validationSchema = Yup.object().shape({
     fats: Yup.number()
         .required('Fats required')
         .integer('Fats must be a valid number'),
-    // dietType: Yup.string().required('Diet type is required'),
 })
 
-const MacrosForm = ({ calories }) => {
+const MacrosForm = ({ calories, submitMacros }) => {
     const [customCalories, setCustomCalories] = useState(
         calories ? false : true
     )
@@ -50,20 +35,7 @@ const MacrosForm = ({ calories }) => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, actions) => {
-                console.log('values', values)
-
-                //  if (!userData) {
-                //      setFitnessGoals(calculateFitnessInput(values))
-                //  } else {
-                //      const calculatedFitnessGoals = calculateFitnessInput(values)
-                //      // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
-                //      //   props.saveUserData(calculatedFitnessGoals, userData)
-
-                //  }
-                //  Router.push({
-                //      pathname: '/assessment',
-                //      query: { calories: 100, form: 'macros' },
-                //  })
+                submitMacros(values)
             }}
         >
             {({
@@ -79,33 +51,36 @@ const MacrosForm = ({ calories }) => {
                 resetForm,
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <Container>
+                    <Container className="my-3">
                         <Row>
                             <Col className="text-center">
                                 <h5>
-                                    Please enter some data so we can calculate
-                                    your nutrition goals
+                                    Enter some data so we can calculate your
+                                    nutrition goals
                                 </h5>
                             </Col>
                         </Row>
                         <Row>
                             <Col sm="12">
                                 <div className="form-group">
-                                    <Label for="exampleFormControlSelect2">
-                                        Calories
-                                    </Label>
-                                    {calories && (
-                                        <div
-                                            style={{ cursor: 'pointer' }}
-                                            onClick={() => {
-                                                setCustomCalories(true)
-                                                resetForm()
-                                            }}
-                                            className="float-right btn btn-link text-decoration-none"
-                                        >
-                                            Customize
-                                        </div>
-                                    )}
+                                    <div className="d-flex justify-content-between align-items-center mb-1">
+                                        <Label className="mb-0" for="calories">
+                                            Calories
+                                        </Label>
+                                        {calories && (
+                                            <div
+                                                style={{ cursor: 'pointer' }}
+                                                onClick={() => {
+                                                    setCustomCalories(true)
+                                                    resetForm()
+                                                }}
+                                                className="float-right btn btn-link text-decoration-none pb-2"
+                                            >
+                                                Customize
+                                            </div>
+                                        )}
+                                    </div>
+
                                     <input
                                         readOnly={customCalories ? false : true}
                                         type="number"
@@ -125,82 +100,97 @@ const MacrosForm = ({ calories }) => {
                         </Row>
                         <Row>
                             <Col sm="12">
-                                <div className="form-group">
-                                    <p className="font-weight-bold">
-                                        Macros based on popular diets
-                                    </p>
-                                    <Label for="exampleFormControlSelect2">
-                                        Diets
-                                    </Label>
-                                    <select
-                                        disabled={values.calories === ''}
-                                        onChange={e => {
-                                            if (values.calories === '') {
-                                                setFieldTouched(
-                                                    'dietType',
-                                                    true
-                                                )
-                                                setErrors({
-                                                    dietType:
-                                                        'You must first enter your daily calories',
-                                                })
-                                            } else {
-                                                const {
-                                                    protein,
-                                                    carbs,
-                                                    fats,
-                                                } = getMacros(
-                                                    e.target.value,
-                                                    Number(values.calories)
-                                                )
-                                                setFieldValue(
-                                                    'protein',
-                                                    protein.toFixed()
-                                                )
-                                                setFieldValue(
-                                                    'carbs',
-                                                    carbs.toFixed()
-                                                )
-                                                setFieldValue(
-                                                    'fats',
-                                                    fats.toFixed()
-                                                )
-                                                setFieldValue(
-                                                    'dietType',
-                                                    e.target.value
-                                                )
-                                            }
-                                        }}
-                                        onBlur={handleBlur}
-                                        value={values.dietType}
-                                        name="dietType"
-                                        className="form-control"
-                                    >
-                                        <option
-                                            value="Select your diet"
-                                            label="Select your diet"
-                                        />
-                                        <option value="zone">Zone</option>
-                                        <option value="atikins">Atkins</option>
-                                        <option value="ketogenic">
-                                            Ketogenic
-                                        </option>
-                                        <option value="mediterranean">
-                                            Mediterranean
-                                        </option>
-                                        <option value="default">
-                                            Default (U.S. dietary guidelines)
-                                        </option>
-                                    </select>
-                                    {errors.dietType && touched.dietType && (
-                                        <span className="text-danger">
-                                            {errors.dietType}
-                                        </span>
-                                    )}
-                                </div>
-                                <p className="font-weight-bold text-muted">
-                                    Or
-                                </p>
+                                {values.calories && (
+                                    <>
+                                        <div className="form-group">
+                                            <p className="font-weight-bold">
+                                                Macros based on popular diets
+                                            </p>
+                                            <Label for="diets">Diets</Label>
+                                            <select
+                                                disabled={
+                                                    values.calories === ''
+                                                }
+                                                onChange={e => {
+                                                    if (
+                                                        values.calories === ''
+                                                    ) {
+                                                        setFieldTouched(
+                                                            'dietType',
+                                                            true
+                                                        )
+                                                        setErrors({
+                                                            dietType:
+                                                                'You must first enter your daily calories',
+                                                        })
+                                                    } else {
+                                                        const {
+                                                            protein,
+                                                            carbs,
+                                                            fats,
+                                                        } = getMacros(
+                                                            e.target.value,
+                                                            Number(
+                                                                values.calories
+                                                            )
+                                                        )
+                                                        setFieldValue(
+                                                            'protein',
+                                                            protein.toFixed()
+                                                        )
+                                                        setFieldValue(
+                                                            'carbs',
+                                                            carbs.toFixed()
+                                                        )
+                                                        setFieldValue(
+                                                            'fats',
+                                                            fats.toFixed()
+                                                        )
+                                                        setFieldValue(
+                                                            'dietType',
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                }}
+                                                onBlur={handleBlur}
+                                                value={values.dietType}
+                                                name="dietType"
+                                                className="form-control"
+                                            >
+                                                <option
+                                                    value="Select your diet"
+                                                    label="Select your diet"
+                                                />
+                                                <option value="zone">
+                                                    Zone
+                                                </option>
+                                                <option value="atkins">
+                                                    Atkins
+                                                </option>
+                                                <option value="ketogenic">
+                                                    Ketogenic
+                                                </option>
+                                                <option value="mediterranean">
+                                                    Mediterranean
+                                                </option>
+                                                <option value="default">
+                                                    Default (U.S. dietary
+                                                    guidelines)
+                                                </option>
+                                            </select>
+                                            {errors.dietType &&
+                                                touched.dietType && (
+                                                    <span className="text-danger">
+                                                        {errors.dietType}
+                                                    </span>
+                                                )}
+                                        </div>
+                                        <p className="font-weight-bold text-muted">
+                                            Or
+                                        </p>
+                                    </>
+                                )}
+
                                 <p className="font-weight-bold">
                                     Custom Macros
                                 </p>
@@ -263,12 +253,12 @@ const MacrosForm = ({ calories }) => {
                         </Row>
                         <Row>
                             <Col>
-                                <div className="form-group text-center">
+                                <div className="form-group mb-0 text-center">
                                     <button
                                         type="submit"
-                                        disabled={
-                                            Object.keys(errors).length > 0
-                                        }
+                                        // disabled={
+                                        //     Object.keys(errors).length > 0
+                                        // }
                                         className="btn btn-primary w-100"
                                         type="submit"
                                     >

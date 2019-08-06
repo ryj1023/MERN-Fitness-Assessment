@@ -144,11 +144,11 @@ module.exports = app => {
             {
                 'user.dietInfo.calories': req.body.dietGoals.calories,
                 'user.dietInfo.protein': req.body.dietGoals.protein,
-                'user.dietInfo.fat': req.body.dietGoals.fat,
+                'user.dietInfo.fat': req.body.dietGoals.fats,
                 'user.dietInfo.carbs': req.body.dietGoals.carbs,
-                'user.workouts': req.body.dietGoals.programs,
+                // 'user.workouts': req.body.dietGoals.programs,
             },
-            { new: true },
+            { new: true, lean: true },
             (err, doc) => {
                 if (err) return res.send(500, { error: err })
                 res.status(201).json(doc)
