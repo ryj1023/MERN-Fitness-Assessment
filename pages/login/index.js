@@ -19,6 +19,8 @@ import Navigation from '../../client/app/components/navigations'
 import { loginUser } from '../../client/app/actions/async-actions'
 import { connect } from 'react-redux'
 import Link from 'next/link'
+import axios from 'axios'
+import Router from 'next/router'
 
 const formValues = {
     email: '',
@@ -39,8 +41,34 @@ const Login = props => (
                         //.min(6, 'Password has to be longer than 6 characters!')
                         .required('Password is required!'),
                 })}
-                onSubmit={(values, { setSubmitting, setErrors }) => {
-                    props.dispatch(loginUser(values))
+                onSubmit={async (values, { setSubmitting, setErrors }) => {
+                    const encodedURI = window.encodeURI(`/api/login`)
+                    try {
+                        const response = await axios.get(encodedURI, {
+                            params: {
+                                email: values.email,
+                                password: values.password,
+                            },
+                        })
+                        if (response.data.length > 0) {
+                            localStorage.setItem(
+                                'user',
+                                JSON.stringify(response.data[0].user)
+                            )
+                            Router.push('/')
+                        } else {
+                            setErrors({
+                                signInError: `There is no user associated with the provided credentials. Please try another email
+                            and password combination.`,
+                            })
+                        }
+                        console.log('response', response)
+                    } catch (err) {
+                        console.log('err', err)
+                        setErrors({ signInError: err })
+                    }
+
+                    // props.dispatch(loginUser(values))
                     setSubmitting(false)
                 }}
                 render={({
@@ -51,27 +79,25 @@ const Login = props => (
                     touched,
                     submitCount,
                 }) => {
-                    if (submitCount >= 1 && props.userData.length > 0) {
-                        window.location = '/'
-                    }
+                    // if (submitCount >= 1 && props.userData.length > 0) {
+                    //     window.location = '/'
+                    // }
                     return (
                         <>
-                            {submitCount >= 1 && props.userData.length === 0 ? (
+                            {errors.signInError && (
                                 <div>
                                     <UncontrolledAlert color="danger">
-                                        <p>
-                                            Your provided information is
-                                            invalid. Please try another email
-                                            and password combination or sign up
-                                            for an account{' '}
+                                        <p>{errors.signInError}</p>
+                                        <span>
+                                            Sign up for an account{' '}
                                             <Link href="/sign-up">
                                                 <a>here</a>
                                             </Link>
                                             .
-                                        </p>
+                                        </span>
                                     </UncontrolledAlert>
                                 </div>
-                            ) : null}
+                            )}
                             <Form>
                                 <FormGroup>
                                     <Label
@@ -124,6 +150,7 @@ const Login = props => (
                                 <button
                                     className="w-100 btn btn-primary"
                                     onClick={handleSubmit}
+                                    type="submit"
                                 >
                                     {isSubmitting ? 'Loading' : 'Log In'}
                                 </button>
