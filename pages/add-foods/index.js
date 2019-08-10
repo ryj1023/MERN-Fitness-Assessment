@@ -10,6 +10,7 @@ import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Mo
 import Pagination from 'rc-pagination';
 import axios from 'axios';
 import Link from 'next/link'
+import get from 'lodash.get'
 
 // TODO: turn dropdown into modal
 
@@ -122,21 +123,28 @@ class AddFoods extends Component {
     })
   }
 
-  async addSelectedFoodToFoodList(selectedFoodName, selectedFoodFacts, userData) {
+  async addSelectedFoodToFoodList(selectedFoodFacts, servingType) {
+    const { selectedFoodName, userData } = this.state;
    const encodedURI = window.encodeURI(`/api/save-food-items`);
-   try {
-       const res = await axios.post(encodedURI, {
-          userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
-          email: userData.email
-       })
-       this.props.getUserData(res.data.user.userDietSummary)
-       localStorage.setItem('user', JSON.stringify(res.data.user));
-       if (res.status === 201) {
-         alert('Added to daily intake list!')
-       }
-   } catch (err) {
-     console.log('err', err)
-   }
+   console.log('selectedFoodName', selectedFoodName)
+   console.log('selectedFoodFacts', selectedFoodFacts)
+   console.log('selectedFoodFacts', servingType)
+  //  console.log('servingSize', this.props.nutritionFacts[0].measures[0].qty)
+   const servingSize = get(this.props.nutritionFacts[0], 'measures[0].qty') || 1
+   console.log('servingSize', servingSize)
+  //  try {
+  //      const res = await axios.post(encodedURI, {
+  //         userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
+  //         email: userData.email
+  //      })
+  //      this.props.getUserData(res.data.user.userDietSummary)
+  //      localStorage.setItem('user', JSON.stringify(res.data.user));
+  //      if (res.status === 201) {
+  //        alert('Added to daily intake list!')
+  //      }
+  //  } catch (err) {
+  //    console.log('err', err)
+  //  }
  }
 
  updateServingSize(servingSize) {
@@ -171,6 +179,8 @@ class AddFoods extends Component {
     const microNutrients = this.state.servingSize !== ''  ? customMicroNutrients : this.state.microNutrients
     const selectedFoodFacts = this.state.servingSize !== ''  ? customFoodFacts : this.state.selectedFoodFacts
     const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
+    const servingType = this.props.nutritionFacts[0] && this.props.nutritionFacts[0].measures[0].label ? this.props.nutritionFacts[0].measures[0].label : null
+    console.log('nutritionFactUnits', nutritionFactUnits)
     return (
       <>
          <Col className='m-auto' xs='12' lg='10'>
@@ -183,12 +193,12 @@ class AddFoods extends Component {
               width="100%" 
               title={this.state.selectedFoodName} 
               titleHeader={true} 
-              servingType={this.props.nutritionFacts[0] && this.props.nutritionFacts[0].measures[0].label ? this.props.nutritionFacts[0].measures[0].label : null} 
+              servingType={servingType} 
               tableData={nutritionFactUnits} 
               tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
             <div className='d-flex justify-content-sm-start d-flex justify-content-between'>
               <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark btn-sm ml-0 mr-1 mt-1 mb-1'>Back</Button>
-              {this.state.userData && <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add to food intake</Button>}
+              {this.state.userData && <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(selectedFoodFacts, servingType)}>Add to food intake</Button>}
               <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ micronutrientsModalOpen: !micronutrientsModalOpen })}>Show micronutrients</Button>
             </div>
            </CardBody>

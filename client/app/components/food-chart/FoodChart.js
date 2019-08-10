@@ -41,6 +41,7 @@ class FoodChart extends Component {
         return acc;
       }, totals);
 
+
       return { previewFoodData, macroTotals}
   }
 
