@@ -7,6 +7,7 @@ import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
 import FoodChart from '../../client/app/components/food-chart/FoodChart'
 import styles from './styles'
 import Link from 'next/link'
+import get from 'lodash.get'
 
 const getUpdatedFoodChart = (props, userData) => {
     props.updatedFoodChart(userData.userDietSummary)
@@ -23,7 +24,12 @@ const getUserData = async (props, setIsLoading, setUserName) => {
                     email: JSON.parse(localStorage.getItem('user')).email,
                 },
             })
-            getUpdatedFoodChart(props, res.data[0].user)
+            const user = get(res, 'data[0].user') || []
+            props.getDailyDietGoals(user.dietInfo)
+            if (user.userDietSummary.length > 0) {
+                getUpdatedFoodChart(props, user)
+            }
+
             setIsLoading(false)
             setUserName(res.data[0].user.userName)
         } catch (err) {
@@ -57,6 +63,7 @@ const MyGoals = props => {
                                 userFoodList={
                                     props.updatedUserFoodList.foodList
                                 }
+                                // dailyDietGoals={props.dailyDietGoals}
                                 {...props}
                             />
                         </Col>
