@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../client/app/actions/async-actions';
-import { updatedFoodChart } from '../../client/app/actions';
+import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions';
 import SmartTable from '../../client/app/components/SmartTable';
 import RecipesModal from '../../client/app/components/RecipesModal'
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
@@ -13,6 +13,17 @@ import Link from 'next/link'
 import get from 'lodash.get'
 
 // TODO: turn dropdown into modal
+
+const getMacroQuantity = (foodFacts, macroId) => {
+  const foundMacroData = foodFacts.find(food => food.nutrient_id === macroId) || {}
+  const [measure] = foundMacroData.measures
+  return Number(measure.value)
+}
+
+const getMacroMeasure = (foodFacts, macroId) => {
+  const foundMacroData = foodFacts.find(food => food.nutrient_id === macroId) || {}
+  return foundMacroData.unit
+}
 
 class AddFoods extends Component {
 
@@ -32,6 +43,7 @@ class AddFoods extends Component {
       customMicroNutrients: [],
       customNutritionFactUnits: [],
       servingSize: '',
+      foodId: null,
     }
   
   setInput(foodTextInput){
@@ -42,9 +54,14 @@ class AddFoods extends Component {
   }
 
   componentDidMount() {
+    const userData = JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null
     this.setState({
-      userData: JSON.parse(localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null,
+      userData
     })
+    if (userData) {
+      this.props.getDailyDietGoals(userData.dietInfo)
+    }
+    
   }
 
   async onSubmit(e){
@@ -90,7 +107,8 @@ class AddFoods extends Component {
     this.props.getFoodNutritionFacts(selectedFood.foodID, this.state.foodTextInput);
     this.setState({
       showNutrientFacts: true,
-      selectedFoodName: selectedFood.foodName
+      selectedFoodName: selectedFood.foodName,
+      foodId: selectedFood.foodID
     })
   }
 
@@ -123,16 +141,63 @@ class AddFoods extends Component {
     })
   }
 
+//   user: {
+//     userName: String,
+//     email: String,
+//     password: String,
+//     date: Date,
+//     servingSize: {
+//         qty: Number,
+//         measure: String,
+//     },
+//     dietGoal: {
+//         calories: Number,
+//         protein: Number,
+//         fat: Number,
+//         carbs: Number,
+//     },
+//     selectedFoods: Array,
+//     workouts: [String],
+// }
+
   async addSelectedFoodToFoodList(selectedFoodFacts, servingType) {
-    const { selectedFoodName, userData } = this.state;
+    const { selectedFoodName, userData, foodId } = this.state;
+    const qty = get(this.props.nutritionFacts[0], 'measures[0].qty') || 1
+    const servingSize = this.state.servingSize === '' ? qty : Number(this.state.servingSize)
+
+    const selectedFoodData = {
+      foodName: selectedFoodName,
+      foodId,
+      date: new Date(),
+      servingSize: {
+        qty: servingSize,
+        type: servingType,
+      },
+      macroNutrients: {
+        calories: {
+          qty: getMacroQuantity(selectedFoodFacts, '208'),
+          measure: getMacroMeasure(selectedFoodFacts, '208')
+        },
+        carbohydrates: {
+          qty: getMacroQuantity(selectedFoodFacts, '205'),
+          measure: getMacroMeasure(selectedFoodFacts, '205')
+        },
+        protein: {
+          qty: getMacroQuantity(selectedFoodFacts, '203'),
+          measure: getMacroMeasure(selectedFoodFacts, '203')
+        },
+        fats: {
+          qty: getMacroQuantity(selectedFoodFacts, '204'),
+          measure: getMacroMeasure(selectedFoodFacts, '204')
+        },
+      }
+    }
+   
    const encodedURI = window.encodeURI(`/api/save-food-items`);
-   console.log('selectedFoodName', selectedFoodName)
-   console.log('selectedFoodFacts', selectedFoodFacts)
-   console.log('selectedFoodFacts', servingType)
-  //  console.log('servingSize', this.props.nutritionFacts[0].measures[0].qty)
-   const servingSize = get(this.props.nutritionFacts[0], 'measures[0].qty') || 1
-   console.log('servingSize', servingSize)
-  //  try {
+  //  if (Object.keys(this.props.dailyDietGoals).length === 0) {
+  //    alert('You must take the assessment before you can add food intake to your list.')
+  //  } else {
+  //      try {
   //      const res = await axios.post(encodedURI, {
   //         userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
   //         email: userData.email
@@ -145,7 +210,9 @@ class AddFoods extends Component {
   //  } catch (err) {
   //    console.log('err', err)
   //  }
- }
+  //  }
+
+  }
 
  updateServingSize(servingSize) {
    const { selectedFoodFacts, microNutrients } = this.state;
@@ -198,7 +265,7 @@ class AddFoods extends Component {
               tableHeaders={['Calories', 'Protein (grams)', 'Fat (grams)', 'Carbs (grams)', 'Serving Size']} />
             <div className='d-flex justify-content-sm-start d-flex justify-content-between'>
               <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark btn-sm ml-0 mr-1 mt-1 mb-1'>Back</Button>
-              {this.state.userData && <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(selectedFoodFacts, servingType)}>Add to food intake</Button>}
+              <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(selectedFoodFacts, servingType)}>Add to food intake</Button>
               <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ micronutrientsModalOpen: !micronutrientsModalOpen })}>Show micronutrients</Button>
             </div>
            </CardBody>
@@ -441,8 +508,9 @@ const mapStateToProps = (state) => {
 		clientDietInfo: state.clientInfo,
 		foodList: state.foodList,
       nutritionFacts: state.nutritionFacts,
+      dailyDietGoals: state.dailyDietGoals,
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData, getDailyDietGoals }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(AddFoods)
