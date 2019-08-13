@@ -76,10 +76,15 @@ const MyGoals = props => {
                                         You currently do not have an account.
                                         Sign up to use this feature (It's free!)
                                     </h5>
-                                    <div className="text-center">
+                                    <div className="text-center d-flex justify-content-between">
                                         <Link href="sign-up">
                                             <a className="text-decoration-none">
                                                 Sign up now
+                                            </a>
+                                        </Link>
+                                        <Link href="add-foods">
+                                            <a className="text-decoration-none">
+                                                Search Foods
                                             </a>
                                         </Link>
                                     </div>

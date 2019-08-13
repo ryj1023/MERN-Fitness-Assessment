@@ -22,6 +22,12 @@ const UserDataSchema = new mongoose.Schema({
         userName: String,
         email: String,
         password: String,
+        date: Date,
+        foodId: Number,
+        servingSize: {
+            qty: Number,
+            measure: String,
+        },
         dietGoal: {
             calories: Number,
             protein: Number,
