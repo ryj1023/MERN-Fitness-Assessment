@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import _ from 'lodash'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../client/app/actions/async-actions';
+import { getFoodSearchKeyword, getFoodNutritionFacts } from '../../client/app/actions/async-actions';
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions';
 import SmartTable from '../../client/app/components/SmartTable';
 import RecipesModal from '../../client/app/components/RecipesModal'
@@ -11,12 +11,13 @@ import Pagination from 'rc-pagination';
 import axios from 'axios';
 import Link from 'next/link'
 import get from 'lodash.get'
+import moment from 'moment'
 
 // TODO: turn dropdown into modal
 
 const getMacroQuantity = (foodFacts, macroId) => {
   const foundMacroData = foodFacts.find(food => food.nutrient_id === macroId) || {}
-  const [measure] = foundMacroData.measures
+  const [measure] = foundMacroData.measures || [{measure: { value: 'N/A' }}]
   return Number(measure.value)
 }
 
@@ -165,10 +166,10 @@ class AddFoods extends Component {
     const qty = get(this.props.nutritionFacts[0], 'measures[0].qty') || 1
     const servingSize = this.state.servingSize === '' ? qty : Number(this.state.servingSize)
 
-    const selectedFoodData = {
+    const selectedFoods = {
       foodName: selectedFoodName,
       foodId,
-      date: new Date(),
+      date: moment().format('YYYY/MM/DD'),
       servingSize: {
         qty: servingSize,
         type: servingType,
@@ -192,25 +193,35 @@ class AddFoods extends Component {
         },
       }
     }
+
+    
    
    const encodedURI = window.encodeURI(`/api/save-food-items`);
-  //  if (Object.keys(this.props.dailyDietGoals).length === 0) {
-  //    alert('You must take the assessment before you can add food intake to your list.')
-  //  } else {
-  //      try {
-  //      const res = await axios.post(encodedURI, {
-  //         userDietSummary: { foodName: selectedFoodName, foodFacts: selectedFoodFacts },
-  //         email: userData.email
-  //      })
-  //      this.props.getUserData(res.data.user.userDietSummary)
-  //      localStorage.setItem('user', JSON.stringify(res.data.user));
-  //      if (res.status === 201) {
-  //        alert('Added to daily intake list!')
-  //      }
-  //  } catch (err) {
-  //    console.log('err', err)
-  //  }
-  //  }
+   const storedDietGoals = get(JSON.parse(localStorage.getItem('user')), 'dietGoals') || {}
+   console.log('selectedFoods', selectedFoods)
+   if (Object.keys(storedDietGoals).length === 0) {
+     alert('You must take the assessment before you can add food intake to your list.')
+   } else {
+       try {
+       const res = await axios.post(encodedURI, {
+        selectedFoods,
+          email: userData.email
+       }).then((res => {
+         console.log('res', res)
+         //  this.props.getUserData(res.data.user.userDietSummary)
+       localStorage.setItem('user', JSON.stringify(res.data.user));
+       if (res.status === 201) {
+         alert('Added to daily intake list!')
+       }
+       }))
+       .catch((err) => {
+         console.log('err', err)
+       })
+      
+   } catch (err) {
+     console.log('err', err)
+   }
+   }
 
   }
 
@@ -512,5 +523,5 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData, getDailyDietGoals }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getDailyDietGoals }, dispatch);
 export default connect(mapStateToProps, mapDispatchToProps)(AddFoods)

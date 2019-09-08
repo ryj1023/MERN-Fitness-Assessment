@@ -22,19 +22,24 @@ const UserDataSchema = new mongoose.Schema({
         userName: String,
         email: String,
         password: String,
-        date: Date,
-        foodId: Number,
-        servingSize: {
-            qty: Number,
-            measure: String,
-        },
-        dietGoal: {
-            calories: Number,
-            protein: Number,
-            fat: Number,
-            carbs: Number,
-        },
-        selectedFoods: Array,
+        dietGoals: {},
+        selectedFoods: [
+            {
+                date: String,
+                foodId: Number,
+                foodName: String,
+                servingSize: {
+                    // qty: Number,
+                    // type: String,
+                },
+                macroNutrients: {
+                    // calories: { qty: Number, measure: String },
+                    // protein: { qty: Number, measure: String },
+                    // fat: { qty: Number, measure: String },
+                    // carbs: { qty: Number, measure: String },
+                },
+            },
+        ],
         workouts: [String],
     },
 })

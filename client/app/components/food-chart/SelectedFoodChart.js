@@ -7,25 +7,23 @@ const SelectedFoodChart = props => {
             <tr>
                 <td>{props.foodData.foodName}</td>
                 <td>
-                    {props.foodData.foodFacts.Energy
-                        ? props.foodData.foodFacts.Energy
+                    {props.foodData.foodFacts.calories.qty
+                        ? props.foodData.foodFacts.calories.qty
                         : '0'}
                 </td>
                 <td>
-                    {props.foodData.foodFacts.Protein
-                        ? props.foodData.foodFacts.Protein
+                    {props.foodData.foodFacts.protein.qty
+                        ? props.foodData.foodFacts.protein.qty
                         : '0'}
                 </td>
                 <td>
-                    {props.foodData.foodFacts['Total lipid (fat)']
-                        ? props.foodData.foodFacts['Total lipid (fat)']
+                    {props.foodData.foodFacts.fats.qty
+                        ? props.foodData.foodFacts.fats.qty
                         : '0'}
                 </td>
                 <td>
-                    {props.foodData.foodFacts['Carbohydrate, by difference']
-                        ? props.foodData.foodFacts[
-                              'Carbohydrate, by difference'
-                          ]
+                    {props.foodData.foodFacts.carbohydrates.qty
+                        ? props.foodData.foodFacts.carbohydrates.qty
                         : '0'}
                 </td>
                 <td>

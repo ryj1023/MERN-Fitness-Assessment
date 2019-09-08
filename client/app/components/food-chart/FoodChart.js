@@ -31,34 +31,22 @@ class FoodChart extends Component {
         const previewFoodData = dietSummary.map(foodData => {
             return {
                 foodName: foodData.foodName,
-                foodFacts: foodData.foodFacts.reduce((acc, data) => {
-                    if (data.name) {
-                        if (
-                            data.name === 'Protein' ||
-                            (data.name === 'Energy' && data.unit === 'kcal') ||
-                            data.name.includes('(fat)') ||
-                            data.name.includes('Carbohydrate')
-                        ) {
-                            acc[data.name] = data.measures[0].value
-                        }
-                    }
-
-                    return acc
-                }, {}),
+                foodFacts: foodData.macroNutrients,
             }
         })
+
         const macroTotals = previewFoodData.reduce((acc, macros, index) => {
-            acc.calories += macros.foodFacts.Energy
-                ? Number(macros.foodFacts.Energy)
+            acc.calories += macros.foodFacts.calories.qty
+                ? Number(macros.foodFacts.calories.qty)
                 : 0
-            acc.protein += macros.foodFacts.Protein
-                ? Number(macros.foodFacts.Protein)
+            acc.protein += macros.foodFacts.protein.qty
+                ? Number(macros.foodFacts.protein.qty)
                 : 0
-            acc.fat += macros.foodFacts['Total lipid (fat)']
-                ? Number(macros.foodFacts['Total lipid (fat)'])
+            acc.fat += macros.foodFacts.fats
+                ? Number(macros.foodFacts.fats.qty)
                 : 0
-            acc.carbs += macros.foodFacts['Carbohydrate, by difference']
-                ? Number(macros.foodFacts['Carbohydrate, by difference'])
+            acc.carbs += macros.foodFacts.carbohydrates.qty
+                ? Number(macros.foodFacts.carbohydrates.qty)
                 : 0
             return acc
         }, totals)

@@ -63,25 +63,25 @@ export const getFoodNutritionFacts = (foodID, foodName) => {
     }
 }
 
-export const getUserData = data => {
-    const encodedURI = window.encodeURI(`/api/user-data`)
-    return dispatch => {
-        if (Array.isArray(data))
-            return dispatch({ type: UPDATED_FOOD_CHART, payload: data })
-        axios
-            .get(encodedURI, {
-                params: {
-                    email: data,
-                },
-            })
-            .then(response => {
-                return dispatch({
-                    type: UPDATED_FOOD_CHART,
-                    payload: response.data[0].user.userDietSummary,
-                })
-            })
-    }
-}
+// export const getUserData = data => {
+//     const encodedURI = window.encodeURI(`/api/user-data`)
+//     return dispatch => {
+//         if (Array.isArray(data))
+//             return dispatch({ type: UPDATED_FOOD_CHART, payload: data })
+//         axios
+//             .get(encodedURI, {
+//                 params: {
+//                     email: data,
+//                 },
+//             })
+//             .then(response => {
+//                 return dispatch({
+//                     type: UPDATED_FOOD_CHART,
+//                     payload: response.data[0].user.userDietSummary,
+//                 })
+//             })
+//     }
+// }
 
 export const loginUser = loginData => {
     const encodedURI = window.encodeURI(`/api/login`)

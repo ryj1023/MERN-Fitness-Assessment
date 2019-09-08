@@ -10,8 +10,8 @@ import Link from 'next/link'
 import get from 'lodash.get'
 
 const getUpdatedFoodChart = (props, userData) => {
-    props.updatedFoodChart(userData.userDietSummary)
-    props.getDailyDietGoals(userData.dietInfo)
+    props.updatedFoodChart(userData.selectedFoods)
+    props.getDailyDietGoals(userData.dietGoals)
     localStorage.setItem('user', JSON.stringify(userData))
 }
 
@@ -25,8 +25,8 @@ const getUserData = async (props, setIsLoading, setUserName) => {
                 },
             })
             const user = get(res, 'data[0].user') || []
-            props.getDailyDietGoals(user.dietInfo)
-            if (user.userDietSummary.length > 0) {
+            // props.getDailyDietGoals(user.dietInfo)
+            if (Object.keys(user.dietGoals).length > 0) {
                 getUpdatedFoodChart(props, user)
             }
 

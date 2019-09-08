@@ -41,7 +41,7 @@ module.exports = app => {
                         email: req.body.email,
                         userName: req.body.userName,
                         password: req.body.password,
-                        dietInfo: {
+                        dietGoals: {
                             calories: req.body.calories,
                             protein: req.body.protein,
                             fat: req.body.fat,
@@ -121,11 +121,12 @@ module.exports = app => {
     })
 
     app.post('/api/save-food-items', (req, res) => {
+        console.log('req.body.dietGoals', req.body.selectedFoods)
         Users.findOneAndUpdate(
             { 'user.email': req.body.email },
             {
                 $push: {
-                    'user.userDietSummary': req.body.userDietSummary,
+                    'user.selectedFoods': req.body.selectedFoods,
                 },
             },
             {
@@ -139,14 +140,18 @@ module.exports = app => {
     })
 
     app.post('/api/save', (req, res, next) => {
+        console.log('req.body', req.body)
         Users.findOneAndUpdate(
             { 'user.email': req.body.email },
+            // {
+            //     'user.dietGoals.calories': req.body.dietGoals.calories,
+            //     'user.dietGoals.protein': req.body.dietGoals.protein,
+            //     'user.dietGoals.fat': req.body.dietGoals.fats,
+            //     'user.dietGoals.carbs': req.body.dietGoals.carbs,
+
+            // },
             {
-                'user.dietInfo.calories': req.body.dietGoals.calories,
-                'user.dietInfo.protein': req.body.dietGoals.protein,
-                'user.dietInfo.fat': req.body.dietGoals.fats,
-                'user.dietInfo.carbs': req.body.dietGoals.carbs,
-                // 'user.workouts': req.body.dietGoals.programs,
+                'user.dietGoals': req.body.dietGoals,
             },
             { new: true, lean: true },
             (err, doc) => {
