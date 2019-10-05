@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import Link from 'next/link'
 import { bindActionCreators } from 'redux'
 import { updatedFoodChart } from '../../actions'
-import SelectedFoodChart from './SelectedFoodChart'
-// import './food-chart.css';
 import styles from './styles.js'
 import axios from 'axios'
 import {
@@ -18,9 +16,8 @@ import {
     CardHeader,
     CardBody,
 } from 'reactstrap'
-import SmartTable from '../SmartTable'
 
-class FoodChart extends Component {
+class SelectedFoodsTable extends Component {
     displayUpdatedFoodData(dietSummary) {
         const totals = {
             calories: 0,
@@ -74,7 +71,9 @@ class FoodChart extends Component {
             userFoodList,
             userName,
             foodChartLoading,
+            foodList,
         } = this.props
+        console.log('foodList', foodList)
         if (Object.keys(dailyDietGoals).length > 0) {
             const {
                 previewFoodData,
@@ -82,13 +81,50 @@ class FoodChart extends Component {
             } = this.displayUpdatedFoodData(userFoodList)
             const savedFoodTableData = previewFoodData.map(
                 (foodObject, index) => (
-                    <SelectedFoodChart
-                        foodData={foodObject}
-                        key={index}
-                        onRemove={async selected =>
-                            await this.removeSelectedFood(selected, userName)
-                        }
-                    />
+                    <tr key={index}>
+                        <td>{foodObject.foodName}</td>
+                        <td>
+                            {foodObject.foodFacts.calories.qty
+                                ? foodObject.foodFacts.calories.qty
+                                : '0'}
+                        </td>
+                        <td>
+                            {foodObject.foodFacts.protein.qty
+                                ? foodObject.foodFacts.protein.qty
+                                : '0'}
+                        </td>
+                        <td>
+                            {foodObject.foodFacts.fats.qty
+                                ? foodObject.foodFacts.fats.qty
+                                : '0'}
+                        </td>
+                        <td>
+                            {foodObject.foodFacts.carbohydrates.qty
+                                ? foodObject.foodFacts.carbohydrates.qty
+                                : '0'}
+                        </td>
+                        <td>
+                            <div style={{ display: 'inline' }}>
+                                <Button
+                                    color="primary"
+                                    size="sm"
+                                    onClick={async selected =>
+                                        await this.removeSelectedFood(
+                                            foodObject,
+                                            userName
+                                        )
+                                    }
+                                >
+                                    Remove
+                                </Button>
+                            </div>
+                        </td>
+                        <style jsx>{`
+                            td :global(.btn-primary) {
+                                border-color: white !important;
+                            }
+                        `}</style>
+                    </tr>
                 )
             )
             const selectedMacrosOverGoal = Object.keys(dailyDietGoals).filter(
@@ -104,49 +140,9 @@ class FoodChart extends Component {
                 }
                 return ''
             }
-            const DietGoalsTableData = [
-                dailyDietGoals.calories,
-                dailyDietGoals.protein,
-                dailyDietGoals.fat,
-                dailyDietGoals.carbs,
-            ]
+
             return (
                 <>
-                    <Card className="m-auto">
-                        <CardBody>
-                            <div className="d-flex mb-2 justify-content-between">
-                                <h5>Daily Nutrient Intake Goals</h5>
-                                <Link href={{ pathname: '/assessment' }}>
-                                    <a className="btn btn-primary">New Goal</a>
-                                </Link>
-                            </div>
-
-                            <Table className={`mb-2`} dark>
-                                <thead>
-                                    <tr>
-                                        {[
-                                            'Calories (kcal)',
-                                            'Protein (grams)',
-                                            'Fat (grams)',
-                                            'Carbs (grams)',
-                                        ].map((header, index) => (
-                                            <th key={index}>{header}</th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        {DietGoalsTableData.map(
-                                            (data, index) => (
-                                                <td key={index}>{data}</td>
-                                            )
-                                        )}
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </CardBody>
-                        <style jsx>{styles}</style>
-                    </Card>
                     <div className="food-chart">
                         <Card className="mt-2">
                             <CardBody>
@@ -273,10 +269,7 @@ class FoodChart extends Component {
 
 const mapStateToProps = state => {
     return {
-        clientDietInfo: state.clientInfo,
-        foodList: state.foodList,
-        nutritionFacts: state.nutritionFacts,
-        savedFoodData: state.savedFoodData,
+        dailyDietGoals: state.dailyDietGoals,
     }
 }
 
@@ -285,4 +278,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(FoodChart)
+)(SelectedFoodsTable)

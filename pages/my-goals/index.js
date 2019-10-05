@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { Container, Row, Col, Button, Card, CardBody } from 'reactstrap'
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
-import FoodChart from '../../client/app/components/food-chart/FoodChart'
+import SelectedFoodsTable from '../../client/app/components/SelectedFoodsTable'
 import styles from './styles'
 import Link from 'next/link'
 import get from 'lodash.get'
+import ThemedTable from '../../client/app/components/ThemedTable'
 
 const getUpdatedFoodChart = (props, userData) => {
     props.updatedFoodChart(userData.selectedFoods)
@@ -40,7 +41,7 @@ const getUserData = async (props, setIsLoading, setUserName) => {
     setIsLoading(false)
 }
 
-const MyGoals = props => {
+const MyGoals = ({ dailyDietGoals, ...props }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [userName, setUserName] = useState(null)
     useEffect(() => {
@@ -53,20 +54,76 @@ const MyGoals = props => {
             >
                 <Row className="h-100">
                     {!isLoading && userName && (
-                        <Col lg="10" className="m-auto">
-                            <FoodChart
-                                getUpdatedFoodChart={userData =>
-                                    getUpdatedFoodChart(props, userData)
-                                }
-                                foodChartLoading={isLoading}
-                                userName={userName}
-                                userFoodList={
-                                    props.updatedUserFoodList.foodList
-                                }
-                                // dailyDietGoals={props.dailyDietGoals}
-                                {...props}
-                            />
-                        </Col>
+                        <>
+                            <Col className="m-auto" lg="10">
+                                <Card className="">
+                                    <CardBody>
+                                        <div className="d-flex mb-2 justify-content-between">
+                                            <h5>Daily Nutrient Intake Goals</h5>
+                                            <Link
+                                                href={{
+                                                    pathname: '/assessment',
+                                                }}
+                                            >
+                                                <a className="btn btn-primary">
+                                                    New Goal
+                                                </a>
+                                            </Link>
+                                        </div>
+                                        <ThemedTable>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">
+                                                        Calories (Kcal)
+                                                    </th>
+                                                    <th scope="col">
+                                                        Protein (Gs)
+                                                    </th>
+                                                    <th scope="col">
+                                                        Fat (Gs)
+                                                    </th>
+                                                    <th scope="col">
+                                                        Carbs (Gs)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        {
+                                                            dailyDietGoals.calories
+                                                        }
+                                                    </td>
+                                                    <td>
+                                                        {dailyDietGoals.protein}
+                                                    </td>
+                                                    <td>
+                                                        {dailyDietGoals.fats}
+                                                    </td>
+                                                    <td>
+                                                        {dailyDietGoals.carbs}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </ThemedTable>
+                                    </CardBody>
+                                </Card>
+                            </Col>
+
+                            <Col lg="10" className="m-auto">
+                                <SelectedFoodsTable
+                                    getUpdatedFoodChart={userData =>
+                                        getUpdatedFoodChart(props, userData)
+                                    }
+                                    foodChartLoading={isLoading}
+                                    userName={userName}
+                                    userFoodList={
+                                        props.updatedUserFoodList.foodList
+                                    }
+                                    {...props}
+                                />
+                            </Col>
+                        </>
                     )}
                     {!isLoading && !userName && (
                         <Col sm="6 m-auto">

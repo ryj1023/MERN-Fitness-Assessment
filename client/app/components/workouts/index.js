@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
+import React, { Component } from './node_modules/react';
+import { bindActionCreators } from './node_modules/redux';
+import { Redirect } from './node_modules/react-router-dom';
 import { validateSignUp } from '../../actions/async-actions';
-import { connect } from 'react-redux';
+import { connect } from './node_modules/react-redux';
 
 class Workouts extends Component {
 

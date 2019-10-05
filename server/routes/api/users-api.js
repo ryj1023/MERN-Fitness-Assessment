@@ -93,11 +93,11 @@ module.exports = app => {
         Users.findOneAndUpdate(
             {
                 'user.userName': req.body.userName,
-                'user.userDietSummary': {
+                'user.selectedFoods': {
                     $elemMatch: { foodName: req.body.foodName },
                 },
             },
-            { $unset: { 'user.userDietSummary.$': '' } },
+            { $unset: { 'user.selectedFoods.$': '' } },
             {
                 new: true,
                 multi: false,
@@ -105,7 +105,7 @@ module.exports = app => {
             (err, doc) => {
                 Users.findOneAndUpdate(
                     { 'user.userName': req.body.userName },
-                    { $pull: { 'user.userDietSummary': null } },
+                    { $pull: { 'user.selectedFoods': null } },
                     {
                         new: true,
                         multi: false,
