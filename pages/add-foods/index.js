@@ -198,7 +198,6 @@ class AddFoods extends Component {
    
    const encodedURI = window.encodeURI(`/api/save-food-items`);
    const storedDietGoals = get(JSON.parse(localStorage.getItem('user')), 'dietGoals') || {}
-   console.log('selectedFoods', selectedFoods)
    if (Object.keys(storedDietGoals).length === 0) {
      alert('You must take the assessment before you can add food intake to your list.')
    } else {
@@ -258,7 +257,8 @@ class AddFoods extends Component {
     const selectedFoodFacts = this.state.servingSize !== ''  ? customFoodFacts : this.state.selectedFoodFacts
     const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
     const servingType = this.props.nutritionFacts[0] && this.props.nutritionFacts[0].measures[0].label ? this.props.nutritionFacts[0].measures[0].label : null
-    console.log('nutritionFactUnits', nutritionFactUnits)
+    console.log('this.state.nutritionFactUnits', this.state.nutritionFactUnits)
+    console.log('selectedFoodFacts', selectedFoodFacts)
     return (
       <>
          <Col className='m-auto' xs='12' lg='10'>

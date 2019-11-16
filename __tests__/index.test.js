@@ -2,8 +2,8 @@ import React from 'react'
 import Home from '../pages'
 import { shallow } from 'enzyme'
 import configureStore from 'redux-mock-store'
-import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+// import { Provider } from 'react-redux'
+// import { createStore } from 'redux'
 
 describe('Home Page component', () => {
     /**

@@ -17,17 +17,18 @@ const getUpdatedFoodChart = (props, userData) => {
 }
 
 const getUserData = async (props, setIsLoading, setUserName) => {
-    if (JSON.parse(localStorage.getItem('user'))) {
+    const storedUser = JSON.parse(localStorage.getItem('user'))
+    if (storedUser) {
         try {
             const encodedURI = window.encodeURI(`/api/user-data`)
             const res = await axios.get(encodedURI, {
                 params: {
-                    email: JSON.parse(localStorage.getItem('user')).email,
+                    email: storedUser.email,
                 },
             })
             const user = get(res, 'data[0].user') || []
             // props.getDailyDietGoals(user.dietInfo)
-            if (Object.keys(user.dietGoals).length > 0) {
+            if (Object.keys(user.dietGoals || {}).length > 0) {
                 getUpdatedFoodChart(props, user)
             }
 
@@ -55,60 +56,70 @@ const MyGoals = ({ dailyDietGoals, ...props }) => {
                 <Row className="h-100">
                     {!isLoading && userName && (
                         <>
-                            <Col className="m-auto" lg="10">
-                                <Card className="">
-                                    <CardBody>
-                                        <div className="d-flex mb-2 justify-content-between">
-                                            <h5>Daily Nutrient Intake Goals</h5>
-                                            <Link
-                                                href={{
-                                                    pathname: '/assessment',
-                                                }}
-                                            >
-                                                <a className="btn btn-primary">
-                                                    New Goal
-                                                </a>
-                                            </Link>
-                                        </div>
-                                        <ThemedTable>
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">
-                                                        Calories (Kcal)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Protein (Gs)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Fat (Gs)
-                                                    </th>
-                                                    <th scope="col">
-                                                        Carbs (Gs)
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        {
-                                                            dailyDietGoals.calories
-                                                        }
-                                                    </td>
-                                                    <td>
-                                                        {dailyDietGoals.protein}
-                                                    </td>
-                                                    <td>
-                                                        {dailyDietGoals.fats}
-                                                    </td>
-                                                    <td>
-                                                        {dailyDietGoals.carbs}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </ThemedTable>
-                                    </CardBody>
-                                </Card>
-                            </Col>
+                            {Object.keys(dailyDietGoals).length > 0 && (
+                                <Col className="m-auto" lg="10">
+                                    <Card className="">
+                                        <CardBody>
+                                            <div className="d-flex mb-2 justify-content-between">
+                                                <h5>
+                                                    Daily Nutrient Intake Goals
+                                                </h5>
+                                                <Link
+                                                    href={{
+                                                        pathname: '/assessment',
+                                                    }}
+                                                >
+                                                    <a className="btn btn-primary">
+                                                        New Goal
+                                                    </a>
+                                                </Link>
+                                            </div>
+                                            <ThemedTable>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            Calories (Kcal)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Protein (Gs)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Fat (Gs)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Carbs (Gs)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.calories
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.protein
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.fats
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.carbs
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </ThemedTable>
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            )}
 
                             <Col lg="10" className="m-auto">
                                 <SelectedFoodsTable

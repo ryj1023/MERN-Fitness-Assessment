@@ -52,7 +52,7 @@ exports[`Navigation component correctly sets state 1`] = `
       <Link
         href={
           Object {
-            "pathname": "/fitness-assessment",
+            "pathname": "/assessment",
           }
         }
       >
@@ -60,13 +60,13 @@ exports[`Navigation component correctly sets state 1`] = `
           className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
           onClick={[Function]}
         >
-          Fitness Assessment
+          Assessment
         </a>
       </Link>
       <Link
         href={
           Object {
-            "pathname": "/food-search",
+            "pathname": "/my-goals",
           }
         }
       >
@@ -74,21 +74,7 @@ exports[`Navigation component correctly sets state 1`] = `
           className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
           onClick={[Function]}
         >
-          Food Search
-        </a>
-      </Link>
-      <Link
-        href={
-          Object {
-            "pathname": "/my-nutrition",
-          }
-        }
-      >
-        <a
-          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
-          onClick={[Function]}
-        >
-          My Nutrition
+          My Goals
         </a>
       </Link>
       <Link
@@ -143,7 +129,7 @@ exports[`Navigation component correctly sets state 1`] = `
       <Link
         href={
           Object {
-            "pathname": "/fitness-assessment",
+            "pathname": "/assessment",
           }
         }
       >
@@ -155,65 +141,27 @@ exports[`Navigation component correctly sets state 1`] = `
             }
           }
         >
-          Fitness Assessment
+          Assessment
         </a>
       </Link>
-      <UncontrolledButtonDropdown
-        className="dropdown-container d-none d-sm-flex"
+      <Link
+        href={
+          Object {
+            "pathname": "/my-goals",
+          }
+        }
       >
-        <DropdownToggle
-          aria-haspopup={true}
-          caret={true}
-          className="dropdown-button btn-lg border-0 rounded-0"
-          color="secondary"
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
         >
-          Nutrition
-        </DropdownToggle>
-        <DropdownMenu
-          className="p-0 w-100"
-          flip={true}
-          tag="div"
-        >
-          <DropdownItem
-            className="p-0"
-            tag="button"
-            toggle={true}
-          >
-            <Link
-              href={
-                Object {
-                  "pathname": "/my-nutrition",
-                }
-              }
-            >
-              <a
-                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
-              >
-                My Nutrition
-              </a>
-            </Link>
-          </DropdownItem>
-          <DropdownItem
-            className="p-0"
-            tag="button"
-            toggle={true}
-          >
-            <Link
-              href={
-                Object {
-                  "pathname": "/food-search",
-                }
-              }
-            >
-              <a
-                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
-              >
-                Food Search
-              </a>
-            </Link>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledButtonDropdown>
+          My Goals
+        </a>
+      </Link>
       <Link
         href="./login"
       >
@@ -315,7 +263,7 @@ exports[`Navigation component expect to render navigations component 1`] = `
       <Link
         href={
           Object {
-            "pathname": "/fitness-assessment",
+            "pathname": "/assessment",
           }
         }
       >
@@ -323,13 +271,13 @@ exports[`Navigation component expect to render navigations component 1`] = `
           className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
           onClick={[Function]}
         >
-          Fitness Assessment
+          Assessment
         </a>
       </Link>
       <Link
         href={
           Object {
-            "pathname": "/food-search",
+            "pathname": "/my-goals",
           }
         }
       >
@@ -337,21 +285,7 @@ exports[`Navigation component expect to render navigations component 1`] = `
           className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
           onClick={[Function]}
         >
-          Food Search
-        </a>
-      </Link>
-      <Link
-        href={
-          Object {
-            "pathname": "/my-nutrition",
-          }
-        }
-      >
-        <a
-          className="jsx-1729287270 w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
-          onClick={[Function]}
-        >
-          My Nutrition
+          My Goals
         </a>
       </Link>
       <Link
@@ -406,7 +340,7 @@ exports[`Navigation component expect to render navigations component 1`] = `
       <Link
         href={
           Object {
-            "pathname": "/fitness-assessment",
+            "pathname": "/assessment",
           }
         }
       >
@@ -418,65 +352,27 @@ exports[`Navigation component expect to render navigations component 1`] = `
             }
           }
         >
-          Fitness Assessment
+          Assessment
         </a>
       </Link>
-      <UncontrolledButtonDropdown
-        className="dropdown-container d-none d-sm-flex"
+      <Link
+        href={
+          Object {
+            "pathname": "/my-goals",
+          }
+        }
       >
-        <DropdownToggle
-          aria-haspopup={true}
-          caret={true}
-          className="dropdown-button btn-lg border-0 rounded-0"
-          color="secondary"
+        <a
+          className="jsx-1729287270 d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+          style={
+            Object {
+              "whiteSpace": "nowrap",
+            }
+          }
         >
-          Nutrition
-        </DropdownToggle>
-        <DropdownMenu
-          className="p-0 w-100"
-          flip={true}
-          tag="div"
-        >
-          <DropdownItem
-            className="p-0"
-            tag="button"
-            toggle={true}
-          >
-            <Link
-              href={
-                Object {
-                  "pathname": "/my-nutrition",
-                }
-              }
-            >
-              <a
-                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
-              >
-                My Nutrition
-              </a>
-            </Link>
-          </DropdownItem>
-          <DropdownItem
-            className="p-0"
-            tag="button"
-            toggle={true}
-          >
-            <Link
-              href={
-                Object {
-                  "pathname": "/food-search",
-                }
-              }
-            >
-              <a
-                className="jsx-1729287270 text-white btn w-100 btn-lg rounded-0"
-              >
-                Food Search
-              </a>
-            </Link>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledButtonDropdown>
+          My Goals
+        </a>
+      </Link>
       <Link
         href="./login"
       >

@@ -12,7 +12,6 @@ const rootReducer = combineReducers({
     clientInfo: calculateClientInfo,
     foodList: foods.getFoodsFromKeyword,
     nutritionFacts: foods.getNutritionFromSelectedFood,
-    /**/
     dailyDietGoals,
     validationErrors: validation.validateSignUpInput,
     signUpErrors: validation.validateNewEmail,

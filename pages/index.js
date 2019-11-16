@@ -20,7 +20,6 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
             .delay(500)
             .animate({ opacity: 1 }, 500)
     }, [])
-    console.log('user', user)
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
