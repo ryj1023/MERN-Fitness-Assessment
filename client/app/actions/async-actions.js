@@ -58,6 +58,7 @@ export const getFoodNutritionFacts = (foodID, foodName) => {
                 return dispatch({ type: SELECTED_FOOD, payload: foodObjects })
             })
             .catch(err => {
+                console.log('err', err)
                 throw err
             })
     }
