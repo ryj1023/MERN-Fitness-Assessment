@@ -2,80 +2,37 @@ import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
 import { bindActionCreators } from 'redux'
 
-import {
-    Container,
-    Row,
-    Col,
-    Table,
-    Form,
-    FormGroup,
-    Label,
-    FormText,
-    Input,
-    Modal,
-    ModalHeader,
-    ModalBody,
-    UncontrolledCollapse,
-    Button,
-    CardBody,
-    Card,
-    CardFooter,
-    Collapse,
-} from 'reactstrap'
+import { Col, Button } from 'reactstrap'
 import Pagination from 'rc-pagination'
-import axios from 'axios'
-import Link from 'next/link'
-import get from 'lodash.get'
-import moment from 'moment'
 
-const FoodList = ({
-    foodList,
-    selectedPage = 1,
-    pageNumber,
-    showFoodNutrients,
-}) => {
+const FoodList = ({ foodList, showFoodNutrients }) => {
+    const [pageNumber, setPageNumber] = useState(0)
+    const [selectedPage, setSelectedPage] = useState(1)
     const getSelectedPage = (targetName, id) => {
         if (Number.isNaN(Number(targetName))) {
             const newPageNumber =
                 targetName === 'next-page' || id === 'next'
                     ? pageNumber + 1
                     : pageNumber - 1
-            setState(prevState => ({
-                ...prevState,
-                pageNumber: newPageNumber,
-            }))
+            setPageNumber(newPageNumber)
             return newPageNumber
         } else {
-            setState(prevState => ({
-                ...prevState,
-                pageNumber: Number(targetName),
-            }))
+            setPageNumber(Number(targetName))
             return Number(targetName)
         }
     }
 
     const itemRender = (current, type, element) => {
-        const activeColorBackground =
-            selectedPage === current ? '#E8E7E7' : '#6c757d'
-        const activeColor = selectedPage === current ? '#6c757d' : 'white'
         switch (type) {
             case 'page': {
                 return (
                     <Button
                         color="primary"
                         className="mx-1 pagination-btn"
-                        /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={
-                            current
-                        }
+                        key={current}
                         name={current}
                         onClick={() =>
-                            setState(prevState => ({
-                                ...prevState,
-                                selectedPage: getSelectedPage(
-                                    current,
-                                    undefined
-                                ),
-                            }))
+                            setSelectedPage(getSelectedPage(current, undefined))
                         }
                     >
                         {current}
@@ -91,13 +48,7 @@ const FoodList = ({
                         disabled={pageNumber === 1}
                         name={current}
                         onClick={() =>
-                            setState(prevState => ({
-                                ...prevState,
-                                selectedPage: getSelectedPage(
-                                    'prev',
-                                    undefined
-                                ),
-                            }))
+                            setSelectedPage(getSelectedPage('prev', undefined))
                         }
                     >
                         Prev
@@ -113,13 +64,9 @@ const FoodList = ({
                         disabled={foodList.length - pageNumber * 10 < 10}
                         name={current}
                         onClick={() =>
-                            setState(prevState => ({
-                                ...prevState,
-                                selectedPage: getSelectedPage(
-                                    'next-page',
-                                    'next'
-                                ),
-                            }))
+                            setSelectedPage(
+                                getSelectedPage('next-page', 'next')
+                            )
                         }
                     >
                         Next
@@ -163,7 +110,6 @@ const FoodList = ({
             foodName = foodName.slice(0, foodName.indexOf(', GTIN'))
         }
         const { foodID, manufacturer } = food
-        // console.log('pageRange', pageRange)
         if (index + 1 >= pageRange && acc.length < 10) {
             acc.push(
                 <li
@@ -196,12 +142,7 @@ const FoodList = ({
                         total={foodList.length}
                         itemRender={itemRender}
                         className="mt-3 p-0"
-                        onChange={page =>
-                            setState(prevState => ({
-                                ...prevState,
-                                selectedPage: page,
-                            }))
-                        }
+                        onChange={page => setSelectedPage(page)}
                         current={selectedPage}
                     />
                 ) : null}

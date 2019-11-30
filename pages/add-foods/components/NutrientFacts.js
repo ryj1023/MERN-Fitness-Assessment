@@ -13,12 +13,29 @@ import {
     Card,
 } from 'reactstrap'
 import { bindActionCreators } from 'redux'
+import axios from 'axios'
+import get from 'lodash/get'
+import moment from 'moment'
+
+const getMacroQuantity = (foodFacts, macroId) => {
+    const foundMacroData =
+        foodFacts.find(food => food.nutrient_id === macroId) || {}
+    const [measure] = foundMacroData.measures || [{ measure: { value: 'N/A' } }]
+    return Number(measure.value)
+}
+
+const getMacroMeasure = (foodFacts, macroId) => {
+    const foundMacroData =
+        foodFacts.find(food => food.nutrient_id === macroId) || {}
+    return foundMacroData.unit
+}
 
 const NutrientFacts = ({
     nutritionFactUnits: units,
     nutritionFacts,
     selectedFoodName,
     backToFoodResults,
+    foodId,
 }) => {
     const [modalIsOpen, setModalIsOpen] = useState(null)
     const [selectedFoodFacts, setSelectedFoodFacts] = useState([])
@@ -29,6 +46,72 @@ const NutrientFacts = ({
     const [customMicroNutrients, setCustomMicroNutrients] = useState([])
     const [customFoodFacts, setCustomFoodFacts] = useState([])
     const [customNutritionFactUnits, setCustomNutritionFactUnits] = useState([])
+    const addSelectedFoodToFoodList = async (
+        selectedFoodFacts,
+        servingType
+    ) => {
+        const qty = get(nutritionFacts[0], 'measures[0].qty') || 1
+        const _servingSize = servingSize === '' ? qty : Number(servingSize)
+        const selectedFoods = {
+            foodName: selectedFoodName,
+            foodId,
+            date: moment().format('YYYY/MM/DD'),
+            servingSize: {
+                qty: _servingSize,
+                type: servingType,
+            },
+            macroNutrients: {
+                calories: {
+                    qty: getMacroQuantity(selectedFoodFacts, '208'),
+                    measure: getMacroMeasure(selectedFoodFacts, '208'),
+                },
+                carbohydrates: {
+                    qty: getMacroQuantity(selectedFoodFacts, '205'),
+                    measure: getMacroMeasure(selectedFoodFacts, '205'),
+                },
+                protein: {
+                    qty: getMacroQuantity(selectedFoodFacts, '203'),
+                    measure: getMacroMeasure(selectedFoodFacts, '203'),
+                },
+                fats: {
+                    qty: getMacroQuantity(selectedFoodFacts, '204'),
+                    measure: getMacroMeasure(selectedFoodFacts, '204'),
+                },
+            },
+        }
+
+        const encodedURI = window.encodeURI(`/api/save-food-items`)
+        const storedDietGoals =
+            get(JSON.parse(localStorage.getItem('user')), 'dietGoals') || {}
+        if (Object.keys(storedDietGoals).length === 0) {
+            alert(
+                'You must take the assessment before you can add food intake to your list.'
+            )
+        } else {
+            try {
+                const res = await axios
+                    .post(encodedURI, {
+                        selectedFoods,
+                        email: userData.email,
+                    })
+                    .then(res => {
+                        //  this.props.getUserData(res.data.user.userDietSummary)
+                        localStorage.setItem(
+                            'user',
+                            JSON.stringify(res.data.user)
+                        )
+                        if (res.status === 201) {
+                            alert('Added to daily intake list!')
+                        }
+                    })
+                    .catch(err => {
+                        console.log('err', err)
+                    })
+            } catch (err) {
+                console.log('err', err)
+            }
+        }
+    }
 
     useEffect(() => {
         const userData = JSON.parse(localStorage.getItem('user'))
@@ -43,7 +126,7 @@ const NutrientFacts = ({
         const _selectedFoodFacts = []
         const _microNutrients = []
         const _nutritionFactUnits = nutritionFacts.reduce((acc, data) => {
-            selectedFoodFacts.push(data)
+            _selectedFoodFacts.push(data)
             if (
                 (data.name.includes('Energy') && data.unit === 'kcal') ||
                 data.name.includes('Protein') ||
@@ -52,7 +135,7 @@ const NutrientFacts = ({
             ) {
                 acc.push(`${data.measures[0].value}${data.unit}`)
             } else {
-                microNutrients.push({
+                _microNutrients.push({
                     name: data.name,
                     value: `${data.measures[0].value}`,
                     unit: data.unit,
@@ -60,6 +143,7 @@ const NutrientFacts = ({
             }
             return acc
         }, [])
+        console.log('servingSize', servingSize)
         setNutritionFactUnits(_nutritionFactUnits)
         if (nutritionFacts[0]) {
             setNutritionFactUnits([
