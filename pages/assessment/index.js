@@ -21,7 +21,6 @@ import MacrosForm from './components/MacrosForm'
 import { gatherFitnessInfo } from '../../client/app/actions'
 // import { saveUserData } from '../../client/app/actions/async-actions'
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input'
-import styles from './styles.js'
 import Router from 'next/router'
 import Link from 'next/link'
 import axios from 'axios'
@@ -200,7 +199,60 @@ const Assessment = props => {
                     )}
                 </div>
             </Container>
-            <style jsx>{styles}</style>
+            {/* <style jsx>{styles}</style> */}
+            <style jsx>{`body, .home-wrapper {
+   height: 100vh;
+ }
+ h1{
+   font-size: 20px;
+   color: black;
+ }
+ 
+ .container-wrapper{
+   background-color: #eee;
+   /* height: 70vh; */
+   display: grid;
+   grid-template-rows: 1fr 2fr;
+   grid-template-rows: 1fr 3fr;
+   margin: 4em;
+ }
+ 
+ .tables-container {
+   display: grid;
+   grid-template-rows: 1fr 1fr;
+   grid-gap: 1em;
+   margin: 0 0.5em;
+ }
+ 
+ .profile-wrapper> div {
+   background-color: #eee;
+ }
+ 
+ .home-feed {
+  background-color: #eee;
+ }
+ 
+ .diet-display-table {
+   margin: auto;
+   border-collapse: collapse;
+   border: 1px solid rgba(182, 174, 174, 0.93);
+ }
+ 
+ p{
+   color: black;
+ }
+ table, tr, th, td {
+   color: black;
+   border: 1px solid #ddd;
+ }
+ 
+
+ 
+ @media screen and (max-width: 900px) {
+ 
+   .container-wrapper {
+    grid-template-rows: 1fr 3fr;
+  }`}</style>
         </div>
     )
 }
@@ -220,7 +272,4 @@ Assessment.getInitialProps = ({ query }) => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ gatherFitnessInfo }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Assessment)
+export default connect(mapStateToProps, mapDispatchToProps)(Assessment)

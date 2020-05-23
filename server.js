@@ -11,7 +11,7 @@ const dev = process.env.NODE_ENV !== 'production'
 const _app = next({ dev })
 const handle = _app.getRequestHandler()
 const port = process.env.PORT || 3000
-const path = require('path')
+// const path = require('path')
 require('./server/routes/api/users-api')(app)
 require('dotenv').config()
 mongoose.connect(process.env.MONGOLAB_URI, {
@@ -23,11 +23,11 @@ mongoose.connection.once('open', function() {
 })
 _app.prepare()
     .then(() => {
-        app.get('/service-worker.js', function(request, response) {
-            response.sendFile(
-                path.resolve(__dirname, './.next', 'service-worker.js')
-            )
-        })
+        // app.get('/service-worker.js', function(request, response) {
+        //     response.sendFile(
+        //         path.resolve(__dirname, './.next', 'service-worker.js')
+        //     )
+        // })
         // app.use(handler).listen(3000)
         app.get('*', (req, res) => {
             return handle(req, res)

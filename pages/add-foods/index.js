@@ -25,7 +25,7 @@ const AddFoods = ({ foodList, nutritionFacts, getFoodNutritionFacts }) => {
     const {
         foodTextInput,
         showNutrientFacts,
-        selectedFoodName,
+        selectedFoodName, 
         foodId,
         selectedPage,
         pageNumber,

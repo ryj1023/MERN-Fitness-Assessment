@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Container, Row, Col, Button, Card, CardBody } from 'reactstrap'
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
 import SelectedFoodsTable from '../../client/app/components/SelectedFoodsTable'
-import styles from './styles'
 import Link from 'next/link'
 import get from 'lodash.get'
 import ThemedTable from '../../client/app/components/ThemedTable'
@@ -162,7 +161,12 @@ const MyGoals = ({ dailyDietGoals, ...props }) => {
                     )}
                 </Row>
             </Container>
-            <style jsx>{styles}</style>
+            {/* <style jsx>{styles}</style> */}
+            <style jsx>{`
+                div {
+                    padding: 10px;
+                }
+            `}</style>
         </div>
     )
 }
@@ -177,7 +181,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ updatedFoodChart, getDailyDietGoals }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MyGoals)
+export default connect(mapStateToProps, mapDispatchToProps)(MyGoals)
