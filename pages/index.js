@@ -6,7 +6,7 @@ import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
 import Link from 'next/link'
 import $ from 'jquery'
-
+import get from 'lodash.get'
 const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
@@ -18,6 +18,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
             .delay(500)
             .animate({ opacity: 1 }, 500)
     }, [])
+    const recipes = get(foodRecipes, 'recipes') || []
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
@@ -83,7 +84,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                         </Col>
                     </Row>
                 </div>
-                {foodRecipes && foodRecipes.recipes.length > 0 && (
+                {recipes.length > 0 && (
                     <div className="col col-12">
                         <Card>
                             <CardBody>
@@ -199,7 +200,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ getFeaturedRecipeList }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
