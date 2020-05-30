@@ -1,4 +1,4 @@
-const Users = require('../../models/User-info.model.js')
+// const Users = require('../../models/User-info.model.js')
 const request = require('request')
 const axios = require('axios')
 const expressValidator = require('express-validator')
@@ -6,7 +6,6 @@ const bodyParser = require('body-parser')
 module.exports = app => {
     app.use(expressValidator())
     app.use(bodyParser.json())
-
     app.get('/api/sign-up', (req, res, next) => {
         res.render('index', {
             title: 'validator',
@@ -15,7 +14,6 @@ module.exports = app => {
         })
         req.session.errors = null
     })
-
     app.post('/api/validation', (req, res, next) => {
         req.checkBody('email', 'Invalid Email Address').isEmail()
         req.checkBody('password', 'Password Is Too Short').isLength({ min: 4 })
@@ -31,7 +29,6 @@ module.exports = app => {
         }
         // req.session.errors = null; // clears errors after shown to the user
     })
-
     app.post('/api/validation/create-user', (req, res) => {
         Users.find({ 'user.email': req.body.email }, (err, user) => {
             if (err) return res.status(500).send(err)
@@ -61,7 +58,6 @@ module.exports = app => {
             }
         })
     })
-
     app.get('/api/login', (req, res, next) => {
         Users.find(
             {
@@ -76,7 +72,6 @@ module.exports = app => {
             }
         )
     })
-
     app.get('/api/user-data', (req, res, next) => {
         Users.find(
             { 'user.email': req.query.email },
@@ -87,7 +82,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/remove-food-item', (req, res) => {
         // first you need to set the desired data to a blank value before you can pull the data from the database
         Users.findOneAndUpdate(
@@ -119,7 +113,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/save-food-items', (req, res) => {
         console.log('req.body.dietGoals', req.body.selectedFoods)
         Users.findOneAndUpdate(
@@ -138,7 +131,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/save', (req, res, next) => {
         console.log('req.body', req.body)
         Users.findOneAndUpdate(
@@ -148,7 +140,6 @@ module.exports = app => {
             //     'user.dietGoals.protein': req.body.dietGoals.protein,
             //     'user.dietGoals.fat': req.body.dietGoals.fats,
             //     'user.dietGoals.carbs': req.body.dietGoals.carbs,
-
             // },
             {
                 'user.dietGoals': req.body.dietGoals,
@@ -160,7 +151,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/get-recipe-list', async (req, res) => {
         try {
             const result = await axios.get(
