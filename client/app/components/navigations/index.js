@@ -1,5 +1,5 @@
-import React, { Component, useState, useEffect } from 'react'
-import Drawer from 'react-motion-drawer'
+import React, { Component, useState, useEffect } from './node_modules/react'
+import Drawer from './node_modules/react-motion-drawer'
 import {
     Button,
     UncontrolledButtonDropdown,
@@ -8,9 +8,9 @@ import {
     DropdownToggle,
     ListGroup,
     ListGroupItem,
-} from 'reactstrap'
-import Link from 'next/link'
-import { AlignJustify } from 'react-feather'
+} from './node_modules/reactstrap'
+import Link from './node_modules/next/link'
+import { AlignJustify } from './node_modules/react-feather'
 
 const Navigation = ({ loggedIn, loading }) => {
     const [openRight, setOpenRight] = useState(false)
