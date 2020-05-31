@@ -23,14 +23,14 @@ const FoodSearchForm = ({ foodList, getFoodSearchKeyword }) => {
                         My Goals
                     </a>
                 </Link>
-                {foodTextInput && foodList.length > 0 && (
+                {/* {foodTextInput && foodList.length > 0 && (
                     <button
                         onClick={() => setModalIsOpen(true)}
                         className="btn btn-link text-decoration-none"
                     >
                         See Recipes
                     </button>
-                )}
+                )} */}
             </div>
             <Form
                 className="text-center d-block"
@@ -80,7 +80,4 @@ const mapDispatchToProps = dispatch =>
         dispatch
     )
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FoodSearchForm)
+export default connect(mapStateToProps, mapDispatchToProps)(FoodSearchForm)

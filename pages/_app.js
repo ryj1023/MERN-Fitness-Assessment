@@ -23,12 +23,11 @@ export default class MyApp extends App {
     render() {
         const { Component, pageProps } = this.props
         return (
-            <Container>
-                <Provider store={store}>
-                    <Layout>
-                        <div>
-                            <Component store={store} {...pageProps} />
-                            {/* <style jsx>
+            <Provider store={store}>
+                <Layout>
+                    <div>
+                        <Component store={store} {...pageProps} />
+                        {/* <style jsx>
                                 {`
                                     :global(.btn) {
                                         background: #454545;
@@ -39,10 +38,9 @@ export default class MyApp extends App {
                                     }
                                 `}
                             </style> */}
-                        </div>
-                    </Layout>
-                </Provider>
-            </Container>
+                    </div>
+                </Layout>
+            </Provider>
         )
     }
 }

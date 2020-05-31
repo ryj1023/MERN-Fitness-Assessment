@@ -76,7 +76,6 @@ const SignUp = props => {
                                         props.validationResult === 'success'
                                     )
                                         window.location = '/'
-                                    console.log('errors', errors)
                                     return (
                                         <Form>
                                             {props.signUpResult.includes(
@@ -237,7 +236,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ validateSignUp }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignUp)
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp)

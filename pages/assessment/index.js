@@ -66,12 +66,10 @@ const SelectGoalTypeForm = () => {
 
 const Assessment = props => {
     const { form, calories } = props
-    console.log('props', props)
     const [userData, setUserData] = useState(null)
     const [modal, openModal] = useState(false)
     const [dietGoals, setDietGoals] = useState(null)
     const [updateSuccess, setUpdateSuccess] = useState(false)
-    console.log('dietGoals', dietGoals)
     useEffect(() => {
         setUserData(JSON.parse(localStorage.getItem('user')))
         if (dietGoals) {

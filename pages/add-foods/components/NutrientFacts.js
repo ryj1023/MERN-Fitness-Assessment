@@ -143,7 +143,6 @@ const NutrientFacts = ({
             }
             return acc
         }, [])
-        console.log('servingSize', servingSize)
         setNutritionFactUnits(_nutritionFactUnits)
         if (nutritionFacts[0]) {
             setNutritionFactUnits([
@@ -335,7 +334,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(NutrientFacts)
+export default connect(mapStateToProps, mapDispatchToProps)(NutrientFacts)
