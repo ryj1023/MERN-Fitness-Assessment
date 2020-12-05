@@ -191,6 +191,7 @@ const SignUp = props => {
                                                 </Label>
                                             </FormGroup>
                                             <button
+                                                type="submit"
                                                 className="btn btn-primary w-100"
                                                 onClick={handleSubmit}
                                             >

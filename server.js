@@ -10,6 +10,7 @@ const _app = next({ dev })
 const handle = _app.getRequestHandler()
 const port = process.env.PORT || 8000
 const path = require('path')
+const CryptoJS = require('crypto-js')
 require('./server/routes/api/users-api')(app)
 
 require('dotenv').config()
@@ -20,6 +21,19 @@ mongoose.Promise = global.Promise
 mongoose.connection.once('open', function() {
     console.log('mongo connected')
 })
+
+// const MongoClient = require('mongodb').MongoClient
+
+// const client = new MongoClient(process.env.MONGOLAB_URI, {
+//     useNewUrlParser: true,
+// })
+// client.connect(err => {
+//     if (err) throw err
+//     const collection = client.db('test').collection('devices')
+//     // perform actions on the collection object
+//     console.log('DB CONNECTION SUCCESS!')
+//     client.close()
+// })
 
 _app.prepare()
     .then(() => {
@@ -34,6 +48,7 @@ _app.prepare()
         })
         app.listen(port, err => {
             if (err) throw err
+
             console.log('> Ready on http://localhost:8000')
         })
     })

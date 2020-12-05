@@ -1,8 +1,11 @@
-// const Users = require('../../models/User-info.model.js')
+const Users = require('../../models/User-info.model.js')
 const request = require('request')
 const axios = require('axios')
 const expressValidator = require('express-validator')
 const bodyParser = require('body-parser')
+const CryptoJS = require('crypto-js')
+const get = require('lodash/get')
+
 module.exports = app => {
     app.use(expressValidator())
     app.use(bodyParser.json())
@@ -37,7 +40,10 @@ module.exports = app => {
                     user: {
                         email: req.body.email,
                         userName: req.body.userName,
-                        password: req.body.password,
+                        password: CryptoJS.AES.encrypt(
+                            req.body.password,
+                            process.env.SECRET
+                        ).toString(),
                         dietGoals: {
                             calories: req.body.calories,
                             protein: req.body.protein,
@@ -59,14 +65,35 @@ module.exports = app => {
         })
     })
     app.get('/api/login', (req, res, next) => {
+        console.log('password', req.query.password)
+        const encryptedPassword = CryptoJS.AES.encrypt(
+            req.query.password,
+            process.env.SECRET
+        ).toString()
+        console.log('encryptedPassword', encryptedPassword)
+
         Users.find(
             {
                 'user.email': req.query.email,
-                'user.password': req.query.password,
+                // 'user.password': req.query.password,
+                // 'user.password': encryptedPassword,
             },
-            '-user.password',
+            // '-user.password',
             (err, user) => {
-                console.log('user', user)
+                const jsonUser = JSON.stringify(user)
+                const password_ = jsonUser[0]
+                console.log('password_', password_)
+                const passwordFromDatabase =
+                    get(user, 'data[0].user.password') || null
+                console.log('passwordFromDatabase', passwordFromDatabase)
+
+                // Decrypt
+                // var bytes = CryptoJS.AES.decrypt(
+                //     passwordFromDatabase,
+                //     process.env.SECRET
+                // )
+                // var originalText = bytes.toString(CryptoJS.enc.Utf8)
+                // console.log('originalText', originalText)
                 if (err) return res.status(500).send(err)
                 res.json(user)
             }
