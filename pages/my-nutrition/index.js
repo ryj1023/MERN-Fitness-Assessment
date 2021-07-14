@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Container, Row, Col, Button, Card, CardBody } from 'reactstrap'
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
 import FoodChart from '../../client/app/components/food-chart/FoodChart'
-import styles from './styles'
+
 import Link from 'next/link'
 
 const getUpdatedFoodChart = (props, userData) => {
@@ -82,7 +82,11 @@ const NutritionCenter = props => {
                     )}
                 </Row>
             </Container>
-            <style jsx>{styles}</style>
+            <style jsx>{`
+                div {
+                    padding: 10px;
+                }
+            `}</style>
         </div>
     )
 }
@@ -97,7 +101,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ updatedFoodChart, getDailyDietGoals }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(NutritionCenter)
+export default connect(mapStateToProps, mapDispatchToProps)(NutritionCenter)
