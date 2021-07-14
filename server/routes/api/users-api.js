@@ -70,7 +70,7 @@ module.exports = app => {
             },
             '-user.password',
             (err, user) => {
-                console.log('user', user)
+                // console.log('err', err)
                 if (err) return res.status(500).send(err)
                 res.json(user)
             }
