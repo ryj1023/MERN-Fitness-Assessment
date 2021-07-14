@@ -18,7 +18,7 @@
         "test": "jest --watch *.js"
     },
     "engines": {
-        "node": "13.12.0",
+        "node": "15.10.0",
         "npm": "^3.10.5",
         "yarn": "^1.12.3"
     },
