@@ -5,8 +5,12 @@ import NutrientFacts from './components/NutrientFacts'
 import FoodSearchForm from './components/FoodSearchForm'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { getFoodNutritionFacts } from '../../client/app/actions/async-actions'
-import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
+// import { getFoodNutritionFacts } from '../../client/app/actions/async-actions'
+import {
+    updatedFoodChart,
+    getDailyDietGoals,
+    getFoodNutritionFacts,
+} from '../../client/app/actions'
 import { Container, Row, Col, CardBody, Card } from 'reactstrap'
 import axios from 'axios'
 import Link from 'next/link'
@@ -25,7 +29,7 @@ const AddFoods = ({ foodList, nutritionFacts, getFoodNutritionFacts }) => {
     const {
         foodTextInput,
         showNutrientFacts,
-        selectedFoodName, 
+        selectedFoodName,
         foodId,
         selectedPage,
         pageNumber,
@@ -59,7 +63,8 @@ const AddFoods = ({ foodList, nutritionFacts, getFoodNutritionFacts }) => {
     }
 
     const showFoodNutrients = selectedFood => {
-        getFoodNutritionFacts(selectedFood.foodID, foodTextInput)
+        // getFoodNutritionFacts(selectedFood.foodID, foodTextInput)
+        getFoodNutritionFacts(selectedFood?.foodNutrients)
         setState(prevState => ({
             ...prevState,
             showNutrientFacts: true,
@@ -189,7 +194,4 @@ const mapDispatchToProps = dispatch =>
         },
         dispatch
     )
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AddFoods)
+export default connect(mapStateToProps, mapDispatchToProps)(AddFoods)

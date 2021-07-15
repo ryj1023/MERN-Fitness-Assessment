@@ -31,30 +31,30 @@ class TableHeader extends Component {
                             {/* <th scope="row">{props.rowNumber}</th> */}
                             {tableData &&
                                 tableData.map((data, index) => {
-                                    if (index === tableData.length - 1) {
-                                        return (
-                                            <td key={index}>
-                                                <input
-                                                    type="number"
-                                                    onChange={e =>
-                                                        updateServingSize(
-                                                            e.target.value
-                                                        )
-                                                    }
-                                                    placeholder={data}
-                                                    id="servingSize"
-                                                    name="servingSize"
-                                                    min="0"
-                                                    max="100"
-                                                />
-                                                <span>
-                                                    {servingType
-                                                        ? `${servingType}(s)`
-                                                        : 'N/A'}
-                                                </span>
-                                            </td>
-                                        )
-                                    }
+                                    // if (index === tableData.length - 1) {
+                                    //     return (
+                                    //         <td key={index}>
+                                    //             <input
+                                    //                 type="number"
+                                    //                 onChange={e =>
+                                    //                     updateServingSize(
+                                    //                         e.target.value
+                                    //                     )
+                                    //                 }
+                                    //                 placeholder={data}
+                                    //                 id="servingSize"
+                                    //                 name="servingSize"
+                                    //                 min="0"
+                                    //                 max="100"
+                                    //             />
+                                    //             <span>
+                                    //                 {servingType
+                                    //                     ? `${servingType}(s)`
+                                    //                     : 'N/A'}
+                                    //             </span>
+                                    //         </td>
+                                    //     )
+                                    // }
                                     return <td key={index}>{data}</td>
                                 })}
                         </tr>

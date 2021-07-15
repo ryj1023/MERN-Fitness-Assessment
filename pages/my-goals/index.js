@@ -7,11 +7,10 @@ import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
 import SelectedFoodsTable from '../../client/app/components/SelectedFoodsTable'
 import Link from 'next/link'
 import get from 'lodash.get'
-import ThemedTable from '../../client/app/components/ThemedTable';
-
+import ThemedTable from '../../client/app/components/ThemedTable'
 
 const getUpdatedFoodChart = (props, userData) => {
-    props.updatedFoodChart(userData.selectedFoods)
+    userData.selectedFoods && props.updatedFoodChart(userData.selectedFoods)
     props.getDailyDietGoals(userData.dietGoals)
     localStorage.setItem('user', JSON.stringify(userData))
 }
@@ -26,14 +25,16 @@ const getUserData = async (props, setIsLoading, setUserName) => {
                     email: storedUser.email,
                 },
             })
-            const user = get(res, 'data[0].user') || []
+
+            const user = res?.data[0]?.user || []
+
             // props.getDailyDietGoals(user.dietInfo)
             if (Object.keys(user.dietGoals || {}).length > 0) {
                 getUpdatedFoodChart(props, user)
             }
 
             setIsLoading(false)
-            setUserName(res.data[0].user.userName)
+            setUserName(user?.userName)
         } catch (err) {
             console.log('err', err)
             setIsLoading(false)

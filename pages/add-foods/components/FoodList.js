@@ -116,7 +116,10 @@ const FoodList = ({ foodList, showFoodNutrients }) => {
                     className="list-group-item"
                     key={index}
                     id={foodID}
-                    onClick={() => showFoodNutrients({ foodID, foodName })}
+                    // onClick={() => showFoodNutrients({ foodID, foodName })}
+                    onClick={() =>
+                        showFoodNutrients({ foodID, foodName, ...food })
+                    }
                 >
                     <b>{foodName}</b>
                     <br />
