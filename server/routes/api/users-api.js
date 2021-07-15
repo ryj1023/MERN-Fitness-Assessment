@@ -16,6 +16,41 @@ module.exports = app => {
         req.session.errors = null
     })
 
+    app.get('/api/get-food-search-keyword', (req, res, next) => {
+        const { keyword, offset } = req.query
+
+        // `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
+
+        axios
+            .get(
+                `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&query=${keyword}`
+            )
+            .then(response => {
+                return res.json(response.data)
+            })
+            .catch(err => {
+                console.log('err', err)
+                res.send(err)
+                // throw err
+            })
+    })
+    app.get('/api/get-nutrition-facts', (req, res, next) => {
+        const { foodId } = req.query
+
+        axios
+            .get(
+                `https://api.nal.usda.gov/fdc/v1/food/${foodId}?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8`
+            )
+            .then(response => {
+                return res.json(response.data)
+            })
+            .catch(err => {
+                console.log('err', err)
+                res.send(err)
+                // throw err
+            })
+    })
+
     app.post('/api/validation', (req, res, next) => {
         req.checkBody('email', 'Invalid Email Address').isEmail()
         req.checkBody('password', 'Password Is Too Short').isLength({ min: 4 })
