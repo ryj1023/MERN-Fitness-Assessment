@@ -73,7 +73,7 @@ class SelectedFoodsTable extends Component {
             foodChartLoading,
             foodList,
         } = this.props
-        console.log('foodList', foodList)
+
         if (Object.keys(dailyDietGoals).length > 0) {
             const {
                 previewFoodData,
@@ -275,7 +275,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ updatedFoodChart }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SelectedFoodsTable)
+export default connect(mapStateToProps, mapDispatchToProps)(SelectedFoodsTable)

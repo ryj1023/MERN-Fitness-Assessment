@@ -14,9 +14,7 @@ const CryptoJS = require('crypto-js')
 require('./server/routes/api/users-api')(app)
 
 require('dotenv').config()
-mongoose.connect(process.env.MONGOLAB_URI, {
-    useMongoClient: true,
-})
+mongoose.connect(process.env.MONGOLAB_URI)
 mongoose.Promise = global.Promise
 mongoose.connection.once('open', function() {
     console.log('mongo connected')

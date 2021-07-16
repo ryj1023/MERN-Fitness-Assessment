@@ -46,6 +46,7 @@ const getUserData = async (props, setIsLoading, setUserName) => {
 const MyGoals = ({ dailyDietGoals, ...props }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [userName, setUserName] = useState(null)
+
     useEffect(() => {
         getUserData(props, setIsLoading, setUserName)
     }, [])

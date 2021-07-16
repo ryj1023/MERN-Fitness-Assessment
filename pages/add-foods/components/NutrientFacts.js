@@ -94,23 +94,16 @@ const NutrientFacts = ({
             )
         } else {
             try {
-                const res = await axios
-                    .post(encodedURI, {
-                        selectedFoods,
-                        email: userData.email,
-                    })
-                    .then(res => {
-                        localStorage.setItem(
-                            'user',
-                            JSON.stringify(res.data.user)
-                        )
-                        if (res.status === 201) {
-                            alert('Added to daily intake list!')
-                        }
-                    })
-                    .catch(err => {
-                        console.log('err', err)
-                    })
+                const res = await axios.post(encodedURI, {
+                    selectedFoods,
+                    email: userData.email,
+                })
+                if (res) {
+                    localStorage.setItem('user', JSON.stringify(res.data.user))
+                    if (res.status === 201) {
+                        alert('Added to daily intake list!')
+                    }
+                }
             } catch (err) {
                 console.log('err', err)
             }

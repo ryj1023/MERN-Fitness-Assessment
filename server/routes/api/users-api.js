@@ -99,12 +99,10 @@ module.exports = app => {
         })
     })
     app.get('/api/login', (req, res, next) => {
-        console.log('password', req.query.password)
         const encryptedPassword = CryptoJS.AES.encrypt(
             req.query.password,
             process.env.SECRET
         ).toString()
-        console.log('encryptedPassword', encryptedPassword)
 
         Users.find(
             {
@@ -175,7 +173,6 @@ module.exports = app => {
         )
     })
     app.post('/api/save-food-items', (req, res) => {
-        console.log('req.body.dietGoals', req.body.selectedFoods)
         Users.findOneAndUpdate(
             { 'user.email': req.body.email },
             {

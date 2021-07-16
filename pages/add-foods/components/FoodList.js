@@ -6,6 +6,7 @@ import { Col, Button } from 'reactstrap'
 import Pagination from 'rc-pagination'
 
 const FoodList = ({ foodList, showFoodNutrients }) => {
+    
     const [pageNumber, setPageNumber] = useState(0)
     const [selectedPage, setSelectedPage] = useState(1)
     const getSelectedPage = (targetName, id) => {
