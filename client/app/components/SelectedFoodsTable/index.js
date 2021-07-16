@@ -230,7 +230,6 @@ class SelectedFoodsTable extends Component {
                                                             2
                                                         )}
                                                     </td>
-                                                    <td />
                                                 </tr>
                                             </tbody>
                                         </table>
