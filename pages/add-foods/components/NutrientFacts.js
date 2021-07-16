@@ -25,15 +25,16 @@ import NutrientFactsTable from './NutrientFactsTable'
 
 const getMacroQuantity = (foodFacts, macroId) => {
     const foundMacroData =
-        foodFacts.find(food => food.nutrient_id === macroId) || {}
-    const [measure] = foundMacroData.measures || [{ measure: { value: 'N/A' } }]
-    return Number(measure.value)
+        foodFacts.find(food => food.nutrientNumber === macroId) || {}
+
+    // const [measure] = foundMacroData.value || [{ measure: { value: 'N/A' } }]
+    return foundMacroData ? Number(foundMacroData.value) : 'N/A'
 }
 
 const getMacroMeasure = (foodFacts, macroId) => {
     const foundMacroData =
-        foodFacts.find(food => food.nutrient_id === macroId) || {}
-    return foundMacroData.unit
+        foodFacts.find(food => food.nutrientNumber === macroId) || {}
+    return foundMacroData.unitName.toLowerCase()
 }
 
 const NutrientFacts = ({
@@ -52,15 +53,9 @@ const NutrientFacts = ({
     const [customMicroNutrients, setCustomMicroNutrients] = useState([])
     const [customFoodFacts, setCustomFoodFacts] = useState([])
     const [customNutritionFactUnits, setCustomNutritionFactUnits] = useState([])
-    const [initialState, setInitialState] = useInitialState(nutritionFacts)
+    const [initialState] = useInitialState(nutritionFacts)
 
-    const addSelectedFoodToFoodList = async (
-        selectedFoodFacts,
-        servingType
-    ) => {
-        console.log('selectedFoodFacts', selectedFoodFacts)
-        // const qty = get(nutritionFacts[0], 'measures[0].qty') || 1
-        // const _servingSize = servingSize === '' ? qty : Number(servingSize)
+    const addSelectedFoodToFoodList = async () => {
         const selectedFoods = {
             foodName: selectedFoodName,
             foodId,
@@ -69,52 +64,53 @@ const NutrientFacts = ({
             //     qty: _servingSize,
             //     type: servingType,
             // },
-            // macroNutrients: {
-            //     calories: {
-            //         qty: getMacroQuantity(selectedFoodFacts, '208'),
-            //         measure: getMacroMeasure(selectedFoodFacts, '208'),
-            //     },
-            //     carbohydrates: {
-            //         qty: getMacroQuantity(selectedFoodFacts, '205'),
-            //         measure: getMacroMeasure(selectedFoodFacts, '205'),
-            //     },
-            //     protein: {
-            //         qty: getMacroQuantity(selectedFoodFacts, '203'),
-            //         measure: getMacroMeasure(selectedFoodFacts, '203'),
-            //     },
-            //     fats: {
-            //         qty: getMacroQuantity(selectedFoodFacts, '204'),
-            //         measure: getMacroMeasure(selectedFoodFacts, '204'),
-            //     },
-            // },
+            macroNutrients: {
+                calories: {
+                    qty: getMacroQuantity(nutritionFacts, '208'),
+                    measure: getMacroMeasure(nutritionFacts, '208'),
+                },
+                carbohydrates: {
+                    qty: getMacroQuantity(nutritionFacts, '205'),
+                    measure: getMacroMeasure(nutritionFacts, '205'),
+                },
+                protein: {
+                    qty: getMacroQuantity(nutritionFacts, '203'),
+                    measure: getMacroMeasure(nutritionFacts, '203'),
+                },
+                fats: {
+                    qty: getMacroQuantity(nutritionFacts, '204'),
+                    measure: getMacroMeasure(nutritionFacts, '204'),
+                },
+            },
         }
 
         const encodedURI = window.encodeURI(`/api/save-food-items`)
         const storedDietGoals =
             get(JSON.parse(localStorage.getItem('user')), 'dietGoals') || {}
+
         if (Object.keys(storedDietGoals).length === 0) {
             alert(
                 'You must take the assessment before you can add food intake to your list.'
             )
         } else {
             try {
-                // const res = await axios
-                //     .post(encodedURI, {
-                //         selectedFoods,
-                //         email: userData.email,
-                //     })
-                //     .then(res => {
-                //         localStorage.setItem(
-                //             'user',
-                //             JSON.stringify(res.data.user)
-                //         )
-                //         if (res.status === 201) {
-                //             alert('Added to daily intake list!')
-                //         }
-                //     })
-                //     .catch(err => {
-                //         console.log('err', err)
-                //     })
+                const res = await axios
+                    .post(encodedURI, {
+                        selectedFoods,
+                        email: userData.email,
+                    })
+                    .then(res => {
+                        localStorage.setItem(
+                            'user',
+                            JSON.stringify(res.data.user)
+                        )
+                        if (res.status === 201) {
+                            alert('Added to daily intake list!')
+                        }
+                    })
+                    .catch(err => {
+                        console.log('err', err)
+                    })
             } catch (err) {
                 console.log('err', err)
             }
@@ -214,11 +210,9 @@ const NutrientFacts = ({
                         </Button>
                         <Button
                             className="btn btn-sm btn-dark m-1"
-                            // onClick={async () =>
-                            //     await addSelectedFoodToFoodList(
-                            //         _selectedFoodFacts
-                            //     )
-                            // }
+                            onClick={async () =>
+                                await addSelectedFoodToFoodList()
+                            }
                         >
                             Add to food intake
                         </Button>
