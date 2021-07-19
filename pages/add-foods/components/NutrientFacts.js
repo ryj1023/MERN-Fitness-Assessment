@@ -6,7 +6,6 @@ import {
     getDailyDietGoals,
     updateNutritionFactsByServing,
 } from '../../../client/app/actions'
-import useInitialState from '../../../client/app/customHooks/useInitialState'
 
 import {
     Table,
@@ -53,7 +52,8 @@ const NutrientFacts = ({
     const [customMicroNutrients, setCustomMicroNutrients] = useState([])
     const [customFoodFacts, setCustomFoodFacts] = useState([])
     const [customNutritionFactUnits, setCustomNutritionFactUnits] = useState([])
-    const [initialState] = useInitialState(nutritionFacts)
+
+    const memoizedNutritionFacts = React.useMemo(() => nutritionFacts, [])
 
     const addSelectedFoodToFoodList = async () => {
         const selectedFoods = {
@@ -170,7 +170,7 @@ const NutrientFacts = ({
                             updateNutritionFactsByServing(
                                 nutritionFacts,
                                 servingSize,
-                                initialState
+                                memoizedNutritionFacts
                             )
                         }}
                     />
