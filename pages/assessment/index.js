@@ -16,114 +16,334 @@ import {
     ModalHeader,
     Table,
 } from 'reactstrap'
-import BMRForm from './components/BMRForm'
-import MacrosForm from './components/MacrosForm'
 import { gatherFitnessInfo } from '../../client/app/actions'
-// import { saveUserData } from '../../client/app/actions/async-actions'
+import { saveUserData } from '../../client/app/actions/async-actions'
 import calculateFitnessInput from '../../client/app/calculations/calculate-fitness-input'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
 import styles from './styles.js'
 import Router from 'next/router'
 import Link from 'next/link'
-import axios from 'axios'
 
-const SelectGoalTypeForm = () => {
-    return (
-        <div className="m-2">
-            <h5>Goal Type</h5>
-            <p>
-                Select BMR and we'll calcululate your diet goals based on your
-                Basal Metablolic Rate, or select Custom to enter your own data.
-            </p>
-            <div>
-                <Button
-                    onClick={() =>
-                        Router.push({
-                            pathname: '/assessment',
-                            query: { form: 'bmr' },
-                        })
-                    }
-                    className="mr-1"
-                    color="primary"
-                >
-                    BMR
-                </Button>
+const validationSchema = Yup.object().shape({
+    age: Yup.number().integer('Age must be a valid number'),
+    currentWeight: Yup.number()
+        .required('Weight is required')
+        .integer('Current weight must be a valid number'),
+    heightInFeet: Yup.number()
+        .required('Height in feet is required')
+        .integer('Height in feet must be a valid number'),
+    heightInInches: Yup.number()
+        .required('Height in inches is required')
+        .integer('Height in inches must be a valid number'),
+    targetWeight: Yup.number()
+        .required('Target weight is required')
+        .integer('Target weight must be a valid number'),
+    activityLevel: Yup.string().required('Activity level is required'),
+    gender: Yup.string().required('Gender is required'),
+})
 
-                <Button
-                    onClick={() =>
-                        Router.push({
-                            pathname: '/assessment',
-                            query: { form: 'macros' },
-                        })
-                    }
-                    className="ml-1"
-                    color="primary"
-                >
-                    Custom
-                </Button>
-            </div>
-        </div>
-    )
-}
-
-const Assessment = props => {
-    const { form, calories } = props
-    console.log('props', props)
+const FitnessAssessment = props => {
     const [userData, setUserData] = useState(null)
     const [modal, openModal] = useState(false)
-    const [dietGoals, setDietGoals] = useState(null)
-    const [updateSuccess, setUpdateSuccess] = useState(false)
-    console.log('dietGoals', dietGoals)
+    const [fitnessGoals, setFitnessGoals] = useState(null)
     useEffect(() => {
         setUserData(JSON.parse(localStorage.getItem('user')))
-        if (dietGoals) {
+        if (fitnessGoals) {
             openModal(true)
         }
-    }, [dietGoals])
-    const saveDietGoals = dietGoals => {
-        const { email } = userData
-        const encodedURI = window.encodeURI(`/api/save`)
-        axios
-            .post(encodedURI, {
-                dietGoals,
-                email,
-            })
-            .then(res => {
-                console.log('res.data', res.data.user)
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-                alert('Your diet goals have been updated!')
-                setUpdateSuccess(true)
-            })
-            .catch(err => {
-                console.log('err', err)
-                alert('There was a problem with saving your diet goals')
-            })
-    }
-    const getFormType = () => {
-        switch (form) {
-            case 'bmr':
-                return <BMRForm />
-            case 'macros':
-                return (
-                    <MacrosForm
-                        submitMacros={dietGoals => setDietGoals(dietGoals)}
-                        calories={calories}
-                    />
-                )
-            default:
-                return <SelectGoalTypeForm />
-        }
-    }
+    }, [fitnessGoals])
     return (
         <div>
             <Container>
                 <Row>
                     <Col>
-                        <Card className="mt-3 p-2">{getFormType()}</Card>
+                        <Card className="mt-3 p-2">
+                            <Formik
+                                initialValues={{
+                                    age: '',
+                                    heightInFeet: '',
+                                    heightInInches: '',
+                                    currentWeight: '',
+                                    targetWeight: '',
+                                    gender: '',
+                                    activityLevel: '',
+                                }}
+                                validationSchema={validationSchema}
+                                onSubmit={(values, actions) => {
+                                    console.log('values', values)
+                                    if (!userData) {
+                                        setFitnessGoals(
+                                            calculateFitnessInput(values)
+                                        )
+                                    } else {
+                                        const calculatedFitnessGoals = calculateFitnessInput(
+                                            values
+                                        )
+                                        // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
+                                        props.saveUserData(
+                                            calculatedFitnessGoals,
+                                            userData
+                                        )
+                                        Router.push('/my-goals')
+                                    }
+                                }}
+                            >
+                                {({
+                                    handleSubmit,
+                                    handleChange,
+                                    handleBlur,
+                                    values,
+                                    errors,
+                                    touched,
+                                }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <Container>
+                                            <Row>
+                                                <Col className="text-center">
+                                                    <p className="font-weight-bold">
+                                                        Please enter some data
+                                                        so we can calculate your
+                                                        fitness goals
+                                                    </p>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col sm="12" lg="6">
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Age
+                                                        </Label>
+                                                        <input
+                                                            type="number"
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={values.age}
+                                                            name="age"
+                                                            className="form-control"
+                                                        />
+                                                        {errors.age &&
+                                                        touched.age ? (
+                                                            <div>
+                                                                {errors.age}
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Height in feet
+                                                        </Label>
+                                                        <input
+                                                            type="number"
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={
+                                                                values.heightInFeet
+                                                            }
+                                                            name="heightInFeet"
+                                                            className="form-control"
+                                                        />
+                                                        {errors.heightInFeet &&
+                                                        touched.heightInFeet ? (
+                                                            <div>
+                                                                {
+                                                                    errors.heightInFeet
+                                                                }
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Height in inches
+                                                        </Label>
+                                                        <input
+                                                            type="number"
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={
+                                                                values.heightInInches
+                                                            }
+                                                            name="heightInInches"
+                                                            className="form-control"
+                                                        />
+                                                        {errors.heightInInches &&
+                                                        touched.heightInInches ? (
+                                                            <div>
+                                                                {
+                                                                    errors.heightInInches
+                                                                }
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Current weight (in
+                                                            pounds)
+                                                        </Label>
+                                                        <input
+                                                            type="number"
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={
+                                                                values.currentWeight
+                                                            }
+                                                            name="currentWeight"
+                                                            className="form-control"
+                                                        />
+                                                        {errors.currentWeight &&
+                                                        touched.currentWeight ? (
+                                                            <div>
+                                                                {
+                                                                    errors.currentWeight
+                                                                }
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                </Col>
+                                                <Col sm="12" lg="6">
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Target weight (in
+                                                            pounds)
+                                                        </Label>
+                                                        <input
+                                                            type="number"
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={
+                                                                values.targetWeight
+                                                            }
+                                                            name="targetWeight"
+                                                            className="form-control"
+                                                        />
+                                                        {errors.targetWeight &&
+                                                        touched.targetWeight ? (
+                                                            <div>
+                                                                {
+                                                                    errors.targetWeight
+                                                                }
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            Are you a man or
+                                                            woman?
+                                                        </Label>
+                                                        <select
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            value={
+                                                                values.gender
+                                                            }
+                                                            name="gender"
+                                                            className="form-control"
+                                                            id="exampleFormControlSelect2"
+                                                        >
+                                                            <option
+                                                                value="Select your gender"
+                                                                label="Select your gender"
+                                                            />
+                                                            <option value="man">
+                                                                Man
+                                                            </option>
+                                                            <option value="woman">
+                                                                Woman
+                                                            </option>
+                                                        </select>
+                                                        {errors.gender &&
+                                                        touched.gender ? (
+                                                            <div>
+                                                                {errors.gender}
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <Label for="exampleFormControlSelect2">
+                                                            How active are you?
+                                                        </Label>
+                                                        <select
+                                                            onChange={
+                                                                handleChange
+                                                            }
+                                                            onBlur={handleBlur}
+                                                            name="activityLevel"
+                                                            value={
+                                                                values.activityLevel
+                                                            }
+                                                            className="form-control"
+                                                            id="exampleFormControlSelect2"
+                                                        >
+                                                            <option
+                                                                value=""
+                                                                label="Select your activity level"
+                                                            />
+                                                            <option value="sedentary">
+                                                                sedentary
+                                                                (little or no
+                                                                exercise)
+                                                            </option>
+                                                            <option value="moderate">
+                                                                moderate
+                                                                (exercise 3-5
+                                                                days per week)
+                                                            </option>
+                                                            <option value="heavy">
+                                                                heavy (exercise
+                                                                6-7 times per
+                                                                week)
+                                                            </option>
+                                                        </select>
+                                                        {errors.activityLevel &&
+                                                        touched.activityLevel ? (
+                                                            <div>
+                                                                {
+                                                                    errors.activityLevel
+                                                                }
+                                                            </div>
+                                                        ) : null}
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <div className="form-group text-center">
+                                                        {errors.name && (
+                                                            <div>
+                                                                {errors.name}
+                                                            </div>
+                                                        )}
+                                                        <button
+                                                            className="btn btn-primary w-100"
+                                                            type="submit"
+                                                        >
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </Col>
+                                            </Row>
+                                        </Container>
+                                    </form>
+                                )}
+                            </Formik>
+                        </Card>
                     </Col>
                 </Row>
                 <div>
                     {/* <Link color="danger" onClick={() => setModal((prevModalStatus) => !prevModalStatus)}></Link> */}
-                    {dietGoals && (
+                    {fitnessGoals && (
                         <Modal isOpen={modal} toggle={() => openModal(false)}>
                             <ModalHeader
                                 className="border-0"
@@ -142,59 +362,36 @@ const Assessment = props => {
                                             <th>Calories</th>
                                             <th>Protein</th>
                                             <th>Carbs</th>
-                                            <th>Fats</th>
+                                            <th>Fat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>{dietGoals.calories}</td>
-                                            <td>{dietGoals.protein}</td>
-                                            <td>{dietGoals.carbs}</td>
-                                            <td>{dietGoals.fats}</td>
+                                            <td>{fitnessGoals.calories}</td>
+                                            <td>{fitnessGoals.protein}</td>
+                                            <td>{fitnessGoals.carbs}</td>
+                                            <td>{fitnessGoals.fat}</td>
                                         </tr>
                                     </tbody>
                                 </Table>
                             </ModalBody>
                             <div className="d-flex m-3">
-                                {!userData && (
-                                    <span className="text-nowrap">
-                                        <Link
-                                            href={{
-                                                pathname: 'sign-up',
-                                                query: {
-                                                    calories:
-                                                        dietGoals.calories,
-                                                    protein: dietGoals.protein,
-                                                    carbs: dietGoals.carbs,
-                                                    fats: dietGoals.fats,
-                                                },
-                                            }}
-                                        >
-                                            <a>Sign up now</a>
-                                        </Link>{' '}
-                                        to save your diet goals.
-                                    </span>
-                                )}
-                                <div className="d-flex justify-content-between w-100">
-                                    {userData && (
-                                        <Button
-                                            disabled={updateSuccess}
-                                            color="primary"
-                                            onClick={() =>
-                                                saveDietGoals(dietGoals)
-                                            }
-                                        >
-                                            Save Diet Data
-                                        </Button>
-                                    )}
-                                    {updateSuccess && (
-                                        <Link href={{ pathname: '/my-goals' }}>
-                                            <a className="ml-2 btn btn-primary">
-                                                My Goals
-                                            </a>
-                                        </Link>
-                                    )}
-                                </div>
+                                <span>
+                                    <Link
+                                        href={{
+                                            pathname: 'sign-up',
+                                            query: {
+                                                calories: fitnessGoals.calories,
+                                                protein: fitnessGoals.protein,
+                                                carbs: fitnessGoals.carbs,
+                                                fat: fitnessGoals.fat,
+                                            },
+                                        }}
+                                    >
+                                        <a>Sign up now</a>
+                                    </Link>{' '}
+                                    to save your diet goals.
+                                </span>
                             </div>
                         </Modal>
                     )}
@@ -211,16 +408,6 @@ const mapStateToProps = state => {
     }
 }
 
-Assessment.getInitialProps = ({ query }) => {
-    return {
-        form: query.form || null,
-        calories: query.calories || null,
-    }
-}
-
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ gatherFitnessInfo }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Assessment)
+    bindActionCreators({ gatherFitnessInfo, saveUserData }, dispatch)
+export default connect(mapStateToProps, mapDispatchToProps)(FitnessAssessment)
