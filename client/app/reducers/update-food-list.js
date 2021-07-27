@@ -1,16 +1,16 @@
-import * as actions from '../actions';
+import * as actions from '../actions'
 
 const initialState = {
-	foodList: []
+    foodList: [],
 }
 
 const updateFoodList = (state = initialState, action) => {
-	if(action.type === actions.UPDATED_FOOD_CHART){
-		return Object.assign({}, state, {
-			foodList: [...action.payload],
-		})
-	}
-	return state;
+    if (action.type === actions.UPDATED_FOOD_CHART) {
+        return Object.assign({}, state, {
+            foodList: [...action.payload],
+        })
+    }
+    return state
 }
 
-export default updateFoodList;
+export default updateFoodList

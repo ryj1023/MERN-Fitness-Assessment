@@ -6,6 +6,7 @@ const RecipesModal = ({ recipesModalOpen, foodTextInput, onClose }) => {
     const [recipeList, setRecipeList] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [noResults, setNoResults] = useState(false)
+
     useEffect(() => {
         if (recipesModalOpen) {
             setIsLoading(true)
@@ -14,6 +15,8 @@ const RecipesModal = ({ recipesModalOpen, foodTextInput, onClose }) => {
                     foodKey: foodTextInput,
                 })
                 .then(res => {
+                    // console.log('res', res)
+                    // console.log('res.data.recipes', res.data.recipes)
                     setIsLoading(false)
                     if (res.data.count === 0) {
                         setNoResults(true)

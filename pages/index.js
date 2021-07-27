@@ -8,6 +8,7 @@ import { getDailyDietGoals } from '../client/app/actions'
 import Link from 'next/link'
 import $ from 'jquery'
 import ThemedTable from '../client/app/components/ThemedTable'
+import get from 'lodash.get'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
@@ -20,6 +21,11 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
             .delay(500)
             .animate({ opacity: 1 }, 500)
     }, [])
+    const fats = get(user, 'dietGoals.fats') || null
+    const calories = get(user, 'dietGoals.calories') || null
+    const protein = get(user, 'dietGoals.protein') || null
+    const carbs = get(user, 'dietGoals.carbs') || null
+    const recipes = get(foodRecipes, 'foodRecipes.recipes') || []
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
@@ -50,14 +56,10 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>
-                                                    {user.dietGoals.calories}
-                                                </td>
-                                                <td>
-                                                    {user.dietGoals.protein}
-                                                </td>
-                                                <td>{user.dietGoals.fats}</td>
-                                                <td>{user.dietGoals.carbs}</td>
+                                                <td>{calories}</td>
+                                                <td>{protein}</td>
+                                                <td>{fats}</td>
+                                                <td>{carbs}</td>
                                             </tr>
                                         </tbody>
                                     </ThemedTable>
@@ -84,7 +86,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
-                {foodRecipes && foodRecipes.recipes.length > 0 && (
+                {recipes.length > 0 && (
                     <div className="col col-12">
                         <Card>
                             <CardBody>
@@ -199,7 +201,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ getFeaturedRecipeList, getDailyDietGoals }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -60,9 +60,11 @@ export default css`
    max-height: 400px;
    height: 60%;
    overflow-y: scroll;
+   max-width: 700px;
  }
  .food-chart-table th:first-child {
    min-width: 210px;
+   
  }
  .food-chart-container, .food-chart-container > div, .food-chart-container > div > div {
    height: inherit;

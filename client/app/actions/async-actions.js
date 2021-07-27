@@ -14,54 +14,62 @@ export const FOOD_DATA_SAVED = 'FOOD_DATA_SAVED'
 export const RECIPES = 'RECIPES'
 
 export const getFoodSearchKeyword = (keyword, offset = 0) => {
-    const encodedURI = window.encodeURI(
-        `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
-    )
-    return dispatch => {
-        axios
-            .get(encodedURI)
-            .then(response => {
-                let foodObjects = []
-                if (response.data.list) {
-                    foodObjects = response.data.list.item.map(food => {
-                        return {
-                            foodName: food.name,
-                            foodID: food.ndbno,
-                            manufacturer: food.manu,
-                        }
-                    })
-                } else {
-                    foodObjects = []
-                    alert('No results found!')
-                    return
-                }
-                return dispatch({ type: KEYWORD, payload: foodObjects })
+    return async dispatch => {
+        const encodedURI = window.encodeURI(`/api/get-food-search-keyword`)
+        // const encodedURI = window.encodeURI(
+        //     `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
+        // )
+        try {
+            const response = await axios.get(encodedURI, {
+                params: {
+                    keyword,
+                    offset,
+                },
             })
-            .catch(err => {
-                console.log('err', err)
-                throw err
-            })
+
+            let foodObjects = []
+            if (response?.data?.foods) {
+                foodObjects = response.data.foods.map(food => {
+                    return {
+                        foodName: food.description,
+                        foodID: food.fdcId,
+                        manufacturer: food.brandOwner,
+                        foodNutrients: food.foodNutrients,
+                    }
+                })
+            } else {
+                foodObjects = []
+                alert('No results found!')
+                return
+            }
+            return dispatch({ type: KEYWORD, payload: foodObjects })
+        } catch (err) {
+            throw err
+        }
     }
 }
 
-export const getFoodNutritionFacts = (foodID, foodName) => {
-    const encodedURI = window.encodeURI(
-        `https://api.nal.usda.gov/ndb/reports/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&ndbno=${foodID}&type=f`
-    )
-    return dispatch => {
-        axios
-            .get(encodedURI)
-            .then(response => {
-                const foodObjects = response.data.report.food.nutrients.map(
-                    food => food
-                )
-                return dispatch({ type: SELECTED_FOOD, payload: foodObjects })
-            })
-            .catch(err => {
-                throw err
-            })
-    }
-}
+// export const getFoodNutritionFacts = (foodId, foodName) => {
+//     // Deprecating due to API not being reliable
+
+//     const encodedURI = window.encodeURI(`/api/get-nutrition-facts`)
+//     return async dispatch => {
+//         try {
+//             const response = await axios.get(encodedURI, {
+//                 params: { foodId },
+//             })
+
+//             const foodNutrients = response?.data?.foodNutrients || null
+//             const foodObjects = foodNutrients
+//                 ? response?.data?.foodNutrients.map(food => food)
+//                 : []
+//             return dispatch({ type: SELECTED_FOOD, payload: foodObjects })
+//         } catch (err) {
+//             throw err
+//         }
+
+//     }
+// }
 
 // export const getUserData = data => {
 //     const encodedURI = window.encodeURI(`/api/user-data`)

@@ -3,10 +3,12 @@ const request = require('request')
 const axios = require('axios')
 const expressValidator = require('express-validator')
 const bodyParser = require('body-parser')
+const CryptoJS = require('crypto-js')
+const get = require('lodash/get')
+
 module.exports = app => {
     app.use(expressValidator())
     app.use(bodyParser.json())
-
     app.get('/api/sign-up', (req, res, next) => {
         res.render('index', {
             title: 'validator',
@@ -15,7 +17,40 @@ module.exports = app => {
         })
         req.session.errors = null
     })
+    app.get('/api/get-food-search-keyword', (req, res, next) => {
+        const { keyword, offset } = req.query
 
+        // `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
+
+        axios
+            .get(
+                `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&query=${keyword}`
+            )
+            .then(response => {
+                return res.json(response.data)
+            })
+            .catch(err => {
+                console.log('err', err)
+                res.send(err)
+                // throw err
+            })
+    })
+    app.get('/api/get-nutrition-facts', (req, res, next) => {
+        const { foodId } = req.query
+
+        axios
+            .get(
+                `https://api.nal.usda.gov/fdc/v1/food/${foodId}?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8`
+            )
+            .then(response => {
+                return res.json(response.data)
+            })
+            .catch(err => {
+                console.log('err', err)
+                res.send(err)
+                // throw err
+            })
+    })
     app.post('/api/validation', (req, res, next) => {
         req.checkBody('email', 'Invalid Email Address').isEmail()
         req.checkBody('password', 'Password Is Too Short').isLength({ min: 4 })
@@ -31,7 +66,6 @@ module.exports = app => {
         }
         // req.session.errors = null; // clears errors after shown to the user
     })
-
     app.post('/api/validation/create-user', (req, res) => {
         Users.find({ 'user.email': req.body.email }, (err, user) => {
             if (err) return res.status(500).send(err)
@@ -40,7 +74,10 @@ module.exports = app => {
                     user: {
                         email: req.body.email,
                         userName: req.body.userName,
-                        password: req.body.password,
+                        password: CryptoJS.AES.encrypt(
+                            req.body.password,
+                            process.env.SECRET
+                        ).toString(),
                         dietGoals: {
                             calories: req.body.calories,
                             protein: req.body.protein,
@@ -61,22 +98,39 @@ module.exports = app => {
             }
         })
     })
-
     app.get('/api/login', (req, res, next) => {
+        const encryptedPassword = CryptoJS.AES.encrypt(
+            req.query.password,
+            process.env.SECRET
+        ).toString()
+
         Users.find(
             {
                 'user.email': req.query.email,
-                'user.password': req.query.password,
+                // 'user.password': req.query.password,
+                // 'user.password': encryptedPassword,
             },
-            '-user.password',
+            // '-user.password',
             (err, user) => {
-                console.log('user', user)
+                const jsonUser = JSON.stringify(user)
+                const password_ = jsonUser[0]
+                console.log('password_', password_)
+                const passwordFromDatabase =
+                    get(user, 'data[0].user.password') || null
+                console.log('passwordFromDatabase', passwordFromDatabase)
+
+                // Decrypt
+                // var bytes = CryptoJS.AES.decrypt(
+                //     passwordFromDatabase,
+                //     process.env.SECRET
+                // )
+                // var originalText = bytes.toString(CryptoJS.enc.Utf8)
+                // console.log('originalText', originalText)
                 if (err) return res.status(500).send(err)
                 res.json(user)
             }
         )
     })
-
     app.get('/api/user-data', (req, res, next) => {
         Users.find(
             { 'user.email': req.query.email },
@@ -87,7 +141,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/remove-food-item', (req, res) => {
         // first you need to set the desired data to a blank value before you can pull the data from the database
         Users.findOneAndUpdate(
@@ -119,9 +172,7 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/save-food-items', (req, res) => {
-        console.log('req.body.dietGoals', req.body.selectedFoods)
         Users.findOneAndUpdate(
             { 'user.email': req.body.email },
             {
@@ -138,7 +189,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/save', (req, res, next) => {
         console.log('req.body', req.body)
         Users.findOneAndUpdate(
@@ -148,7 +198,6 @@ module.exports = app => {
             //     'user.dietGoals.protein': req.body.dietGoals.protein,
             //     'user.dietGoals.fat': req.body.dietGoals.fats,
             //     'user.dietGoals.carbs': req.body.dietGoals.carbs,
-
             // },
             {
                 'user.dietGoals': req.body.dietGoals,
@@ -160,7 +209,6 @@ module.exports = app => {
             }
         )
     })
-
     app.post('/api/get-recipe-list', async (req, res) => {
         try {
             const result = await axios.get(
