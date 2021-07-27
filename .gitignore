@@ -12,6 +12,7 @@ node_modules
 .lock-wscript
 logs
 *.log
+*.env
 npm-debug.log*
 
 # OS stuff
