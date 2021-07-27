@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import RadioAnswers from './RadioAnswers';
-import './answer-form.css';
+import styles from './styles.js'
 
 export default class AnswerForm extends Component{
 	state = {
@@ -44,6 +44,7 @@ export default class AnswerForm extends Component{
 	}
 	startCalculation(e){
 		e.preventDefault();
+		console.log('this.props.text', this.props.text)
 		if(this.props.text){
 			this.props.calculateAnswers()
 		}
@@ -87,10 +88,13 @@ export default class AnswerForm extends Component{
 					return;
 				}
 			}
-			else if (this.props.getStarted){
+			else if (this.props.startMenu){
 				return(
 					 <form className="submit-form" onSubmit={(e)=> this.startSubmit(e)}>
 			            <button className="start-button">{this.props.text}</button> 
+							<style jsx>
+								{styles}
+							</style>
 			         </form>
 		        )
 			} else {
