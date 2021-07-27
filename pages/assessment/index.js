@@ -68,7 +68,7 @@ const FitnessAssessment = (props) => {
                               const calculatedFitnessGoals = calculateFitnessInput(values) 
                               // props.gatherFitnessInfo(calculateFitnessInput(calculatedFitnessGoals));
                               props.saveUserData(calculatedFitnessGoals, userData)
-                              Router.push('/my-nutrition') 
+                              Router.push('/my-goals') 
                            }
                                                  
                          
@@ -188,7 +188,7 @@ const FitnessAssessment = (props) => {
                                        <div>
                                           {errors.name}
                                        </div>}
-                                       <button className='btn btn-outline-secondary w-100' type="submit">Submit</button>
+                                       <button className='btn btn-primary w-100' type="submit">Submit</button>
                                     </div>
                                     </Col>
                                  </Row>
@@ -224,7 +224,7 @@ const FitnessAssessment = (props) => {
                   </Table>
                </ModalBody>
                <div className='d-flex m-3'>
-                  <span><Link href={{pathname: 'sign-up', query: { calories: fitnessGoals.calories, protein: fitnessGoals.protein, carbs: fitnessGoals.carbs, fat: fitnessGoals.fat}}}><a className=''>Sign up now</a></Link>{' '} to save your diet goals.</span>
+                  <span><Link href={{pathname: 'sign-up', query: { calories: fitnessGoals.calories, protein: fitnessGoals.protein, carbs: fitnessGoals.carbs, fat: fitnessGoals.fat}}}><a >Sign up now</a></Link>{' '} to save your diet goals.</span>
                </div>
             </Modal>}
             </div>

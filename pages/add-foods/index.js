@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getFoodSearchKeyword, getFoodNutritionFacts, getUserData } from '../../client/app/actions/async-actions';
 import { updatedFoodChart } from '../../client/app/actions';
 import SmartTable from '../../client/app/components/SmartTable';
+import RecipesModal from '../../client/app/components/RecipesModal'
 import { Container, Row, Col, Table, Form, FormGroup, Label, FormText, Input, Modal, ModalHeader, ModalBody, UncontrolledCollapse, Button, CardBody, Card, CardFooter, Collapse } from 'reactstrap';
 import Pagination from 'rc-pagination';
 import axios from 'axios';
@@ -12,7 +13,7 @@ import Link from 'next/link'
 
 // TODO: turn dropdown into modal
 
-class FoodSearch extends Component {
+class AddFoods extends Component {
 
   state = {
       foodTextInput: null,
@@ -21,7 +22,8 @@ class FoodSearch extends Component {
       userData: null,
       pageNumber: 1,
       selectedPage: 1,
-      modalOpen: false,
+      microutrientsModalOpen: false,
+      recipesModalOpen: false,
       selectedFoodFacts: [],
       microNutrients: [],
       nutritionFactUnits: [],
@@ -50,9 +52,7 @@ class FoodSearch extends Component {
       showNutrientFacts: false,
     })
     this.props.getFoodSearchKeyword(this.state.foodTextInput)
-    // const result = await axios.post(`/api/get-recipe-list`, {
-    //   foodKey: this.state.foodTextInput,
-    // })
+
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -167,7 +167,7 @@ class FoodSearch extends Component {
  }
 
   showNutrientFacts() {
-    const { modalOpen, customMicroNutrients, customFoodFacts, customNutritionFactUnits } = this.state
+    const { micronutrientsModalOpen, customMicroNutrients, customFoodFacts, customNutritionFactUnits } = this.state
     const microNutrients = this.state.servingSize !== ''  ? customMicroNutrients : this.state.microNutrients
     const selectedFoodFacts = this.state.servingSize !== ''  ? customFoodFacts : this.state.selectedFoodFacts
     const nutritionFactUnits = this.state.servingSize !== '' ? customNutritionFactUnits : this.state.nutritionFactUnits
@@ -189,13 +189,13 @@ class FoodSearch extends Component {
             <div className='d-flex justify-content-sm-start d-flex justify-content-between'>
               <Button onClick={this.backToFoodResults.bind(this)} className='btn btn-dark btn-sm ml-0 mr-1 mt-1 mb-1'>Back</Button>
               {this.state.userData && <Button className='btn btn-sm btn-dark m-1' onClick={async () => await this.addSelectedFoodToFoodList(this.state.selectedFoodName, selectedFoodFacts, this.state.userData)}>Add to food intake</Button>}
-              <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ modalOpen: !modalOpen })}>Show micronutrients</Button>
+              <Button className='btn btn-sm btn-dark m-1' onClick={() => this.setState({ micronutrientsModalOpen: !micronutrientsModalOpen })}>Show micronutrients</Button>
             </div>
            </CardBody>
          </Card>
             <div className='text-center'>
-                <Modal isOpen={modalOpen} toggle={() => this.setState({ modalOpen: !modalOpen })}>
-                  <ModalHeader toggle={() => this.setState({ modalOpen: !modalOpen })}>Micronutrients</ModalHeader>
+                <Modal isOpen={micronutrientsModalOpen} toggle={() => this.setState({ micronutrientsModalOpen: !micronutrientsModalOpen })}>
+                  <ModalHeader toggle={() => this.setState({ micronutrientsModalOpen: !micronutrientsModalOpen })}>Micronutrients</ModalHeader>
                   <ModalBody>
                     <Table className="w-100 themed-table " style={{ overflow: 'scroll' }} dark>
                       <thead></thead>
@@ -260,36 +260,39 @@ class FoodSearch extends Component {
     }
 
     const itemRender = (current, type, element) => {
-      const activeColorBackground = this.state.selectedPage === current ? '#E8E7E7' : '#6c757d'
-      const activeColor = this.state.selectedPage === current ? '#6c757d' : 'white'
+      const { selectedPage, pageNumber } = this.state;
+      const { foodList } = this.props
+      const activeColorBackground = selectedPage === current ? '#E8E7E7' : '#6c757d'
+      const activeColor = selectedPage === current ? '#6c757d' : 'white'
       switch (type) {
         case 'page':  {
-          return <Button className="pagination-btn" /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={current} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="mx-1 pagination-btn" /*style={{backgroundColor: activeColorBackground, color: activeColor }}*/ key={current} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage(current, undefined)
           })}>{current}</Button>
         }
         case 'prev': {
-          return <Button className="pagination-btn" key={current} disabled={this.state.pageNumber === 1} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="pagination-btn" key={current} disabled={pageNumber === 1} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('prev', undefined)
           })}>Prev</Button>
         }
         case 'next': {
-          return <Button className="pagination-btn" key={current} disabled={(this.props.foodList.length - (this.state.pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
+          return <Button color='primary' className="pagination-btn ml-1" key={current} disabled={(foodList.length - (pageNumber * 10)) < 10} name={current} onClick={()=> this.setState({
             selectedPage: getSelectedPage('next-page', 'next')
           })}>Next</Button>
         }
         case 'jump-prev': {
-          return <Button className="pagination-btn" key={current} name={current}>...</Button>
+          return <Button color='primary' className="pagination-btn mx-1" key={current} name={current}>...</Button>
         }
         case 'jump-next': {
-          return <Button className="pagination-btn" key={current} name={current}>...</Button>
+          return <Button color='primary' className="pagination-btn mx-1" key={current} name={current}>...</Button>
         }
         default:
         return element;
       }
     }
     const FoodList = this.props.foodList.reduce((acc, food, index) => {
-      const pageRange = this.state.selectedPage === 1 ? 1 : this.state.selectedPage * 10 - 9;
+      const { selectedPage } = this.state;
+      const pageRange = selectedPage === 1 ? 1 : selectedPage * 10 - 9;
       let foodName = food.foodName.toUpperCase();
       if (foodName.includes('UPC')) {
         foodName = foodName.slice(0, foodName.indexOf(', UPC'))
@@ -332,16 +335,19 @@ class FoodSearch extends Component {
   }
   
   render() {
+    const { foodList } = this.props
+    const { recipesModalOpen, foodTextInput } = this.state;
     const FoodSearchForm = () => (
                   <Col sm='12' lg='10' className='pt-4 d-block mx-auto d-sm-flex justify-content-between mb-2'>
-                     <div className='mb-2 mb-md-0'>
-                        <Link href='/my-nutrition'><a className='text-decoration-none'>My Nutrition</a></Link>
+                     <div className='mb-2 mb-md-0 d-flex align-items-center'>
+                        <Link href='/my-goals'><a className='text-decoration-none btn btn-link pl-0'>My Goals</a></Link>
+                        {foodTextInput && foodList.length > 0 && <button onClick={() => this.setState({ recipesModalOpen: true })} className='btn btn-link text-decoration-none'>See Recipes</button>}
                      </div>
                      <Form className='text-center d-block' inline onSubmit={(e)=> this.onSubmit(e)}>
                         <div className='d-flex justify-content-between'>
                            <div className='d-flex'>
                               <Input type="text" onChange={(e)=>this.setInput(e.target.value)} placeholder="please enter food item"/> 
-                              <Button className='btn ml-1' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</Button>
+                              <button className='btn ml-1 btn btn-primary' href='#search' onClick={(e)=> this.onSubmit(e)}>Search</button>
                            </div>                         
                         </div>
                      </Form>
@@ -355,6 +361,7 @@ class FoodSearch extends Component {
           {FoodSearchForm()}
             {(`${this.props.foodList}`.length > 0) ? (this.state.showNutrientFacts  ? this.showNutrientFacts() : this.showFoodList()) : (this.defaultLayout())}
           </Row>
+      <RecipesModal foodTextInput={foodTextInput} recipesModalOpen={recipesModalOpen} onClose={() => this.setState({ recipesModalOpen: false })}/>
         </div>
         <style jsx='true'>{`
           .themed-table {
@@ -382,7 +389,7 @@ class FoodSearch extends Component {
           .btn:disabled  {
             background: #454545 !important; 
           }
-          div :global(.rc-pagination-disabled) {
+          div :global(.rc-pagination-disabled > button) {
             opacity: .65;
             background: #454545 !important; 
           }
@@ -398,13 +405,7 @@ class FoodSearch extends Component {
             background: #f5f5f5;
             cursor: pointer;
           }
-          .btn {
-            background: #454545;
-            color: white;
-          }
-          .btn:hover {
-            color: white;
-          }
+        
           .pre-scrollable {
             min-height: 75%;
             width: 80%;
@@ -434,4 +435,4 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({ getFoodSearchKeyword, getFoodNutritionFacts, updatedFoodChart, getUserData }, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(FoodSearch)
+export default connect(mapStateToProps, mapDispatchToProps)(AddFoods)

@@ -9,8 +9,8 @@ import styles from './styles'
 import Link from 'next/link'
 
 const getUpdatedFoodChart = (props, userData) => {
-    props.store.dispatch(updatedFoodChart(userData.userDietSummary))
-    props.store.dispatch(getDailyDietGoals(userData.dietInfo))
+    props.updatedFoodChart(userData.userDietSummary)
+    props.getDailyDietGoals(userData.dietInfo)
     localStorage.setItem('user', JSON.stringify(userData))
 }
 
@@ -34,7 +34,7 @@ const getUserData = async (props, setIsLoading, setUserName) => {
     setIsLoading(false)
 }
 
-const NutritionCenter = props => {
+const MyGoals = props => {
     const [isLoading, setIsLoading] = useState(true)
     const [userName, setUserName] = useState(null)
     useEffect(() => {
@@ -46,7 +46,7 @@ const NutritionCenter = props => {
                 className="nutrition-center-container h-100" /*className={this.state.loading ? "h-100" : ''}*/
             >
                 <Row className="h-100">
-                    {userName && (
+                    {!isLoading && userName && (
                         <Col lg="10" className="m-auto">
                             <FoodChart
                                 getUpdatedFoodChart={userData =>
@@ -61,7 +61,7 @@ const NutritionCenter = props => {
                             />
                         </Col>
                     )}
-                    {!userName && (
+                    {!isLoading && !userName && (
                         <Col sm="6 m-auto">
                             <Card>
                                 <CardBody>
@@ -71,7 +71,9 @@ const NutritionCenter = props => {
                                     </h5>
                                     <div className="text-center">
                                         <Link href="sign-up">
-                                            <a>Sign up now</a>
+                                            <a className="text-decoration-none">
+                                                Sign up now
+                                            </a>
                                         </Link>
                                     </div>
                                 </CardBody>
@@ -98,4 +100,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(NutritionCenter)
+)(MyGoals)

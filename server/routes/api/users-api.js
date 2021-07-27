@@ -78,7 +78,6 @@ module.exports = app => {
     })
 
     app.get('/api/user-data', (req, res, next) => {
-        console.log('user data request')
         Users.find(
             { 'user.email': req.query.email },
             '-user.password',
@@ -137,24 +136,6 @@ module.exports = app => {
                 res.status(201).json(doc)
             }
         )
-        /*
-              user: {
-            userName: String,
-            email: String,
-            password: String,
-            dietInfo: {
-              calories: Number,
-              protein: Number,
-              fat: Number,
-              carbs: Number,
-            },
-            userDietSummary: [
-              { foodName: String ,
-              foodFacts: [] },
-            ], 
-            workouts: [String]
-          }
-      */
     })
 
     app.post('/api/save', (req, res, next) => {
@@ -176,7 +157,6 @@ module.exports = app => {
     })
 
     app.post('/api/get-recipe-list', async (req, res) => {
-        console.log('foodKey', req.body.foodKey)
         try {
             const result = await axios.get(
                 `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&q=${encodeURI(

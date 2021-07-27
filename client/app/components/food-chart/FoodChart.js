@@ -84,7 +84,15 @@ class FoodChart extends Component {
       <>
           <Card className='m-auto'>
             <CardBody>
+              <div className='d-flex mb-2 justify-content-between'>
               <h5>Daily Nutrient Intake Goals</h5>
+              <Link href={{ pathname: '/assessment'}}>
+                <a className='btn btn-primary'>
+                  New Goal
+                </a>
+              </Link>
+              </div>
+              
                 <Table className={`mb-2`} dark>
                   <thead>
                       <tr>
@@ -106,9 +114,14 @@ class FoodChart extends Component {
                 {savedFoodTableData.length > 0 ? 
                   <>
                        <div className='d-block d-sm-flex justify-content-between'>
-                  <h5>Selected Foods</h5>
-                  <div className='d-flex'>
-                    <span className='under-label mx-1 mb-2 p-1 text-white'>Under Goal</span><span className='over-label mx-1 mb-2 p-1 text-white'>Over Goal</span>
+                       <h5>Selected Foods</h5>
+                  <div className='d-flex align-items-center mb-2'>
+                    <span className='under-label p-2 mr-1 text-white'>Under Goal</span><span className='over-label p-2 mx-1 text-white'>Over Goal</span>
+                    <Link href={{ pathname: '/add-foods'}}>
+                          <a className='btn ml-2 btn-primary'>
+                            Add Foods
+                          </a>
+                        </Link>
                   </div>
                 </div>
                 <table className="table table-dark table-responsive food-chart-table">
