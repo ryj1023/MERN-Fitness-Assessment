@@ -1,8 +1,8 @@
 {
-    "name": "Fitness-Assessment",
+    "name": "fitness-assessment",
     "version": "1.0.0",
     "description": "MERN stack project boilerplate",
-    "author": "Eugene Cheung",
+    "author": "Ryan Johnson",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/arkon/MERN-boilerplate.git"
