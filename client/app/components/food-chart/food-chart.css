@@ -1,0 +1,80 @@
+.food-search-wrapper {
+  height: 100vh;
+}
+ 
+ .food-chart-container {
+    background-color: #eee;
+    height: 100vh;
+ }
+
+ .food-chart-content {
+   height: inherit;
+   overflow: scroll
+ }
+
+ .table .thead-dark th {
+  background-color: #454545 !important;
+  /* background-color: #212529; */
+  border-color: #32383e;
+}
+
+/*.food-chart-container{
+    background-image: url('../../images/website-background.gif');
+    float: left;
+    height: 500px;
+    width: 485px;
+    margin-left: 2%;
+    margin-right: 2%;
+	  margin-top: 1%;
+    position: center;
+    border-radius: 25px;
+    border-style: solid;
+    border-color: white;
+   } */
+
+  h1{
+    text-align: center;
+    padding-top: 2%;
+  }
+
+  p{
+    text-align: center;
+    padding-top: 2%; 
+    color: white;
+    font-size: 22px;
+  }
+  .food-chart-table, th, td {
+    /* color: white; */
+    /* border: 1px solid white; */
+  }
+  .food-chart-table {
+    width: 96%;
+    /* position: relative;
+    top: 35%; */
+    margin: auto;
+  }
+  .food-chart-heading {
+    /* position: relative;
+    top: 20%; */
+    color: black;
+  }
+
+  .selected-foods {
+      height: inherit;
+      overflow: scroll;
+  }
+
+  @media screen and (max-width: 745px) {
+    .submit-button {
+      margin: 2em;
+    }
+    .food-chart-container {
+      height: 50vh;
+   }
+  }
+/* 
+  @media screen and (max-height: 875px) {
+    .food-search-wrapper {
+      height: 100%;
+    }
+ } */
