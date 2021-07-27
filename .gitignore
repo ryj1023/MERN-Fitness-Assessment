@@ -12,6 +12,7 @@ configuration/.env
 .node_repl_history
 .lock-wscript
 logs
+*.env
 *.log
 npm-debug.log*
 
