@@ -4,7 +4,7 @@ dist/
 # Config file
 config/config.js
 configuration/.env
-*.env
+.env
 
 # Node stuff
 /node_modules
