@@ -4,26 +4,34 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { Container, Row, Col, Button, Card, CardBody } from 'reactstrap'
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
-import FoodChart from '../../client/app/components/food-chart/FoodChart'
+import SelectedFoodsTable from '../../client/app/components/SelectedFoodsTable'
 import styles from './styles'
 import Link from 'next/link'
+import get from 'lodash.get'
+import ThemedTable from '../../client/app/components/ThemedTable'
 
 const getUpdatedFoodChart = (props, userData) => {
-    props.updatedFoodChart(userData.userDietSummary)
-    props.getDailyDietGoals(userData.dietInfo)
+    props.updatedFoodChart(userData.selectedFoods)
+    props.getDailyDietGoals(userData.dietGoals)
     localStorage.setItem('user', JSON.stringify(userData))
 }
 
 const getUserData = async (props, setIsLoading, setUserName) => {
-    if (JSON.parse(localStorage.getItem('user'))) {
+    const storedUser = JSON.parse(localStorage.getItem('user'))
+    if (storedUser) {
         try {
             const encodedURI = window.encodeURI(`/api/user-data`)
             const res = await axios.get(encodedURI, {
                 params: {
-                    email: JSON.parse(localStorage.getItem('user')).email,
+                    email: storedUser.email,
                 },
             })
-            getUpdatedFoodChart(props, res.data[0].user)
+            const user = get(res, 'data[0].user') || []
+            // props.getDailyDietGoals(user.dietInfo)
+            if (Object.keys(user.dietGoals || {}).length > 0) {
+                getUpdatedFoodChart(props, user)
+            }
+
             setIsLoading(false)
             setUserName(res.data[0].user.userName)
         } catch (err) {
@@ -34,7 +42,7 @@ const getUserData = async (props, setIsLoading, setUserName) => {
     setIsLoading(false)
 }
 
-const MyGoals = props => {
+const MyGoals = ({ dailyDietGoals, ...props }) => {
     const [isLoading, setIsLoading] = useState(true)
     const [userName, setUserName] = useState(null)
     useEffect(() => {
@@ -47,19 +55,86 @@ const MyGoals = props => {
             >
                 <Row className="h-100">
                     {!isLoading && userName && (
-                        <Col lg="10" className="m-auto">
-                            <FoodChart
-                                getUpdatedFoodChart={userData =>
-                                    getUpdatedFoodChart(props, userData)
-                                }
-                                foodChartLoading={isLoading}
-                                userName={userName}
-                                userFoodList={
-                                    props.updatedUserFoodList.foodList
-                                }
-                                {...props}
-                            />
-                        </Col>
+                        <>
+                            {Object.keys(dailyDietGoals).length > 0 && (
+                                <Col className="m-auto" lg="10">
+                                    <Card className="">
+                                        <CardBody>
+                                            <div className="d-flex mb-2 justify-content-between">
+                                                <h5>
+                                                    Daily Nutrient Intake Goals
+                                                </h5>
+                                                <Link
+                                                    href={{
+                                                        pathname: '/assessment',
+                                                    }}
+                                                >
+                                                    <a className="btn btn-primary">
+                                                        New Goal
+                                                    </a>
+                                                </Link>
+                                            </div>
+                                            <ThemedTable>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            Calories (Kcal)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Protein (Gs)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Fat (Gs)
+                                                        </th>
+                                                        <th scope="col">
+                                                            Carbs (Gs)
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.calories
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.protein
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.fats
+                                                            }
+                                                        </td>
+                                                        <td>
+                                                            {
+                                                                dailyDietGoals.carbs
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </ThemedTable>
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            )}
+
+                            <Col lg="10" className="m-auto">
+                                <SelectedFoodsTable
+                                    getUpdatedFoodChart={userData =>
+                                        getUpdatedFoodChart(props, userData)
+                                    }
+                                    foodChartLoading={isLoading}
+                                    userName={userName}
+                                    userFoodList={
+                                        props.updatedUserFoodList.foodList
+                                    }
+                                    {...props}
+                                />
+                            </Col>
+                        </>
                     )}
                     {!isLoading && !userName && (
                         <Col sm="6 m-auto">
@@ -69,10 +144,15 @@ const MyGoals = props => {
                                         You currently do not have an account.
                                         Sign up to use this feature (It's free!)
                                     </h5>
-                                    <div className="text-center">
+                                    <div className="text-center d-flex justify-content-between">
                                         <Link href="sign-up">
                                             <a className="text-decoration-none">
                                                 Sign up now
+                                            </a>
+                                        </Link>
+                                        <Link href="add-foods">
+                                            <a className="text-decoration-none">
+                                                Search Foods
                                             </a>
                                         </Link>
                                     </div>

@@ -1,16 +1,16 @@
-import React from 'react';
+import React from './node_modules/react'
 // import './footer.css';
 
 const Footer = () => (
-   <footer className="page-footer align-bottom font-small pt-4">
-    <div className="container-fluid text-center text-md-left">
-      <div className="row">
-        <div className="col-md-12 mt-md-0 mt-3">
-          <h5 className="text-uppercase">Let's Get Fit</h5>
-          <p>Daily goals are the key to lasting progress.</p>
-        </div>
-        <hr className="clearfix w-100 d-md-none pb-3"/>
-        {/* <div className="col-md-3 mb-md-0 mb-3">
+    <footer className="page-footer align-bottom font-small pt-4">
+        <div className="container-fluid text-center text-md-left">
+            <div className="row">
+                <div className="col-md-12 mt-md-0 mt-3">
+                    <h5 className="text-uppercase">Let's Get Fit</h5>
+                    <p>Daily goals are the key to lasting progress.</p>
+                </div>
+                <hr className="clearfix w-100 d-md-none pb-3" />
+                {/* <div className="col-md-3 mb-md-0 mb-3">
             <h5 className="text-uppercase">Links</h5>
             <ul className="list-unstyled">
               <li>
@@ -32,18 +32,19 @@ const Footer = () => (
               </li>
             </ul>
           </div> */}
-      </div>
-    </div>   
-    <div className="footer-copyright text-center py-3">© 2018 Copyright
-    </div>
-    {/* <style jsx>{`
+            </div>
+        </div>
+        <div className="footer-copyright text-center py-3">
+            © 2018 Copyright
+        </div>
+        {/* <style jsx>{`
       .page-footer {
         position: relative;
         width: 100%;
         bottom: 0;
       }
     `}</style> */}
-  </footer>
-  )
+    </footer>
+)
 
-export default Footer;
+export default Footer

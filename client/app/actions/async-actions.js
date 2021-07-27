@@ -63,43 +63,25 @@ export const getFoodNutritionFacts = (foodID, foodName) => {
     }
 }
 
-export const getUserData = data => {
-    const encodedURI = window.encodeURI(`/api/user-data`)
-    return dispatch => {
-        if (Array.isArray(data))
-            return dispatch({ type: UPDATED_FOOD_CHART, payload: data })
-        axios
-            .get(encodedURI, {
-                params: {
-                    email: data,
-                },
-            })
-            .then(response => {
-                return dispatch({
-                    type: UPDATED_FOOD_CHART,
-                    payload: response.data[0].user.userDietSummary,
-                })
-            })
-    }
-}
-
-export const saveUserData = (dietGoals, userStoredData) => {
-    const encodedURI = window.encodeURI(`/api/save`)
-    // console.log('userStoredData', userStoredData)
-    // const userData = JSON.parse(userStoredData)
-    // console.log('userData', userData)
-    return () => {
-        axios
-            .post(encodedURI, {
-                dietGoals,
-                email: userStoredData.email,
-            })
-            .then(res => {
-                console.log('res.data', res.data.user)
-                localStorage.setItem('user', JSON.stringify(res.data.user))
-            })
-    }
-}
+// export const getUserData = data => {
+//     const encodedURI = window.encodeURI(`/api/user-data`)
+//     return dispatch => {
+//         if (Array.isArray(data))
+//             return dispatch({ type: UPDATED_FOOD_CHART, payload: data })
+//         axios
+//             .get(encodedURI, {
+//                 params: {
+//                     email: data,
+//                 },
+//             })
+//             .then(response => {
+//                 return dispatch({
+//                     type: UPDATED_FOOD_CHART,
+//                     payload: response.data[0].user.userDietSummary,
+//                 })
+//             })
+//     }
+// }
 
 export const loginUser = loginData => {
     const encodedURI = window.encodeURI(`/api/login`)
@@ -152,7 +134,7 @@ export const validateSignUp = (signUpInfo, dietGoals = null) => {
                             password: signUpInfo.password,
                             calories: dietGoals ? dietGoals.calories : null,
                             protein: dietGoals ? dietGoals.protein : null,
-                            fat: dietGoals ? dietGoals.fat : null,
+                            fat: dietGoals ? dietGoals.fats : null,
                             carbs: dietGoals ? dietGoals.carbs : null,
                             // programs: dietGoals
                             //     ? dietGoals.programs

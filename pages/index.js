@@ -4,14 +4,16 @@ import { bindActionCreators } from 'redux'
 import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
+import { getDailyDietGoals } from '../client/app/actions'
 import Link from 'next/link'
 import $ from 'jquery'
+import ThemedTable from '../client/app/components/ThemedTable'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
     useEffect(() => {
         if (!user) {
-            setUser(() => JSON.parse(localStorage.getItem('user')))
+            setUser(JSON.parse(localStorage.getItem('user')))
         }
         getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
         $('#welcome-text')
@@ -28,15 +30,12 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                 <div className="col col-12 mb-2">
                     <div className="card w-100">
                         <CardBody>
-                            {user && user.dietInfo ? (
+                            {user && user.dietGoals ? (
                                 <>
                                     <h5 className="mb-3">
                                         Daily Nutrient Intake Goals
                                     </h5>
-                                    <Table
-                                        dark
-                                        className="table table-dark food-chart-table"
-                                    >
+                                    <ThemedTable id="food-goals">
                                         <thead>
                                             <tr>
                                                 <th scope="col">
@@ -52,14 +51,16 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    {user.dietInfo.calories}
+                                                    {user.dietGoals.calories}
                                                 </td>
-                                                <td>{user.dietInfo.protein}</td>
-                                                <td>{user.dietInfo.fat}</td>
-                                                <td>{user.dietInfo.carbs}</td>
+                                                <td>
+                                                    {user.dietGoals.protein}
+                                                </td>
+                                                <td>{user.dietGoals.fats}</td>
+                                                <td>{user.dietGoals.carbs}</td>
                                             </tr>
                                         </tbody>
-                                    </Table>
+                                    </ThemedTable>
                                 </>
                             ) : (
                                 <Col sm="12" className="d-flex">
@@ -197,7 +198,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ getFeaturedRecipeList }, dispatch)
+    bindActionCreators({ getFeaturedRecipeList, getDailyDietGoals }, dispatch)
 export default connect(
     mapStateToProps,
     mapDispatchToProps

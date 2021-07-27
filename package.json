@@ -10,11 +10,11 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "dev": "node ./server/server.js",
+        "dev": "node ./server.js",
         "build": "next build",
-        "start": "NODE_ENV=production node ./server/server.js",
+        "start": "NODE_ENV=production node ./server.js",
         "postinstall": "yarn build",
-        "test": "jest"
+        "test": "jest --watch *.js"
     },
     "engines": {
         "node": "10.15.3",

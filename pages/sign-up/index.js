@@ -217,13 +217,13 @@ const SignUp = props => {
 }
 
 SignUp.getInitialProps = ({ query }) => {
-    const { calories, protein, carbs, fat } = query
+    const { calories, protein, carbs, fats } = query
     return {
         dietGoals: {
             calories,
             protein,
             carbs,
-            fat,
+            fats,
         },
     }
 }
