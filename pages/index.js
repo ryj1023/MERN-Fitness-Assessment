@@ -12,6 +12,7 @@ import get from 'lodash.get'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
+    const [isLoadingUser, setIsLoadingUser] = useState(true)
     useEffect(() => {
         if (!user) {
             setUser(JSON.parse(localStorage.getItem('user')))
@@ -20,6 +21,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
         $('#welcome-text')
             .delay(500)
             .animate({ opacity: 1 }, 500)
+        setIsLoadingUser(false)
     }, [])
     const fats = get(user, 'dietGoals.fats') || null
     const calories = get(user, 'dietGoals.calories') || null
@@ -36,7 +38,8 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                 <div className="col col-12 mb-2">
                     <div className="card w-100">
                         <CardBody>
-                            {user && user.dietGoals ? (
+                            {isLoadingUser && <>loading...</>}
+                            {user && user.dietGoals && !isLoadingUser ? (
                                 <>
                                     <h5 className="mb-3">
                                         Daily Nutrient Intake Goals
@@ -65,17 +68,33 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                     </ThemedTable>
                                 </>
                             ) : (
-                                <Col sm="12" className="d-flex">
+                                <Col sm="12" className="text-center">
                                     <h5 className="mr-2">
                                         No diet information yet.
                                     </h5>
-                                    {!user && (
-                                        <Link href="sign-up">
-                                            <a className="text-decoration-none">
-                                                Sign up now
-                                            </a>
-                                        </Link>
-                                    )}
+                                    <div>
+                                        {!user && (
+                                            <Link href="sign-up">
+                                                <a className="text-decoration-none mr-2">
+                                                    Sign up
+                                                </a>
+                                            </Link>
+                                        )}
+                                        {!user && (
+                                            <Link href="login">
+                                                <a className="text-decoration-none mr-2">
+                                                    Log In
+                                                </a>
+                                            </Link>
+                                        )}
+                                        {!user && (
+                                            <Link href="assessment">
+                                                <a className="text-decoration-none">
+                                                    Take the diet assessment
+                                                </a>
+                                            </Link>
+                                        )}
+                                    </div>
                                 </Col>
                             )}
                         </CardBody>
@@ -86,7 +105,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
-                {recipes.length > 0 && (
+                {recipes.length > 0 && !isLoadingUser && (
                     <div className="col col-12">
                         <Card>
                             <CardBody>

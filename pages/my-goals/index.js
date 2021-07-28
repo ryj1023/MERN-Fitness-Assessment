@@ -139,24 +139,40 @@ const MyGoals = ({ dailyDietGoals, ...props }) => {
                         </>
                     )}
                     {!isLoading && !userName && (
-                        <Col sm="6 m-auto">
-                            <Card>
+                        <Col className="w-100">
+                            <Card className="text-center">
                                 <CardBody>
                                     <h5>
-                                        You currently do not have an account.
-                                        Sign up to use this feature (It's free!)
+                                        You currently do not have an account or
+                                        are not signed in.
                                     </h5>
-                                    <div className="text-center d-flex justify-content-between">
+                                    <h5>
+                                        If you don't have an account, sign up
+                                        now. (It's free!).
+                                    </h5>
+                                    <div className="text-center d-flex pl-0 justify-content-center">
                                         <Link href="sign-up">
-                                            <a className="text-decoration-none">
-                                                Sign up now
+                                            <a className="text-decoration-none mr-3">
+                                                Sign Up
                                             </a>
                                         </Link>
-                                        <Link href="add-foods">
+
+                                        <Link href="login">
                                             <a className="text-decoration-none">
-                                                Search Foods
+                                                Log In
                                             </a>
                                         </Link>
+                                    </div>
+                                    <div className="d-flex justify-content-center">
+                                        <p>
+                                            As a guest, you can try out our{' '}
+                                            <Link href="add-foods">
+                                                <a className="text-decoration-none">
+                                                    food search demo
+                                                </a>
+                                            </Link>
+                                        </p>
+                                        .
                                     </div>
                                 </CardBody>
                             </Card>
