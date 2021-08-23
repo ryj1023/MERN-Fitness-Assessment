@@ -9,6 +9,8 @@ import $ from 'jquery'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
     const [user, setUser] = useState(null)
+    const [isLoadingUser, setIsLoadingUser] = useState(true)
+
     useEffect(() => {
         if (!user) {
             setUser(() => JSON.parse(localStorage.getItem('user')))
@@ -18,6 +20,12 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
             .delay(500)
             .animate({ opacity: 1 }, 500)
     }, [])
+
+    const fats = get(user, 'dietGoals.fats') || null
+    const calories = get(user, 'dietGoals.calories') || null
+    const protein = get(user, 'dietGoals.protein') || null
+    const carbs = get(user, 'dietGoals.carbs') || null
+    const recipes = get(foodRecipes, 'foodRecipes.recipes') || []
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
@@ -197,7 +205,4 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch =>
     bindActionCreators({ getFeaturedRecipeList }, dispatch)
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
