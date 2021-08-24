@@ -6,7 +6,7 @@ import NProgress from 'nprogress'
 import Router from 'next/router'
 import Layout from '../client/app/layouts/default'
 import { Provider } from 'react-redux'
-import ConfigureStore from '../client/app/store'
+import { configureStore } from '../client/app/store'
 import 'nprogress/nprogress.css'
 
 const linkStyle = {
@@ -21,7 +21,7 @@ Router.events.on('routeChangeStart', url => {
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
-const store = ConfigureStore()
+const store = configureStore()
 
 export default class MyApp extends App {
     render() {

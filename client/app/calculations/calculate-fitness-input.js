@@ -1,4 +1,4 @@
-export default clientInfo => {
+export const CalculateFitnessInput = clientInfo => {
     const {
         age,
         heightInFeet,

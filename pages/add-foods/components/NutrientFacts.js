@@ -19,7 +19,7 @@ import {
 import { bindActionCreators } from 'redux'
 import axios from 'axios'
 import get from 'lodash/get'
-import moment from 'moment'
+
 import NutrientFactsTable from './NutrientFactsTable'
 
 const getMacroQuantity = (foodFacts, macroId) => {
@@ -59,7 +59,7 @@ const NutrientFacts = ({
         const selectedFoods = {
             foodName: selectedFoodName,
             foodId,
-            date: moment().format('YYYY/MM/DD'),
+            date: new Date(),
             // servingSize: {
             //     qty: _servingSize,
             //     type: servingType,

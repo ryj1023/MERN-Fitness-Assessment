@@ -1,4 +1,4 @@
-import calculateFitnessInput from '../client/app/calculations/calculate-fitness-input'
+import { calculateFitnessInput } from '../client/app/calculations/calculate-fitness-input'
 
 describe('calculate fitness input', () => {
     it('should return valid values', () => {
