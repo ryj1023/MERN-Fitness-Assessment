@@ -14,7 +14,7 @@ import {
 import { Container, Row, Col, CardBody, Card } from 'reactstrap'
 import axios from 'axios'
 import Link from 'next/link'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import moment from 'moment'
 
 const AddFoods = ({ foodList, nutritionFacts, getFoodNutritionFacts }) => {

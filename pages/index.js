@@ -7,7 +7,7 @@ import { getDailyDietGoals } from '../client/app/actions'
 import Link from 'next/link'
 import $ from 'jquery'
 import ThemedTable from '../client/app/components/ThemedTable'
-import get from 'lodash.get'
+import get from 'lodash/get'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)

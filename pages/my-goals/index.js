@@ -6,7 +6,6 @@ import { Container, Row, Col, Button, Card, CardBody } from 'reactstrap'
 import { updatedFoodChart, getDailyDietGoals } from '../../client/app/actions'
 import SelectedFoodsTable from '../../client/app/components/SelectedFoodsTable'
 import Link from 'next/link'
-import get from 'lodash.get'
 import ThemedTable from '../../client/app/components/ThemedTable'
 
 const getUpdatedFoodChart = (props, userData) => {
