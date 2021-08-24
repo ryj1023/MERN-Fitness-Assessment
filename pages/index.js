@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
-import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
 import { getDailyDietGoals } from '../client/app/actions'
 import Link from 'next/link'
@@ -13,11 +12,13 @@ import get from 'lodash.get'
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
     const [isLoadingUser, setIsLoadingUser] = useState(true)
+
     useEffect(() => {
         if (!user) {
             setUser(JSON.parse(localStorage.getItem('user')))
         }
-        getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
+        // getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
+        getFeaturedRecipeList()
         $('#welcome-text')
             .delay(500)
             .animate({ opacity: 1 }, 500)
@@ -27,7 +28,8 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const calories = get(user, 'dietGoals.calories') || null
     const protein = get(user, 'dietGoals.protein') || null
     const carbs = get(user, 'dietGoals.carbs') || null
-    const recipes = get(foodRecipes, 'foodRecipes.recipes') || []
+    const recipes = get(foodRecipes, 'recipes') || []
+
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
@@ -105,6 +107,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
+                {console.log('recipes', recipes)}
                 {recipes.length > 0 && !isLoadingUser && (
                     <div className="col col-12">
                         <Card>
@@ -121,9 +124,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                                 if (index < 6) {
                                                     acc.push(
                                                         <Col
-                                                            key={
-                                                                recipe.recipe_id
-                                                            }
+                                                            key={recipe.id}
                                                             sm="12"
                                                             md="6"
                                                             lg="4"
@@ -133,13 +134,13 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                                                 <a
                                                                     target="_blank"
                                                                     href={
-                                                                        recipe.source_url
+                                                                        recipe.spoonacularSourceUrl
                                                                     }
                                                                 >
                                                                     <img
                                                                         className="w-100"
                                                                         src={
-                                                                            recipe.image_url
+                                                                            recipe.image
                                                                         }
                                                                     />
                                                                 </a>
@@ -152,11 +153,11 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                                                                     target="_blank"
                                                                     className="small"
                                                                     href={
-                                                                        recipe.publisher_url
+                                                                        recipe.sourceUrl
                                                                     }
                                                                 >
                                                                     {
-                                                                        recipe.publisher
+                                                                        recipe.sourceName
                                                                     }
                                                                 </a>
                                                             </div>

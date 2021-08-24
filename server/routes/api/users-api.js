@@ -20,11 +20,9 @@ module.exports = app => {
     app.get('/api/get-food-search-keyword', (req, res, next) => {
         const { keyword, offset } = req.query
 
-        // `https://api.nal.usda.gov/ndb/search/?format=json&api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&callback=&q=${keyword}&offset=${offset}&sort=r`
-
         axios
             .get(
-                `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8&query=${keyword}`
+                `https://api.nal.usda.gov/fdc/v1/foods/search?api_key=${process.env.USDA_API_KEY}&query=${keyword}`
             )
             .then(response => {
                 return res.json(response.data)
@@ -40,7 +38,7 @@ module.exports = app => {
 
         axios
             .get(
-                `https://api.nal.usda.gov/fdc/v1/food/${foodId}?api_key=Uexsdv07ZLPp9MU9LUtJQ5iEgASowWwa6s1yEcI8`
+                `https://api.nal.usda.gov/fdc/v1/food/${foodId}?api_key=${process.env.USDA_API_KEY}`
             )
             .then(response => {
                 return res.json(response.data)
@@ -212,9 +210,7 @@ module.exports = app => {
     app.post('/api/get-recipe-list', async (req, res) => {
         try {
             const result = await axios.get(
-                `https://www.food2fork.com/api/search?key=b8f037b60af8bae003524600f318b67f&q=${encodeURI(
-                    req.body.foodKey
-                )}`
+                `https://api.spoonacular.com/recipes/random?apiKey=${process.env.RECIPE_API_KEY}&number=5`
             )
             res.json(result.data)
         } catch (err) {
