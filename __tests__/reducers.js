@@ -1,9 +1,11 @@
 import * as actions from '../client/app/actions'
-import axios from 'axios'
-jest.setTimeout(10000)
+// import axios from 'axios'
+import calculateClientInfo from '../client/app/reducers/reducer-calculate-client-info'
+// jest.setTimeout(10000)
 
 const getPeoplePromise = async axios => {
-    const { data } = await axios.get('https://swapi.co/api/people')
+    const { data } = await axios.get('https://mocked-api')
+    console.log('data.results', data)
     return {
         count: data.count,
         results: data.results,
@@ -19,6 +21,10 @@ const getPeoplePromise = async axios => {
 // })
 
 it('get people returns count and results', async done => {
+    /* a mocked API call is made with dependency injection.
+        This is because we need access to the fetching library outside of the 
+        funtion that we are testing (in this case, we are mocking the behavior of 'axios')
+    */
     const mockFetch = {}
     mockFetch.get = jest.fn().mockReturnValue(
         Promise.resolve({
@@ -29,11 +35,33 @@ it('get people returns count and results', async done => {
         })
     )
 
-    expect.assertions(2)
+    expect.assertions(3)
     const data = await getPeoplePromise(mockFetch)
     expect(mockFetch.get.mock.calls.length).toBe(1)
     expect(data.results.length).toBeGreaterThan(2)
+    expect(mockFetch.get).toBeCalledWith('https://mocked-api')
     done()
+})
+
+it('reducer reduces client info', () => {
+    expect(
+        calculateClientInfo(
+            {},
+            {
+                type: actions.CLIENT_INFO,
+                info: 'test',
+            }
+        )
+    ).toEqual({
+        clientInfo: 'test',
+    })
+})
+
+it('action gathers client info', () => {
+    expect(actions.gatherFitnessInfo({ calories: 100 })).toEqual({
+        type: actions.CLIENT_INFO,
+        info: { calories: 100 },
+    })
 })
 
 /*

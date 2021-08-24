@@ -2,6 +2,7 @@
 
 exports[`Home Page component expect to render Home component 1`] = `
 <Home
+  getDailyDietGoals={[Function]}
   getFeaturedRecipeList={[Function]}
   store={
     Object {

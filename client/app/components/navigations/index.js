@@ -15,8 +15,6 @@ import { AlignJustify } from 'react-feather'
 export default class Navigation extends Component {
     state = {
         loggedIn: false,
-        noTouchOpen: false,
-        noTouchClose: false,
         openRight: false,
         isLoading: true,
     }
@@ -31,7 +29,7 @@ export default class Navigation extends Component {
         this.setState({ openRight: false })
     }
     render() {
-        const { openRight, noTouchOpen, noTouchClose, isLoading } = this.state
+        const { openRight, isLoading } = this.state
         const { loggedIn, loading } = this.props
         if (loading) return null
         return (
@@ -56,34 +54,34 @@ export default class Navigation extends Component {
                                 Dashboard
                             </a>
                         </Link>
-                        <Link href={{ pathname: '/fitness-assessment' }}>
+                        <Link href={{ pathname: '/assessment' }}>
                             <a
                                 onClick={() =>
                                     this.setState({ openRight: false })
                                 }
                                 className="w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
                             >
-                                Fitness Assessment
+                                Assessment
                             </a>
                         </Link>
-                        <Link href={{ pathname: '/food-search' }}>
+                        {/* <Link href={{ pathname: '/food-search' }}>
                             <a
                                 onClick={() =>
                                     this.setState({ openRight: false })
                                 }
                                 className="w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
                             >
-                                Food Search
+                                Add Foods
                             </a>
-                        </Link>
-                        <Link href={{ pathname: '/my-nutrition' }}>
+                        </Link> */}
+                        <Link href={{ pathname: '/my-goals' }}>
                             <a
                                 onClick={() =>
                                     this.setState({ openRight: false })
                                 }
                                 className="w-100 rounded-0 text-dark font-weight-bold text-decoration-none p-3 border-top"
                             >
-                                My Nutrition
+                                My Goals
                             </a>
                         </Link>
                         {loggedIn ? (
@@ -126,15 +124,23 @@ export default class Navigation extends Component {
                                 Let's Get Fit
                             </a>
                         </Link>
-                        <Link href={{ pathname: '/fitness-assessment' }}>
+                        <Link href={{ pathname: '/assessment' }}>
                             <a
                                 style={{ whiteSpace: 'nowrap' }}
                                 className="d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
                             >
-                                Fitness Assessment
+                                Assessment
                             </a>
                         </Link>
-                        <UncontrolledButtonDropdown className="dropdown-container d-none d-sm-flex">
+                        <Link href={{ pathname: '/my-goals' }}>
+                            <a
+                                style={{ whiteSpace: 'nowrap' }}
+                                className="d-none d-sm-flex nav-item btn btn-lg rounded-0 text-white"
+                            >
+                                My Goals
+                            </a>
+                        </Link>
+                        {/* <UncontrolledButtonDropdown className="dropdown-container d-none d-sm-flex">
                             <DropdownToggle
                                 className="dropdown-button btn-lg border-0 rounded-0"
                                 caret
@@ -145,19 +151,19 @@ export default class Navigation extends Component {
                                 <DropdownItem className="p-0">
                                     <Link href={{ pathname: '/my-nutrition' }}>
                                         <a className="text-white btn w-100 btn-lg rounded-0">
-                                            My Nutrition
+                                            My Goals
                                         </a>
                                     </Link>
                                 </DropdownItem>
                                 <DropdownItem className="p-0">
                                     <Link href={{ pathname: '/food-search' }}>
                                         <a className="text-white btn w-100 btn-lg rounded-0">
-                                            Food Search
+                                            Add Foods
                                         </a>
                                     </Link>
                                 </DropdownItem>
                             </DropdownMenu>
-                        </UncontrolledButtonDropdown>
+                        </UncontrolledButtonDropdown> */}
                         {loggedIn ? (
                             <Button
                                 onClick={e => this.logout(e)}

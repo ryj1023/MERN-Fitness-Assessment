@@ -12,8 +12,8 @@ describe('Navigation component', () => {
         wrapper.find('[id="dashboard"]').simulate('click')
         expect(wrapper.state()).toEqual({
             loggedIn: false,
-            noTouchOpen: false,
-            noTouchClose: false,
+            // noTouchOpen: false,
+            // noTouchClose: false,
             openRight: false,
             isLoading: true,
         })

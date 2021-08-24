@@ -2,30 +2,34 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Container, Row, Col, Table, Card, CardBody } from 'reactstrap'
-import axios from 'axios'
 import { getFeaturedRecipeList } from '../client/app/actions/async-actions'
+import { getDailyDietGoals } from '../client/app/actions'
 import Link from 'next/link'
 import $ from 'jquery'
+import ThemedTable from '../client/app/components/ThemedTable'
+import get from 'lodash.get'
 
-const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
+const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
     const [user, setUser] = useState(null)
     const [isLoadingUser, setIsLoadingUser] = useState(true)
 
     useEffect(() => {
         if (!user) {
-            setUser(() => JSON.parse(localStorage.getItem('user')))
+            setUser(JSON.parse(localStorage.getItem('user')))
         }
-        getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
+        // getFeaturedRecipeList(JSON.parse(localStorage.getItem('user')) || {})
+        getFeaturedRecipeList()
         $('#welcome-text')
             .delay(500)
             .animate({ opacity: 1 }, 500)
+        setIsLoadingUser(false)
     }, [])
-
     const fats = get(user, 'dietGoals.fats') || null
     const calories = get(user, 'dietGoals.calories') || null
     const protein = get(user, 'dietGoals.protein') || null
     const carbs = get(user, 'dietGoals.carbs') || null
-    const recipes = get(foodRecipes, 'foodRecipes.recipes') || []
+    const recipes = get(foodRecipes, 'recipes') || []
+
     return (
         <Container className="mt-2">
             <h1 id="welcome-text">
@@ -36,15 +40,13 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                 <div className="col col-12 mb-2">
                     <div className="card w-100">
                         <CardBody>
-                            {user && user.dietInfo ? (
+                            {isLoadingUser && <>loading...</>}
+                            {user && user.dietGoals && !isLoadingUser ? (
                                 <>
                                     <h5 className="mb-3">
                                         Daily Nutrient Intake Goals
                                     </h5>
-                                    <Table
-                                        dark
-                                        className="table table-dark food-chart-table"
-                                    >
+                                    <ThemedTable id="food-goals">
                                         <thead>
                                             <tr>
                                                 <th scope="col">
@@ -59,26 +61,42 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>
-                                                    {user.dietInfo.calories}
-                                                </td>
-                                                <td>{user.dietInfo.protein}</td>
-                                                <td>{user.dietInfo.fat}</td>
-                                                <td>{user.dietInfo.carbs}</td>
+                                                <td>{calories}</td>
+                                                <td>{protein}</td>
+                                                <td>{fats}</td>
+                                                <td>{carbs}</td>
                                             </tr>
                                         </tbody>
-                                    </Table>
+                                    </ThemedTable>
                                 </>
                             ) : (
-                                <Col sm="12" className="d-flex">
+                                <Col sm="12" className="text-center">
                                     <h5 className="mr-2">
                                         No diet information yet.
                                     </h5>
-                                    {!user && (
-                                        <Link href="sign-up">
-                                            <a>Sign up now</a>
-                                        </Link>
-                                    )}
+                                    <div>
+                                        {!user && (
+                                            <Link href="sign-up">
+                                                <a className="text-decoration-none mr-2">
+                                                    Sign up
+                                                </a>
+                                            </Link>
+                                        )}
+                                        {!user && (
+                                            <Link href="login">
+                                                <a className="text-decoration-none mr-2">
+                                                    Log In
+                                                </a>
+                                            </Link>
+                                        )}
+                                        {!user && (
+                                            <Link href="assessment">
+                                                <a className="text-decoration-none">
+                                                    Take the diet assessment
+                                                </a>
+                                            </Link>
+                                        )}
+                                    </div>
                                 </Col>
                             )}
                         </CardBody>
@@ -89,7 +107,8 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                         </Col>
                     </Row>
                 </div>
-                {foodRecipes && foodRecipes.recipes.length > 0 && (
+                {console.log('recipes', recipes)}
+                {recipes.length > 0 && !isLoadingUser && (
                     <div className="col col-12">
                         <Card>
                             <CardBody>
@@ -105,9 +124,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                                 if (index < 6) {
                                                     acc.push(
                                                         <Col
-                                                            key={
-                                                                recipe.recipe_id
-                                                            }
+                                                            key={recipe.id}
                                                             sm="12"
                                                             md="6"
                                                             lg="4"
@@ -117,13 +134,13 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                                                 <a
                                                                     target="_blank"
                                                                     href={
-                                                                        recipe.source_url
+                                                                        recipe.spoonacularSourceUrl
                                                                     }
                                                                 >
                                                                     <img
                                                                         className="w-100"
                                                                         src={
-                                                                            recipe.image_url
+                                                                            recipe.image
                                                                         }
                                                                     />
                                                                 </a>
@@ -136,11 +153,11 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
                                                                     target="_blank"
                                                                     className="small"
                                                                     href={
-                                                                        recipe.publisher_url
+                                                                        recipe.sourceUrl
                                                                     }
                                                                 >
                                                                     {
-                                                                        recipe.publisher
+                                                                        recipe.sourceName
                                                                     }
                                                                 </a>
                                                             </div>
@@ -199,10 +216,9 @@ const Home = ({ getFeaturedRecipeList, foodRecipes, foodList }) => {
 const mapStateToProps = state => {
     return {
         foodRecipes: state.foodRecipes,
-        foodList: state.foodList,
     }
 }
 
 const mapDispatchToProps = dispatch =>
-    bindActionCreators({ getFeaturedRecipeList }, dispatch)
+    bindActionCreators({ getFeaturedRecipeList, getDailyDietGoals }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(Home)
