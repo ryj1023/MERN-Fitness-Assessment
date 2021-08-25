@@ -1,4 +1,4 @@
-export const CalculateFitnessInput = clientInfo => {
+export const calculateFitnessInput = clientInfo => {
     const {
         age,
         heightInFeet,

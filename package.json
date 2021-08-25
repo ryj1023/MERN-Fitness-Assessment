@@ -21,6 +21,7 @@
         "node": "^15.10.0"
     },
     "dependencies": {
+        "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
         "@zeit/next-css": "^1.0.1",
         "@zeit/next-sass": "^1.0.1",
         "autoprefixer": "^7.2.5",
@@ -106,7 +107,6 @@
         "babel-preset-stage-0": "^6.24.1",
         "babel-runtime": "^6.26.0",
         "enzyme": "^3.10.0",
-        "enzyme-adapter-react-16": "^1.14.0",
         "enzyme-to-json": "^3.3.5",
         "jest": "^24.8.0",
         "prettier": "^1.17.0",
