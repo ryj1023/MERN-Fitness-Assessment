@@ -83,7 +83,7 @@
         "redux-thunk": "^2.2.0",
         "request": "^2.83.0",
         "sass": "1.32.12",
-        "sass-loader": "^6.0.6",
+        "sass-loader": "^12.1.0",
         "style-loader": "^0.18.2",
         "styled-jsx": "^3.2.5",
         "url-loader": "^0.6.2",
