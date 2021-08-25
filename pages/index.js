@@ -107,7 +107,7 @@ const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
                         </Col>
                     </Row>
                 </div>
-                {console.log('recipes', recipes)}
+
                 {recipes.length > 0 && !isLoadingUser && (
                     <div className="col col-12">
                         <Card>
