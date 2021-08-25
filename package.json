@@ -19,7 +19,6 @@
     },
     "engines": {
         "node": "15.10.0",
-        "npm": "^3.10.5",
         "yarn": "^1.12.3"
     },
     "dependencies": {
