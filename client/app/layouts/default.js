@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import NavBar from '../components/navigations'
-import '../../../styles/styles.scss'
+// import '../../../styles/styles.scss'
 
 const Layout = ({ children }) => {
     const [loggedIn, setLoggedInStatus] = useState(false)

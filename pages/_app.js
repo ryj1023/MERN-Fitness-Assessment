@@ -7,19 +7,20 @@ import Router from 'next/router'
 import Layout from '../client/app/layouts/default'
 import { Provider } from 'react-redux'
 import { configureStore } from '../client/app/store'
+import '../styles/styles.scss'
 import 'nprogress/nprogress.css'
 
 const linkStyle = {
     margin: '0 10px 0 0',
 }
-NProgress.configure({ showSpinner: false })
+// NProgress.configure({ showSpinner: false })
 
-Router.events.on('routeChangeStart', url => {
-    console.log('route change')
-    NProgress.start()
-})
-Router.events.on('routeChangeComplete', () => NProgress.done())
-Router.events.on('routeChangeError', () => NProgress.done())
+// Router.events.on('routeChangeStart', url => {
+//     console.log('route change')
+//     NProgress.start()
+// })
+// Router.events.on('routeChangeComplete', () => NProgress.done())
+// Router.events.on('routeChangeError', () => NProgress.done())
 
 const store = configureStore()
 

@@ -18,7 +18,7 @@
         "test": "jest --watch *.js"
     },
     "engines": {
-        "node": "12.0.0",
+        "node": "15.10.0",
         "npm": "^3.10.5",
         "yarn": "^1.12.3"
     },
@@ -87,11 +87,11 @@
         "redux": "^3.7.2",
         "redux-thunk": "^2.2.0",
         "request": "^2.83.0",
+        "sass": "1.32.12",
         "sass-loader": "^6.0.6",
         "style-loader": "^0.18.2",
         "styled-jsx": "^3.2.5",
         "url-loader": "^0.6.2",
-        "webpack": "^5.51.1",
         "webpack-dev-middleware": "^5.0.0",
         "webpack-hot-middleware": "^2.25.0",
         "webpack-merge": "^5.8.0",
