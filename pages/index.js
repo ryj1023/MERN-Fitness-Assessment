@@ -10,6 +10,7 @@ import ThemedTable from '../client/app/components/ThemedTable'
 import get from 'lodash/get'
 
 const Home = ({ getFeaturedRecipeList, foodRecipes }) => {
+    console.log('test')
     const [user, setUser] = useState(null)
     const [isLoadingUser, setIsLoadingUser] = useState(true)
 
